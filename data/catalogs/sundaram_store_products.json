@@ -1,0 +1,20 @@
+[
+  {
+    "id": "p1",
+    "sku": "SUN001",
+    "name": "A4 Spiral Book",
+    "category": "Notebook",
+    "price": 120,
+    "unit": "pcs",
+    "image": "assets/products/sundaram_store/a4_spiral_book.jpg"
+  },
+  {
+    "id": "p2",
+    "sku": "SUN002",
+    "name": "Drawing Book",
+    "category": "Notebook",
+    "price": 90,
+    "unit": "pcs",
+    "image": "assets/products/sundaram_store/drawing_book.jpg"
+  }
+]
