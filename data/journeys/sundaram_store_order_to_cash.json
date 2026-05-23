@@ -94,19 +94,43 @@
     }
   ],
   "screens": [
-    { "type": "catalog" },
-    { "type": "cart" },
-    { "type": "receipt" }
+    {
+      "type": "catalog"
+    },
+    {
+      "type": "cart"
+    },
+    {
+      "type": "receipt"
+    }
   ],
   "cart": {
     "items": [
-      { "productId": "p1", "qty": 12, "tag": "OPC" },
-      { "productId": "p2", "qty": 8, "tag": "OPC" }
+      {
+        "productId": "p1",
+        "qty": 30,
+        "tag": "Notebook"
+      },
+      {
+        "productId": "p2",
+        "qty": 20,
+        "tag": "Notebook"
+      },
+      {
+        "productId": "p3",
+        "qty": 15,
+        "tag": "Notebook"
+      },
+      {
+        "productId": "p4",
+        "qty": 25,
+        "tag": "Notebook"
+      }
     ],
     "summary": {
       "totalItems": 4,
-      "totalQuantity": "162 bags",
-      "orderValue": "₹1,46,800"
+      "totalQuantity": "90 pcs",
+      "orderValue": "₹1,28,000"
     }
   },
   "messages": {

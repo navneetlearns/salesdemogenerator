@@ -27,5 +27,16 @@
       "button": "6px"
     }
   },
-  "font": "Caveat"
+  "font": "Caveat",
+  "dealerStoreName": "Sharma Cement Stores",
+  "secondaryDealers": [
+    {
+      "name": "Om Sai Dairy Store",
+      "type": "secondary_dealer"
+    },
+    {
+      "name": "Kishor Dairy Works",
+      "type": "secondary_dealer"
+    }
+  ]
 }

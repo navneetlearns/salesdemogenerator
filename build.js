@@ -120,7 +120,8 @@ function loadSharedSapDiagramDataUri() {
 }
 
 function handwrittenOrderDataUri(brand, products = []) {
-  const store = 'Sharma Cement Stores';
+  // Use brand dealer store name instead of hardcoded cement dealer
+  const store = brand.dealerStoreName || 'Sharma Cement Stores';
   const lines = products.slice(0, 3).map((p, i) => {
     const qty = i === 0 ? 25 : i === 1 ? 20 : 12;
     return `${p.name} - ${qty}`;
@@ -346,9 +347,26 @@ async function build() {
       // e.g. "JK Cement India" must replace before "JK Cement" to avoid partial matches
       const sortedReplacements = Object.entries(brandData.replacements)
         .sort((a, b) => b[0].length - a[0].length);
+
       for (const [from, to] of sortedReplacements) {
-        // split/join ensures global replacement across all Node versions
-        finalHtml = finalHtml.split(from).join(to);
+        if (from.length <= 4) {
+          // Short tokens (e.g. 'OPC', 'PPC') are dangerous — they can match inside
+          // CSS class names, SVG path data, or base64 strings. Only replace in visible
+          // text content (outside HTML tags). This prevents corruption like
+          // class="something-OPC" → class="something-Stationery".
+          const escapedFrom = from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          // Match 'from' only when NOT inside an HTML tag attribute
+          // Regex: match 'from' when preceded by '>' or start, not inside <...>
+          const textContentRegex = new RegExp(
+            '(?<![\\w-])' + escapedFrom + '(?![\\w-])', 'g'
+          );
+          // Replace only in text between > and < (visible content)
+          finalHtml = finalHtml.replace(textContentRegex, to);
+        } else {
+          // Longer phrases are safe for global replacement — they won't match
+          // inside CSS classes or path data
+          finalHtml = finalHtml.split(from).join(to);
+        }
       }
 
       // 2. CSS injection for raw asset sizing normalization

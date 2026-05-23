@@ -94,25 +94,39 @@
     }
   ],
   "screens": [
-    { "type": "catalog" },
-    { "type": "cart" },
-    { "type": "receipt" }
+    {
+      "type": "catalog"
+    },
+    {
+      "type": "cart"
+    },
+    {
+      "type": "receipt"
+    }
   ],
   "cart": {
     "items": [
-      { "productId": "p1", "qty": 12, "tag": "OPC" },
-      { "productId": "p2", "qty": 8, "tag": "OPC" }
+      {
+        "productId": "p1",
+        "qty": 50,
+        "tag": "Basic Spices"
+      },
+      {
+        "productId": "p2",
+        "qty": 30,
+        "tag": "Blended Spices"
+      }
     ],
     "summary": {
-      "totalItems": 4,
-      "totalQuantity": "162 bags",
-      "orderValue": "₹1,46,800"
+      "totalItems": 2,
+      "totalQuantity": "80 packs",
+      "orderValue": "₹1,32,000"
     }
   },
   "messages": {
     "welcome": {
-      "title": "Welcome to JK Cement Dealer Program! 🎉",
-      "body": "Your store <strong>Sharma Cement Stores</strong> is now an active JK Cement Dealer Partner.<br><br>Tap <strong>Open Menu</strong> below to access your self-service dashboard — browse products, check schemes, pay dues, and more.",
+      "title": "Welcome to Sunder Masala Dealer Program! 🎉",
+      "body": "Your store <strong>Sharma General Stores</strong> is now an active Sunder Masala Dealer Partner.<br><br>Tap <strong>Open Menu</strong> below to access your self-service dashboard — browse products, check schemes, pay dues, and more.",
       "time": "9:22 AM",
       "cta": "Open Menu"
     }
