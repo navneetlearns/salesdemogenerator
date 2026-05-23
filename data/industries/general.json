@@ -1,0 +1,10 @@
+{
+  "id": "general",
+  "label": "General Trade",
+  "partnerLabel": "Partner",
+  "unit": "unit",
+  "unitPlural": "units",
+  "currency": "INR",
+  "currencySymbol": "₹",
+  "categoryTabs": ["All"]
+}

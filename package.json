@@ -1,0 +1,23 @@
+{
+  "name": "demo-generator",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "node build.js",
+    "build:dist": "node build.js --dist",
+    "build:strict": "node build.js --dist --strict",
+    "dev": "node scripts/dev.js",
+    "import-catalog": "node tools/import-catalog.js",
+    "extract": "node scripts/extract_hardcoded.js",
+    "scaffold-brand": "node scripts/scaffold_brand.js",
+    "merge-extracted": "node scripts/merge_extracted.js"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "chokidar": "^4.0.3",
+    "fs-extra": "^11.1.1",
+    "handlebars": "^4.7.9",
+    "sharp": "^0.33.5",
+    "xlsx": "^0.18.5"
+  }
+}

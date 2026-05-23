@@ -1,0 +1,32 @@
+[
+  {
+    "id": "p1",
+    "sku": "opc_43",
+    "name": "JK Cement OPC 43",
+    "category": "OPC",
+    "price": 420,
+    "unit": "bag",
+    "image": "product_opc_43.png",
+    "tags": ["OPC"]
+  },
+  {
+    "id": "p2",
+    "sku": "ppc_53",
+    "name": "JK Cement PPC 53",
+    "category": "PPC",
+    "price": 480,
+    "unit": "bag",
+    "image": "product_ppc_53.png",
+    "tags": ["PPC"]
+  },
+  {
+    "id": "p3",
+    "sku": "ready_mix",
+    "name": "JK Cement Ready Mix",
+    "category": "Specialty",
+    "price": 1500,
+    "unit": "bag",
+    "image": "product_ready_mix.png",
+    "tags": ["Specialty"]
+  }
+]

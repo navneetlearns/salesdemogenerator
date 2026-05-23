@@ -1,0 +1,46 @@
+{
+  "id": "order_to_cash",
+  "title": "Order to Cash",
+  "subtitle": "Self-service Ordering",
+  "brandId": "acme",
+  "steps": [
+    {
+      "num": 1,
+      "displayNum": 1,
+      "title": "Catalog Browse",
+      "meta": "Retailer · Product catalog",
+      "navTitle": "Step 1 — Catalog Browse",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Browse products and add to cart</span><span class=\"tag tag-ord\">Catalog</span>"
+    },
+    {
+      "num": 2,
+      "displayNum": 2,
+      "title": "Cart & Checkout",
+      "meta": "Retailer · Review & submit",
+      "navTitle": "Step 2 — Cart & Checkout",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Review cart and place order</span><span class=\"tag tag-ord\">Cart</span>"
+    }
+  ],
+  "screens": [
+    { "type": "catalog" },
+    { "type": "cart" }
+  ],
+  "cart": {
+    "items": [
+      { "productId": "acme-p1", "qty": 2, "tag": "General" }
+    ],
+    "summary": {
+      "totalItems": 1,
+      "totalQuantity": "2 units",
+      "orderValue": "₹840"
+    }
+  },
+  "messages": {
+    "welcome": {
+      "title": "Welcome to Acme Co! 🎉",
+      "body": "Your store is now connected. Tap <strong>Open Menu</strong> to browse and order.",
+      "time": "9:22 AM",
+      "cta": "Open Menu"
+    }
+  }
+}

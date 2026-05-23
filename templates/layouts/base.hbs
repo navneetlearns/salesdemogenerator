@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{brand.name}} — Order to Cash | ZoTok Journey</title>
+  <style>
+    /* ── Dynamic Brand Variables (injected from brand config) ── */
+    :root {
+      --brand: {{brand.colors.brand}};
+      --brand-dark: {{brand.colors.brandDark}};
+      --accent: {{brand.colors.accent}};
+    }
+    /* ── Extracted Global Stylesheet ── */
+    {{{style}}}
+  </style>
+</head>
+<body>
+
+  {{> sidebar}}
+
+  <!-- Mobile overlay backdrop -->
+  <div id="mob-overlay" class="mob-overlay" onclick="closeSidebar()"></div>
+
+  <main class="main">
+    {{> header}}
+    <div class="screens-area">
+      {{{body}}}
+    </div>
+    {{> nav-bar}}
+  </main>
+
+  {{> mobile-nav}}
+
+  <script>
+{{{scripts}}}
+  </script>
+
+</body>
+</html>

@@ -111,18 +111,28 @@ function escapeAttribute(value) {
 function loadSharedSapDiagramDataUri() {
   const pngPath = path.join(ROOT, 'assets', 'brands', 'jk_cement', 'sap_architecture.png');
   if (!fs.existsSync(pngPath)) return null;
-  const png = fs.readFileSync(pngPath).toString('base64');
-  return `data:image/png;base64,${png}`;
+  const buf = fs.readFileSync(pngPath);
+  const mime =
+    buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47
+      ? 'image/png'
+      : 'image/jpeg';
+  return `data:${mime};base64,${buf.toString('base64')}`;
 }
 
-function handwrittenOrderDataUri() {
+function handwrittenOrderDataUri(brand, products = []) {
+  const store = 'Sharma Cement Stores';
+  const lines = products.slice(0, 3).map((p, i) => {
+    const qty = i === 0 ? 25 : i === 1 ? 20 : 12;
+    return `${p.name} - ${qty}`;
+  });
+  while (lines.length < 3) lines.push('Please deliver today');
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="380" height="250" viewBox="0 0 380 250">
   <rect width="380" height="250" rx="18" fill="#fffdf6"/>
   <path d="M44 57h292M44 96h292M44 135h292M44 174h292M44 213h210" stroke="#e7dcc7" stroke-width="3"/>
-  <text x="42" y="42" font-family="Caveat, Comic Sans MS, cursive" font-size="28" fill="#4d3a2a">Order for Sharma General Stores</text>
-  <text x="54" y="86" font-family="Caveat, Comic Sans MS, cursive" font-size="25" fill="#263238">Garam Masala 200g - 25</text>
-  <text x="54" y="125" font-family="Caveat, Comic Sans MS, cursive" font-size="25" fill="#263238">Turmeric Powder 500g - 20</text>
-  <text x="54" y="164" font-family="Caveat, Comic Sans MS, cursive" font-size="25" fill="#263238">Coriander Powder - 12</text>
+  <text x="42" y="42" font-family="Caveat, Comic Sans MS, cursive" font-size="28" fill="#4d3a2a">Order for ${store}</text>
+  <text x="54" y="86" font-family="Caveat, Comic Sans MS, cursive" font-size="25" fill="#263238">${lines[0]}</text>
+  <text x="54" y="125" font-family="Caveat, Comic Sans MS, cursive" font-size="25" fill="#263238">${lines[1]}</text>
+  <text x="54" y="164" font-family="Caveat, Comic Sans MS, cursive" font-size="25" fill="#263238">${lines[2]}</text>
   <text x="54" y="203" font-family="Caveat, Comic Sans MS, cursive" font-size="25" fill="#263238">Please deliver today</text>
 </svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
@@ -177,18 +187,19 @@ function applySunderMasalaAssetPatch(html, brand, pipeline) {
   );
   patched = patched.replace(
     /(<img\s+)src="data:image\/placeholder"([^>]*width:190px[^>]*>)/g,
-    `$1src="${handwrittenOrderDataUri()}"$2`
+    `$1src="${handwrittenOrderDataUri(brand, pipeline.products)}"$2`
   );
 
-  const sapDiagram = loadSharedSapDiagramDataUri();
-  if (sapDiagram) {
-    patched = patched.replace(
-      /(<img\s+)src="data:image\/placeholder"([^>]*alt="ZoTok[^"]*SAP Integration Architecture"[^>]*>)/g,
-      `$1src="${sapDiagram}"$2`
-    );
-  }
-
   return patched;
+}
+
+function injectSapArchitectureDiagram(html) {
+  const sapDiagram = loadSharedSapDiagramDataUri();
+  if (!sapDiagram) return html;
+  return html.replace(
+    /(<img\s+)src="data:image\/placeholder"([^>]*alt="ZoTok[^"]*SAP Integration Architecture"[^>]*>)/g,
+    `$1src="${sapDiagram}"$2`
+  );
 }
 
 async function copyDevAssets(brandId) {
@@ -362,6 +373,14 @@ async function build() {
     }
 
     finalHtml = applySunderMasalaAssetPatch(finalHtml, brandData, pipeline);
+
+    if (brandData.replacements) {
+      Object.entries(brandData.replacements).forEach(([from, to]) => {
+        finalHtml = finalHtml.split(from).join(to);
+      });
+    }
+
+    finalHtml = injectSapArchitectureDiagram(finalHtml);
 
     validateGeneratedHtml(finalHtml, brandId);
 

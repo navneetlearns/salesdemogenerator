@@ -1,0 +1,22 @@
+<div class="order-card">
+  <div class="oc-top">
+    <div>
+      <div class="oc-name">{{storeName}}</div>
+      <div class="oc-id">Order {{orderId}}</div>
+    </div>
+    <div class="oc-right">
+      {{#if showDownload}}
+      <div class="oc-dl-icon" title="Download Invoice">
+        <svg width="11" height="13" viewBox="0 0 14 16" fill="none"><path d="M7 1v9M4 7l3 4 3-4" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 13h12" stroke="#555" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      {{/if}}
+      <span class="status-badge badge-{{statusClass}}">{{status}}</span>
+      <svg class="oc-chev" width="7" height="12" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+  <div class="oc-details">
+    <div class="oc-detail-item"><div class="oc-dval">{{orderValue}}</div><div class="oc-dlbl">Order Value</div></div>
+    <div class="oc-detail-item"><div class="oc-dval">{{orderDate}}</div><div class="oc-dlbl">Order Date</div></div>
+    <div class="oc-detail-item"><div class="oc-dval">{{skuCount}}</div><div class="oc-dlbl">SKU Count</div></div>
+  </div>
+</div>

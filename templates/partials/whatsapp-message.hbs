@@ -1,0 +1,25 @@
+<div class="msg-receiver-wrap">
+  <div class="wa-tmpl{{#if compact}} wa-tmpl-compact{{/if}}">
+    {{#if title}}
+    <div style="padding:8px 11px 2px;font-size:13.5px;font-weight:700;color:var(--brand);line-height:1.4;">{{{title}}}</div>
+    {{/if}}
+    <div class="wa-tmpl-body" {{#if title}}style="padding-top:4px;"{{/if}}>{{{body}}}</div>
+    {{#if signoff}}<div class="wa-tmpl-signoff">{{{signoff}}}</div>{{/if}}
+    {{#if time}}<div class="wa-tmpl-time">{{time}}</div>{{/if}}
+    {{#if cta}}
+    <div class="wa-tmpl-btns">
+      <div class="wa-cta-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3" stroke="#00A884" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M13 21l-4-4 4-4" stroke="#00A884" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M9 17h10a2 2 0 002-2v-4" stroke="#00A884" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+        {{cta}}
+      </div>
+    </div>
+    {{/if}}
+  </div>
+</div>

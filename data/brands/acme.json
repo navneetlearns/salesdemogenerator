@@ -1,0 +1,21 @@
+{
+  "id": "acme",
+  "name": "Acme Co",
+  "industry": "general",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "shortName": "AC",
+  "colors": {
+    "brand": "#123456",
+    "brandDark": "#0f2a40",
+    "accent": "#ff9900"
+  },
+  "logo": "",
+  "fonts": [
+    "Inter"
+  ]
+}

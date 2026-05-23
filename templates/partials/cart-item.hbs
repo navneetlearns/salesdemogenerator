@@ -1,0 +1,23 @@
+<div class="cart-item-row">
+  <div class="cart-item-thumb"><img
+      src="{{image}}"
+      alt="{{name}}"
+      style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
+  <div class="cart-item-info">
+    <div class="cart-item-name">{{name}}</div>
+    <div class="cart-item-price">{{#if priceFormatted}}{{priceFormatted}}{{else}}₹{{price}}{{/if}}</div>
+    {{#if tag}}<div class="cart-item-tag">{{tag}}</div><br>{{/if}}
+    <div class="cart-item-replace">Replace</div>
+  </div>
+  <div class="cart-item-right">
+    <div class="cart-trash-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+        <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="#e53935" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" />
+      </svg></div>
+    <div class="qty-ctl-blue">
+      <div class="qty-btn-blue">−</div>
+      <div class="qty-num-blue">{{qty}}</div>
+      <div class="qty-btn-blue">+</div>
+    </div>
+  </div>
+</div>

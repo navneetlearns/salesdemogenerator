@@ -1,0 +1,20 @@
+[
+  {
+    "id": "p1",
+    "sku": "turmeric_500g",
+    "name": "Haldi (Turmeric) Powder 500g",
+    "category": "Basic Spices",
+    "price": 120,
+    "unit": "pack",
+    "image": "product_turmeric_500g.png"
+  },
+  {
+    "id": "p2",
+    "sku": "garam_masala_200g",
+    "name": "Special Garam Masala 200g",
+    "category": "Blended Spices",
+    "price": 150,
+    "unit": "pack",
+    "image": "product_garam_masala_200g.png"
+  }
+]

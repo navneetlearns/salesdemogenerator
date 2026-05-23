@@ -1,0 +1,12 @@
+<div class="main-head">
+      <div class="mob-hamburger" onclick="openSidebar()">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="step-title" id="step-title">{{journey.steps.[0].title}}</div>
+      <div class="step-counter" id="step-counter">Step 1 of {{journey.steps.length}}</div>
+    </div>
+
+    <!-- Description bar -->
+    <div class="step-desc-bar" id="step-desc-bar">
+      {{{journey.steps.[0].navDesc}}}
+    </div>

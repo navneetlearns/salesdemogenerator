@@ -6,7 +6,8 @@
     "category": "Notebook",
     "price": 120,
     "unit": "pcs",
-    "image": "assets/products/sundaram_store/a4_spiral_book.jpg"
+    "image": "product_sun001.png",
+    "tag": "Stationery"
   },
   {
     "id": "p2",
@@ -15,6 +16,27 @@
     "category": "Notebook",
     "price": 90,
     "unit": "pcs",
-    "image": "assets/products/sundaram_store/drawing_book.jpg"
+    "image": "product_sun002.png",
+    "tag": "Stationery"
+  },
+  {
+    "id": "p3",
+    "sku": "SUN003",
+    "name": "Single Subject Notebook",
+    "category": "Notebook",
+    "price": 110,
+    "unit": "pcs",
+    "image": "product_sun003.png",
+    "tag": "Stationery"
+  },
+  {
+    "id": "p4",
+    "sku": "SUN004",
+    "name": "Six Subject Book",
+    "category": "Notebook",
+    "price": 150,
+    "unit": "pcs",
+    "image": "product_sun004.png",
+    "tag": "Stationery"
   }
 ]

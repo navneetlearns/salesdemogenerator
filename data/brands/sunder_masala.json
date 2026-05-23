@@ -1,0 +1,66 @@
+{
+  "id": "sunder_masala",
+  "name": "Sunder Masala",
+  "shortName": "Sunder",
+  "industry": "general",
+
+  "logo": "assets/brands/sunder_masala/logo.png",
+
+  "colors": {
+    "brand": "#E53935",
+    "brandDark": "#B71C1C",
+    "accent": "#FBC02D"
+  },
+
+  "assets": {
+    "logo": "assets/brands/sunder_masala/logo.png",
+    "logoDark": "assets/brands/sunder_masala/logo.png",
+    "favicon": "assets/brands/sunder_masala/logo.png"
+  },
+
+  "replacements": {
+    "Ordinary Portland Cement · High strength construction": "Authentic blend of aromatic Indian spices",
+    "LED bulbs, battens, panel lights & tubes": "Pure, ethically sourced turmeric",
+    "JK White & LevelMaxX · Specialty finishes": "Freshly ground premium coriander seeds",
+
+    "JK Cement India": "Sunder Masala",
+    "JK Cement": "Sunder Masala",
+    "JKSuper": "Sunder",
+    "JK Super Cement PPC": "Sunder Masala Blended Masala",
+    "JK Super": "Sunder Masala",
+
+    "Sharma Cement Stores": "Sharma General Stores",
+
+    "GREY CEMENT": "PREMIUM SPICES",
+    "Grey Cement": "Premium Spices",
+
+    "WHITE CEMENT": "WHOLE SPICES",
+    "White Cement": "Coriander Powder",
+
+    "ALLIED PRODUCTS": "BLENDED MASALAS",
+    "Allied Products": "Blended Masalas",
+
+    "OPC 53 Grade": "Garam Masala 200g",
+    "OPC 43 Grade": "Turmeric Powder 500g",
+
+    "OPC": "Spices",
+    "PPC": "Spices",
+
+    "Coolers": "Condiments",
+    "Appliances": "Pantry",
+    "Wall putty, waterproofing &amp; allied products": "Whole spices, blends &amp; pantry staples",
+
+    "Explore JK Cement catalog": "Explore Sunder Masala catalog",
+
+    "Order_JKO-": "Order_SM-",
+
+    "assets/brands/jk_cement/logo.png": "assets/brands/sunder_masala/logo.png",
+    "assets/brands/jk_cement/logo.webp": "assets/brands/sunder_masala/logo.webp",
+
+    "/assets/brands/jk_cement/logo.png": "/assets/brands/sunder_masala/logo.png",
+    "/assets/brands/jk_cement/logo.webp": "/assets/brands/sunder_masala/logo.webp",
+
+    "assets/brands/sunder_masala/sap_architecture.png": "assets/brands/jk_cement/sap_architecture.png",
+    "assets/brands/sunder_masala/sap-diagram.png": "assets/brands/jk_cement/sap-diagram.png"
+  }
+}

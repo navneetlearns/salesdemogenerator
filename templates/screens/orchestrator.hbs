@@ -1,0 +1,8 @@
+{{!--
+  Journey orchestrator — composable screen assembly.
+  Full-fidelity demos still use order_to_cash.hbs as the primary body.
+  Composable blocks in templates/screens/blocks/ register via SCREEN_REGISTRY.
+--}}
+{{#each journey.screens}}
+  {{> (lookupPartial type)}}
+{{/each}}

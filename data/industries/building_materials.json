@@ -1,0 +1,17 @@
+{
+  "id": "building_materials",
+  "label": "Building Materials — Cement & Allied Products",
+  "partnerLabel": "Dealer",
+  "unit": "bag",
+  "unitPlural": "bags",
+  "currency": "INR",
+  "currencySymbol": "₹",
+  "categoryTabs": ["All", "OPC", "PPC", "White Cement", "Specialty"],
+  "industryAssets": {
+    "defaultHero": "hero_banner.png",
+    "categoryIcons": {
+      "OPC": "icon_opc.png",
+      "PPC": "icon_ppc.png"
+    }
+  }
+}

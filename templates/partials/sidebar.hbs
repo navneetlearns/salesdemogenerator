@@ -1,0 +1,24 @@
+<nav class="sidebar">
+  <button class="mob-sb-close" onclick="closeSidebar()">✕</button>
+  <div class="sb-head" style="padding-right:36px;">
+    <div class="brand-row">
+      <div class="brand-logo" style="background:none;overflow:hidden;padding:0;"><img src="{{brandLogo}}"
+          alt="{{brand.name}}"
+          style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;" /></div>
+      <div>
+        <div class="brand-name">{{brand.name}}</div>
+        <div class="brand-industry">{{industry.label}}</div>
+      </div>
+    </div>
+    <div class="journey-lbl">{{journey.subtitle}}</div>
+  </div>
+  <div class="step-list">
+    {{#each journey.steps}}
+      {{> step-item}}
+    {{/each}}
+  </div>
+  <a href="index.html"
+    style="display:block;padding:9px 20px;font-size:11.5px;color:rgba(255,215,0,.8);text-decoration:none;border-top:1px solid rgba(255,255,255,.1);">&#8592;
+    Main Menu</a>
+  <div class="sb-foot">{{brand.name}} {{industry.partnerLabel}} Connect · ZoTok</div>
+</nav>

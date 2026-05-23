@@ -1,0 +1,31 @@
+{
+  "id": "jk_cement",
+  "name": "JK Cement",
+  "industry": "building_materials",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#E30613",
+    "brandDark": "#B30510",
+    "accent": "#1C1C1C"
+  },
+  "theme": {
+    "colors": {
+      "brand": "#E30613",
+      "brandDark": "#B30510",
+      "accent": "#1C1C1C"
+    },
+    "fonts": {
+      "primary": "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    },
+    "radius": {
+      "card": "8px",
+      "button": "6px"
+    }
+  },
+  "font": "Caveat"
+}

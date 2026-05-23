@@ -1,4 +1,29 @@
+# Dependencies
 node_modules/
+
+# Build output
 generated/
 dist/
+
+# Logs
 *.log
+
+# Extracted base64 data (regenerable from source HTML)
+data/extracted/
+
+# Scratch scripts (one-time fixes, not part of the build)
+scratch/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Vercel deployment config (per-brand)
+.vercel/
