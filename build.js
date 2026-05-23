@@ -342,11 +342,14 @@ async function build() {
     // [TEMPORARY EXECUTION COMPRESSION PATCH]
     // Build-time semantic virtualization layer
     if (brandData.replacements) {
-      // 1. Text + Path replacements
-      Object.entries(brandData.replacements).forEach(([from, to]) => {
+      // 1. Text + Path replacements (sorted longest-first to prevent substring corruption)
+      // e.g. "JK Cement India" must replace before "JK Cement" to avoid partial matches
+      const sortedReplacements = Object.entries(brandData.replacements)
+        .sort((a, b) => b[0].length - a[0].length);
+      for (const [from, to] of sortedReplacements) {
         // split/join ensures global replacement across all Node versions
         finalHtml = finalHtml.split(from).join(to);
-      });
+      }
 
       // 2. CSS injection for raw asset sizing normalization
       const cssFix = `
@@ -374,11 +377,7 @@ async function build() {
 
     finalHtml = applySunderMasalaAssetPatch(finalHtml, brandData, pipeline);
 
-    if (brandData.replacements) {
-      Object.entries(brandData.replacements).forEach(([from, to]) => {
-        finalHtml = finalHtml.split(from).join(to);
-      });
-    }
+    // Replacements already applied (sorted longest-first) above — no second pass needed
 
     finalHtml = injectSapArchitectureDiagram(finalHtml);
 
