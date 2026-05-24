@@ -129,6 +129,220 @@
       "body": "Your store <strong>Sharma General Stores</strong> is now an active Sunder Masala Dealer Partner.<br><br>Tap <strong>Open Menu</strong> below to access your self-service dashboard — browse products, check schemes, pay dues, and more.",
       "time": "9:22 AM",
       "cta": "Open Menu"
+    },
+    "step1": {
+      "greeting": "Namaste Ramesh! 🙏<br>How can I help you today?",
+      "categoryQuestion": "Which spice category would you like to explore? 🔍<br><br>Select from {{brand.name}} full range below.",
+      "sections": [
+        {
+          "label": "Whole Spices",
+          "items": [
+            {
+              "title": "Turmeric",
+              "desc": "Pure Haldi powder · Premium quality"
+            },
+            {
+              "title": "Garam Masala",
+              "desc": "Special blend · Rich aromatic spices"
+            },
+            {
+              "title": "Red Chilli",
+              "desc": "Kashmiri & regular · Vibrant color"
+            }
+          ]
+        },
+        {
+          "label": "Seasonings & Herbs",
+          "items": [
+            {
+              "title": "Coriander Powder",
+              "desc": "Freshly ground · Intense flavor"
+            },
+            {
+              "title": "Cumin Powder",
+              "desc": "Roasted jeera · Earthy aroma"
+            }
+          ]
+        },
+        {
+          "label": "Offers & Combos",
+          "items": [
+            {
+              "title": "Kitchen King Combo",
+              "desc": "All-in-one spice kit · Best value"
+            },
+            {
+              "title": "Bulk Supply",
+              "desc": "Wholesale packs · Trade pricing"
+            }
+          ]
+        }
+      ]
     }
+  },
+  "dealer": {
+    "name": "Sharma General Stores",
+    "contactName": "Ramesh",
+    "phone": "+91 98765 43210",
+    "address": "45, Spice Market, Kolkata, West Bengal",
+    "secondaryDealers": [
+      {
+        "name": "Patel General Stores",
+        "type": "secondary_dealer"
+      },
+      {
+        "name": "Agarwal Provision Store",
+        "type": "secondary_dealer"
+      }
+    ]
+  },
+  "order": {
+    "primaryOrderId": "SMO-3892",
+    "date": "18 April 2026",
+    "transporter": "Patel Transport",
+    "items": [
+      {
+        "productId": "p1",
+        "qty": 20,
+        "lineTotal": 13200
+      },
+      {
+        "productId": "p2",
+        "qty": 15,
+        "lineTotal": 6500
+      },
+      {
+        "productId": "p1",
+        "qty": 10,
+        "lineTotal": 4000
+      },
+      {
+        "productId": "p2",
+        "qty": 8,
+        "lineTotal": 3000
+      }
+    ],
+    "historyOrders": [
+      {
+        "id": "SMO-47011",
+        "date": "15/04/2026",
+        "amount": 95000,
+        "status": "Delivered"
+      },
+      {
+        "id": "SMO-46221",
+        "date": "08/04/2026",
+        "amount": 78000,
+        "status": "Delivered"
+      },
+      {
+        "id": "SMO-48283",
+        "date": "01/04/2026",
+        "amount": 45000,
+        "status": "Delivered"
+      }
+    ],
+    "summary": {
+      "orderValue": 132000
+    }
+  },
+  "invoice": {
+    "id": "INV-7821",
+    "date": "29/04/2026",
+    "dueDate": "10/05/2026",
+    "discount": 1650,
+    "docId": "DOC-4822"
+  },
+  "ledger": {
+    "creditNoteId": "SM-CN-2147",
+    "creditNoteAmount": 6500,
+    "creditReason": "Scheme Incentive - Q4 Volume Discount",
+    "entries": [
+      {
+        "date": "01/04/2026",
+        "description": "Opening Balance",
+        "debit": 3520000,
+        "credit": 0,
+        "balance": 3520000
+      },
+      {
+        "date": "15/04/2026",
+        "description": "Payment Received - NEFT",
+        "debit": 0,
+        "credit": 95000,
+        "balance": 3425000
+      },
+      {
+        "date": "26/04/2026",
+        "description": "Credit Note - Scheme Incentive",
+        "debit": 0,
+        "credit": 6500,
+        "balance": 3418500
+      }
+    ]
+  },
+  "payment": {
+    "amount": 85000,
+    "date": "25/04/2026",
+    "method": "NEFT",
+    "reference": "NEFT-20260425-002",
+    "divisions": [
+      {
+        "name": "Spices Division",
+        "amount": 13500,
+        "outstanding": 38000
+      },
+      {
+        "name": "Seasonings & Herbs",
+        "amount": 24000,
+        "outstanding": 60000
+      }
+    ]
+  },
+  "step3": {
+    "draftOrder": {
+      "totalValue": 6500,
+      "netValue": 6175,
+      "skuCount": 4
+    },
+    "cartSummary": {
+      "totalItems": 4,
+      "totalQty": 60,
+      "orderValue": 6500
+    },
+    "cartItems": [
+      {
+        "name": "Spices",
+        "unitPrice": 300,
+        "lineTotal": 3000,
+        "unit": "pack"
+      },
+      {
+        "name": "Seasonings",
+        "unitPrice": 3200,
+        "lineTotal": 13200,
+        "unit": "pc"
+      },
+      {
+        "name": "Herbs",
+        "unitPrice": 1500,
+        "lineTotal": 800,
+        "unit": "pc"
+      },
+      {
+        "name": "Spices",
+        "unitPrice": 280,
+        "lineTotal": 1200,
+        "unit": "pack"
+      }
+    ]
+  },
+  "productNames": {
+    "opc53": "Haldi (Turmeric) Powder 500g",
+    "opc43": "Special Garam Masala 200g",
+    "ppc": "Kashmiri Red Chilli Powder 250g",
+    "cementPpc": "Coriander Powder 200g",
+    "ppcTag1": "Premium Quality · Spices",
+    "ppcTag2": "Farm Fresh · Spices"
   }
 }

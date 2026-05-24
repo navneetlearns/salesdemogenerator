@@ -1,0 +1,92 @@
+{{!-- Step 7: Invoice & Dispatch — Utility Template (2 sub-screens)
+--}}
+<div id="step-7" class="step-section">
+      <div class="step2-phones">
+
+        <!-- Screen 1: Invoice Notification -->
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 1 · New Invoice</div>
+          <div class="screen-type-lbl">Utility Template — Document Header + Quick Reply</div>
+          <div class="phone-frame">
+            {{> status-bar time="12:30 PM"}}
+            {{> wa-topbar status="ZoTok Business" actions="call" compact=true avatarSrc="data:image/placeholder"}}
+            <div class="chat-area">
+              {{> date-pill text="Today"}}
+              <div class="msg-receiver-wrap">
+                <div class="wa-tmpl">
+                  <div class="wa-hdr-doc">
+                    <div class="doc-icon"><svg width="14" height="17" viewBox="0 0 24 24" fill="white"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8" fill="none" stroke="white" stroke-width="2"/></svg></div>
+                    <div class="doc-meta"><div class="doc-name">Invoice_{{journey.order.primaryOrderId}}.pdf</div><div class="doc-info">2 pages · 1.4 MB · pdf</div></div>
+                    <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+                  </div>
+                  <div class="wa-tmpl-body">
+                    <strong style="font-size:13px;display:block;margin-bottom:6px;">New Invoice Raised</strong>
+                    Dear {{journey.dealer.name}}, your invoice for Order {{journey.order.primaryOrderId}} has been generated. Kindly review and make payment by the due date.<br><br>
+                    🧾 Invoice No: <strong>JK-{{journey.invoice.id}}</strong><br>
+                    📅 Invoice Date: <strong>{{journey.order.date}}</strong><br>
+                    📦 Order Ref: <strong>{{journey.order.primaryOrderId}}</strong><br>
+                    💰 Invoice Amount: <strong>{{formatCurrency journey.order.summary.orderValue}}</strong><br>
+                    🏷 Cash Discount: <strong>2.5% ({{formatCurrency journey.invoice.discount}})</strong> if paid by <strong>{{journey.invoice.date}}</strong><br>
+                    ⏰ Due Date: <strong>{{journey.invoice.dueDate}}</strong>
+                  </div>
+                  <div class="wa-tmpl-signoff">Team,<br>{{brand.name}}</div>
+                  <div class="wa-tmpl-time">12:30 PM</div>
+                                    <div class="wa-tmpl-btns">
+                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Generate Payment Advice</div>
+                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Raise an Issue</div>
+                  </div>
+                          </div>
+              </div>
+            </div>
+            <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="screen-desc" style="background:#FFF3CD;">
+            <strong>New Invoice Notification</strong>
+            When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.
+          </div>
+        </div><!-- /phone-wrap Screen 1 -->
+
+        <!-- Screen 2: Cash Discount Reminder (1 day before discount expiry) -->
+                <div class="screen-wrap">
+          <div class="screen-lbl">Screen 2 · Dispatch Notification</div>
+          <div class="screen-type-lbl">Utility Template — Document Header + CTA URL</div>
+          <div class="phone-frame">
+            {{> status-bar time="12:32 PM"}}
+            {{> wa-topbar status="ZoTok Business" actions="call" compact=true avatarSrc="data:image/placeholder"}}
+            <div class="chat-area">
+              {{> date-pill text="Today"}}
+              <div class="msg-receiver-wrap">
+                <div class="wa-tmpl">
+                  <div class="wa-hdr-doc">
+                    <div class="doc-icon"><svg width="14" height="17" viewBox="0 0 24 24" fill="white"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8" fill="none" stroke="white" stroke-width="2"/></svg></div>
+                    <div class="doc-meta"><div class="doc-name">Dispatch.pdf</div><div class="doc-info">3 MB · PDF</div></div>
+                    <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+                  </div>
+                  <div class="wa-tmpl-body">
+                    <strong style="font-size:13px;display:block;margin-bottom:6px;">Dispatch Note</strong>
+                    Please find the dispatch information below. If you have any questions, feel free to reach out to us.<br><br>
+                    📅 Dispatch Date: <strong>{{journey.order.date}}</strong><br>
+                    📄 Dispatch Document: <strong>{{journey.invoice.docId}}</strong><br>
+                    🚚 Transporter: <strong>{{journey.order.transporter}}orts</strong><br>
+                    🚗 Vehicle Number: <strong>TS01AK2025</strong><br>
+                    📦 Delivery Terms: Ex-Works
+                  </div>
+                  <div class="wa-tmpl-signoff">Team,<br><strong>{{brand.name}}</strong></div>
+                  <div class="wa-tmpl-time">12:32 PM</div>
+                  <div class="wa-tmpl-btns">
+                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>View Dispatch</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="screen-desc" style="background:#D1ECF1;">
+            <strong>Dispatch Notification</strong>
+            Once the order ships from the warehouse, ZoTok sends the dispatch note PDF with transporter and vehicle details so the dealer can track their delivery.
+          </div>
+        </div><!-- /phone-wrap Screen 2 -->
+
+      </div><!-- /phones-row -->
+    </div><!-- /step-7 -->
+

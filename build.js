@@ -67,6 +67,21 @@ function registerScreenBlocks() {
 
 Handlebars.registerHelper('eq', (a, b) => a === b);
 Handlebars.registerHelper('lookupPartial', type => getPartialName(type));
+Handlebars.registerHelper('formatCurrency', (amount) => {
+  if (amount == null) return '';
+  const num = Number(amount);
+  if (isNaN(num)) return String(amount);
+  const parts = num.toFixed(2).split('.');
+  let intPart = String(Math.abs(Math.floor(num)));
+  const last3 = intPart.slice(-3);
+  const rest = intPart.slice(0, -3);
+  const formatted = rest ? rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + last3 : last3;
+  const sign = num < 0 ? '-' : '';
+  return '₹' + sign + formatted + (parts[1] !== '00' ? '.' + parts[1] : '');
+});
+Handlebars.registerHelper('multiply', (a, b) => Number(a) * Number(b));
+Handlebars.registerHelper('subtract', (a, b) => Number(a) - Number(b));
+Handlebars.registerHelper('add', (a, b) => Number(a) + Number(b));
 
 async function loadScripts(navSteps) {
   const parts = [`const steps = ${JSON.stringify(navSteps)};\n\n`];
@@ -100,14 +115,6 @@ function validateGeneratedHtml(html, brandId) {
   if (errors.length) throw new Error(`Validation failed for ${brandId}:\n  - ${errors.join('\n  - ')}`);
 }
 
-function escapeAttribute(value) {
-  return String(value || '')
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
 function loadSharedSapDiagramDataUri() {
   const pngPath = path.join(ROOT, 'assets', 'brands', 'jk_cement', 'sap_architecture.png');
   if (!fs.existsSync(pngPath)) return null;
@@ -137,61 +144,6 @@ function handwrittenOrderDataUri(brand, products = []) {
   <text x="54" y="203" font-family="Caveat, Comic Sans MS, cursive" font-size="25" fill="#263238">Please deliver today</text>
 </svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-}
-
-function replacePlaceholderInClass(html, className, imageSrc) {
-  const pattern = new RegExp(
-    `(<div\\s+class="[^"]*\\b${className}\\b[^"]*"[^>]*>\\s*<img\\s+)src="data:image/placeholder"`,
-    'g'
-  );
-  return html.replace(pattern, `$1src="${imageSrc}"`);
-}
-
-function applySunderMasalaAssetPatch(html, brand, pipeline) {
-  if (!pipeline) return html;
-
-  const logoSrc = pipeline.brandLogo || `assets/brands/${brand.id}/logo.png`;
-  const logoAlt = escapeAttribute(brand.name);
-  const productImages = pipeline.products
-    .map(product => product.image)
-    .filter(Boolean);
-
-  let patched = html;
-  ['wa-avatar', 'tb-av', 'catalog-logo', 'bs-logo'].forEach(className => {
-    patched = replacePlaceholderInClass(patched, className, logoSrc);
-  });
-
-  patched = patched.replace(
-    /<div class="tb-av"([^>]*)><\/div>/g,
-    `<div class="tb-av"$1><img src="${logoSrc}" alt="${logoAlt}" style="width:100%;height:100%;object-fit:contain;border-radius:50%;display:block;"></div>`
-  );
-
-  if (productImages.length) {
-    let orderItemIndex = 0;
-    patched = patched.replace(
-      /(<div class="oi-thumb"[^>]*>\s*<img\s+)src="data:image\/placeholder"/g,
-      (match, prefix) => `${prefix}src="${productImages[orderItemIndex++ % productImages.length]}"`
-    );
-    patched = patched.replace(
-      /(<div style="width:42px;height:42px;border-radius:7px;overflow:hidden;flex-shrink:0;"><img\s*)src="data:image\/placeholder"/g,
-      (match, prefix) => `${prefix}src="${productImages[orderItemIndex++ % productImages.length]}"`
-    );
-  }
-
-  patched = patched.replace(
-    /(<div class="wa-hdr-img">\s*<img\s+)src="data:image\/placeholder"/g,
-    `$1src="${logoSrc}"`
-  );
-  patched = patched.replace(
-    /(<div style="width:28px;height:28px;border-radius:50%;[^"]*;flex-shrink:0;">\s*<img\s+)src="data:image\/placeholder"/g,
-    `$1src="${logoSrc}"`
-  );
-  patched = patched.replace(
-    /(<img\s+)src="data:image\/placeholder"([^>]*width:190px[^>]*>)/g,
-    `$1src="${handwrittenOrderDataUri(brand, pipeline.products)}"$2`
-  );
-
-  return patched;
 }
 
 function injectSapArchitectureDiagram(html) {
@@ -317,6 +269,26 @@ async function build() {
     const journey = normalizeJourney(rawJourney, pipeline.products);
     pipeline.report.journeyStepCount = journey.steps?.length || 0;
 
+    // ── Phase 3: Enrich journey data from catalog ──
+    const catalogProductMap = Object.fromEntries(pipeline.products.map(p => [p.id, p]));
+    if (journey.order?.items) {
+      journey.order.items = journey.order.items.map(item => {
+        const product = catalogProductMap[item.productId];
+        return { ...item, name: product ? product.name : item.name || '',
+          pricePerUnit: item.pricePerUnit || (product ? product.price : 0),
+          unit: product ? product.unit : 'unit' };
+      });
+      journey.order.summary = journey.order.summary || {};
+      journey.order.summary.totalItems = journey.order.summary.totalItems || journey.order.items.length;
+      journey.order.summary.orderValue = journey.order.summary.orderValue || 
+        journey.order.items.reduce((s, i) => s + (i.lineTotal || 0), 0);
+    }
+    if (journey.payment) {
+      journey.payment.settlement = journey.payment.settlement || {
+        status: 'Settled', amount: (journey.order?.summary?.orderValue) || 0,
+        date: journey.payment.date || '' };
+    }
+
     const catalog = { products: pipeline.products };
     const cart = journey.cart;
     const scriptsContent = await loadScripts(journey.navSteps);
@@ -339,63 +311,6 @@ async function build() {
     let finalHtml = layoutTemplate({ ...context, body: bodyContent });
 
     const brandData = brand;
-
-    // [TEMPORARY EXECUTION COMPRESSION PATCH]
-    // Build-time semantic virtualization layer
-    if (brandData.replacements) {
-      // 1. Text + Path replacements (sorted longest-first to prevent substring corruption)
-      // e.g. "JK Cement India" must replace before "JK Cement" to avoid partial matches
-      const sortedReplacements = Object.entries(brandData.replacements)
-        .sort((a, b) => b[0].length - a[0].length);
-
-      for (const [from, to] of sortedReplacements) {
-        if (from.length <= 4) {
-          // Short tokens (e.g. 'OPC', 'PPC') are dangerous — they can match inside
-          // CSS class names, SVG path data, or base64 strings. Only replace in visible
-          // text content (outside HTML tags). This prevents corruption like
-          // class="something-OPC" → class="something-Stationery".
-          const escapedFrom = from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          // Match 'from' only when NOT inside an HTML tag attribute
-          // Regex: match 'from' when preceded by '>' or start, not inside <...>
-          const textContentRegex = new RegExp(
-            '(?<![\\w-])' + escapedFrom + '(?![\\w-])', 'g'
-          );
-          // Replace only in text between > and < (visible content)
-          finalHtml = finalHtml.replace(textContentRegex, to);
-        } else {
-          // Longer phrases are safe for global replacement — they won't match
-          // inside CSS classes or path data
-          finalHtml = finalHtml.split(from).join(to);
-        }
-      }
-
-      // 2. CSS injection for raw asset sizing normalization
-      const cssFix = `
-    <style>
-      img,
-      .product-card img,
-      .logo-img,
-      .cart-item-image,
-      .wa-avatar img,
-      .tb-av img,
-      .catalog-logo img,
-      .bs-logo img,
-      .oi-thumb img {
-        object-fit: contain !important;
-        max-width: 100% !important;
-        max-height: 100% !important;
-      }
-    </style>
-  </head>`;
-
-      if (finalHtml.includes('</head>')) {
-        finalHtml = finalHtml.replace('</head>', cssFix);
-      }
-    }
-
-    finalHtml = applySunderMasalaAssetPatch(finalHtml, brandData, pipeline);
-
-    // Replacements already applied (sorted longest-first) above — no second pass needed
 
     finalHtml = injectSapArchitectureDiagram(finalHtml);
 

@@ -1,0 +1,291 @@
+{{!-- Step 1: Self Service Ordering — 3 sub-screens
+  Screen 1 · Self Service Menu (Session Interactive Message)
+  Screen 2 · Browse Products (Interactive List — Bottom Sheet)
+  Screen 3 · Product Selection (Interactive List — Bottom Sheet)
+--}}
+<!-- ═══════════════ STEP 5 ═══════════════ -->
+      <div id="step-1" class="step-section active">
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 1 · Self Service Menu</div>
+          <div class="screen-type-lbl">Session Interactive Message — Reply Button</div>
+          <div class="phone-frame">
+            {{> status-bar time="9:22 AM"}}
+            {{> wa-topbar status="Business Account" actions="video+more" avatarSrc="data:image/placeholder"}}
+            <div class="chat-area">
+              {{> date-pill text="Today"}}
+              <div class="msg-sender-wrap">
+                <div class="msg-sender">
+                  <div class="msg-body">Hi</div>
+                  <span class="msg-time">9:21 AM <span class="msg-tick">✓✓</span></span>
+                </div>
+              </div>
+              {{#with journey.messages.welcome}}
+                {{> whatsapp-message}}
+              {{/with}}
+            </div>
+            <div class="input-bar">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8" />
+                <path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+              <div class="input-field">Type a message</div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8" />
+                <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="screen-desc" style="background:#C8B8F0;">
+            <strong>Menu Navigation</strong>
+            Dealer selects 'Order Now' from the self-service menu to begin placing an order — entirely within
+            WhatsApp.
+          </div>
+        </div>
+
+        <!-- Screen 4: Interactive Menu with bottom sheet -->
+
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 2 · Browse Products</div>
+          <div class="screen-type-lbl">Interactive List — Bottom Sheet Open</div>
+          <div class="phone-frame">
+            {{> status-bar time="9:23 AM"}}
+            {{> wa-topbar status="Business Account" actions="video+more" avatarSrc="data:image/placeholder"}}
+            <div class="chat-area">
+              {{> date-pill text="Today"}}
+              <div class="msg-sender-wrap">
+                <div class="msg-sender">
+                  <div class="msg-body">Open Menu</div>
+                  <span class="msg-time">9:23 AM <span class="msg-tick">✓✓</span></span>
+                </div>
+              </div>
+              <div class="msg-receiver-wrap">
+                <div class="wa-list-card">
+                  <div class="wa-list-body">{{{journey.messages.step1.greeting}}}</div>
+                  <div class="wa-list-time">9:23 AM</div>
+                  <div class="wa-list-btn-row">
+                    <svg width="15" height="13" viewBox="0 0 24 20" fill="none">
+                      <line x1="0" y1="2" x2="24" y2="2" stroke="#00A884" stroke-width="2.5" />
+                      <line x1="0" y1="10" x2="24" y2="10" stroke="#00A884" stroke-width="2.5" />
+                      <line x1="0" y1="18" x2="24" y2="18" stroke="#00A884" stroke-width="2.5" />
+                    </svg>
+                    <span class="wa-list-btn-label">What can I help with?</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="input-bar">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8" />
+                <path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+              <div class="input-field">Type a message</div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8" />
+                <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <!-- Bottom sheet modal -->
+            <div class="modal-overlay">
+              <div class="modal-sheet">
+                <div class="modal-handle-row">
+                  <div class="modal-handle-bar"></div>
+                </div>
+                <div class="modal-topbar-row">
+                  <div class="modal-close">✕</div>
+                  <div class="modal-title">What can I help with?</div>
+                  <div class="modal-spacer"></div>
+                </div>
+                <div class="modal-rows">
+                  <!-- Section: Shop & Order -->
+                  <div class="modal-section-lbl">Shop &amp; Order</div>
+                  <div class="modal-row">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">Browse Products</div>
+                      <div class="modal-row-desc">Explore {{brand.name}} catalog</div>
+                    </div>
+                    <div class="modal-row-radio" style="border-color:#E8201E;background:#fce8e8;"></div>
+                  </div>
+                  <div class="modal-row">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">Place an Order</div>
+                      <div class="modal-row-desc">Quick order entry</div>
+                    </div>
+                    <div class="modal-row-radio"></div>
+                  </div>
+                  <div class="modal-row">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">Repeat Last Order</div>
+                      <div class="modal-row-desc">Quick Repeat Last Order</div>
+                    </div>
+                    <div class="modal-row-radio"></div>
+                  </div>
+                  <!-- Section: Schemes & Pricing -->
+                  <div class="modal-section-lbl">Schemes &amp; Pricing</div>
+                  <div class="modal-row">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">Current Schemes</div>
+                      <div class="modal-row-desc">Active trade schemes &amp; offers</div>
+                    </div>
+                    <div class="modal-row-radio"></div>
+                  </div>
+                  <div class="modal-row">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">Price List</div>
+                      <div class="modal-row-desc">Latest product price list</div>
+                    </div>
+                    <div class="modal-row-radio"></div>
+                  </div>
+                  <!-- Section: Accounts -->
+                  <div class="modal-section-lbl">Accounts</div>
+                  <div class="modal-row">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">View Invoices</div>
+                      <div class="modal-row-desc">Recent purchase invoices</div>
+                    </div>
+                    <div class="modal-row-radio"></div>
+                  </div>
+                  <div class="modal-row">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">Account Ledger</div>
+                      <div class="modal-row-desc">Your account statement</div>
+                    </div>
+                    <div class="modal-row-radio"></div>
+                  </div>
+                  <div class="modal-row">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">Pay Outstanding</div>
+                      <div class="modal-row-desc">Pay pending dues via UPI</div>
+                    </div>
+                    <div class="modal-row-radio"></div>
+                  </div>
+                  <!-- Section: Field & Support -->
+                  <!-- <div class="modal-section-lbl">Field &amp; Support</div>
+                  <div class="modal-row">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">File Expense</div>
+                      <div class="modal-row-desc">Submit expense claim</div>
+                    </div>
+                    <div class="modal-row-radio"></div>
+                  </div>
+                  <div class="modal-row">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">Contact SE</div>
+                      <div class="modal-row-desc">Reach your Sales Executive</div>
+                    </div>
+                    <div class="modal-row-radio"></div>
+                  </div>
+                  <div class="modal-row" style="border-bottom:none;">
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">Raise Issue</div>
+                      <div class="modal-row-desc">Report a problem or query</div>
+                    </div>
+                    <div class="modal-row-radio"></div>
+                  </div> -->
+                </div>
+                <div class="modal-send-wrap"><button class="modal-send-btn">Send</button></div>
+                <div class="modal-footer-ztk">🎯 Managed by ZoTok powered by Zono · <span style="color:#007AFF;">Learn
+                    More</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="screen-desc" style="background:#B0D4F0;">
+            <strong>Product Categories</strong>
+            ZoTok opens the catalog category list for the Dealer to choose the product category they want to order
+            from.
+          </div>
+        </div>
+
+
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 3 · Product Selection</div>
+          <div class="screen-type-lbl">Interactive List — Bottom Sheet Open</div>
+          <div class="phone-frame">
+            {{> status-bar time="9:46 AM"}}
+            {{> wa-topbar status="Business Account" actions="video+more" avatarSrc="data:image/placeholder"}}
+            <div class="chat-area">
+              {{> date-pill text="Today"}}
+              <div class="msg-sender-wrap">
+                <div class="msg-sender">
+                  <div class="msg-body">View Products</div>
+                  <span class="msg-time">9:46 AM <span class="msg-tick">✓✓</span></span>
+                </div>
+              </div>
+              <div class="msg-receiver-wrap">
+                <div class="wa-list-card">
+                  <div class="wa-list-body">Which category would you like to explore? 🔍<br><br>Select from {{brand.name}}
+                    full range below.</div>
+                  <div class="wa-list-time">9:46 AM</div>
+                  <div class="wa-list-btn-row">
+                    <svg width="15" height="13" viewBox="0 0 24 20" fill="none">
+                      <line x1="0" y1="2" x2="24" y2="2" stroke="#00A884" stroke-width="2.5" />
+                      <line x1="0" y1="10" x2="24" y2="10" stroke="#00A884" stroke-width="2.5" />
+                      <line x1="0" y1="18" x2="24" y2="18" stroke="#00A884" stroke-width="2.5" />
+                    </svg>
+                    <span class="wa-list-btn-label">Select Category</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="input-bar">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8" />
+                <path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+              <div class="input-field">Type a message</div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke="#54656f"
+                  stroke-width="1.8" stroke-linejoin="round" />
+                <circle cx="12" cy="13" r="4" stroke="#54656f" stroke-width="1.8" />
+              </svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8" />
+                <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="modal-overlay">
+              <div class="modal-sheet">
+                <div class="modal-handle-row">
+                  <div class="modal-handle-bar"></div>
+                </div>
+                <div class="modal-topbar-row">
+                  <div class="modal-close">✕</div>
+                  <div class="modal-title">Select Category</div>
+                  <div class="modal-spacer"></div>
+                </div>
+                <div class="modal-rows">
+                  {{#each journey.messages.step1.sections}}
+                  <div class="modal-section-lbl">{{label}}</div>
+                  {{#each items}}
+                  <div class="modal-row"{{#if @first}} style="border-bottom:1px solid #f2f2f2;"{{/if}}>
+                    <div class="modal-row-content">
+                      <div class="modal-row-title">{{title}}</div>
+                      <div class="modal-row-desc">{{desc}}</div>
+                    </div>
+                    <div class="modal-row-radio"{{#if @first}} style="border-color:#E8201E;background:#fce8e8;"{{/if}}></div>
+                  </div>
+                  {{/each}}
+                  {{#unless @last}}<!-- section separator -->{{/unless}}
+                  {{/each}}
+                </div>
+                modal-send-wrap"><button class="modal-send-btn">Send</button></div>
+                <div class="modal-footer-ztk">🎯 Managed by ZoTok powered by Zono · <span style="color:#007AFF;">Learn
+                    More</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="screen-desc" style="background:#A8EAD6;">
+            <strong>Catalog View</strong>
+            Dealer browses the {{brand.name}} product catalog with images, pricing, and quantity selectors directly in
+            WhatsApp.
+          </div>
+        </div>
+
+        <!-- Screen 3: Price List Response -->
+
+      </div><!-- /step-1 -->

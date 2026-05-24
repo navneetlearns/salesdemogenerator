@@ -139,6 +139,220 @@
       "body": "Your store <strong>Sharma Notebook Stores</strong> is now an active Sundaram Store Dealer Partner.<br><br>Tap <strong>Open Menu</strong> below to access your self-service dashboard — browse products, check schemes, pay dues, and more.",
       "time": "9:22 AM",
       "cta": "Open Menu"
+    },
+    "step1": {
+      "greeting": "Namaste Ramesh! 🙏<br>How can I help you today?",
+      "categoryQuestion": "Which stationery category would you like to explore? 🔍<br><br>Select from {{brand.name}} full range below.",
+      "sections": [
+        {
+          "label": "Notebooks",
+          "items": [
+            {
+              "title": "Spiral Books",
+              "desc": "A4 size · Premium quality paper"
+            },
+            {
+              "title": "Drawing Books",
+              "desc": "Sketch pads · Artist grade"
+            },
+            {
+              "title": "Subject Notebooks",
+              "desc": "Single & multi-subject · College ruled"
+            }
+          ]
+        },
+        {
+          "label": "Writing Instruments",
+          "items": [
+            {
+              "title": "Pens",
+              "desc": "Ball, gel & fountain · Smooth writing"
+            },
+            {
+              "title": "Pencils & Colors",
+              "desc": "Drawing & coloring · Creative tools"
+            }
+          ]
+        },
+        {
+          "label": "Bulk & Offers",
+          "items": [
+            {
+              "title": "School Combos",
+              "desc": "Complete stationery kit · Best value"
+            },
+            {
+              "title": "Wholesale Supply",
+              "desc": "Bulk orders · Trade pricing"
+            }
+          ]
+        }
+      ]
     }
+  },
+  "dealer": {
+    "name": "Sharma Notebook Stores",
+    "contactName": "Ramesh",
+    "phone": "+91 98765 43210",
+    "address": "22, Stationery Mart, Mumbai, Maharashtra",
+    "secondaryDealers": [
+      {
+        "name": "Ganesh Book Depot",
+        "type": "secondary_dealer"
+      },
+      {
+        "name": "Modern Stationery Mart",
+        "type": "secondary_dealer"
+      }
+    ]
+  },
+  "order": {
+    "primaryOrderId": "SSO-3892",
+    "date": "18 April 2026",
+    "transporter": "City Transport",
+    "items": [
+      {
+        "productId": "p1",
+        "qty": 200,
+        "lineTotal": 24000
+      },
+      {
+        "productId": "p2",
+        "qty": 150,
+        "lineTotal": 13500
+      },
+      {
+        "productId": "p3",
+        "qty": 100,
+        "lineTotal": 11000
+      },
+      {
+        "productId": "p4",
+        "qty": 80,
+        "lineTotal": 12000
+      }
+    ],
+    "historyOrders": [
+      {
+        "id": "SSO-47011",
+        "date": "15/04/2026",
+        "amount": 140000,
+        "status": "Delivered"
+      },
+      {
+        "id": "SSO-46221",
+        "date": "08/04/2026",
+        "amount": 115000,
+        "status": "Delivered"
+      },
+      {
+        "id": "SSO-48283",
+        "date": "01/04/2026",
+        "amount": 68000,
+        "status": "Delivered"
+      }
+    ],
+    "summary": {
+      "orderValue": 128000
+    }
+  },
+  "invoice": {
+    "id": "INV-7821",
+    "date": "29/04/2026",
+    "dueDate": "10/05/2026",
+    "discount": 2500,
+    "docId": "DOC-4823"
+  },
+  "ledger": {
+    "creditNoteId": "SS-CN-2147",
+    "creditNoteAmount": 12000,
+    "creditReason": "Bulk Order Discount - Stationery",
+    "entries": [
+      {
+        "date": "01/04/2026",
+        "description": "Opening Balance",
+        "debit": 5100000,
+        "credit": 0,
+        "balance": 5100000
+      },
+      {
+        "date": "15/04/2026",
+        "description": "Payment Received - NEFT",
+        "debit": 0,
+        "credit": 140000,
+        "balance": 4960000
+      },
+      {
+        "date": "26/04/2026",
+        "description": "Credit Note - Bulk Discount",
+        "debit": 0,
+        "credit": 12000,
+        "balance": 4948000
+      }
+    ]
+  },
+  "payment": {
+    "amount": 120000,
+    "date": "25/04/2026",
+    "method": "NEFT",
+    "reference": "NEFT-20260425-003",
+    "divisions": [
+      {
+        "name": "Stationery Division",
+        "amount": 20000,
+        "outstanding": 55000
+      },
+      {
+        "name": "Notebooks & Paper",
+        "amount": 35000,
+        "outstanding": 88000
+      }
+    ]
+  },
+  "step3": {
+    "draftOrder": {
+      "totalValue": 12000,
+      "netValue": 11400,
+      "skuCount": 4
+    },
+    "cartSummary": {
+      "totalItems": 4,
+      "totalQty": 250,
+      "orderValue": 12000
+    },
+    "cartItems": [
+      {
+        "name": "Notebooks",
+        "unitPrice": 120,
+        "lineTotal": 6000,
+        "unit": "pcs"
+      },
+      {
+        "name": "Drawing",
+        "unitPrice": 180,
+        "lineTotal": 9000,
+        "unit": "pc"
+      },
+      {
+        "name": "Pens",
+        "unitPrice": 85,
+        "lineTotal": 425,
+        "unit": "pc"
+      },
+      {
+        "name": "Notebooks",
+        "unitPrice": 90,
+        "lineTotal": 450,
+        "unit": "pcs"
+      }
+    ]
+  },
+  "productNames": {
+    "opc53": "A4 Spiral Notebook 200 Pages",
+    "opc43": "Artist Drawing Book A3",
+    "ppc": "Single Subject Notebook",
+    "cementPpc": "Six Subject Notebook",
+    "ppcTag1": "College Ruled · 200p",
+    "ppcTag2": "Premium Paper · A4"
   }
 }

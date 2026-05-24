@@ -1,0 +1,210 @@
+{{!-- Step 11: Self Service Navigation Menu — Embedded WhatsApp Web App (2 sub-screens)
+--}}
+<div id="step-11" class="step-section">
+      <div class="step2-phones">
+
+        <!-- Screen 1: Navigation Drawer -->
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 1 · Navigation Menu</div>
+          <div class="screen-type-lbl">Embedded WhatsApp Web App — Self Service Side Drawer</div>
+          <div class="phone-frame-web" style="position:relative;">
+            <!-- Status bar -->
+            {{> status-bar-web time="10:30" battery="84"}}
+            <!-- Browser bar -->
+            <div class="browser-bar">
+              <span class="browser-done">Done</span>
+              <div class="browser-url-wrap">
+                <div class="browser-title">Order History</div>
+                <div class="browser-url">
+                  <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#888" stroke-width="1"/><path d="M6 1v10M1 6h10" stroke="#888" stroke-width=".7"/><path d="M2 3.5Q6 2 10 3.5M2 8.5Q6 10 10 8.5" stroke="#888" stroke-width=".7" fill="none"/></svg>
+                  mobile.zotok.ai
+                </div>
+              </div>
+              <span class="browser-menu">···</span>
+            </div>
+            <!-- PWA content (blurred/dimmed behind drawer) -->
+            <div class="pwa-content">
+              <div class="oh-header" style="display:flex;flex-direction:row;align-items:center;gap:10px;background:var(--brand);padding:10px 14px 10px;">
+                <div class="tb-av" style="width:34px;height:34px;cursor:pointer;border:2px solid rgba(255,255,255,0.4);"><img src="data:image/placeholder" alt="{{brand.name}}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                <div style="flex:1;"><div class="oh-title" style="font-size:13.5px;color:#fff;font-weight:700;line-height:1.2;">My Orders</div><div class="oh-sub" style="color:rgba(255,255,255,0.8);font-size:11px;">{{journey.dealer.name}}</div></div>
+              </div>
+              <div class="filter-tabs"><button class="ft-pill active">All</button><button class="ft-pill">Submitted</button><button class="ft-pill">Approved</button><button class="ft-pill">Billed</button></div>
+              <div class="order-cards">
+                <div class="order-card"><div class="oc-top"><div><div class="oc-name">{{journey.dealer.name}}</div><div class="oc-id">Order {{journey.order.primaryOrderId}}</div></div><span class="status-badge badge-submitted">Submitted</span></div></div>
+                <div class="order-card"><div class="oc-top"><div><div class="oc-name">{{journey.dealer.name}}</div><div class="oc-id">Order {{journey.order.primaryOrderId}}</div></div><span class="status-badge badge-approved">Approved</span></div></div>
+              </div>
+            </div><!-- /pwa-content -->
+            <!-- Browser nav -->
+            <div class="browser-nav">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="18" cy="5" r="3" stroke="#555" stroke-width="1.8"/><circle cx="6" cy="12" r="3" stroke="#555" stroke-width="1.8"/><circle cx="18" cy="19" r="3" stroke="#555" stroke-width="1.8"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" stroke="#555" stroke-width="1.8"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><polyline points="23 4 23 10 17 10" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <!-- ═══ SIDE DRAWER OVERLAY ═══ -->
+            <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:20;">
+              <!-- Drawer panel -->
+              <div style="position:absolute;top:0;left:0;bottom:0;width:222px;background:#fff;box-shadow:4px 0 20px rgba(0,0,0,0.18);display:flex;flex-direction:column;">
+                <!-- Drawer header: brand strip with logo + dealer info -->
+                <div style="background:var(--brand);padding:18px 16px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+                  <div class="tb-av" style="width:42px;height:42px;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;"><img src="data:image/placeholder" alt="{{brand.name}}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                  <div>
+                    <div style="font-size:13px;font-weight:700;color:#fff;line-height:1.3;">{{brand.name}}</div>
+                    <div style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:2px;">{{journey.dealer.name}}</div>
+                  </div>
+                </div>
+                <!-- Nav items -->
+                <div style="flex:1;overflow-y:auto;">
+                  <!-- Dashboard -->
+                  <div class="pwa-nav-item">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" fill="#888"/><rect x="14" y="3" width="7" height="7" rx="1.5" fill="#888"/><rect x="3" y="14" width="7" height="7" rx="1.5" fill="#888"/><rect x="14" y="14" width="7" height="7" rx="1.5" fill="#888"/></svg>
+                    Dashboard
+                  </div>
+                  <!-- Order History (active) -->
+                  <div class="pwa-nav-item active">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="9" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="2"/><path d="M9 12h6M9 16h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    Order History
+                  </div>
+                  <!-- Invoices -->
+                  <div class="pwa-nav-item">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="14 2 14 8 20 8" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="8" y1="13" x2="16" y2="13" stroke="#888" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="17" x2="13" y2="17" stroke="#888" stroke-width="2" stroke-linecap="round"/></svg>
+                    Invoices
+                  </div>
+                  <!-- Payments -->
+                  <div class="pwa-nav-item">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="1" y="4" width="22" height="16" rx="2" stroke="#888" stroke-width="2"/><path d="M1 10h22" stroke="#888" stroke-width="2"/></svg>
+                    Payments
+                  </div>
+                  <!-- Ledger -->
+                  <div class="pwa-nav-item">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Ledger
+                  </div>
+                </div>
+                <!-- Drawer footer -->
+                <div style="padding:12px 16px;border-top:1px solid #f0f0f0;font-size:11px;color:#aaa;text-align:center;">
+                  Powered by ZoTok
+                </div>
+              </div><!-- /drawer panel -->
+            </div><!-- /drawer overlay -->
+          </div><!-- /phone-frame-web -->
+          <div class="screen-desc" style="background:#E8EAF6;">
+            <strong>Navigation Drawer</strong><br>
+            Dealer taps the {{brand.name}} logo (hamburger) in the header — the side navigation drawer slides in, giving access to Dashboard, Order History, Invoices, Payments, and Ledger from a single portal.
+          </div>
+        </div><!-- /phone-wrap Screen 2 -->
+
+           <div class="screen-wrap">
+          <div class="screen-lbl">Screen 2 · Order History</div>
+          <div class="screen-type-lbl">Embedded WhatsApp Web App — Order Dashboard</div>
+          <div class="phone-frame-web">
+            <!-- Status bar -->
+            {{> status-bar-web time="10:30" battery="84"}}
+            <!-- Browser bar -->
+            <div class="browser-bar">
+              <span class="browser-done">Done</span>
+              <div class="browser-url-wrap">
+                <div class="browser-title">Order History</div>
+                <div class="browser-url">
+                  <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#888" stroke-width="1"/><path d="M6 1v10M1 6h10" stroke="#888" stroke-width=".7"/><path d="M2 3.5Q6 2 10 3.5M2 8.5Q6 10 10 8.5" stroke="#888" stroke-width=".7" fill="none"/></svg>
+                  mobile.zotok.ai
+                </div>
+              </div>
+              <span class="browser-menu">···</span>
+            </div>
+            <!-- PWA content -->
+            <div class="pwa-content">
+              <!-- App bar with logo as hamburger -->
+              <div class="oh-header" style="display:flex;flex-direction:row;align-items:center;gap:10px;background:var(--brand);padding:10px 14px 10px;">
+                <div class="tb-av" style="width:34px;height:34px;cursor:pointer;border:2px solid rgba(255,255,255,0.4);" title="Menu"><img src="data:image/placeholder" alt="{{brand.name}}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                <div style="flex:1;">
+                  <div class="oh-title" style="font-size:13.5px;color:#fff;font-weight:700;line-height:1.2;">My Orders</div>
+                  <div class="oh-sub" style="color:rgba(255,255,255,0.8);font-size:11px;">{{journey.dealer.name}}</div>
+                </div>
+              </div>
+              <!-- Filter tabs -->
+              <div class="filter-tabs">
+                <button class="ft-pill active">All</button>
+                <button class="ft-pill">Submitted</button>
+                <button class="ft-pill">Approved</button>
+                <button class="ft-pill">Billed</button>
+                <button class="ft-pill">Dispatched</button>
+              </div>
+              <!-- Search bar -->
+              <div class="search-bar-wrap">
+                <div class="search-bar">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#aaa" stroke-width="2"/><path d="M21 21l-3.8-3.8" stroke="#aaa" stroke-width="2" stroke-linecap="round"/></svg>
+                  <input type="text" placeholder="Search by Order ID" readonly />
+                </div>
+              </div>
+              <!-- Order cards -->
+              <div class="order-cards">
+                <!-- Card 1: Submitted — no download icon -->
+                <div class="order-card">
+                  <div class="oc-top">
+                    <div><div class="oc-name">{{journey.dealer.name}}</div><div class="oc-id">Order {{journey.order.primaryOrderId}}</div></div>
+                    <div class="oc-right">
+                      <span class="status-badge badge-submitted">Submitted</span>
+                      <svg class="oc-chev" width="7" height="12" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                  </div>
+                  <div class="oc-details"><div class="oc-detail-item"><div class="oc-dval">{{formatCurrency journey.order.summary.orderValue}}</div><div class="oc-dlbl">Order Value</div></div><div class="oc-detail-item"><div class="oc-dval">Apr 22, 2026</div><div class="oc-dlbl">Order Date</div></div><div class="oc-detail-item"><div class="oc-dval">4 SKUs</div><div class="oc-dlbl">SKU Count</div></div></div>
+                </div>
+                <!-- Card 2: Approved — no download icon -->
+                <div class="order-card">
+                  <div class="oc-top">
+                    <div><div class="oc-name">{{journey.dealer.name}}</div><div class="oc-id">Order {{journey.order.primaryOrderId}}</div></div>
+                    <div class="oc-right">
+                      <span class="status-badge badge-approved">Approved</span>
+                      <svg class="oc-chev" width="7" height="12" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                  </div>
+                  <div class="oc-details"><div class="oc-detail-item"><div class="oc-dval">{{formatCurrency journey.order.historyOrders.2.amount}}</div><div class="oc-dlbl">Order Value</div></div><div class="oc-detail-item"><div class="oc-dval">Apr 20, 2026</div><div class="oc-dlbl">Order Date</div></div><div class="oc-detail-item"><div class="oc-dval">3 SKUs</div><div class="oc-dlbl">SKU Count</div></div></div>
+                </div>
+                <!-- Card 3: Billed — with download icon -->
+                <div class="order-card">
+                  <div class="oc-top">
+                    <div><div class="oc-name">{{journey.dealer.name}}</div><div class="oc-id">Order {{journey.order.primaryOrderId}}</div></div>
+                    <div class="oc-right">
+                      <div class="oc-dl-icon" title="Download Invoice">
+                        <svg width="11" height="13" viewBox="0 0 14 16" fill="none"><path d="M7 1v9M4 7l3 4 3-4" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 13h12" stroke="#555" stroke-width="1.6" stroke-linecap="round"/></svg>
+                      </div>
+                      <span class="status-badge badge-billed">Billed</span>
+                      <svg class="oc-chev" width="7" height="12" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                  </div>
+                  <div class="oc-details"><div class="oc-detail-item"><div class="oc-dval">{{formatCurrency journey.order.historyOrders.1.amount}}</div><div class="oc-dlbl">Order Value</div></div><div class="oc-detail-item"><div class="oc-dval">Apr 18, 2026</div><div class="oc-dlbl">Order Date</div></div><div class="oc-detail-item"><div class="oc-dval">6 SKUs</div><div class="oc-dlbl">SKU Count</div></div></div>
+                </div>
+                <!-- Card 4: Dispatched — with download icon -->
+                <div class="order-card">
+                  <div class="oc-top">
+                    <div><div class="oc-name">{{journey.dealer.name}}</div><div class="oc-id">Order {{journey.order.primaryOrderId}}</div></div>
+                    <div class="oc-right">
+                      <div class="oc-dl-icon" title="Download Invoice">
+                        <svg width="11" height="13" viewBox="0 0 14 16" fill="none"><path d="M7 1v9M4 7l3 4 3-4" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 13h12" stroke="#555" stroke-width="1.6" stroke-linecap="round"/></svg>
+                      </div>
+                      <span class="status-badge badge-dispatched">Dispatched</span>
+                      <svg class="oc-chev" width="7" height="12" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                  </div>
+                  <div class="oc-details"><div class="oc-detail-item"><div class="oc-dval">{{formatCurrency journey.order.historyOrders.0.amount}}</div><div class="oc-dlbl">Order Value</div></div><div class="oc-detail-item"><div class="oc-dval">Apr 15, 2026</div><div class="oc-dlbl">Order Date</div></div><div class="oc-detail-item"><div class="oc-dval">8 SKUs</div><div class="oc-dlbl">SKU Count</div></div></div>
+                </div>
+              </div><!-- /order-cards -->
+            </div><!-- /pwa-content -->
+            <!-- Browser nav -->
+            <div class="browser-nav">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="18" cy="5" r="3" stroke="#555" stroke-width="1.8"/><circle cx="6" cy="12" r="3" stroke="#555" stroke-width="1.8"/><circle cx="18" cy="19" r="3" stroke="#555" stroke-width="1.8"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" stroke="#555" stroke-width="1.8"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><polyline points="23 4 23 10 17 10" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div><!-- /phone-frame-web -->
+          <div class="screen-desc" style="background:#FFF9C4;">
+            <strong>Order History — PWA</strong><br>
+            Dealer sees their full order history with status filters. The {{brand.name}} logo in the header doubles as a hamburger menu — tapping it opens the navigation drawer to access other modules.
+          </div>
+        </div><!-- /phone-wrap Screen 1 -->
+
+        <!-- Screen 2: PWA — Navigation Drawer open -->
+   </div><!-- /phones-row -->
+    

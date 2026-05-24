@@ -1,0 +1,358 @@
+{
+  "id": "order_to_cash",
+  "title": "Order to Cash",
+  "subtitle": "Self-service Ordering & AI Order Capture",
+  "brandId": "haldirams",
+  "screens": [
+    {
+      "type": "catalog"
+    },
+    {
+      "type": "cart"
+    },
+    {
+      "type": "receipt"
+    }
+  ],
+  "steps": [
+    {
+      "num": 1,
+      "displayNum": 1,
+      "title": "Self Service Ordering",
+      "meta": "Distributor · Menu-driven ordering",
+      "navTitle": "Step 1 — Self Service Ordering",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor browses product categories and places orders directly through the self-service menu</span><span class=\"tag tag-ord\">Self-service</span><span class=\"tag tag-ord\">Ordering</span>"
+    },
+    {
+      "num": 2,
+      "displayNum": 2,
+      "title": "Catalog Browse & Order",
+      "meta": "Distributor · Catalog & cart checkout",
+      "navTitle": "Step 2 — Catalog Browse & Order",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor browses Haldiram rich product catalog with real images and pricing</span><span class=\"tag tag-ord\">Catalog</span><span class=\"tag tag-ord\">Cart</span>"
+    },
+    {
+      "num": 3,
+      "displayNum": 3,
+      "title": "AI Order Capture",
+      "meta": "Distributor · AI reads handwritten orders",
+      "navTitle": "Step 3 — AI Order Capture",
+      "navDesc": "<span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-ord\">Order Capture</span><span>Distributor sends handwritten order note; ZoAi converts to structured digital order</span>"
+    },
+    {
+      "num": 4,
+      "displayNum": 4,
+      "title": "Back Office Order Fulfilment",
+      "meta": "Back Office · Admin Portal",
+      "navTitle": "Step 4 — Back Office Order Fulfilment",
+      "navDesc": "<span class=\"tag tag-web\">Admin Portal</span><span>Back-office reviews pending distributor orders and triggers ERP billing</span>"
+    },
+    {
+      "num": 5,
+      "displayNum": 5,
+      "title": "Order Confirmed Notification",
+      "meta": "Distributor · Utility Template + PWA",
+      "navTitle": "Step 5 — Order Confirmed Notification",
+      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>Distributor receives WhatsApp order confirmation with details</span>"
+    },
+    {
+      "num": 6,
+      "displayNum": 6,
+      "title": "SAP Integration Architecture",
+      "meta": "Architecture · ZoTok × SAP",
+      "navTitle": "Step 6 — SAP Integration Architecture",
+      "navDesc": "<span class=\"tag tag-web\">Architecture</span><span>Orders pushed from ZoTok to SAP via integration layer</span>"
+    },
+    {
+      "num": 7,
+      "displayNum": 7,
+      "title": "Invoice & Dispatch",
+      "meta": "Distributor · Utility Template",
+      "navTitle": "Step 7 — Invoice & Dispatch",
+      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>ZoTok sends invoice PDF and dispatch note with transporter details</span>"
+    },
+    {
+      "num": 8,
+      "displayNum": 8,
+      "title": "Cash Discount & Payment Reminder",
+      "meta": "Distributor · Utility Template",
+      "navTitle": "Step 8 — Cash Discount & Payment Reminder",
+      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>Auto-sends cash discount reminder to prompt early payment</span>"
+    },
+    {
+      "num": 9,
+      "displayNum": 9,
+      "title": "Payment Received",
+      "meta": "Distributor · Utility + Interactive",
+      "navTitle": "Step 9 — Payment Received",
+      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>Distributor receives payment receipt and settlement confirmation</span>"
+    },
+    {
+      "num": 10,
+      "displayNum": 10,
+      "title": "Credit Note & Ledger",
+      "meta": "Distributor · Utility + WebView",
+      "navTitle": "Step 10 — Credit Note & Ledger",
+      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>Credit note raised via webhook; distributor notified on WhatsApp</span>"
+    },
+    {
+      "num": 11,
+      "displayNum": 11,
+      "title": "Self Service Navigation Menu",
+      "meta": "Distributor · Embedded WhatsApp Web App",
+      "navTitle": "Step 11 — Self Service Navigation Menu",
+      "navDesc": "<span class=\"tag tag-web\">Embedded Web App</span><span>Distributor accesses full self-service portal via navigation drawer</span>"
+    }
+  ],
+  "cart": {
+    "items": [
+      {
+        "productId": "p1",
+        "qty": 24,
+        "tag": "Namkeen"
+      },
+      {
+        "productId": "p2",
+        "qty": 18,
+        "tag": "Mixture"
+      },
+      {
+        "productId": "p3",
+        "qty": 12,
+        "tag": "Mixture"
+      },
+      {
+        "productId": "p4",
+        "qty": 30,
+        "tag": "Sweets"
+      }
+    ],
+    "summary": {
+      "totalItems": 4,
+      "totalQuantity": "84 packs",
+      "orderValue": "₹25,800"
+    }
+  },
+  "dealer": {
+    "name": "Haldiram's Distributors",
+    "contactName": "Rajesh",
+    "phone": "+91 98100 12345",
+    "address": "45, Food Park, Nagpur, Maharashtra",
+    "secondaryDealers": [
+      {
+        "name": "Patel Sweet Mart",
+        "type": "secondary_dealer"
+      },
+      {
+        "name": "Agarwal Snacks House",
+        "type": "secondary_dealer"
+      }
+    ]
+  },
+  "order": {
+    "primaryOrderId": "HLO-3892",
+    "date": "18 April 2026",
+    "transporter": "Cold Chain Logistics",
+    "summary": {
+      "orderValue": 25800
+    },
+    "items": [
+      {
+        "productId": "p1",
+        "qty": 24,
+        "lineTotal": 4320
+      },
+      {
+        "productId": "p2",
+        "qty": 18,
+        "lineTotal": 2880
+      },
+      {
+        "productId": "p3",
+        "qty": 12,
+        "lineTotal": 3000
+      },
+      {
+        "productId": "p4",
+        "qty": 30,
+        "lineTotal": 3600
+      }
+    ],
+    "historyOrders": [
+      {
+        "id": "HLO-47011",
+        "date": "15/04/2026",
+        "amount": 22000,
+        "status": "Delivered"
+      },
+      {
+        "id": "HLO-46221",
+        "date": "08/04/2026",
+        "amount": 18500,
+        "status": "Delivered"
+      },
+      {
+        "id": "HLO-48283",
+        "date": "01/04/2026",
+        "amount": 32000,
+        "status": "Delivered"
+      }
+    ]
+  },
+  "invoice": {
+    "id": "INV-9002",
+    "date": "29/04/2026",
+    "dueDate": "10/05/2026",
+    "discount": 1290,
+    "docId": "DOC-9002"
+  },
+  "payment": {
+    "amount": 20000,
+    "date": "25/04/2026",
+    "method": "NEFT",
+    "reference": "NEFT-20260425-HL",
+    "divisions": [
+      {
+        "name": "Namkeen Division",
+        "amount": 12000,
+        "outstanding": 35000
+      },
+      {
+        "name": "Sweets Division",
+        "amount": 18000,
+        "outstanding": 48000
+      }
+    ]
+  },
+  "ledger": {
+    "creditNoteId": "HL-CN-2147",
+    "creditNoteAmount": 4320,
+    "creditReason": "Festive Season Scheme Incentive",
+    "entries": [
+      {
+        "date": "01/04/2026",
+        "description": "Opening Balance",
+        "debit": 3200000,
+        "credit": 0,
+        "balance": 3200000
+      },
+      {
+        "date": "15/04/2026",
+        "description": "Payment Received - NEFT",
+        "debit": 0,
+        "credit": 85000,
+        "balance": 3115000
+      },
+      {
+        "date": "26/04/2026",
+        "description": "Credit Note - Festive Scheme",
+        "debit": 0,
+        "credit": 4320,
+        "balance": 3110680
+      }
+    ]
+  },
+  "messages": {
+    "welcome": {
+      "title": "Welcome to Haldiram's Distributor Program! 🎉",
+      "body": "Your store <strong>Haldiram's Distributors</strong> is now an active Haldiram's Partner.<br><br>Tap <strong>Open Menu</strong> below to access your self-service dashboard — browse products, check schemes, pay dues, and more.",
+      "time": "9:22 AM",
+      "cta": "Open Menu"
+    },
+    "step1": {
+      "greeting": "Namaste Rajesh! 🙏<br>How can I help you today?",
+      "categoryQuestion": "Which category would you like to explore? 🔍<br><br>Select from {{brand.name}} full range below.",
+      "sections": [
+        {
+          "label": "Namkeen & Savouries",
+          "items": [
+            {
+              "title": "Aloo Bhujia",
+              "desc": "Classic crispy gram flour noodles · Best seller"
+            },
+            {
+              "title": "Khatta Meetha",
+              "desc": "Sweet & tangy mixed snacks · All-time favorite"
+            },
+            {
+              "title": "Navratan Mixture",
+              "desc": "Premium 9-ingredient blend · Festive special"
+            }
+          ]
+        },
+        {
+          "label": "Sweets & Desserts",
+          "items": [
+            {
+              "title": "Soan Papdi",
+              "desc": "Flaky sweet squares · Traditional recipe"
+            },
+            {
+              "title": "Rasgulla",
+              "desc": "Soft spongy cottage cheese balls · Syrup dipped"
+            }
+          ]
+        },
+        {
+          "label": "Bulk & Trade",
+          "items": [
+            {
+              "title": "Festival Combos",
+              "desc": "Curated gift boxes · Seasonal offers"
+            },
+            {
+              "title": "Wholesale Packs",
+              "desc": "Bulk pricing · Distributor specials"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "step3": {
+    "draftOrder": {
+      "totalValue": 7000,
+      "netValue": 6650,
+      "skuCount": 4
+    },
+    "cartSummary": {
+      "totalItems": 4,
+      "totalQty": 84,
+      "orderValue": 7200
+    },
+    "cartItems": [
+      {
+        "name": "Namkeen",
+        "unitPrice": 180,
+        "lineTotal": 4320,
+        "unit": "pack"
+      },
+      {
+        "name": "Mixture",
+        "unitPrice": 160,
+        "lineTotal": 2880,
+        "unit": "pack"
+      },
+      {
+        "name": "Mixture",
+        "unitPrice": 250,
+        "lineTotal": 3000,
+        "unit": "pack"
+      },
+      {
+        "name": "Sweets",
+        "unitPrice": 120,
+        "lineTotal": 3600,
+        "unit": "box"
+      }
+    ]
+  },
+  "productNames": {
+    "opc53": "Aloo Bhujia (400g)",
+    "opc43": "Khatta Meetha Mixture (350g)",
+    "ppc": "Navratan Mixture (500g)",
+    "cementPpc": "Soan Papdi (250g)",
+    "ppcTag1": "Premium Quality · Namkeen",
+    "ppcTag2": "Fresh Packed · Sweets"
+  }
+}

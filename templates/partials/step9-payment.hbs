@@ -1,0 +1,196 @@
+{{!-- Step 9: Payment Received — Utility Template + Interactive (3 sub-screens)
+--}}
+<div id="step-9" class="step-section">
+      <div class="step2-phones">
+
+        <!-- Screen 1: Payment Received Notification -->
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 1 · Payment Received</div>
+          <div class="screen-type-lbl">Utility Template — Document Header + Quick Reply</div>
+          <div class="phone-frame">
+            {{> status-bar time="2:44 PM"}}
+            {{> wa-topbar status="ZoTok Business" actions="call" compact=true avatarSrc="data:image/placeholder"}}
+            <div class="chat-area">
+              {{> date-pill text="22 Apr"}}
+              <div class="msg-receiver-wrap">
+                <div style="font-size:11.5px;font-weight:700;color:#00A884;padding-left:2px;margin-bottom:3px;">ZoTok AI</div>
+                <div class="wa-tmpl">
+                  <div class="wa-hdr-doc">
+                    <div class="doc-icon">
+                      <svg width="14" height="16" viewBox="0 0 14 16" fill="none"><rect x="1" y="1" width="12" height="14" rx="2" fill="#fff" fill-opacity=".25"/><path d="M3 5h8M3 8h8M3 11h5" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="doc-meta">
+                      <div class="doc-name">PaymentReceipt_JK.pdf</div>
+                      <div class="doc-info">2 pages · 1.1 MB</div>
+                    </div>
+                    <div class="doc-dl">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 16l-4-5h8l-4 5z" fill="#888"/><path d="M12 3v9" stroke="#888" stroke-width="2" stroke-linecap="round"/><path d="M4 20h16" stroke="#888" stroke-width="2" stroke-linecap="round"/></svg>
+                    </div>
+                  </div>
+                  <div class="wa-tmpl-body">
+                    Thanks for your payment <strong>{{journey.dealer.name}}</strong>. To update the ledger we will need few more details from you.<br><br>
+                    📄 <strong>Your Payment Details:</strong><br>
+                    📅 <strong>Date:</strong> {{journey.order.date}}<br>
+                    💰 <strong>Amount Received:</strong> {{formatCurrency journey.payment.amount}}<br>
+                    🏦 <strong>Bank Transaction ID:</strong> HDFC8821994210
+                  </div>
+                  <div class="wa-tmpl-signoff">Team,<br>{{brand.name}}</div>
+                  <div class="wa-tmpl-time">2:45 PM ✓✓</div>
+                  <div class="wa-tmpl-btns">
+                    <div class="wa-qr-btn">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Submit details
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="input-bar">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" stroke="#54656f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="input-field">Type a message</div>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M23 7l-7 5 7 5V7z" fill="#54656f"/><rect x="1" y="5" width="15" height="14" rx="2" fill="#54656f"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" fill="#54656f"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8"/></svg>
+            </div>
+          </div>
+          <div class="screen-desc" style="background:#D1ECFF;">
+            <strong>Payment Received Notification</strong><br>
+            ZoTok receives the bank transfer from {{brand.name}}'s ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.
+          </div>
+        </div><!-- /phone-wrap Screen 1 -->
+
+        <!-- Screen 2: Division Selection (Interactive List + Bottom Sheet) -->
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 2 · Division Selection</div>
+          <div class="screen-type-lbl">Interactive List — Session Message (24-hr window)</div>
+          <div class="phone-frame" style="position:relative;">
+            {{> status-bar time="2:46 PM"}}
+            {{> wa-topbar status="ZoTok Business" actions="call" compact=true avatarSrc="data:image/placeholder"}}
+            <!-- Chat shows dealer reply + ZoTok list message -->
+            <div class="chat-area" style="padding-bottom:4px;overflow:hidden;">
+              {{> date-pill text="22 Apr"}}
+              <div class="msg-sender-wrap">
+                <div class="msg-sender">
+                  <div class="msg-body">Submit details</div>
+                  <span class="msg-time">2:46 PM <span class="msg-tick">✓✓</span></span>
+                </div>
+              </div>
+              <div class="msg-receiver-wrap">
+                <div style="font-size:11.5px;font-weight:700;color:#00A884;padding-left:2px;margin-bottom:3px;">ZoTok AI</div>
+                <div class="wa-list-msg">
+                  <div class="wa-list-body">Here are the division wise outstanding in your ledger. Please select which division your amount is to be settled for</div>
+                  <div class="wa-list-time">2:46 PM ✓✓</div>
+                  <hr class="wa-list-btn-hr">
+                  <button class="wa-list-open-btn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3 6h.5M3 12h.5M3 18h.5" stroke="#00A884" stroke-width="2.2" stroke-linecap="round"/></svg>
+                    Select Division
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Input bar (will be overlaid by bottom sheet) -->
+            <div class="input-bar">
+              <div class="input-field">Type a message</div>
+            </div>
+            <!-- Division bottom sheet -->
+            <div class="list-sheet-wrap">
+              <div class="list-sheet-handle"><div class="list-sheet-bar"></div></div>
+              <div class="list-sheet-topbar">
+                <div class="list-sheet-close">✕</div>
+                <div class="list-sheet-title">Select Division</div>
+                <div class="list-sheet-spacer"></div>
+              </div>
+              <div class="list-section-lbl">Division Outstanding</div>
+              <div class="list-row">
+                <div class="list-row-left">
+                  <div class="list-row-title">OPC</div>
+                  <div class="list-row-desc">{{formatCurrency journey.payment.divisions.1.amount}} outstanding · 3 pending invoices</div>
+                </div>
+                <div class="list-row-radio"></div>
+              </div>
+              <div class="list-row">
+                <div class="list-row-left">
+                  <div class="list-row-title">{{journey.payment.divisions.0.name}}</div>
+                  <div class="list-row-desc">{{formatCurrency journey.payment.divisions.0.amount}} outstanding · 2 pending invoices</div>
+                </div>
+                <div class="list-row-radio"></div>
+              </div>
+              <div class="list-row">
+                <div class="list-row-left">
+                  <div class="list-row-title">{{journey.payment.divisions.0.name}}</div>
+                  <div class="list-row-desc">{{formatCurrency journey.payment.settlement.amount}} outstanding · 4 pending invoices</div>
+                </div>
+                <div class="list-row-radio sel"></div>
+              </div>
+              <div class="list-send-wrap">
+                <button class="list-send-btn">Send</button>
+              </div>
+            </div>
+          </div>
+          <div class="screen-desc" style="background:#D1F5E3;">
+            <strong>Division Selection</strong><br>
+            Dealer taps "Submit details" and ZoTok presents an interactive list with division-wise outstanding balances. The dealer selects {{journey.payment.divisions.0.name}} ({{formatCurrency journey.payment.settlement.amount}} outstanding, closest match to the {{formatCurrency journey.payment.amount}} payment) and taps Send.
+          </div>
+        </div><!-- /phone-wrap Screen 2 -->
+
+        <!-- Screen 3: Settlement Confirmation -->
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 3 · Settlement Confirmation</div>
+          <div class="screen-type-lbl">Session Message + Utility Template — Image Header + CTA</div>
+          <div class="phone-frame">
+            {{> status-bar time="10:14 AM"}}
+            {{> wa-topbar status="ZoTok Business" actions="call" compact=true avatarSrc="data:image/placeholder"}}
+            <div class="chat-area">
+              {{> date-pill text="22 Apr"}}
+              <!-- Message 1: Free form confirmation -->
+              <div class="msg-receiver-wrap">
+                <div style="font-size:11.5px;font-weight:700;color:#00A884;padding-left:2px;margin-bottom:3px;">ZoTok AI</div>
+                <div class="msg-receiver" style="max-width:230px;">
+                  <div class="msg-body">Thanks <strong>{{journey.dealer.name}}</strong> for submitting details and choosing <strong>{{journey.payment.divisions.0.name}}</strong> for settling the amount. You will receive the notification once the payment is settled with the respective divisions.</div>
+                  <span class="msg-time">2:47 PM</span>
+                </div>
+              </div>
+              {{> date-pill text="25 Apr"}}
+              <!-- Message 2: Payment settlement template -->
+              <div class="msg-receiver-wrap">
+                <div style="font-size:11.5px;font-weight:700;color:#00A884;padding-left:2px;margin-bottom:3px;">ZoTok AI</div>
+                <div class="wa-tmpl">
+                  <div class="wa-hdr-payment">
+                    <svg width="38" height="38" viewBox="0 0 52 52" fill="none" style="position:relative;">
+                      <path d="M26 4L6 12v16c0 10.5 8.5 20.5 20 24 11.5-3.5 20-13.5 20-24V12L26 4z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+                      <path d="M17 26l6 6 12-12" stroke="rgba(0,255,150,0.9)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <circle cx="26" cy="27" r="10" fill="rgba(0,200,100,0.15)"/>
+                    </svg>
+                    <div style="color:#fff;font-size:9px;font-weight:800;letter-spacing:1.8px;text-shadow:0 1px 4px rgba(0,0,0,.5);position:relative;">PAYMENT SETTLED</div>
+                  </div>
+                  <div class="wa-tmpl-body">
+                    Thanks <strong>{{journey.dealer.name}}</strong>. Your payment has been updated with the ledger. Find the receipt of the same. You can download your account statement by using the button below.<br><br>
+                    📅 <strong>Settlement Date:</strong> {{journey.payment.date}}<br>
+                    💰 <strong>Amount Settled:</strong> {{formatCurrency journey.payment.amount}}<br>
+                    🏢 <strong>Division:</strong> {{journey.payment.divisions.0.name}}<br>
+                    ✅ <strong>Status:</strong> Payment Posted
+                  </div>
+                  <div class="wa-tmpl-signoff">Team,<br>{{brand.name}}</div>
+                  <div class="wa-tmpl-time">10:15 AM ✓✓</div>
+                  <div class="wa-tmpl-btns">
+                    <div class="wa-cta-btn">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884" stroke-width="2.5"/><polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5"/><line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5"/></svg>
+                      Download Ledger
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="input-bar">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" stroke="#54656f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="input-field">Type a message</div>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M23 7l-7 5 7 5V7z" fill="#54656f"/><rect x="1" y="5" width="15" height="14" rx="2" fill="#54656f"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" fill="#54656f"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8"/></svg>
+            </div>
+          </div>
+          <div class="screen-desc" style="background:#E8F5E9;">
+            <strong>Settlement Confirmation</strong><br>
+            ZoTok instantly confirms the dealer's division selection. Once {{brand.name}}'s finance team posts the settlement (typically 2–3 business days), ZoTok sends the final notification with a Download Ledger CTA for the dealer's account statement.
+          </div>
+        </div><!-- /phone-wrap Screen 3 -->
+
+      </div><!-- /phones-row -->
+    </div><!-- /step-9 -->

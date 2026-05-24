@@ -1,0 +1,42 @@
+[
+  {
+    "id": "p1",
+    "sku": "HAL001",
+    "name": "Aloo Bhujia (400g)",
+    "category": "Namkeen",
+    "price": 180,
+    "unit": "pack",
+    "image": "product_aloo_bhujia.png",
+    "tag": "Bestseller"
+  },
+  {
+    "id": "p2",
+    "sku": "HAL002",
+    "name": "Khatta Meetha Mixture (350g)",
+    "category": "Mixture",
+    "price": 160,
+    "unit": "pack",
+    "image": "product_khatta_meetha.png",
+    "tag": "Popular"
+  },
+  {
+    "id": "p3",
+    "sku": "HAL003",
+    "name": "Navratan Mixture (500g)",
+    "category": "Mixture",
+    "price": 250,
+    "unit": "pack",
+    "image": "product_navratan.png",
+    "tag": "Premium"
+  },
+  {
+    "id": "p4",
+    "sku": "HAL004",
+    "name": "Soan Papdi (250g)",
+    "category": "Sweets",
+    "price": 120,
+    "unit": "box",
+    "image": "product_soan_papdi.png",
+    "tag": ""
+  }
+]

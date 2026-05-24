@@ -22,12 +22,20 @@
     }
   ],
   "screens": [
-    { "type": "catalog" },
-    { "type": "cart" }
+    {
+      "type": "catalog"
+    },
+    {
+      "type": "cart"
+    }
   ],
   "cart": {
     "items": [
-      { "productId": "acme-p1", "qty": 2, "tag": "General" }
+      {
+        "productId": "acme-p1",
+        "qty": 2,
+        "tag": "General"
+      }
     ],
     "summary": {
       "totalItems": 1,
@@ -41,6 +49,210 @@
       "body": "Your store is now connected. Tap <strong>Open Menu</strong> to browse and order.",
       "time": "9:22 AM",
       "cta": "Open Menu"
+    },
+    "step1": {
+      "greeting": "Hello! 👋<br>How can I assist you today?",
+      "categoryQuestion": "Which category would you like to explore? 🔍<br><br>Select from {{brand.name}} full range below.",
+      "sections": [
+        {
+          "label": "Core Products",
+          "items": [
+            {
+              "title": "Core Cement",
+              "desc": "Standard grade · Reliable construction"
+            },
+            {
+              "title": "Premium Cement",
+              "desc": "High strength · Professional grade"
+            }
+          ]
+        },
+        {
+          "label": "Specialty",
+          "items": [
+            {
+              "title": "Rapid Set",
+              "desc": "Fast curing · Time-critical projects"
+            },
+            {
+              "title": "Waterproof",
+              "desc": "Damp-proof · Basement & foundation"
+            }
+          ]
+        },
+        {
+          "label": "Trade Offers",
+          "items": [
+            {
+              "title": "Bulk Discount",
+              "desc": "Volume pricing · Dealer specials"
+            },
+            {
+              "title": "Loyalty Program",
+              "desc": "Rewards & cashback · Trade partners"
+            }
+          ]
+        }
+      ]
     }
+  },
+  "dealer": {
+    "name": "Acme Dealers",
+    "contactName": "Alex",
+    "phone": "+91 98765 00000",
+    "address": "100, Trade Center, Delhi",
+    "secondaryDealers": [
+      {
+        "name": "Westside Distributors",
+        "type": "secondary_dealer"
+      },
+      {
+        "name": "Metro Supply Co",
+        "type": "secondary_dealer"
+      }
+    ]
+  },
+  "order": {
+    "primaryOrderId": "ACO-3892",
+    "date": "18 April 2026",
+    "transporter": "Metro Logistics",
+    "items": [
+      {
+        "productId": "acme-p1",
+        "qty": 30,
+        "lineTotal": 12600
+      },
+      {
+        "productId": "acme-p2",
+        "qty": 20,
+        "lineTotal": 10400
+      },
+      {
+        "productId": "acme-p1",
+        "qty": 15,
+        "lineTotal": 6300
+      },
+      {
+        "productId": "acme-p2",
+        "qty": 10,
+        "lineTotal": 5200
+      }
+    ],
+    "historyOrders": [
+      {
+        "id": "ACO-47011",
+        "date": "15/04/2026",
+        "amount": 75000,
+        "status": "Delivered"
+      },
+      {
+        "id": "ACO-46221",
+        "date": "08/04/2026",
+        "amount": 62000,
+        "status": "Delivered"
+      },
+      {
+        "id": "ACO-48283",
+        "date": "01/04/2026",
+        "amount": 38000,
+        "status": "Delivered"
+      }
+    ],
+    "summary": {
+      "orderValue": 121600
+    }
+  },
+  "invoice": {
+    "id": "INV-9001",
+    "date": "29/04/2026",
+    "dueDate": "10/05/2026",
+    "discount": 1400,
+    "docId": "DOC-9001"
+  },
+  "ledger": {
+    "creditNoteId": "AC-CN-9001",
+    "creditNoteAmount": 5000,
+    "creditReason": "Loyalty Bonus - Q1 2026",
+    "entries": [
+      {
+        "date": "01/04/2026",
+        "description": "Opening Balance",
+        "debit": 2800000,
+        "credit": 0,
+        "balance": 2800000
+      },
+      {
+        "date": "15/04/2026",
+        "description": "Payment Received - NEFT",
+        "debit": 0,
+        "credit": 75000,
+        "balance": 2725000
+      },
+      {
+        "date": "26/04/2026",
+        "description": "Credit Note - Loyalty Bonus",
+        "debit": 0,
+        "credit": 5000,
+        "balance": 2720000
+      }
+    ]
+  },
+  "payment": {
+    "amount": 75000,
+    "date": "25/04/2026",
+    "method": "NEFT",
+    "reference": "NEFT-20260425-004",
+    "divisions": [
+      {
+        "name": "Core Products Division",
+        "amount": 10000,
+        "outstanding": 28000
+      },
+      {
+        "name": "Premium Line",
+        "amount": 18000,
+        "outstanding": 45000
+      }
+    ]
+  },
+  "step3": {
+    "draftOrder": {
+      "totalValue": 5200,
+      "netValue": 4940,
+      "skuCount": 3
+    },
+    "cartSummary": {
+      "totalItems": 3,
+      "totalQty": 45,
+      "orderValue": 5200
+    },
+    "cartItems": [
+      {
+        "name": "Core",
+        "unitPrice": 420,
+        "lineTotal": 4200,
+        "unit": "bag"
+      },
+      {
+        "name": "Premium",
+        "unitPrice": 520,
+        "lineTotal": 5200,
+        "unit": "bag"
+      },
+      {
+        "name": "Core",
+        "unitPrice": 420,
+        "lineTotal": 2100,
+        "unit": "bag"
+      }
+    ]
+  },
+  "productNames": {
+    "opc53": "Acme Co Core Cement (50kg)",
+    "opc43": "Acme Co Premium Cement (50kg)",
+    "ppc": "Acme Co Rapid Set (25kg)",
+    "cementPpc": "Acme Co Waterproof Cement (50kg)",
+    "ppcTag1": "Industrial Grade · Core",
+    "ppcTag2": "All Weather · Premium"
   }
 }

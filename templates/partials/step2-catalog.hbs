@@ -1,0 +1,277 @@
+{{!-- Step 2: Catalog Browse & Order — 3 sub-screens
+  Screen 1 · Browse Products Catalog (Commerce WebView)
+  Screen 2 · Cart Review (Commerce WebView)
+  Screen 3 · Order Received (Utility Template)
+--}}
+<!-- ═══════════════ STEP 6 ═══════════════ -->
+      <div id="step-2" class="step-section">
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 1 · Browse Products Catalog</div>
+          <div class="screen-type-lbl">Commerce WebView — Catalog Browse</div>
+          <div class="phone-frame-web">
+            <div class="status-bar" style="background:#fff;color:#111;">
+              <span style="font-size:12.5px;font-weight:600;color:#111;">10:22</span>
+              <div class="status-icons">
+                <svg width="15" height="11" viewBox="0 0 15 11" fill="none">
+                  <rect x="0" y="7" width="3" height="4" rx=".5" fill="#111" />
+                  <rect x="4" y="4.5" width="3" height="6.5" rx=".5" fill="#111" />
+                  <rect x="8" y="2" width="3" height="9" rx=".5" fill="#111" />
+                  <rect x="12" y="0" width="3" height="11" rx=".5" fill="#111" />
+                </svg>
+                <svg width="15" height="11" viewBox="0 0 24 18" fill="none">
+                  <path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111" />
+                  <path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"
+                    fill="none" />
+                  <path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2.2" stroke-linecap="round"
+                    fill="none" />
+                </svg>
+                <div class="battery-box">78</div>
+              </div>
+            </div>
+            <div class="browser-bar">
+              <span class="browser-done">Done</span>
+              <div class="browser-url-wrap">
+                <div class="browser-title">WhatsApp</div>
+                <div class="browser-url"><svg width="9" height="9" viewBox="0 0 12 12" fill="none">
+                    <circle cx="6" cy="6" r="5.5" stroke="#666" stroke-width="1" />
+                    <path d="M6 1v10M1 6h10" stroke="#666" stroke-width=".7" />
+                    <path d="M2 3.5Q6 2 10 3.5M2 8.5Q6 10 10 8.5" stroke="#666" stroke-width=".7" fill="none" />
+                  </svg> mobile.zotok.ai</div>
+              </div>
+              <span class="browser-menu">···</span>
+            </div>
+            <div class="catalog-topbar">
+              <div class="catalog-logo" style="background:none;overflow:hidden;padding:0;"><img
+                  src="{{brandLogo}}"
+                  style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;" /></div>
+              <div style="flex:1;">
+                <div class="catalog-company-name">{{brand.name}}</div>
+                <div class="catalog-sub">Catalog</div>
+              </div>
+              <div class="catalog-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="7" stroke="#111" stroke-width="2" />
+                  <path d="M16.5 16.5l4 4" stroke="#111" stroke-width="2" stroke-linecap="round" />
+                </svg><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke="#111"
+                    stroke-width="2" stroke-linejoin="round" />
+                  <circle cx="12" cy="13" r="4" stroke="#111" stroke-width="2" />
+                </svg><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="3" width="7" height="7" rx="1" stroke="#111" stroke-width="2" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" stroke="#111" stroke-width="2" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" stroke="#111" stroke-width="2" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" stroke="#111" stroke-width="2" />
+                </svg><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#111" stroke-width="2"
+                    stroke-linejoin="round" />
+                  <path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="#111" stroke-width="2" stroke-linecap="round" />
+                </svg></div>
+            </div>
+            <div class="category-tabs">
+              {{#each industry.categoryTabs}}
+              <div class="cat-tab{{#if @first}} active{{/if}}">{{this}}</div>
+              {{/each}}
+            </div>
+            <div class="product-grid">
+              {{#each catalog.products}}
+                {{> product-card}}
+              {{/each}}
+            </div>
+            <div class="cart-bar-web">
+              <div class="cart-info-web">02 Items &nbsp;·&nbsp; 13 Qty</div>
+              <div class="go-cart">Go to cart <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 18l6-6-6-6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg></div>
+            </div>
+            <div class="browser-nav">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18l-6-6 6-6" stroke="#ccc" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                <path d="M9 18l6-6-6-6" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" stroke="#007AFF" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                <path d="M23 4v6h-6M1 20v-6h6" stroke="#007AFF" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M3.5 9A9 9 0 0121 15.5M20.5 15A9 9 0 013 8.5" stroke="#007AFF" stroke-width="2"
+                  stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="screen-desc" style="background:#B0D4F0;">
+            <strong>WebView Catalog</strong>
+            Dealer browses the full {{brand.name}} product catalog inside WhatsApp's native browser with real product
+            images and pricing.
+          </div>
+        </div>
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 2 · Cart Review</div>
+          <div class="screen-type-lbl">Commerce WebView — Cart</div>
+          <div class="phone-frame-web">
+            <div class="status-bar" style="background:#fff;color:#111;">
+              <span style="font-size:12.5px;font-weight:600;color:#111;">10:22</span>
+              <div class="status-icons">
+                <svg width="15" height="11" viewBox="0 0 15 11" fill="none">
+                  <rect x="0" y="7" width="3" height="4" rx=".5" fill="#111" />
+                  <rect x="4" y="4.5" width="3" height="6.5" rx=".5" fill="#111" />
+                  <rect x="8" y="2" width="3" height="9" rx=".5" fill="#111" />
+                  <rect x="12" y="0" width="3" height="11" rx=".5" fill="#111" />
+                </svg>
+                <svg width="15" height="11" viewBox="0 0 24 18" fill="none">
+                  <path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111" />
+                  <path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"
+                    fill="none" />
+                  <path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2.2" stroke-linecap="round"
+                    fill="none" />
+                </svg>
+                <div class="battery-box">78</div>
+              </div>
+            </div>
+            <div class="browser-bar">
+              <span class="browser-done">Done</span>
+              <div class="browser-url-wrap">
+                <div class="browser-title">WhatsApp</div>
+                <div class="browser-url"><svg width="9" height="9" viewBox="0 0 12 12" fill="none">
+                    <circle cx="6" cy="6" r="5.5" stroke="#666" stroke-width="1" />
+                    <path d="M6 1v10M1 6h10" stroke="#666" stroke-width=".7" />
+                    <path d="M2 3.5Q6 2 10 3.5M2 8.5Q6 10 10 8.5" stroke="#666" stroke-width=".7" fill="none" />
+                  </svg> mobile.zotok.ai</div>
+              </div>
+              <span class="browser-menu">···</span>
+            </div>
+            <div class="cart-page">
+              <div class="cart-pg-header">
+                <div class="cart-pg-title-wrap">
+                  <span class="cart-pg-title">Cart</span>
+                  <span class="cart-draft-badge">Draft</span>
+                </div>
+                <div class="cart-add-btn">Add <div class="add-circle">+</div>
+                </div>
+              </div>
+              <div class="item-count">{{cart.items.length}} Items</div>
+              <div class="cart-items-list">
+                {{#each cart.items}}
+                  {{> cart-item}}
+                {{/each}}
+              </div>
+              <div style="height:1px;background:#ebebeb;"></div>
+              <div class="req-section">
+                <div class="req-hdr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                    <rect x="5" y="2" width="14" height="20" rx="2" stroke="#111" stroke-width="1.8" />
+                    <path d="M9 7h6M9 11h6M9 15h4" stroke="#111" stroke-width="1.8" stroke-linecap="round" />
+                    <path d="M9 2v2h6V2" stroke="#111" stroke-width="1.5" stroke-linejoin="round" />
+                  </svg><span class="req-title">Requirement</span></div>
+                <div class="req-row"><span class="req-lbl">Total Items</span><span class="req-val">04</span></div>
+                <div class="req-row"><span class="req-lbl">Total Quantity</span><span class="req-val">162</span></div>
+              </div>
+              <div class="spacer-grey"></div>
+              <div class="cart-bottom">
+                <div class="estimate-txt">Estimate for your requirement will be available after the confirmation</div>
+                <div class="checkout-btn">Checkout</div>
+              </div>
+            </div>
+            <div class="browser-nav">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18l-6-6 6-6" stroke="#ccc" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                <path d="M9 18l6-6-6-6" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" stroke="#007AFF" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                <path d="M23 4v6h-6M1 20v-6h6" stroke="#007AFF" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M3.5 9A9 9 0 0121 15.5M20.5 15A9 9 0 013 8.5" stroke="#007AFF" stroke-width="2"
+                  stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="screen-desc" style="background:#C8B8F0;">
+            <strong>Cart Review</strong>
+            Dealer reviews selected items, quantities, and total order value in the cart before submitting the order.
+          </div>
+        </div>
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 3 · Order Received</div>
+          <div class="screen-type-lbl">Utility Template — Document Header + CTA Buttons</div>
+          <div class="phone-frame">
+            {{> status-bar time="10:28 AM"}}
+            {{> wa-topbar status="ZoTok Business" actions="call" avatarSrc="data:image/placeholder"}}
+            <div class="chat-area">
+              {{> date-pill text="Today"}}
+              <div class="msg-receiver-wrap">
+                <div class="wa-tmpl">
+                  <div class="wa-hdr-doc">
+                    <div class="doc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                        <polyline points="14 2 14 8 20 8" fill="none" stroke="white" stroke-width="2" />
+                      </svg></div>
+                    <div class="doc-meta">
+                      <div class="doc-name">Order_{{journey.order.primaryOrderId}}.pdf</div>
+                      <div class="doc-info">1 page · 0.6 MB · pdf</div>
+                    </div>
+                    <div class="doc-dl"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555"
+                        stroke-width="2.5">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                      </svg></div>
+                  </div>
+                  <div class="wa-tmpl-body">
+                    Order Received<br><br>
+                    Thanks for your order, {{journey.dealer.contactName}}! Here are the confirmed details:<br><br>
+                    🪪 Order ID: <b>{{journey.order.primaryOrderId}}</b><br>
+                    🏪 Dealer: <b>{{journey.dealer.name}}</b><br>
+                    📦 Total SKUs: <b>{{cart.items.length}}</b><br>
+                    💰 Total Value: <b>{{cart.summary.orderValue}}</b><br>
+                    ✅ Net Value: <b>{{cart.summary.orderValue}}</b><br>
+                    📅 Date: <b>{{journey.order.date}}</b>
+                  </div>
+                  <div class="wa-tmpl-signoff">Team,<br>{{brand.name}} India</div>
+                  <div class="wa-tmpl-time">10:28 AM</div>
+                  <div class="wa-tmpl-btns">
+                    <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884"
+                          stroke-width="2.5" />
+                        <polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5" />
+                        <line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5" />
+                      </svg>View Order Summary</div>
+                    <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884"
+                          stroke-width="2.5" />
+                        <polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5" />
+                        <line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5" />
+                      </svg>Raise an Issue</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8" />
+                <path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+              <div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8" />
+                <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="screen-desc" style="background:#A8EAD6;">
+            <strong>Order Confirmed</strong>
+            ZoTok sends an automated order confirmation to the Dealer with the order ID, SKU list, and total value.
+          </div>
+        </div>
+      </div><!-- /step-2 -->

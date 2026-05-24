@@ -94,14 +94,28 @@
     }
   ],
   "screens": [
-    { "type": "catalog" },
-    { "type": "cart" },
-    { "type": "receipt" }
+    {
+      "type": "catalog"
+    },
+    {
+      "type": "cart"
+    },
+    {
+      "type": "receipt"
+    }
   ],
   "cart": {
     "items": [
-      { "productId": "p1", "qty": 12, "tag": "OPC" },
-      { "productId": "p2", "qty": 8, "tag": "OPC" }
+      {
+        "productId": "p1",
+        "qty": 12,
+        "tag": "OPC"
+      },
+      {
+        "productId": "p2",
+        "qty": 8,
+        "tag": "OPC"
+      }
     ],
     "summary": {
       "totalItems": 4,
@@ -115,6 +129,220 @@
       "body": "Your store <strong>Sharma Cement Stores</strong> is now an active JK Cement Dealer Partner.<br><br>Tap <strong>Open Menu</strong> below to access your self-service dashboard — browse products, check schemes, pay dues, and more.",
       "time": "9:22 AM",
       "cta": "Open Menu"
+    },
+    "step1": {
+      "greeting": "Namaste Ramesh! 🙏<br>How can I help you today?",
+      "categoryQuestion": "Which category would you like to explore? 🔍<br><br>Select from {{brand.name}} full range below.",
+      "sections": [
+        {
+          "label": "Grey Cement",
+          "items": [
+            {
+              "title": "OPC 53 Grade",
+              "desc": "Ordinary Portland Cement · High strength construction"
+            },
+            {
+              "title": "PPC",
+              "desc": "Portland Pozzolana Cement · Durable & eco-friendly"
+            },
+            {
+              "title": "OPC 43 Grade",
+              "desc": "General purpose cement · All-round construction"
+            }
+          ]
+        },
+        {
+          "label": "White Cement & Specialty",
+          "items": [
+            {
+              "title": "White Cement",
+              "desc": "JK White & LevelMaxX · Specialty finishes"
+            },
+            {
+              "title": "Specialty Products",
+              "desc": "Wall putty, waterproofing & allied products"
+            }
+          ]
+        },
+        {
+          "label": "Offers & Solutions",
+          "items": [
+            {
+              "title": "Seasonal Offers",
+              "desc": "Seasonal combos & clearance offers"
+            },
+            {
+              "title": "Business Solutions",
+              "desc": "Bulk orders & trade schemes"
+            }
+          ]
+        }
+      ]
     }
+  },
+  "dealer": {
+    "name": "Sharma Cement Stores",
+    "contactName": "Ramesh",
+    "phone": "+91 98765 43210",
+    "address": "12, Industrial Area, Jaipur, Rajasthan",
+    "secondaryDealers": [
+      {
+        "name": "Om Sai Dairy Store",
+        "type": "secondary_dealer"
+      },
+      {
+        "name": "Kishor Dairy Works",
+        "type": "secondary_dealer"
+      }
+    ]
+  },
+  "order": {
+    "primaryOrderId": "JKO-3892",
+    "date": "18 April 2026",
+    "transporter": "Shree Transport",
+    "items": [
+      {
+        "productId": "p1",
+        "qty": 20,
+        "lineTotal": 15840
+      },
+      {
+        "productId": "p2",
+        "qty": 15,
+        "lineTotal": 7840
+      },
+      {
+        "productId": "p2",
+        "qty": 10,
+        "lineTotal": 4800
+      },
+      {
+        "productId": "p3",
+        "qty": 8,
+        "lineTotal": 3600
+      }
+    ],
+    "historyOrders": [
+      {
+        "id": "JKO-47011",
+        "date": "15/04/2026",
+        "amount": 112500,
+        "status": "Delivered"
+      },
+      {
+        "id": "JKO-46221",
+        "date": "08/04/2026",
+        "amount": 91200,
+        "status": "Delivered"
+      },
+      {
+        "id": "JKO-48283",
+        "date": "01/04/2026",
+        "amount": 52300,
+        "status": "Delivered"
+      }
+    ],
+    "summary": {
+      "orderValue": 146800
+    }
+  },
+  "invoice": {
+    "id": "INV-7821",
+    "date": "29/04/2026",
+    "dueDate": "10/05/2026",
+    "discount": 1971,
+    "docId": "DOC-4821"
+  },
+  "ledger": {
+    "creditNoteId": "JK-CN-2147",
+    "creditNoteAmount": 7840,
+    "creditReason": "Scheme Incentive - Q4 Volume Discount",
+    "entries": [
+      {
+        "date": "01/04/2026",
+        "description": "Opening Balance",
+        "debit": 4218240,
+        "credit": 0,
+        "balance": 4218240
+      },
+      {
+        "date": "15/04/2026",
+        "description": "Payment Received - NEFT",
+        "debit": 0,
+        "credit": 112500,
+        "balance": 1973160
+      },
+      {
+        "date": "26/04/2026",
+        "description": "Credit Note - Scheme Incentive",
+        "debit": 0,
+        "credit": 7840,
+        "balance": 1842160
+      }
+    ]
+  },
+  "payment": {
+    "amount": 100000,
+    "date": "25/04/2026",
+    "method": "NEFT",
+    "reference": "NEFT-20260425-001",
+    "divisions": [
+      {
+        "name": "Grey Cement Division",
+        "amount": 16200,
+        "outstanding": 45000
+      },
+      {
+        "name": "Building Products",
+        "amount": 28500,
+        "outstanding": 72000
+      }
+    ]
+  },
+  "step3": {
+    "draftOrder": {
+      "totalValue": 7840,
+      "netValue": 7448,
+      "skuCount": 4
+    },
+    "cartSummary": {
+      "totalItems": 4,
+      "totalQty": 73,
+      "orderValue": 7888
+    },
+    "cartItems": [
+      {
+        "name": "OPC",
+        "unitPrice": 368,
+        "lineTotal": 3600,
+        "unit": "bag"
+      },
+      {
+        "name": "Coolers",
+        "unitPrice": 4800,
+        "lineTotal": 15840,
+        "unit": "pc"
+      },
+      {
+        "name": "Appliances",
+        "unitPrice": 1950,
+        "lineTotal": 960,
+        "unit": "pc"
+      },
+      {
+        "name": "OPC",
+        "unitPrice": 352,
+        "lineTotal": 1408,
+        "unit": "bag"
+      }
+    ]
+  },
+  "productNames": {
+    "opc53": "JK Super OPC 53 Grade (50kg)",
+    "opc43": "JK Super OPC 43 Grade (50kg)",
+    "ppc": "JKSuper Protect PPC (50kg)",
+    "cementPpc": "JK Super Cement PPC (50kg)",
+    "ppcTag1": "IS 1489 Certified · PPC",
+    "ppcTag2": "All Weather Safe · PPC"
   }
 }

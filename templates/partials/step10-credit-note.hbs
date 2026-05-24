@@ -1,0 +1,210 @@
+{{!-- Step 10: Credit Note & Ledger — Utility Template + WebView (3 sub-screens)
+--}}
+<div id="step-10" class="step-section">
+      <div class="step2-phones">
+
+        <!-- ═══ Credit Note & Ledger ═══ -->
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 1 · Credit Note Issued</div>
+          <div class="screen-type-lbl">Utility Template — Document Header + CTA + Quick Reply</div>
+          <div class="phone-frame">
+            {{> status-bar time="11:15 AM"}}
+            {{> wa-topbar status="ZoTok Business" actions="call" compact=true avatarSrc="data:image/placeholder"}}
+            <div class="chat-area">
+              {{> date-pill text="Today"}}
+              <div class="msg-receiver-wrap">
+                <div class="wa-tmpl">
+                  <div class="wa-hdr-doc" style="background:#fce8e8;">
+                    <div class="doc-icon" style="background:#E53935;border-radius:6px;width:30px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <span style="color:#fff;font-size:8px;font-weight:700;letter-spacing:0;">PDF</span>
+                  </div>
+                    <div class="doc-meta"><div class="doc-name" style="color:#C62828;">CreditNote_{{journey.ledger.creditNoteId}}.pdf</div><div class="doc-info">1 page · 0.9 MB · pdf</div></div>
+                    <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+                  </div>
+                  <div class="wa-tmpl-body">
+                    <strong style="font-size:13px;display:block;margin-bottom:6px;">Credit Note Issued</strong>
+                    Dear {{journey.dealer.name}}, a credit note has been issued against your account. Please find the details below.<br><br>
+                    🗒 Credit Note No: <strong>{{journey.ledger.creditNoteId}}</strong><br>
+                    🔗 Reference Invoice: <strong>JK-{{journey.invoice.id}}</strong><br>
+                    💰 Credit Amount: <strong>{{formatCurrency journey.ledger.creditNoteAmount}}</strong><br>
+                    📝 Reason: Sales Return Adjustment<br>
+                    📅 Date: <strong>{{journey.payment.date}}</strong><br><br>
+                    The credited amount will be adjusted against your upcoming invoices.
+                  </div>
+                  <div class="wa-tmpl-signoff">Team,<br>{{brand.name}}</div>
+                  <div class="wa-tmpl-time">11:15 AM</div>
+                  <div class="wa-tmpl-btns">
+                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>View Credit Note</div>
+                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Download Ledger</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="screen-desc" style="background:#F3E5F5;">
+            <strong>Credit Note Issued</strong><br>
+            When SAP FI raises a credit note (scheme incentive or return refund), the event triggers ZoTok via webhook. ZoTok instantly sends the PDF with credit details. The dealer can view the note or tap Download Ledger to get a full statement.
+          </div>
+        </div><!-- /screen-wrap Screen 1 -->
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 2 · Ledger Statement</div>
+          <div class="screen-type-lbl">ZoAi Session Message — Document Header + View Ledger Link</div>
+          <div class="phone-frame">
+            {{> status-bar time="11:17 AM"}}
+            {{> wa-topbar status="ZoTok Business" actions="call" compact=true avatarSrc="data:image/placeholder"}}
+            <div class="chat-area" id="s10s2-chat">
+              {{> date-pill text="Today"}}
+              <div class="msg-receiver-wrap">
+                <div class="wa-tmpl">
+                  <div class="wa-hdr-doc" style="background:#fce8e8;">
+                    <div class="doc-icon" style="background:#E53935;border-radius:6px;width:30px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <span style="color:#fff;font-size:8px;font-weight:700;letter-spacing:0;">PDF</span>
+                  </div>
+                    <div class="doc-meta"><div class="doc-name" style="color:#C62828;">CreditNote_{{journey.ledger.creditNoteId}}.pdf</div><div class="doc-info">1 page · 0.9 MB · pdf</div></div>
+                    <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+                  </div>
+                  <div class="wa-tmpl-body" style="font-size:13px;color:#111B21;">
+                    <strong style="font-size:13px;display:block;margin-bottom:6px;">Credit Note Issued</strong>
+                    Dear {{journey.dealer.name}}, a credit note has been issued against your account. Please find the details below.<br><br>
+                    🗒 Credit Note No: <strong>{{journey.ledger.creditNoteId}}</strong><br>
+                    🔗 Reference Invoice: <strong>JK-{{journey.invoice.id}}</strong><br>
+                    💰 Credit Amount: <strong>{{formatCurrency journey.ledger.creditNoteAmount}}</strong><br>
+                    📝 Reason: Sales Return Adjustment<br>
+                    📅 Date: <strong>{{journey.payment.date}}</strong><br><br>
+                    The credited amount will be adjusted against your upcoming invoices.
+                  </div>
+                  <div class="wa-tmpl-signoff">Team,<br>{{brand.name}}</div>
+                  <div class="wa-tmpl-time">11:15 AM</div>
+                  <div class="wa-tmpl-btns">
+                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>View Credit Note</div>
+                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Download Ledger</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Dealer taps Download Ledger -->
+              <div class="msg-sender-wrap">
+                <div class="msg-sender" style="padding:8px 10px;">
+                  <div class="msg-body">Download Ledger</div>
+                  <span class="msg-time">11:16 AM <span class="msg-tick" style="color:#53bdeb;">✓✓</span></span>
+                </div>
+              </div>
+              <!-- ZoAi responds with ledger PDF -->
+              <div class="msg-receiver-wrap">
+                <div class="wa-tmpl">
+                  <div class="wa-hdr-doc">
+                    <div class="doc-icon"><svg width="14" height="17" viewBox="0 0 24 24" fill="white"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8" fill="none" stroke="white" stroke-width="2"/></svg></div>
+                    <div class="doc-meta"><div class="doc-name">Ledger_JK-Apr2026.pdf</div><div class="doc-info">4 pages · 2.1 MB · pdf</div></div>
+                    <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+                  </div>
+                  <div class="wa-tmpl-body">
+                    Here is your ledger statement for <strong>Apr 2026</strong>.<br><br>
+                    📊 Period: <strong>01 Apr – {{journey.payment.date}}</strong><br>
+                    🏢 Dealer: <strong>{{journey.dealer.name}}</strong><br>
+                    💰 Closing Balance: <strong>{{formatCurrency journey.ledger.entries.0.balance}}</strong><br><br>
+                    Tap View Ledger to see your detailed account statement.
+                  </div>
+                  <div class="wa-tmpl-time">11:17 AM</div>
+                  <div class="wa-tmpl-btns">
+                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>View Ledger</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="screen-desc" style="background:#E8F5E9;">
+            <strong>Ledger on WhatsApp</strong><br>
+            The dealer taps "Download Ledger" which sends a reply. ZoAi detects the intent and instantly responds with the ledger PDF and a View Ledger link — no app login needed.
+          </div>
+        </div><!-- /screen-wrap Screen 2 -->
+        <div class="screen-wrap">
+          <div class="screen-lbl">Screen 3 · Ledger Page</div>
+          <div class="screen-type-lbl">Commerce WebView — Dealer Ledger Statement</div>
+          <div class="phone-frame-web">
+            <div class="status-bar" style="background:#fff;color:#111;">
+              <span style="font-size:12.5px;font-weight:600;color:#111;">11:17</span>
+              <div class="status-icons">
+                <svg width="15" height="11" viewBox="0 0 15 11" fill="none"><rect x="0" y="7" width="3" height="4" rx=".5" fill="#111"/><rect x="4" y="4.5" width="3" height="6.5" rx=".5" fill="#111"/><rect x="8" y="2" width="3" height="9" rx=".5" fill="#111"/><rect x="12" y="0" width="3" height="11" rx=".5" fill="#111"/></svg>
+                <svg width="15" height="11" viewBox="0 0 24 18" fill="none"><path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111"/><path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+                <svg width="22" height="12" viewBox="0 0 22 12" fill="none"><rect x="0" y="1" width="18" height="10" rx="2" stroke="#111" stroke-width="1.5"/><rect x="1.5" y="2.5" width="14.5" height="7" rx="1" fill="#111"/><path d="M19 4v4" stroke="#111" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+            </div>
+            <div class="browser-bar">
+              <span class="browser-done">Done</span>
+              <div class="browser-url-wrap">
+                <div class="browser-title">WhatsApp</div>
+                <div class="browser-url"><svg width="9" height="9" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#666" stroke-width="1"/><path d="M6 1v10M1 6h10" stroke="#666" stroke-width=".7"/><path d="M2 3.5Q6 2 10 3.5M2 8.5Q6 10 10 8.5" stroke="#666" stroke-width=".7" fill="none"/></svg> zonodigital.com</div>
+              </div>
+              <span class="browser-menu">···</span>
+            </div>
+            <!-- Ledger page content -->
+            <div style="flex:1;overflow-y:auto;background:#fff;">
+              <!-- Header row -->
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 14px 8px;border-bottom:1px solid #f0f0f0;">
+                <div style="width:34px;height:34px;border-radius:50%;background:#e0e0e0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#555;flex-shrink:0;">RE</div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:13.5px;font-weight:700;color:#111;">{{journey.dealer.name}}</div>
+                  <div style="font-size:10.5px;color:#888;">Ledger · {{journey.order.date}} to {{journey.payment.date}}</div>
+                </div>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#555" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke="#555" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="#555" stroke-width="1.8" stroke-linecap="round"/><polyline points="7 10 12 15 17 10" stroke="#555" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="15" x2="12" y2="3" stroke="#555" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <!-- Filter pills -->
+              <div style="display:flex;gap:7px;padding:10px 14px;overflow-x:auto;border-bottom:1px solid #f0f0f0;">
+                <div style="background:#111;color:#fff;border-radius:20px;padding:5px 13px;font-size:11px;font-weight:600;white-space:nowrap;">All</div>
+                <div style="border:1px solid #ccc;border-radius:20px;padding:5px 11px;font-size:11px;color:#444;white-space:nowrap;">Payment</div>
+                <div style="border:1px solid #ccc;border-radius:20px;padding:5px 11px;font-size:11px;color:#444;white-space:nowrap;">Debit Note</div>
+                <div style="border:1px solid #ccc;border-radius:20px;padding:5px 11px;font-size:11px;color:#444;white-space:nowrap;">Credit Note</div>
+                <div style="border:1px solid #ccc;border-radius:20px;padding:5px 11px;font-size:11px;color:#444;white-space:nowrap;">Sales</div>
+              </div>
+              <!-- Table header -->
+              <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:8px 14px;font-size:11px;font-weight:700;color:#444;border-bottom:1px solid #e0e0e0;">
+                <span>Ledger</span><span style="text-align:right;">Debit</span><span style="text-align:right;">Credit</span>
+              </div>
+              <!-- Opening Balance -->
+              <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;background:#FFF8E1;border-bottom:1px solid #e0e0e0;">
+                <div><div style="font-size:12px;font-weight:700;color:#111;">01 Apr</div><div style="font-size:11px;color:#555;">Opening Balance</div></div>
+                <div style="text-align:right;font-size:11.5px;font-weight:600;color:#E53935;align-self:center;">{{formatCurrency journey.ledger.entries.2.balance}}</div>
+                <div style="text-align:right;font-size:11.5px;color:#aaa;align-self:center;">-</div>
+              </div>
+              <!-- Row: Invoice -->
+              <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;border-bottom:1px solid #f0f0f0;">
+                <div><div style="font-size:12px;font-weight:700;color:#111;">22 Apr</div><div style="font-size:10.5px;color:#777;">JK-{{journey.invoice.id}} · Invoice</div></div>
+                <div style="text-align:right;font-size:11.5px;font-weight:600;color:#E53935;align-self:center;">{{formatCurrency journey.order.summary.orderValue}}</div>
+                <div style="text-align:right;font-size:11.5px;color:#aaa;align-self:center;">-</div>
+              </div>
+              <!-- Row: Credit Note -->
+              <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;border-bottom:1px solid #f0f0f0;">
+                <div><div style="font-size:12px;font-weight:700;color:#111;">26 Apr</div><div style="font-size:10.5px;color:#777;">{{journey.ledger.creditNoteId}} · Credit Note</div></div>
+                <div style="text-align:right;font-size:11.5px;color:#aaa;align-self:center;">-</div>
+                <div style="text-align:right;font-size:11.5px;font-weight:600;color:#2E7D32;align-self:center;">{{formatCurrency journey.ledger.creditNoteAmount}}</div>
+              </div>
+              <!-- Row: Payment -->
+              <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;border-bottom:1px solid #f0f0f0;">
+                <div><div style="font-size:12px;font-weight:700;color:#111;">25 Apr</div><div style="font-size:10.5px;color:#777;">UPI-9321840234 · Payment</div></div>
+                <div style="text-align:right;font-size:11.5px;color:#aaa;align-self:center;">-</div>
+                <div style="text-align:right;font-size:11.5px;font-weight:600;color:#2E7D32;align-self:center;">{{formatCurrency journey.ledger.creditNoteAmount}}</div>
+              </div>
+              <!-- Closing Balance -->
+              <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;background:#f5f5f5;border-top:1px solid #ddd;">
+                <div style="font-size:12px;font-weight:700;color:#111;">Closing Balance<br><span style="font-size:10px;font-weight:400;color:#777;">(To Pay)</span></div>
+                <div style="text-align:right;font-size:12px;font-weight:700;color:#E53935;align-self:center;grid-column:span 2;">{{formatCurrency journey.ledger.entries.1.balance}}</div>
+              </div>
+            </div>
+            <div class="browser-nav">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="9" stroke="#666" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#666" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#666" stroke-width="1.8"/><text x="12" y="15.5" text-anchor="middle" font-size="9" fill="#666" font-weight="600">1</text></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="1.5" fill="#666"/><circle cx="12" cy="12" r="1.5" fill="#666"/><circle cx="12" cy="19" r="1.5" fill="#666"/></svg>
+            </div>
+          </div>
+          <div class="screen-desc" style="background:#FFF8E1;">
+            <strong>Ledger in Embedded Browser</strong><br>
+            The dealer taps View Ledger to open the account statement inside WhatsApp's browser. Filter by Payment, Debit Note, Credit Note, or Sales. Download the PDF directly from here.
+          </div>
+        </div><!-- /screen-wrap Screen 3 -->
+      </div><!-- /phones-row -->
+    </div><!-- /step-10 -->
+
