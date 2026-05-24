@@ -112,13 +112,10 @@ function validateGeneratedHtml(html, brandId) {
     errors.push('Duplicate product card markup');
   }
 
-  // Check for unresolved data:image/placeholder — must NOT survive into output
+  // Check for unresolved data:image/placeholder — hard error, no placeholders allowed
   if (/data:image\/placeholder/.test(htmlWithoutScripts)) {
     const phCount = (htmlWithoutScripts.match(/data:image\/placeholder/g) || []).length;
-    if (phCount > 0) {
-      console.warn('  ⚠ WARNING: ' + phCount + ' unresolved data:image/placeholder found in output');
-      console.warn('    These should be parameterized — see demo-generator skill for remaining work');
-    }
+    errors.push('Unresolved data:image/placeholder (' + phCount + ' found) — image src attributes must be parameterized');
   }
 
   if (errors.length) throw new Error(`Validation failed for ${brandId}:\n  - ${errors.join('\n  - ')}`);
@@ -299,12 +296,14 @@ async function build() {
     }
 
     const catalog = { products: pipeline.products };
+    const handwrittenOrderImage = handwrittenOrderDataUri(brand, pipeline.products);
     const cart = journey.cart;
     const scriptsContent = await loadScripts(journey.navSteps);
 
     const context = {
       brand,
       brandLogo: pipeline.brandLogo,
+      handwrittenOrderImage,
       industry,
       catalog,
       cart,
