@@ -9,6 +9,7 @@ function updateMobileHeader(slideIdx) {
     ? `${baseTitle}<span style="color:#aaa;font-weight:400"> › </span>${screenName}`
     : baseTitle;
   document.querySelectorAll('.step-item').forEach((el, i) => el.classList.toggle('active', i === stepNum - 1));
+  document.querySelectorAll('.sb-step').forEach((el, i) => el.classList.toggle('active', i === stepNum - 1));
   document.querySelectorAll('.mob-dot').forEach((d, i) => d.classList.toggle('active', i === stepNum - 1));
   document.getElementById('mob-prev').disabled = slideIdx === 0;
   const isLastSlide = slideIdx === totalSlides - 1;
@@ -18,10 +19,10 @@ function updateMobileHeader(slideIdx) {
   if (mobJourneyBtn) mobJourneyBtn.style.display = isLastSlide ? '' : 'none';
   curSlide = slideIdx;
   curStep = stepNum;
-  clearTimeout(descTimer);
+  clearTimeout(_jcDescTimer);
   document.querySelectorAll('.screen-desc').forEach(el => el.classList.remove('desc-visible'));
   const currentDesc = slide ? slide.querySelector('.screen-desc') : null;
-  if (currentDesc) { descTimer = setTimeout(() => currentDesc.classList.add('desc-visible'), 1500); }
+  if (currentDesc) { _jcDescTimer = setTimeout(() => currentDesc.classList.add('desc-visible'), 1500); }
 }
 
 function scrollToSlide(idx) {
@@ -55,6 +56,7 @@ function showDesktopStep(n) {
   document.getElementById('step-counter').textContent = `Step ${n} of ${totalSteps}`;
   document.getElementById('step-desc-bar').innerHTML = steps[n - 1].desc;
   document.querySelectorAll('.step-item').forEach((el, i) => el.classList.toggle('active', i === n - 1));
+  document.querySelectorAll('.sb-step').forEach((el, i) => el.classList.toggle('active', i === n - 1));
   if (n === 5) setTimeout(scrollS2Chat, 50);
   if (n === 3) setTimeout(function () { var c = document.getElementById('s7s2-chat'); if (c) c.scrollTop = c.scrollHeight; }, 80);
   if (n === 10) { setTimeout(scaleStep10Desktop, 10); setTimeout(function () { var c = document.getElementById('s10s2-chat'); if (c) c.scrollTop = c.scrollHeight; }, 80); }
@@ -81,6 +83,10 @@ function scrollToStep(stepNum) {
     showDesktopStep(stepNum);
   }
 }
+
+// Alias for journeys that use goTo() in sidebar onclick (e.g., automated_collections)
+// Only define if not already defined by the journey's own inline JS
+if (typeof goTo === 'undefined') { window.goTo = function(n) { scrollToStep(n); }; }
 
 document.addEventListener('keydown', e => {
   if (isMobile()) {

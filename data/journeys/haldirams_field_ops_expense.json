@@ -64,23 +64,6 @@
       "type": "step15-field-ops"
     }
   ],
-  "navSteps": [
-    "step-1",
-    "step-2",
-    "step-3",
-    "step-4",
-    "step-5",
-    "step-6",
-    "step-7",
-    "step-8",
-    "step-9",
-    "step-10",
-    "step-11",
-    "step-12",
-    "step-13",
-    "step-14",
-    "step-15"
-  ],
   "dealer": {
     "name": "Haldirams Field Team",
     "contactName": "Priya Sharma",
@@ -90,5 +73,127 @@
     "step1": {
       "greeting": "Welcome to Field Operations"
     }
-  }
+  },
+  "steps": [
+    {
+      "num": 1,
+      "displayNum": 1,
+      "title": "Admin Creates Group",
+      "meta": "Admin · Group setup & activation",
+      "navTitle": "Step 1 — Admin Creates Group",
+      "navDesc": "Admin · Group setup &amp; activation<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-group\">Group</span>"
+    },
+    {
+      "num": 2,
+      "displayNum": 2,
+      "title": "ZoAi Capability Panel",
+      "meta": "Overview · AI capabilities",
+      "navTitle": "Step 2 — ZoAi Capability Panel",
+      "navDesc": "Overview · AI capabilities<span class=\"tag tag-ai\">AI</span><span class=\"tag tag-cap\">Capabilities</span>"
+    },
+    {
+      "num": 3,
+      "displayNum": 3,
+      "title": "Start Day & Clock-In",
+      "meta": "Sales Exec · Clock-in & attendance",
+      "navTitle": "Step 3 — Start Day & Clock-In",
+      "navDesc": "Sales Exec · Clock-in &amp; attendance<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-session\">Attendance</span>"
+    },
+    {
+      "num": 4,
+      "displayNum": 4,
+      "title": "Request Plan",
+      "meta": "Sales Exec · Beat plan & routing",
+      "navTitle": "Step 4 — Request Plan",
+      "navDesc": "Sales Exec · Beat plan &amp; routing<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-dist\">Routing</span>"
+    },
+    {
+      "num": 5,
+      "displayNum": 5,
+      "title": "Travel & Check-In",
+      "meta": "Sales Exec · Check-in & location",
+      "navTitle": "Step 5 — Travel & Check-In",
+      "navDesc": "Sales Exec · Check-in &amp; location<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-dist\">Location</span>"
+    },
+    {
+      "num": 6,
+      "displayNum": 6,
+      "title": "Order Capture & Review",
+      "meta": "Sales Exec · Order capture & review",
+      "navTitle": "Step 6 — Order Capture & Review",
+      "navDesc": "Sales Exec · Order capture &amp; review<span class=\"tag tag-ord\">Order</span><span class=\"tag tag-ops\">Field Ops</span>"
+    },
+    {
+      "num": 7,
+      "displayNum": 7,
+      "title": "Order Submit & Notify",
+      "meta": "Sales Exec · Order submit & notify",
+      "navTitle": "Step 7 — Order Submit & Notify",
+      "navDesc": "Sales Exec · Order submit &amp; notify<span class=\"tag tag-ord\">Order</span><span class=\"tag tag-ops\">Field Ops</span>"
+    },
+    {
+      "num": 8,
+      "displayNum": 8,
+      "title": "Competitor Insights",
+      "meta": "Sales Exec · Market intelligence",
+      "navTitle": "Step 8 — Competitor Insights",
+      "navDesc": "Sales Exec · Market intelligence<span class=\"tag tag-ai\">AI</span><span class=\"tag tag-ops\">Field Ops</span>"
+    },
+    {
+      "num": 9,
+      "displayNum": 9,
+      "title": "Realtime ASM Communication",
+      "meta": "ASM · Real-time field comms",
+      "navTitle": "Step 9 — Realtime ASM Communication",
+      "navDesc": "ASM · Real-time field comms<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-session\">Comms</span>"
+    },
+    {
+      "num": 10,
+      "displayNum": 10,
+      "title": "PWA App Installation",
+      "meta": "Sales Exec · PWA offline app",
+      "navTitle": "Step 10 — PWA App Installation",
+      "navDesc": "Sales Exec · PWA offline app<span class=\"tag tag-cap\">PWA</span><span class=\"tag tag-ops\">Field Ops</span>"
+    },
+    {
+      "num": 11,
+      "displayNum": 11,
+      "title": "Field Ops Command Center",
+      "meta": "Head Office · Activity & reports",
+      "navTitle": "Step 11 — Field Ops Command Center",
+      "navDesc": "Head Office · Activity &amp; reports<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-ops\">Field Ops</span>"
+    },
+    {
+      "num": 12,
+      "displayNum": 12,
+      "title": "DSR Files Expense Claim",
+      "meta": "Sales Exec · Expense claims",
+      "navTitle": "Step 12 — DSR Files Expense Claim",
+      "navDesc": "Sales Exec · Expense claims<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-act\">Expense</span>"
+    },
+    {
+      "num": 13,
+      "displayNum": 13,
+      "title": "Manager Approval Queue",
+      "meta": "Manager · Approval queue",
+      "navTitle": "Step 13 — Manager Approval Queue",
+      "navDesc": "Manager · Approval queue<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-act\">Approval</span>"
+    },
+    {
+      "num": 14,
+      "displayNum": 14,
+      "title": "Manager Reviews & Approves",
+      "meta": "Manager · Review & approve",
+      "navTitle": "Step 14 — Manager Reviews & Approves",
+      "navDesc": "Manager · Review &amp; approve<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-act\">Approval</span>"
+    },
+    {
+      "num": 15,
+      "displayNum": 15,
+      "title": "DSR Receives Notifications",
+      "meta": "Sales Exec · Status notifications",
+      "navTitle": "Step 15 — DSR Receives Notifications",
+      "navDesc": "Sales Exec · Status notifications<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-act\">Notification</span>"
+    }
+  ]
 }

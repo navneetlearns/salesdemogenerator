@@ -65,7 +65,14 @@ function registerScreenBlocks() {
     });
 }
 
-Handlebars.registerHelper('eq', (a, b) => a === b);
+Handlebars.registerHelper('eq', function(a, b, options) {
+    if (options && typeof options.fn === 'function') {
+      // Block helper: {{#eq a b}}content{{/eq}}
+      return a === b ? options.fn(this) : (options.inverse ? options.inverse(this) : '');
+    }
+    // Inline helper: {{eq a b}}
+    return a === b;
+  });
 Handlebars.registerHelper('lookupPartial', type => getPartialName(type));
 Handlebars.registerHelper('formatCurrency', (amount) => {
   if (amount == null) return '';
@@ -370,69 +377,82 @@ async function build() {
       console.log(`  Report: dist/${brandId}/build-report.json`);
     }
 
-    // Render Field Ops if journey data exists
+    // ── Render additional journey types ──
+    // Helper: build context for a non-OTC journey (normalize, load scripts, include style)
+    async function buildJourneyContext(rawJourney) {
+      const j = normalizeJourney(rawJourney, pipeline.products);
+      const jScripts = await loadScripts(j.navSteps);
+      return {
+        brand,
+        brandLogo: pipeline.brandLogo,
+        industry,
+        journey: j,
+        catalog,
+        cart: j.cart,
+        style: styleContent,
+        scripts: jScripts,
+        showComposableMarkers: false,
+      };
+    }
+
+    // Field Ops & Expense
     const foPath = path.join(DATA_DIR, 'journeys', brandId + '_field_ops_expense.json');
     if (await fs.pathExists(foPath)) {
       let foRaw = { id: 'field_ops_expense', title: 'Field Ops & Expense', screens: [] };
       try { foRaw = await fs.readJson(foPath); } catch (e) {}
-      const foCtx = {
-        brand,
-        brandLogo: pipeline.brandLogo,
-        industry,
-        journey: foRaw,
-        catalog,
-        cart: foRaw.cart,
-        scripts: scriptsContent,
-        showComposableMarkers: false,
-      };
+      const foCtx = await buildJourneyContext(foRaw);
       const foBody = foViewTemplate(foCtx);
-      let foHtml = layoutTemplate({ ...foCtx, body: foBody });
-      // validateGeneratedHtml(foHtml, brandId);
+      const foHtml = layoutTemplate({ ...foCtx, body: foBody });
+      fs.writeFileSync(path.join(genDir, 'field_ops_expense.html'), foHtml, 'utf8');
+      console.log('  Generated: generated/' + brandId + '/field_ops_expense.html');
+    }
+
+    // Dealer Engagement
     const dePath = path.join(DATA_DIR, 'journeys', brandId + '_dealer_engagement.json');
     if (await fs.pathExists(dePath)) {
       let deRaw = { id: 'dealer_engagement', title: 'Dealer Engagement', screens: [] };
       try { deRaw = await fs.readJson(dePath); } catch (e) {}
-      const deCtx = { brand, brandLogo: pipeline.brandLogo, industry, journey: deRaw, catalog, cart: deRaw.cart, scripts: scriptsContent, showComposableMarkers: false };
+      const deCtx = await buildJourneyContext(deRaw);
       const deBody = deViewTemplate(deCtx);
-      let deHtml = layoutTemplate({ ...deCtx, body: deBody });
+      const deHtml = layoutTemplate({ ...deCtx, body: deBody });
       fs.writeFileSync(path.join(genDir, 'dealer_engagement.html'), deHtml, 'utf8');
       console.log('  Generated: generated/' + brandId + '/dealer_engagement.html');
     }
+
+    // Retailer Onboarding
     const roPath = path.join(DATA_DIR, 'journeys', brandId + '_retailer_onboarding.json');
     if (await fs.pathExists(roPath)) {
       let roRaw = { id: 'retailer_onboarding', title: 'Retailer Onboarding', screens: [] };
       try { roRaw = await fs.readJson(roPath); } catch (e) {}
-      const roCtx = { brand, brandLogo: pipeline.brandLogo, industry, journey: roRaw, catalog, cart: roRaw.cart, scripts: scriptsContent, showComposableMarkers: false };
+      const roCtx = await buildJourneyContext(roRaw);
       const roBody = roViewTemplate(roCtx);
-      let roHtml = layoutTemplate({ ...roCtx, body: roBody });
+      const roHtml = layoutTemplate({ ...roCtx, body: roBody });
       fs.writeFileSync(path.join(genDir, 'retailer_onboarding.html'), roHtml, 'utf8');
       console.log('  Generated: generated/' + brandId + '/retailer_onboarding.html');
     }
+
+    // Retailer Loyalty
     const rlPath = path.join(DATA_DIR, 'journeys', brandId + '_retailer_loyalty.json');
     if (await fs.pathExists(rlPath)) {
       let rlRaw = { id: 'retailer_loyalty', title: 'Retailer Loyalty', screens: [] };
       try { rlRaw = await fs.readJson(rlPath); } catch (e) {}
-      const rlCtx = { brand, brandLogo: pipeline.brandLogo, industry, journey: rlRaw, catalog, cart: rlRaw.cart, scripts: scriptsContent, showComposableMarkers: false };
+      const rlCtx = await buildJourneyContext(rlRaw);
       const rlBody = rlViewTemplate(rlCtx);
-      let rlHtml = layoutTemplate({ ...rlCtx, body: rlBody });
+      const rlHtml = layoutTemplate({ ...rlCtx, body: rlBody });
       fs.writeFileSync(path.join(genDir, 'retailer_loyalty.html'), rlHtml, 'utf8');
       console.log('  Generated: generated/' + brandId + '/retailer_loyalty.html');
     }
 
-    // Render automated_collections if journey data exists
+    // Automated Collections
     const acPath = path.join(DATA_DIR, 'journeys', brandId + '_automated_collections.json');
     if (await fs.pathExists(acPath)) {
       let acRaw = { id: 'automated_collections', title: 'Automated Collections', screens: [] };
       try { acRaw = await fs.readJson(acPath); } catch (e) {}
-      const acCtx = { brand, brandLogo: pipeline.brandLogo, industry, journey: acRaw, catalog, cart: acRaw.cart, scripts: scriptsContent, showComposableMarkers: false };
+      const acCtx = await buildJourneyContext(acRaw);
       const acBody = acViewTemplate(acCtx);
-      let acHtml = layoutTemplate({ ...acCtx, body: acBody });
-      // validateGeneratedHtml(acHtml, brandId);
+      const acHtml = layoutTemplate({ ...acCtx, body: acBody });
       fs.writeFileSync(path.join(genDir, 'automated_collections.html'), acHtml, 'utf8');
       console.log('  Generated: generated/' + brandId + '/automated_collections.html');
-    } // different journey type, skip nav checks
-      fs.writeFileSync(path.join(genDir, 'field_ops_expense.html'), foHtml, 'utf8');
-      console.log('  Generated: generated/' + brandId + '/field_ops_expense.html');
     }
   }
 

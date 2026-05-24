@@ -3,7 +3,7 @@ const MOBILE_BP = 768;
 function isMobile() { return window.innerWidth <= MOBILE_BP; }
 
 const sa = document.querySelector('.screens-area');
-const stepSections = Array.from(document.querySelectorAll('.step-section'));
+const stepSections = Array.from(document.querySelectorAll('.step-section, .step-panel'));
 
 const allSlides = [];
 const slideToStep = [];
@@ -46,7 +46,7 @@ steps.forEach((_, i) => {
 
 let curSlide = 0;
 let curStep = 1;
-let descTimer = null;
+let _jcDescTimer = null;
 let desktopStep = 1;
 
 function scrollS2Chat() {
