@@ -375,7 +375,16 @@ async function build() {
     if (await fs.pathExists(foPath)) {
       let foRaw = { id: 'field_ops_expense', title: 'Field Ops & Expense', screens: [] };
       try { foRaw = await fs.readJson(foPath); } catch (e) {}
-      const foCtx = { brand, brandLogo: pipeline.brandLogo, journey: foRaw, catalog, cart: foRaw.cart, showComposableMarkers: false };
+      const foCtx = {
+        brand,
+        brandLogo: pipeline.brandLogo,
+        industry,
+        journey: foRaw,
+        catalog,
+        cart: foRaw.cart,
+        scripts: scriptsContent,
+        showComposableMarkers: false,
+      };
       const foBody = foViewTemplate(foCtx);
       let foHtml = layoutTemplate({ ...foCtx, body: foBody });
       // validateGeneratedHtml(foHtml, brandId);
@@ -383,7 +392,7 @@ async function build() {
     if (await fs.pathExists(dePath)) {
       let deRaw = { id: 'dealer_engagement', title: 'Dealer Engagement', screens: [] };
       try { deRaw = await fs.readJson(dePath); } catch (e) {}
-      const deCtx = { brand, brandLogo: pipeline.brandLogo, journey: deRaw, catalog, cart: deRaw.cart, showComposableMarkers: false };
+      const deCtx = { brand, brandLogo: pipeline.brandLogo, industry, journey: deRaw, catalog, cart: deRaw.cart, scripts: scriptsContent, showComposableMarkers: false };
       const deBody = deViewTemplate(deCtx);
       let deHtml = layoutTemplate({ ...deCtx, body: deBody });
       fs.writeFileSync(path.join(genDir, 'dealer_engagement.html'), deHtml, 'utf8');
@@ -393,7 +402,7 @@ async function build() {
     if (await fs.pathExists(roPath)) {
       let roRaw = { id: 'retailer_onboarding', title: 'Retailer Onboarding', screens: [] };
       try { roRaw = await fs.readJson(roPath); } catch (e) {}
-      const roCtx = { brand, brandLogo: pipeline.brandLogo, journey: roRaw, catalog, cart: roRaw.cart, showComposableMarkers: false };
+      const roCtx = { brand, brandLogo: pipeline.brandLogo, industry, journey: roRaw, catalog, cart: roRaw.cart, scripts: scriptsContent, showComposableMarkers: false };
       const roBody = roViewTemplate(roCtx);
       let roHtml = layoutTemplate({ ...roCtx, body: roBody });
       fs.writeFileSync(path.join(genDir, 'retailer_onboarding.html'), roHtml, 'utf8');
@@ -403,7 +412,7 @@ async function build() {
     if (await fs.pathExists(rlPath)) {
       let rlRaw = { id: 'retailer_loyalty', title: 'Retailer Loyalty', screens: [] };
       try { rlRaw = await fs.readJson(rlPath); } catch (e) {}
-      const rlCtx = { brand, brandLogo: pipeline.brandLogo, journey: rlRaw, catalog, cart: rlRaw.cart, showComposableMarkers: false };
+      const rlCtx = { brand, brandLogo: pipeline.brandLogo, industry, journey: rlRaw, catalog, cart: rlRaw.cart, scripts: scriptsContent, showComposableMarkers: false };
       const rlBody = rlViewTemplate(rlCtx);
       let rlHtml = layoutTemplate({ ...rlCtx, body: rlBody });
       fs.writeFileSync(path.join(genDir, 'retailer_loyalty.html'), rlHtml, 'utf8');
@@ -415,7 +424,7 @@ async function build() {
     if (await fs.pathExists(acPath)) {
       let acRaw = { id: 'automated_collections', title: 'Automated Collections', screens: [] };
       try { acRaw = await fs.readJson(acPath); } catch (e) {}
-      const acCtx = { brand, brandLogo: pipeline.brandLogo, journey: acRaw, catalog, cart: acRaw.cart, showComposableMarkers: false };
+      const acCtx = { brand, brandLogo: pipeline.brandLogo, industry, journey: acRaw, catalog, cart: acRaw.cart, scripts: scriptsContent, showComposableMarkers: false };
       const acBody = acViewTemplate(acCtx);
       let acHtml = layoutTemplate({ ...acCtx, body: acBody });
       // validateGeneratedHtml(acHtml, brandId);
