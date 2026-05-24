@@ -1,0 +1,94 @@
+{
+  "id": "field_ops_expense",
+  "title": "Field Ops & Expense Management",
+  "brand": "jk_cement",
+  "screens": [
+    {
+      "id": "step1-field-ops",
+      "type": "step1-field-ops"
+    },
+    {
+      "id": "step2-field-ops",
+      "type": "step2-field-ops"
+    },
+    {
+      "id": "step3-field-ops",
+      "type": "step3-field-ops"
+    },
+    {
+      "id": "step4-field-ops",
+      "type": "step4-field-ops"
+    },
+    {
+      "id": "step5-field-ops",
+      "type": "step5-field-ops"
+    },
+    {
+      "id": "step6-field-ops",
+      "type": "step6-field-ops"
+    },
+    {
+      "id": "step7-field-ops",
+      "type": "step7-field-ops"
+    },
+    {
+      "id": "step8-field-ops",
+      "type": "step8-field-ops"
+    },
+    {
+      "id": "step9-field-ops",
+      "type": "step9-field-ops"
+    },
+    {
+      "id": "step10-field-ops",
+      "type": "step10-field-ops"
+    },
+    {
+      "id": "step11-field-ops",
+      "type": "step11-field-ops"
+    },
+    {
+      "id": "step12-field-ops",
+      "type": "step12-field-ops"
+    },
+    {
+      "id": "step13-field-ops",
+      "type": "step13-field-ops"
+    },
+    {
+      "id": "step14-field-ops",
+      "type": "step14-field-ops"
+    },
+    {
+      "id": "step15-field-ops",
+      "type": "step15-field-ops"
+    }
+  ],
+  "navSteps": [
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6",
+    "step-7",
+    "step-8",
+    "step-9",
+    "step-10",
+    "step-11",
+    "step-12",
+    "step-13",
+    "step-14",
+    "step-15"
+  ],
+  "dealer": {
+    "name": "JK Cement Field Team",
+    "contactName": "Rakesh Kumar",
+    "phone": "+91 98110 00000"
+  },
+  "messages": {
+    "step1": {
+      "greeting": "Welcome to Field Operations"
+    }
+  }
+}

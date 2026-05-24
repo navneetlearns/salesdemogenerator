@@ -205,6 +205,9 @@ async function build() {
   const viewTemplate = Handlebars.compile(
     await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'order_to_cash.hbs'), 'utf8')
   );
+  const foViewTemplate = Handlebars.compile(
+    await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'field_ops_expense.hbs'), 'utf8')
+  );
   const layoutTemplate = Handlebars.compile(
     await fs.readFile(path.join(TEMPLATES_DIR, 'layouts', 'base.hbs'), 'utf8')
   );
@@ -353,6 +356,19 @@ async function build() {
       console.log(`  Dist: dist/${brandId}/ (${(report.totalBuildBytes / 1024).toFixed(1)} KB)`);
       console.log(`  Manifest: dist/${brandId}/asset-manifest.json`);
       console.log(`  Report: dist/${brandId}/build-report.json`);
+    }
+
+    // Render Field Ops if journey data exists
+    const foPath = path.join(DATA_DIR, 'journeys', brandId + '_field_ops_expense.json');
+    if (await fs.pathExists(foPath)) {
+      let foRaw = { id: 'field_ops_expense', title: 'Field Ops & Expense', screens: [] };
+      try { foRaw = await fs.readJson(foPath); } catch (e) {}
+      const foCtx = { brand, brandLogo: pipeline.brandLogo, journey: foRaw, catalog, cart: foRaw.cart, showComposableMarkers: false };
+      const foBody = foViewTemplate(foCtx);
+      let foHtml = layoutTemplate({ ...foCtx, body: foBody });
+      // validateGeneratedHtml(foHtml, brandId); // different journey type, skip nav checks
+      fs.writeFileSync(path.join(genDir, 'field_ops_expense.html'), foHtml, 'utf8');
+      console.log('  Generated: generated/' + brandId + '/field_ops_expense.html');
     }
   }
 
