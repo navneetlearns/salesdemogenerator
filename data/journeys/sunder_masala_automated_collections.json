@@ -1,0 +1,69 @@
+{
+  "id": "automated_collections",
+  "title": "Automated Payment Collection",
+  "brand": "sunder_masala",
+  "screens": [
+    {
+      "id": "step1-collections",
+      "type": "step1-collections"
+    },
+    {
+      "id": "step2-collections",
+      "type": "step2-collections"
+    },
+    {
+      "id": "step3-collections",
+      "type": "step3-collections"
+    },
+    {
+      "id": "step4-collections",
+      "type": "step4-collections"
+    },
+    {
+      "id": "step5-collections",
+      "type": "step5-collections"
+    },
+    {
+      "id": "step6-collections",
+      "type": "step6-collections"
+    },
+    {
+      "id": "step7-collections",
+      "type": "step7-collections"
+    },
+    {
+      "id": "step8-collections",
+      "type": "step8-collections"
+    },
+    {
+      "id": "step9-collections",
+      "type": "step9-collections"
+    },
+    {
+      "id": "step10-collections",
+      "type": "step10-collections"
+    },
+    {
+      "id": "step11-collections",
+      "type": "step11-collections"
+    }
+  ],
+  "navSteps": [
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6",
+    "step-7",
+    "step-8",
+    "step-9",
+    "step-10",
+    "step-11"
+  ],
+  "dealer": {
+    "name": "Sunder Masala Collections",
+    "contactName": "Vikram Singh",
+    "phone": "+91 98110 00000"
+  }
+}

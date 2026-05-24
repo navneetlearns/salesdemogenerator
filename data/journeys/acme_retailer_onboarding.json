@@ -1,0 +1,69 @@
+{
+  "id": "retailer_onboarding",
+  "title": "Retailer Onboarding to Cash",
+  "brand": "acme",
+  "screens": [
+    {
+      "id": "step1-retailer_onboarding",
+      "type": "step1-retailer_onboarding"
+    },
+    {
+      "id": "step2-retailer_onboarding",
+      "type": "step2-retailer_onboarding"
+    },
+    {
+      "id": "step3-retailer_onboarding",
+      "type": "step3-retailer_onboarding"
+    },
+    {
+      "id": "step4-retailer_onboarding",
+      "type": "step4-retailer_onboarding"
+    },
+    {
+      "id": "step5-retailer_onboarding",
+      "type": "step5-retailer_onboarding"
+    },
+    {
+      "id": "step6-retailer_onboarding",
+      "type": "step6-retailer_onboarding"
+    },
+    {
+      "id": "step7-retailer_onboarding",
+      "type": "step7-retailer_onboarding"
+    },
+    {
+      "id": "step8-retailer_onboarding",
+      "type": "step8-retailer_onboarding"
+    },
+    {
+      "id": "step9-retailer_onboarding",
+      "type": "step9-retailer_onboarding"
+    },
+    {
+      "id": "step10-retailer_onboarding",
+      "type": "step10-retailer_onboarding"
+    }
+  ],
+  "navSteps": [
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6",
+    "step-7",
+    "step-8",
+    "step-9",
+    "step-10"
+  ],
+  "dealer": {
+    "name": "Acme Co Team",
+    "contactName": "Contact",
+    "phone": "+91 00000 00000"
+  },
+  "messages": {
+    "step1": {
+      "greeting": "Welcome to Retailer Onboarding to Cash"
+    }
+  }
+}

@@ -205,6 +205,18 @@ async function build() {
   const viewTemplate = Handlebars.compile(
     await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'order_to_cash.hbs'), 'utf8')
   );
+  const acViewTemplate = Handlebars.compile(
+    await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'automated_collections.hbs'), 'utf8')
+  );
+  const deViewTemplate = Handlebars.compile(
+    await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'dealer_engagement.hbs'), 'utf8')
+  );
+  const roViewTemplate = Handlebars.compile(
+    await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'retailer_onboarding.hbs'), 'utf8')
+  );
+  const rlViewTemplate = Handlebars.compile(
+    await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'retailer_loyalty.hbs'), 'utf8')
+  );
   const foViewTemplate = Handlebars.compile(
     await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'field_ops_expense.hbs'), 'utf8')
   );
@@ -366,7 +378,50 @@ async function build() {
       const foCtx = { brand, brandLogo: pipeline.brandLogo, journey: foRaw, catalog, cart: foRaw.cart, showComposableMarkers: false };
       const foBody = foViewTemplate(foCtx);
       let foHtml = layoutTemplate({ ...foCtx, body: foBody });
-      // validateGeneratedHtml(foHtml, brandId); // different journey type, skip nav checks
+      // validateGeneratedHtml(foHtml, brandId);
+    const dePath = path.join(DATA_DIR, 'journeys', brandId + '_dealer_engagement.json');
+    if (await fs.pathExists(dePath)) {
+      let deRaw = { id: 'dealer_engagement', title: 'Dealer Engagement', screens: [] };
+      try { deRaw = await fs.readJson(dePath); } catch (e) {}
+      const deCtx = { brand, brandLogo: pipeline.brandLogo, journey: deRaw, catalog, cart: deRaw.cart, showComposableMarkers: false };
+      const deBody = deViewTemplate(deCtx);
+      let deHtml = layoutTemplate({ ...deCtx, body: deBody });
+      fs.writeFileSync(path.join(genDir, 'dealer_engagement.html'), deHtml, 'utf8');
+      console.log('  Generated: generated/' + brandId + '/dealer_engagement.html');
+    }
+    const roPath = path.join(DATA_DIR, 'journeys', brandId + '_retailer_onboarding.json');
+    if (await fs.pathExists(roPath)) {
+      let roRaw = { id: 'retailer_onboarding', title: 'Retailer Onboarding', screens: [] };
+      try { roRaw = await fs.readJson(roPath); } catch (e) {}
+      const roCtx = { brand, brandLogo: pipeline.brandLogo, journey: roRaw, catalog, cart: roRaw.cart, showComposableMarkers: false };
+      const roBody = roViewTemplate(roCtx);
+      let roHtml = layoutTemplate({ ...roCtx, body: roBody });
+      fs.writeFileSync(path.join(genDir, 'retailer_onboarding.html'), roHtml, 'utf8');
+      console.log('  Generated: generated/' + brandId + '/retailer_onboarding.html');
+    }
+    const rlPath = path.join(DATA_DIR, 'journeys', brandId + '_retailer_loyalty.json');
+    if (await fs.pathExists(rlPath)) {
+      let rlRaw = { id: 'retailer_loyalty', title: 'Retailer Loyalty', screens: [] };
+      try { rlRaw = await fs.readJson(rlPath); } catch (e) {}
+      const rlCtx = { brand, brandLogo: pipeline.brandLogo, journey: rlRaw, catalog, cart: rlRaw.cart, showComposableMarkers: false };
+      const rlBody = rlViewTemplate(rlCtx);
+      let rlHtml = layoutTemplate({ ...rlCtx, body: rlBody });
+      fs.writeFileSync(path.join(genDir, 'retailer_loyalty.html'), rlHtml, 'utf8');
+      console.log('  Generated: generated/' + brandId + '/retailer_loyalty.html');
+    }
+
+    // Render automated_collections if journey data exists
+    const acPath = path.join(DATA_DIR, 'journeys', brandId + '_automated_collections.json');
+    if (await fs.pathExists(acPath)) {
+      let acRaw = { id: 'automated_collections', title: 'Automated Collections', screens: [] };
+      try { acRaw = await fs.readJson(acPath); } catch (e) {}
+      const acCtx = { brand, brandLogo: pipeline.brandLogo, journey: acRaw, catalog, cart: acRaw.cart, showComposableMarkers: false };
+      const acBody = acViewTemplate(acCtx);
+      let acHtml = layoutTemplate({ ...acCtx, body: acBody });
+      // validateGeneratedHtml(acHtml, brandId);
+      fs.writeFileSync(path.join(genDir, 'automated_collections.html'), acHtml, 'utf8');
+      console.log('  Generated: generated/' + brandId + '/automated_collections.html');
+    } // different journey type, skip nav checks
       fs.writeFileSync(path.join(genDir, 'field_ops_expense.html'), foHtml, 'utf8');
       console.log('  Generated: generated/' + brandId + '/field_ops_expense.html');
     }

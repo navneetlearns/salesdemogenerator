@@ -1,0 +1,49 @@
+{
+  "id": "retailer_loyalty",
+  "title": "Turnover-Based Loyalty Scheme",
+  "brand": "acme",
+  "screens": [
+    {
+      "id": "step1-retailer_loyalty",
+      "type": "step1-retailer_loyalty"
+    },
+    {
+      "id": "step2-retailer_loyalty",
+      "type": "step2-retailer_loyalty"
+    },
+    {
+      "id": "step3-retailer_loyalty",
+      "type": "step3-retailer_loyalty"
+    },
+    {
+      "id": "step4-retailer_loyalty",
+      "type": "step4-retailer_loyalty"
+    },
+    {
+      "id": "step5-retailer_loyalty",
+      "type": "step5-retailer_loyalty"
+    },
+    {
+      "id": "step6-retailer_loyalty",
+      "type": "step6-retailer_loyalty"
+    }
+  ],
+  "navSteps": [
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6"
+  ],
+  "dealer": {
+    "name": "Acme Co Team",
+    "contactName": "Contact",
+    "phone": "+91 00000 00000"
+  },
+  "messages": {
+    "step1": {
+      "greeting": "Welcome to Turnover-Based Loyalty Scheme"
+    }
+  }
+}
