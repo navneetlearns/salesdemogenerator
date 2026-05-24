@@ -9,7 +9,7 @@
           <div class="screen-type-lbl">Utility Template — Document Header + CTA URL</div>
           <div class="phone-frame">
             {{> status-bar time="11:05 AM"}}
-            {{> wa-topbar status="ZoTok Business" actions="call" compact=true avatarSrc="data:image/placeholder"}}
+            {{> wa-topbar status="ZoTok Business" actions="call" compact=true avatarSrc=brandLogo}}
             <div class="chat-area">
               {{> date-pill text="Today"}}
               <!-- Previous order submitted message (greyed read receipt) -->
@@ -86,7 +86,7 @@
               <!-- Brand strip: Approved status -->
               <div class="brand-strip">
                 <div class="bs-logo">
-                  <img src="data:image/placeholder" alt="{{brand.name}}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>
+                  <img src="{{brandLogo}}" alt="{{brand.name}}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>
                 </div>
                 <div class="bs-info">
                   <div class="bs-title">Order {{journey.order.primaryOrderId}}</div>
