@@ -112,6 +112,15 @@ function validateGeneratedHtml(html, brandId) {
     errors.push('Duplicate product card markup');
   }
 
+  // Check for unresolved data:image/placeholder — must NOT survive into output
+  if (/data:image\/placeholder/.test(htmlWithoutScripts)) {
+    const phCount = (htmlWithoutScripts.match(/data:image\/placeholder/g) || []).length;
+    if (phCount > 0) {
+      console.warn('  ⚠ WARNING: ' + phCount + ' unresolved data:image/placeholder found in output');
+      console.warn('    These should be parameterized — see demo-generator skill for remaining work');
+    }
+  }
+
   if (errors.length) throw new Error(`Validation failed for ${brandId}:\n  - ${errors.join('\n  - ')}`);
 }
 
