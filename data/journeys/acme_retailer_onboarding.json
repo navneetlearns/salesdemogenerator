@@ -65,5 +65,87 @@
     "step1": {
       "greeting": "Welcome to Retailer Onboarding to Cash"
     }
-  }
+  },
+  "steps": [
+    {
+      "num": 1,
+      "displayNum": 1,
+      "title": "Welcome & Registration",
+      "meta": "Retailer · Onboarding start",
+      "navTitle": "Step 1 — Welcome & Registration",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer signs up and begins onboarding</span>"
+    },
+    {
+      "num": 2,
+      "displayNum": 2,
+      "title": "Document Verification",
+      "meta": "Retailer · KYC & docs",
+      "navTitle": "Step 2 — Document Verification",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Verify business documents and KYC</span>"
+    },
+    {
+      "num": 3,
+      "displayNum": 3,
+      "title": "Store Setup",
+      "meta": "Retailer · Store configuration",
+      "navTitle": "Step 3 — Store Setup",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Configure store profile and preferences</span>"
+    },
+    {
+      "num": 4,
+      "displayNum": 4,
+      "title": "Catalog Integration",
+      "meta": "Retailer · Product catalog",
+      "navTitle": "Step 4 — Catalog Integration",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Add products and set up catalog</span>"
+    },
+    {
+      "num": 5,
+      "displayNum": 5,
+      "title": "Payment Setup",
+      "meta": "Retailer · Payment configuration",
+      "navTitle": "Step 5 — Payment Setup",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Configure payment methods and banking</span>"
+    },
+    {
+      "num": 6,
+      "displayNum": 6,
+      "title": "Training & Walkthrough",
+      "meta": "Retailer · Platform training",
+      "navTitle": "Step 6 — Training & Walkthrough",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Interactive platform walkthrough and training</span>"
+    },
+    {
+      "num": 7,
+      "displayNum": 7,
+      "title": "First Order",
+      "meta": "Retailer · Place first order",
+      "navTitle": "Step 7 — First Order",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Guided first order placement</span>"
+    },
+    {
+      "num": 8,
+      "displayNum": 8,
+      "title": "Review & Approve",
+      "meta": "Retailer · Admin review",
+      "navTitle": "Step 8 — Review & Approve",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Admin reviews and approves the retailer</span>"
+    },
+    {
+      "num": 9,
+      "displayNum": 9,
+      "title": "Go Live",
+      "meta": "Retailer · Going live",
+      "navTitle": "Step 9 — Go Live",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer goes live on the platform</span>"
+    },
+    {
+      "num": 10,
+      "displayNum": 10,
+      "title": "Onboarding Complete",
+      "meta": "Retailer · Complete",
+      "navTitle": "Step 10 — Onboarding Complete",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Onboarding complete, full access granted</span>"
+    }
+  ]
 }

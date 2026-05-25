@@ -45,5 +45,55 @@
     "step1": {
       "greeting": "Welcome to Turnover-Based Loyalty Scheme"
     }
-  }
+  },
+  "steps": [
+    {
+      "num": 1,
+      "displayNum": 1,
+      "title": "Loyalty Program Overview",
+      "meta": "Retailer · Loyalty program",
+      "navTitle": "Step 1 — Loyalty Program Overview",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Overview of loyalty tiers and benefits</span>"
+    },
+    {
+      "num": 2,
+      "displayNum": 2,
+      "title": "Points & Rewards",
+      "meta": "Retailer · Earn & redeem",
+      "navTitle": "Step 2 — Points & Rewards",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Points earning and reward redemption</span>"
+    },
+    {
+      "num": 3,
+      "displayNum": 3,
+      "title": "Tier Progress",
+      "meta": "Retailer · Tier advancement",
+      "navTitle": "Step 3 — Tier Progress",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Track tier progress and milestones</span>"
+    },
+    {
+      "num": 4,
+      "displayNum": 4,
+      "title": "Exclusive Offers",
+      "meta": "Retailer · Exclusive deals",
+      "navTitle": "Step 4 — Exclusive Offers",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Exclusive offers for loyalty members</span>"
+    },
+    {
+      "num": 5,
+      "displayNum": 5,
+      "title": "Redemption History",
+      "meta": "Retailer · Past redemptions",
+      "navTitle": "Step 5 — Redemption History",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">View redemption and transaction history</span>"
+    },
+    {
+      "num": 6,
+      "displayNum": 6,
+      "title": "Program Summary",
+      "meta": "Retailer · Summary",
+      "navTitle": "Step 6 — Program Summary",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Program summary and next steps</span>"
+    }
+  ]
 }
