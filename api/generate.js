@@ -1,7 +1,10 @@
 const { createSession, getSession } = require('../runtime/session-manager');
 
 module.exports = async (req, res) => {
-  if (req.method !== 'POST') { res.setHeader('Content-Type', 'application/json'); return res.status(405).end(JSON.stringify({ error: 'Method Not Allowed' )}); }
+  if (req.method !== 'POST') {
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(405).end(JSON.stringify({ error: 'Method Not Allowed' }));
+  }
   try {
     let body = '';
     for await (const chunk of req) body += chunk;
@@ -11,11 +14,14 @@ module.exports = async (req, res) => {
     let session;
     if (sessionId) {
       session = await getSession(sessionId);
-      if (!session) { res.setHeader('Content-Type', 'application/json'); return res.status(404).end(JSON.stringify({ error: 'Session not found' )}); }
+      if (!session) {
+        res.setHeader('Content-Type', 'application/json');
+        return res.status(404).end(JSON.stringify({ error: 'Session not found' }));
+      }
     } else {
       session = await createSession({ url, requestedJourneys: selected });
     }
-    // Lazy-load generation modules to avoid function invocation failures
+    // Lazy-load generation modules (avoid function invocation failure on Vercel)
     try {
       const genSession = require('../runtime/generate-session');
       if (sessionId) await genSession.generateSessionFromUploads(session.id, { journeys: selected });
@@ -26,11 +32,13 @@ module.exports = async (req, res) => {
       session.metadata.generationFailed = true;
       session.metadata.generationError = e.message;
       res.setHeader('Content-Type', 'application/json');
-      return res.end(JSON.stringify({ sessionId: session.id, status: 'failed', error: e.message )}); }
+      return res.end(JSON.stringify({ sessionId: session.id, status: 'failed', error: e.message }));
+    }
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ sessionId: session.id, status: 'complete' }));
   } catch (e) {
     res.statusCode = 500;
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ error: e.message || 'Internal error' )}); }
+    res.end(JSON.stringify({ error: e.message || 'Internal error' }));
+  }
 };
