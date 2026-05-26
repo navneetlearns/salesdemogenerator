@@ -1,4 +1,6 @@
-const got = require('got');
+// got is ESM-only, use dynamic import
+let _g = null;
+async function getGot() { if (!_g) { const m = await import('got'); _g = m.default || m; } return _g; };
 const path = require('path');
 const fs = require('fs-extra');
 const VALID_TYPES = ['image/png','image/jpeg','image/webp','image/svg+xml','image/x-icon'];
@@ -22,7 +24,7 @@ async function extractLogo(scrapeResult, assetsDir) {
   await fs.ensureDir(brandDir);
   for (const c of unique.slice(0, 3)) {
     try {
-      const resp = await got(c.url, { responseType: 'buffer', timeout: { request: 8000 }, headers: { 'User-Agent': 'Mozilla/5.0' } });
+      const resp = await (await getGot())(c.url, { responseType: 'buffer', timeout: { request: 8000 }, headers: { 'User-Agent': 'Mozilla/5.0' } });
       const ct = resp.headers['content-type'] || '';
       const ext = ct.includes('svg') ? '.svg' : ct.includes('webp') ? '.webp' : ct.includes('jpeg') ? '.jpg' : '.png';
       const fp = path.join(brandDir, 'logo' + ext);

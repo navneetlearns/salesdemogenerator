@@ -1,4 +1,6 @@
-const got = require('got'); const path = require('path'); const fs = require('fs-extra');
+// got is ESM-only, use dynamic import
+let _g = null;
+async function getGot() { if (!_g) { const m = await import('got'); _g = m.default || m; } return _g; }; const path = require('path'); const fs = require('fs-extra');
 async function extractProducts(scrapeResult, assetsDir) {
   const $ = require('cheerio').load(scrapeResult.rawHtml);
   const products = []; const pd = path.join(assetsDir, 'products'); await fs.ensureDir(pd);
@@ -30,6 +32,6 @@ async function extractProducts(scrapeResult, assetsDir) {
   for (const p of products) { if(p.image && !p.image.startsWith('data:') && !seen.has(p.image)){ seen.add(p.image); p.image = await downloadImage(p.image, p.sku, pd); } }
   return products.slice(0, 8);
 }
-async function downloadImage(url,sku,dir){ try{ const r=await got(url,{responseType:'buffer',timeout:{request:8000},headers:{'User-Agent':'Mozilla/5.0'}}); const ct=r.headers['content-type']||''; const ext=ct.includes('png')?'.png':ct.includes('webp')?'.webp':ct.includes('jpeg')?'.jpg':'.png'; const fn='product_'+sku.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase()+ext; await fs.writeFile(path.join(dir,fn),r.body); return fn; }catch(e){ return null; } }
+async function downloadImage(url,sku,dir){ try{ const r=await (await getGot())(url,{responseType:'buffer',timeout:{request:8000},headers:{'User-Agent':'Mozilla/5.0'}}); const ct=r.headers['content-type']||''; const ext=ct.includes('png')?'.png':ct.includes('webp')?'.webp':ct.includes('jpeg')?'.jpg':'.png'; const fn='product_'+sku.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase()+ext; await fs.writeFile(path.join(dir,fn),r.body); return fn; }catch(e){ return null; } }
 function parsePrice(t){ if(!t) return 0; const n=parseFloat(String(t).replace(/[^\d.]/g,'')); return isNaN(n)?0:Math.round(n); }
 module.exports = { extractProducts };
