@@ -1,4 +1,3 @@
-const Vibrant = require('node-vibrant');
 const path = require('path');
 const fs = require('fs-extra');
 const normalizeProducts = require('./catalog-parser/normalize-products');
@@ -7,6 +6,14 @@ const { generateBrandJson } = require('./brand-ingestion/generate-brand-json');
 
 async function deriveColorsFromLogo(logoPath) {
   try {
+    // Lazy-load node-vibrant (native bindings may fail on serverless)
+    let Vibrant;
+    try {
+      Vibrant = require('node-vibrant');
+    } catch (e) {
+      console.warn('[brand-generator] node-vibrant not available, using defaults');
+      return { brand: '#075e54', accent: '#128C7E', brandDark: '#054d44' };
+    }
     const palette = await Vibrant.from(logoPath).getPalette();
     const brand = (palette.Vibrant && palette.Vibrant.hex) || (palette.Muted && palette.Muted.hex) || '#075e54';
     const accent = (palette.LightVibrant && palette.LightVibrant.hex) || '#128C7E';
