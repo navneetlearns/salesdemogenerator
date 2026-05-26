@@ -1,5 +1,4 @@
 const { createSession, getSession } = require('../runtime/session-manager');
-const { generateSession, generateSessionFromUploads } = require('../runtime/generate-session');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end('Method Not Allowed');
@@ -16,10 +15,11 @@ module.exports = async (req, res) => {
     } else {
       session = await createSession({ url, requestedJourneys: selected });
     }
-    // Generate synchronously within the request lifecycle
+    // Lazy-load generation modules to avoid function invocation failures
     try {
-      if (sessionId) await generateSessionFromUploads(session.id, { journeys: selected });
-      else await generateSession(session.id, url, { journeys: selected });
+      const genSession = require('../runtime/generate-session');
+      if (sessionId) await genSession.generateSessionFromUploads(session.id, { journeys: selected });
+      else await genSession.generateSession(session.id, url, { journeys: selected });
     } catch (e) {
       console.error('[api/generate] error', e && e.stack || e);
       session.metadata = session.metadata || {};
