@@ -70,17 +70,14 @@ function registerHelpersOnce() {
 
 // Load scripts (in-memory)
 async function loadScripts(navSteps) {
-  var parts = ['const steps = ' + JSON.stringify(navSteps) + ';
-
-'];
+  var stepsDecl = 'const steps = ' + JSON.stringify(navSteps) + ';';
+  var parts = [stepsDecl];
   for (var fi = 0; fi < 4; fi++) {
     var file = SCRIPT_CORE_FILES[fi];
     var fp = path.join(SCRIPTS_DIR, file);
     if (await fs.pathExists(fp)) parts.push(await fs.readFile(fp, 'utf8'));
   }
-  return parts.join('
-
-');
+  return parts.join('\n\n');
 }
 
 // SAP diagram injection
