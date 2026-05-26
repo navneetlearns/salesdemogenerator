@@ -1,11 +1,17 @@
-const got = require('got');
+// got is ESM-only, use dynamic import
+let _got = null;
+async function getGot() {
+  if (!_got) _got = await import('got');
+  return _got.default || _got;
+}
 const cheerio = require('cheerio');
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36';
 const TIMEOUT = 15000;
 async function scrapeSite(url) {
   if (!url) throw new Error('URL is required');
   if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
-  const response = await got(url, { timeout: { request: TIMEOUT }, headers: { 'User-Agent': USER_AGENT }, followRedirect: true, maxRedirects: 5, retry: { limit: 2 } });
+  const g = await getGot();
+  const response = await g(url, { timeout: { request: TIMEOUT }, headers: { 'User-Agent': USER_AGENT }, followRedirect: true, maxRedirects: 5, retry: { limit: 2 } });
   const html = response.body;
   const $ = cheerio.load(html);
   const baseUrl = new URL(url);
