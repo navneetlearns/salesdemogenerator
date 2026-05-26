@@ -16,14 +16,23 @@ module.exports = async (req, res) => {
     } else {
       session = await createSession({ url, requestedJourneys: selected });
     }
-    // start generation async and return session id
-    (async () => {
-      try {
-        if (sessionId) await generateSessionFromUploads(session.id, { journeys: selected });
-        else await generateSession(session.id, url, { journeys: selected });
-      } catch (e) { console.error('[api/generate] error', e && e.stack || e); }
-    })();
+    // Generate synchronously within the request lifecycle
+    try {
+      if (sessionId) await generateSessionFromUploads(session.id, { journeys: selected });
+      else await generateSession(session.id, url, { journeys: selected });
+    } catch (e) {
+      console.error('[api/generate] error', e && e.stack || e);
+      session.metadata = session.metadata || {};
+      session.metadata.generationFailed = true;
+      session.metadata.generationError = e.message;
+      res.setHeader('Content-Type', 'application/json');
+      return res.end(JSON.stringify({ sessionId: session.id, status: 'failed', error: e.message }));
+    }
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ sessionId: session.id, status: 'generating', expiresAt: session.expiresAt }));
-  } catch (e) { res.statusCode = 500; res.end(String(e.message || e)); }
+    res.end(JSON.stringify({ sessionId: session.id, status: 'complete' }));
+  } catch (e) {
+    res.statusCode = 500;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({ error: e.message || 'Internal error' }));
+  }
 };
