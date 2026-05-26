@@ -28,6 +28,5 @@ desktop.ini
 # Vercel deployment config (per-brand)
 .vercel/
 
-.visual-baseline/
 .visual-report/
 build/layout-fingerprints.json
