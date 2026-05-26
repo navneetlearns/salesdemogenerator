@@ -2,7 +2,7 @@
 const p=require("path"),fs=require("fs-extra"),pm=require("pixelmatch").default,{PNG}=require("pngjs");
 const ROOT=p.resolve(__dirname,".."),BL=p.join(ROOT,".visual-baseline"),REP=p.join(ROOT,".visual-report");
 const TH=0.01,VPS=["desktop","tablet","mobile"];
-const BRANDS=["jk_cement","sunder_masala","sundaram_store","acme","haldirams"];
+const BRANDS=["jk_cement","haldirams","sundaram_store"];
 const JOURNEYS=["order_to_cash","field_ops_expense","automated_collections","dealer_engagement","retailer_onboarding","retailer_loyalty"];
 function sb(b){return b.replace(/_/g,"");}
 async function cmp(bp,cp,dp){

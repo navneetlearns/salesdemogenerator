@@ -1,6 +1,5 @@
 {
   "id": "sundaram_store",
-  "cloneFrom": "sunder_masala",
   "name": "Sundaram Store",
   "shortName": "Sundaram",
   "industry": "general",
@@ -19,13 +18,7 @@
   "productMappings": {
     "p1": "SUN001",
     "p2": "SUN002",
-    "p3": "SUN003",
-    "MASALA001": "SUN001",
-    "MASALA002": "SUN002",
-    "MASALA003": "SUN003"
-  },
-  "imageMappings": {
-    "assets/products/sunder_masala/": "assets/products/sundaram_store/"
+    "p3": "SUN003"
   },
   "font": "Inter",
   "fonts": [

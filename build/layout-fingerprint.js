@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var p=require("path"),fs=require("fs-extra"),{chromium}=require("playwright");
 var ROOT=p.resolve(__dirname,".."),GEN=p.join(ROOT,"generated");
-var BRANDS=["jk_cement","sunder_masala","sundaram_store","acme","haldirams"];
+var BRANDS=["jk_cement","haldirams","sundaram_store"];
 var JOURNEYS=["order_to_cash","field_ops_expense","automated_collections","dealer_engagement","retailer_onboarding","retailer_loyalty"];
 async function run(){
   console.log("=== Layout Fingerprint Generator ===");

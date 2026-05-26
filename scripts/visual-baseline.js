@@ -2,7 +2,7 @@
 const p=require("path"),fs=require("fs-extra"),{chromium}=require("playwright");
 const ROOT=p.resolve(__dirname,".."),GEN=p.join(ROOT,"generated"),BL=p.join(ROOT,".visual-baseline");
 const VPS={desktop:{w:1440,h:900},tablet:{w:768,h:1024},mobile:{w:390,h:844}};
-const BRANDS=["jk_cement","sunder_masala","sundaram_store","acme","haldirams"];
+const BRANDS=["jk_cement","haldirams","sundaram_store"];
 const JOURNEYS=["order_to_cash","field_ops_expense","automated_collections","dealer_engagement","retailer_onboarding","retailer_loyalty"];
 function sb(b){return b.replace(/_/g,"");}
 async function run(){
