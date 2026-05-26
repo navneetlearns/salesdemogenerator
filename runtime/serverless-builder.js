@@ -131,7 +131,7 @@ async function renderBrandSession(brandData, catalogProducts, journeyDataMap, br
     field_ops_expense: Handlebars.compile(await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'field_ops_expense.hbs'), 'utf8')),
   };
 
-  const { normalizeJourney } = require('./lib/journey-normalizer');
+  const { normalizeJourney } = require('../lib/journey-normalizer');
 
   // Asset pipeline simplified: resolve paths without Sharp
   const brandLogo = brandData.logo
