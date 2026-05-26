@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "buildCommand": "npm run build:dist",
+  "outputDirectory": "dist",
   "functions": {
     "api/**/*.js": {
       "memory": 1024,
