@@ -30,3 +30,5 @@ desktop.ini
 
 .visual-report/
 build/layout-fingerprints.json
+
+.vercel
