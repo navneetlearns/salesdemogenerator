@@ -1,135 +1,157 @@
 /* Demo Generator -- Upload-based Frontend */
 (function () {
   "use strict";
-  var API = window.location.origin;
-  var STATE = { sessionId: null, brandName: null, generatedFiles: [], polling: false };
-  var $ = function(id) { return document.getElementById(id); };
+  const API = window.location.origin;
+  const STATE = { sessionId: null, generatedFiles: [], polling: false };
+  const $ = id => document.getElementById(id);
 
-  function setGenStatus(msg, type) {
-    var el = ;
+  function setText(id, msg, type) {
+    const el = $(id);
     if (!el) return;
-    el.textContent = msg;
-    el.style.color = type === "error" ? "#d32f2f" : type === "success" ? "#2e7d32" : "";
+    el.textContent = msg || '';
+    el.style.color = type === 'error' ? '#d32f2f' : type === 'success' ? '#2e7d32' : '';
   }
-  function setExportStatus(msg, type) {
-    var el = ;
-    if (!el) return;
-    el.textContent = msg;
-    el.style.color = type === "error" ? "#d32f2f" : type === "success" ? "#2e7d32" : "";
+
+  function disableBtn(id, disabled) {
+    const b = $(id);
+    if (b) b.disabled = !!disabled;
   }
-  function btn(id, disabled) { var b = uid=0(root) gid=0(root) groups=0(root); if (b) b.disabled = !!disabled; }
+
   function journeyNames() {
-    var c = document.querySelectorAll("#journeyList input:checked");
-    return Array.prototype.map.call(c, function (x) { return x.value; });
+    return Array.from(document.querySelectorAll('#journeyList input:checked')).map(c => c.value);
   }
-  function showCard(id) { var el = uid=0(root) gid=0(root) groups=0(root); if (el) el.style.display = ""; }
+
+  async function createSession() {
+    try {
+      setText('sessionBox', 'Creating session...');
+      const res = await fetch(API + '/api/session/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to create session');
+      STATE.sessionId = data.sessionId;
+      setText('sessionBox', 'Session: ' + STATE.sessionId);
+      return data;
+    } catch (err) {
+      setText('sessionBox', 'Session error: ' + err.message, 'error');
+      throw err;
+    }
+  }
+
+  async function uploadFile(url, file, fieldName) {
+    const form = new FormData();
+    form.append('sessionId', STATE.sessionId);
+    form.append(fieldName, file, file.name);
+    const res = await fetch(API + url, { method: 'POST', body: form });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Upload failed');
+    return data;
+  }
+
+  async function uploadLogo() {
+    const input = $('logoInput');
+    const file = input.files && input.files[0];
+    if (!file) { setText('uploadStatus', 'Select a logo file first', 'error'); return; }
+    if (file.size > 2 * 1024 * 1024) { setText('uploadStatus', 'Logo must be < 2MB', 'error'); return; }
+    disableBtn('uploadLogoBtn', true);
+    setText('uploadStatus', 'Uploading logo...');
+    try {
+      await ensureSession();
+      await uploadFile('/api/upload/logo', file, 'logo');
+      setText('uploadStatus', 'Logo uploaded', 'success');
+    } catch (e) { setText('uploadStatus', 'Logo upload error: ' + e.message, 'error'); }
+    disableBtn('uploadLogoBtn', false);
+  }
+
+  async function uploadCatalog() {
+    const input = $('catalogInput');
+    const file = input.files && input.files[0];
+    if (!file) { setText('uploadStatus', 'Select a catalog file first', 'error'); return; }
+    if (file.size > 5 * 1024 * 1024) { setText('uploadStatus', 'Catalog must be < 5MB', 'error'); return; }
+    const allowed = ['.csv', '.xlsx', '.json'];
+    const name = file.name.toLowerCase();
+    if (!allowed.some(ext => name.endsWith(ext))) { setText('uploadStatus', 'Catalog must be csv, xlsx or json', 'error'); return; }
+    disableBtn('uploadCatalogBtn', true);
+    setText('uploadStatus', 'Uploading catalog...');
+    try {
+      await ensureSession();
+      await uploadFile('/api/upload/catalog', file, 'catalog');
+      setText('uploadStatus', 'Catalog uploaded', 'success');
+    } catch (e) { setText('uploadStatus', 'Catalog upload error: ' + e.message, 'error'); }
+    disableBtn('uploadCatalogBtn', false);
+  }
+
+  async function ensureSession() {
+    if (!STATE.sessionId) await createSession();
+  }
 
   async function generate() {
-    var j = journeyNames();
-    if (j.length === 0) { setGenStatus("Select at least one journey", "error"); return; }
-    var logoFile = .files[0];
-    if (!logoFile) { setGenStatus("Select a logo file", "error"); return; }
-    btn("generateBtn", true);
-    .textContent = "Generating...";
-    .innerHTML = "";
-    setGenStatus("Uploading and generating...", "");
+    const journeys = journeyNames();
+    if (journeys.length === 0) { setText('genStatus', 'Select at least one journey', 'error'); return; }
+    await ensureSession();
+    disableBtn('generateBtn', true);
+    setText('genStatus', 'Starting generation...');
     try {
-      var fd = new FormData();
-      fd.append("logo", logoFile);
-      var catFile = .files[0];
-      if (catFile) fd.append("catalog", catFile);
-      fd.append("journeys", JSON.stringify(j));
-      var bn = .value.trim();
-      if (bn) fd.append("brandName", bn);
-      var r = await fetch(API + "/api/generate", { method: "POST", body: fd });
-      var d = await r.json();
-      if (!r.ok) throw new Error(d.error || "HTTP " + r.status);
-      STATE.sessionId = d.sessionId;
-      if (d.status === "complete") {
-        afterGenerate(d);
-      } else if (d.status === "generating") {
-        setGenStatus("Generating...", "");
-        await pollSession(STATE.sessionId);
-      } else if (d.status === "failed") {
-        throw new Error(d.error || "Generation failed");
-      } else {
-        setGenStatus("Waiting for generation...", "");
-        await pollSession(STATE.sessionId);
-      }
-    } catch (e) { setGenStatus("Error: " + e.message, "error"); }
-    btn("generateBtn", false);
-    .textContent = "Generate Demos";
-  }
-
-  function afterGenerate(data) {
-    STATE.generatedFiles = data.generatedFiles || [];
-    STATE.brandName = data.metadata && data.metadata.brandName;
-    showPreview(STATE.sessionId, STATE.generatedFiles);
-    setGenStatus("Complete! " + STATE.generatedFiles.length + " journey(s).", "success");
-    showCard("previewCard");
-    showCard("exportCard");
+      const res = await fetch(API + '/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: STATE.sessionId, journeys: journeys }) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Generate failed');
+      setText('genStatus', 'Generation started');
+      await pollSession(STATE.sessionId);
+    } catch (e) { setText('genStatus', 'Generate error: ' + e.message, 'error'); }
+    disableBtn('generateBtn', false);
   }
 
   async function pollSession(sid) {
+    setText('genStatus', 'Waiting for generation...');
     STATE.polling = true;
-    for (var i = 0; i < 60 && STATE.polling; i++) {
-      await new Promise(function (r) { setTimeout(r, 2000); });
+    for (let i = 0; i < 60 && STATE.polling; i++) {
+      await new Promise(r => setTimeout(r, 2000));
       try {
-        var r = await fetch(API + "/api/session/" + sid);
+        const r = await fetch(API + '/api/session/' + sid);
         if (!r.ok) continue;
-        var d = await r.json();
-        if (d.status === "complete" || d.generatedFiles) {
-          afterGenerate(d);
-          STATE.polling = false; return;
-        }
-        if (d.status === "failed" || (d.metadata && d.metadata.generationFailed)) {
-          var m = d.metadata && d.metadata.generationError || "Generation failed";
-          setGenStatus(m, "error");
-          STATE.polling = false; return;
-        }
-        if (i % 5 === 0) setGenStatus("Generating... (" + (i*2) + "s)", "");
-      } catch (_) {}
+        const d = await r.json();
+        if (d.status === 'complete') { STATE.generatedFiles = d.generatedFiles || []; showPreview(sid, STATE.generatedFiles); setText('genStatus', 'Generation complete', 'success'); STATE.polling = false; return; }
+        if (d.status === 'failed') { setText('genStatus', 'Generation failed', 'error'); STATE.polling = false; return; }
+        setText('genStatus', 'Generating...');
+      } catch (e) { /* ignore transient */ }
     }
-    if (STATE.polling) { setGenStatus("Timed out", "error"); STATE.polling = false; }
+    if (STATE.polling) { setText('genStatus', 'Generation timed out', 'error'); STATE.polling = false; }
   }
 
   function showPreview(sid, files) {
-    var c = ;
-    c.innerHTML = "";
-    if (!files || files.length === 0) { c.innerHTML = "No journeys generated."; return; }
-    files.forEach(function (f) {
-      var n = f.file.replace(".html","").replace(/_/g," ").replace(/\b\w/g,function(c){return c.toUpperCase();});
-      var a = document.createElement("a");
-      a.href = API + "/api/preview/" + sid + "/" + f.file.replace(".html","");
-      a.target = "_blank"; a.textContent = n;
-      a.style.cssText = "display:inline-block;padding:8px 16px;margin:4px;background:#075e54;color:white;text-decoration:none;border-radius:6px;font-size:13px;";
-      a.onmouseover = function () { this.style.background = "#054d44"; };
-      a.onmouseout = function () { this.style.background = "#075e54"; };
-      c.appendChild(a);
+    const el = $('previewLinks');
+    el.innerHTML = '';
+    if (!files || files.length === 0) { el.textContent = 'No journeys generated.'; return; }
+    files.forEach(f => {
+      const name = (f.file || f).replace(/\.html$/, '').replace(/_/g, ' ');
+      const a = document.createElement('a');
+      a.href = API + '/api/preview/' + sid + '/' + (f.file ? f.file.replace(/\.html$/, '') : f);
+      a.target = '_blank';
+      a.textContent = name.replace(/\b\w/g, c => c.toUpperCase());
+      a.className = 'btn';
+      a.style.margin = '4px';
+      el.appendChild(a);
     });
   }
 
   async function exportDemo(mode) {
-    if (!STATE.sessionId || STATE.generatedFiles.length === 0) { setExportStatus("Generate first", "error"); return; }
-    btn("exportSingleBtn", true); btn("exportZipBtn", true);
-    var label = mode === "zip" ? "ZIP" : "HTML";
-    setExportStatus("Preparing " + label + "...", "");
+    if (!STATE.sessionId) { setText('exportStatus', 'Generate first', 'error'); return; }
+    setText('exportStatus', 'Preparing export...');
     try {
-      var r = await fetch(API + "/api/export/" + STATE.sessionId, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: mode })
-      });
-      var d = await r.json();
-      if (!r.ok) throw new Error(d.error || "Failed");
-      var a = document.createElement("a");
-      a.href = API + "/api/export/" + STATE.sessionId + "/" + mode;
-      a.download = ""; a.style.display = "none";
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      setExportStatus("Downloaded (" + (d.totalBytes ? (d.totalBytes/1024).toFixed(1) : "?") + " KB)", "success");
-    } catch (e) { setExportStatus("Error: " + e.message, "error"); }
-    btn("exportSingleBtn", false); btn("exportZipBtn", false);
+      const r = await fetch(API + '/api/export/' + STATE.sessionId, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode }) });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error || 'Export failed');
+      const url = API + '/api/export/download/' + STATE.sessionId + '/' + mode;
+      window.open(url, '_blank');
+      setText('exportStatus', 'Export started', 'success');
+    } catch (e) { setText('exportStatus', 'Export error: ' + e.message, 'error'); }
   }
 
+  // Wire global handlers
+  window.uploadLogo = uploadLogo;
+  window.uploadCatalog = uploadCatalog;
   window.generate = generate;
   window.exportDemo = exportDemo;
+
+  // create session on load
+  window.addEventListener('load', function () { createSession().catch(()=>{}); });
+
 })();
