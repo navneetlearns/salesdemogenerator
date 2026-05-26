@@ -3,30 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Demo Generator — Minimal UI</title>
+  <title>Demo Generator</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <main class="wrap">
     <h1>Demo Generator</h1>
-    <p class="lead">Minimal UI to create ephemeral demo sessions and generate journeys.</p>
+    <p class="lead">Upload a brand logo + catalog, select journeys, and generate interactive WhatsApp Commerce demos.</p>
 
     <section class="card">
-      <h2>Session</h2>
-      <div id="sessionBox">Creating session…</div>
-    </section>
-
-    <section class="card">
-      <h2>Uploads</h2>
+      <h2>Brand</h2>
       <label class="file-row">Logo (png/jpg/webp, &lt; 2MB)
-        <input id="logoInput" type="file" accept="image/*">
-        <button id="uploadLogoBtn" onclick="uploadLogo()" class="btn">Upload Logo</button>
+        <input id="logoInput" type="file" accept="image/*" required>
       </label>
-      <label class="file-row">Catalog (csv/xlsx/json, &lt; 5MB)
+      <label class="file-row">Catalog (csv/xlsx/json, optional)
         <input id="catalogInput" type="file" accept=".csv,.xlsx,application/json">
-        <button id="uploadCatalogBtn" onclick="uploadCatalog()" class="btn">Upload Catalog</button>
       </label>
-      <div id="uploadStatus" class="muted"></div>
+      <label class="file-row">Brand Name (optional)
+        <input id="brandNameInput" type="text" placeholder="e.g. JK Cement" style="width:100%;margin-top:4px">
+      </label>
     </section>
 
     <section class="card">
@@ -39,25 +34,25 @@
         <label><input type="checkbox" value="retailer_onboarding"> Retailer Onboarding</label>
         <label><input type="checkbox" value="retailer_loyalty"> Retailer Loyalty</label>
       </div>
-      <button id="generateBtn" onclick="generate()" class="btn primary">Generate</button>
-      <div id="genStatus" class="muted"></div>
+      <button id="generateBtn" onclick="generate()" class="btn primary" style="margin-top:12px">Generate Demos</button>
+      <div id="genStatus" class="muted" style="margin-top:8px"></div>
     </section>
 
-    <section class="card">
+    <section class="card" style="display:none" id="previewCard">
       <h2>Preview</h2>
       <div id="previewLinks" class="muted">No previews yet.</div>
     </section>
 
-    <section class="card">
+    <section class="card" style="display:none" id="exportCard">
       <h2>Export</h2>
       <div class="row">
-        <button id="exportSingleBtn" class="btn" onclick="exportDemo('single')">Export Single HTML</button>
-        <button id="exportZipBtn" class="btn" onclick="exportDemo('zip')">Export ZIP</button>
+        <button id="exportSingleBtn" class="btn" onclick="exportDemo('single')">Single HTML</button>
+        <button id="exportZipBtn" class="btn" onclick="exportDemo('zip')">ZIP Package</button>
       </div>
       <div id="exportStatus" class="muted"></div>
     </section>
 
-    <footer class="muted small">Frontend: vanilla HTML/CSS/JS — served from /public</footer>
+    <footer class="muted small">Upload-based demo generator &mdash; all processing happens server-side</footer>
   </main>
   <script src="/app.js"></script>
 </body>
