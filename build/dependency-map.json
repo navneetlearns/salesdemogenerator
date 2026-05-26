@@ -1,0 +1,640 @@
+{
+  "meta": {
+    "generated": "2026-05-24",
+    "total_partials": 73,
+    "total_generated_outputs": 40,
+    "journey_types": [
+      "automated_collections",
+      "dealer_engagement",
+      "field_ops_expense",
+      "order_to_cash",
+      "retailer_loyalty",
+      "retailer_onboarding"
+    ],
+    "brands": [
+      "acme",
+      "haldirams",
+      "jk_cement",
+      "sundaram_store",
+      "sunder_masala"
+    ]
+  },
+  "partials": {
+    "cart-item.hbs": {
+      "size_bytes": 968,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "date-pill.hbs": {
+      "size_bytes": 96,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "header.hbs": {
+      "size_bytes": 454,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "mobile-nav.hbs": {
+      "size_bytes": 768,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "nav-bar.hbs": {
+      "size_bytes": 1506,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "order-summary.hbs": {
+      "size_bytes": 389,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "phone-frame.hbs": {
+      "size_bytes": 87,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "product-card.hbs": {
+      "size_bytes": 858,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "receipt-card.hbs": {
+      "size_bytes": 1236,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "screen-wrap.hbs": {
+      "size_bytes": 245,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "sidebar.hbs": {
+      "size_bytes": 1462,
+      "calls": [
+        "step-item"
+      ],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "status-bar-web.hbs": {
+      "size_bytes": 1004,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "status-bar.hbs": {
+      "size_bytes": 1519,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step-item.hbs": {
+      "size_bytes": 237,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step1-collections.hbs": {
+      "size_bytes": 11355,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step1-dealer_engagement.hbs": {
+      "size_bytes": 779,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step1-field-ops.hbs": {
+      "size_bytes": 16100,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step1-retailer_loyalty.hbs": {
+      "size_bytes": 770,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step1-retailer_onboarding.hbs": {
+      "size_bytes": 815,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step1-self-service.hbs": {
+      "size_bytes": 14996,
+      "calls": [
+        "date-pill",
+        "status-bar",
+        "wa-topbar",
+        "whatsapp-message"
+      ],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step10-collections.hbs": {
+      "size_bytes": 5880,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step10-credit-note.hbs": {
+      "size_bytes": 21061,
+      "calls": [
+        "date-pill",
+        "status-bar",
+        "wa-topbar"
+      ],
+      "has_brandlogo": true,
+      "has_formatCurrency": true
+    },
+    "step10-field-ops.hbs": {
+      "size_bytes": 47148,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step10-retailer_onboarding.hbs": {
+      "size_bytes": 818,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step11-collections.hbs": {
+      "size_bytes": 14161,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step11-field-ops.hbs": {
+      "size_bytes": 31682,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step11-nav-menu.hbs": {
+      "size_bytes": 18263,
+      "calls": [
+        "status-bar-web"
+      ],
+      "has_brandlogo": true,
+      "has_formatCurrency": true
+    },
+    "step12-field-ops.hbs": {
+      "size_bytes": 18644,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step13-field-ops.hbs": {
+      "size_bytes": 5700,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step14-field-ops.hbs": {
+      "size_bytes": 12882,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step15-field-ops.hbs": {
+      "size_bytes": 13029,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step2-catalog.hbs": {
+      "size_bytes": 16563,
+      "calls": [
+        "cart-item",
+        "date-pill",
+        "product-card",
+        "status-bar",
+        "wa-topbar"
+      ],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step2-collections.hbs": {
+      "size_bytes": 6402,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step2-dealer_engagement.hbs": {
+      "size_bytes": 779,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step2-field-ops.hbs": {
+      "size_bytes": 7699,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step2-phones.hbs": {
+      "size_bytes": 119,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step2-retailer_loyalty.hbs": {
+      "size_bytes": 770,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step2-retailer_onboarding.hbs": {
+      "size_bytes": 815,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step3-ai-capture.hbs": {
+      "size_bytes": 21618,
+      "calls": [
+        "date-pill",
+        "status-bar",
+        "wa-topbar"
+      ],
+      "has_brandlogo": true,
+      "has_formatCurrency": true
+    },
+    "step3-collections.hbs": {
+      "size_bytes": 5763,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step3-dealer_engagement.hbs": {
+      "size_bytes": 779,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step3-field-ops.hbs": {
+      "size_bytes": 13049,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step3-retailer_loyalty.hbs": {
+      "size_bytes": 770,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step3-retailer_onboarding.hbs": {
+      "size_bytes": 815,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step4-back-office.hbs": {
+      "size_bytes": 22940,
+      "calls": [
+        "status-bar-web"
+      ],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step4-collections.hbs": {
+      "size_bytes": 5981,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step4-field-ops.hbs": {
+      "size_bytes": 10702,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step4-retailer_loyalty.hbs": {
+      "size_bytes": 770,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step4-retailer_onboarding.hbs": {
+      "size_bytes": 815,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step5-collections.hbs": {
+      "size_bytes": 6049,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step5-field-ops.hbs": {
+      "size_bytes": 12862,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step5-order-confirmed.hbs": {
+      "size_bytes": 13390,
+      "calls": [
+        "date-pill",
+        "order-summary",
+        "status-bar",
+        "status-bar-web",
+        "wa-topbar"
+      ],
+      "has_brandlogo": true,
+      "has_formatCurrency": true
+    },
+    "step5-retailer_loyalty.hbs": {
+      "size_bytes": 770,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step5-retailer_onboarding.hbs": {
+      "size_bytes": 815,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step6-collections.hbs": {
+      "size_bytes": 6438,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step6-field-ops.hbs": {
+      "size_bytes": 11641,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step6-retailer_loyalty.hbs": {
+      "size_bytes": 770,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step6-retailer_onboarding.hbs": {
+      "size_bytes": 815,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step6-sap-architecture.hbs": {
+      "size_bytes": 1156,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step7-collections.hbs": {
+      "size_bytes": 6064,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step7-field-ops.hbs": {
+      "size_bytes": 28006,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step7-invoice.hbs": {
+      "size_bytes": 8363,
+      "calls": [
+        "date-pill",
+        "status-bar",
+        "wa-topbar"
+      ],
+      "has_brandlogo": true,
+      "has_formatCurrency": true
+    },
+    "step7-retailer_onboarding.hbs": {
+      "size_bytes": 815,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step8-cash-discount.hbs": {
+      "size_bytes": 8869,
+      "calls": [
+        "date-pill",
+        "status-bar",
+        "wa-topbar"
+      ],
+      "has_brandlogo": true,
+      "has_formatCurrency": true
+    },
+    "step8-collections.hbs": {
+      "size_bytes": 6324,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step8-field-ops.hbs": {
+      "size_bytes": 18700,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step8-retailer_onboarding.hbs": {
+      "size_bytes": 815,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "step9-collections.hbs": {
+      "size_bytes": 6842,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step9-field-ops.hbs": {
+      "size_bytes": 15561,
+      "calls": [],
+      "has_brandlogo": true,
+      "has_formatCurrency": false
+    },
+    "step9-payment.hbs": {
+      "size_bytes": 13695,
+      "calls": [
+        "date-pill",
+        "status-bar",
+        "wa-topbar"
+      ],
+      "has_brandlogo": true,
+      "has_formatCurrency": true
+    },
+    "step9-retailer_onboarding.hbs": {
+      "size_bytes": 815,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "wa-topbar.hbs": {
+      "size_bytes": 2272,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    },
+    "whatsapp-message.hbs": {
+      "size_bytes": 1150,
+      "calls": [],
+      "has_brandlogo": false,
+      "has_formatCurrency": false
+    }
+  },
+  "journey_step_mapping": {
+    "automated_collections": [
+      "step1-collections.hbs",
+      "step10-collections.hbs",
+      "step11-collections.hbs",
+      "step2-collections.hbs",
+      "step3-collections.hbs",
+      "step4-collections.hbs",
+      "step5-collections.hbs",
+      "step6-collections.hbs",
+      "step7-collections.hbs",
+      "step8-collections.hbs",
+      "step9-collections.hbs"
+    ],
+    "dealer_engagement": [
+      "step1-dealer_engagement.hbs",
+      "step2-dealer_engagement.hbs",
+      "step3-dealer_engagement.hbs"
+    ],
+    "field_ops_expense": [
+      "step1-field-ops.hbs",
+      "step10-field-ops.hbs",
+      "step11-field-ops.hbs",
+      "step12-field-ops.hbs",
+      "step13-field-ops.hbs",
+      "step14-field-ops.hbs",
+      "step15-field-ops.hbs",
+      "step2-field-ops.hbs",
+      "step3-field-ops.hbs",
+      "step4-field-ops.hbs",
+      "step5-field-ops.hbs",
+      "step6-field-ops.hbs",
+      "step7-field-ops.hbs",
+      "step8-field-ops.hbs",
+      "step9-field-ops.hbs"
+    ],
+    "order_to_cash": [
+      "step1-self-service.hbs",
+      "step10-credit-note.hbs",
+      "step11-nav-menu.hbs",
+      "step2-catalog.hbs",
+      "step3-ai-capture.hbs",
+      "step4-back-office.hbs",
+      "step5-order-confirmed.hbs",
+      "step6-sap-architecture.hbs",
+      "step7-invoice.hbs",
+      "step8-cash-discount.hbs",
+      "step9-payment.hbs"
+    ],
+    "retailer_loyalty": [
+      "step1-retailer_loyalty.hbs",
+      "step2-retailer_loyalty.hbs",
+      "step3-retailer_loyalty.hbs",
+      "step4-retailer_loyalty.hbs",
+      "step5-retailer_loyalty.hbs",
+      "step6-retailer_loyalty.hbs"
+    ],
+    "retailer_onboarding": [
+      "step1-retailer_onboarding.hbs",
+      "step10-retailer_onboarding.hbs",
+      "step2-retailer_onboarding.hbs",
+      "step3-retailer_onboarding.hbs",
+      "step4-retailer_onboarding.hbs",
+      "step5-retailer_onboarding.hbs",
+      "step6-retailer_onboarding.hbs",
+      "step7-retailer_onboarding.hbs",
+      "step8-retailer_onboarding.hbs",
+      "step9-retailer_onboarding.hbs"
+    ]
+  },
+  "orchestrator_calls": [
+    "step1-self-service",
+    "step10-credit-note",
+    "step11-nav-menu",
+    "step2-catalog",
+    "step3-ai-capture",
+    "step4-back-office",
+    "step5-order-confirmed",
+    "step6-sap-architecture",
+    "step7-invoice",
+    "step8-cash-discount",
+    "step9-payment"
+  ],
+  "generated_outputs": {
+    "acme": [
+      "asset-manifest.json",
+      "assets",
+      "automated_collections.html",
+      "dealer_engagement.html",
+      "field_ops_expense.html",
+      "order_to_cash.html",
+      "retailer_loyalty.html",
+      "retailer_onboarding.html"
+    ],
+    "haldirams": [
+      "asset-manifest.json",
+      "assets",
+      "automated_collections.html",
+      "dealer_engagement.html",
+      "field_ops_expense.html",
+      "order_to_cash.html",
+      "retailer_loyalty.html",
+      "retailer_onboarding.html"
+    ],
+    "jk_cement": [
+      "asset-manifest.json",
+      "assets",
+      "automated_collections.html",
+      "dealer_engagement.html",
+      "field_ops_expense.html",
+      "order_to_cash.html",
+      "retailer_loyalty.html",
+      "retailer_onboarding.html"
+    ],
+    "sundaram_store": [
+      "asset-manifest.json",
+      "assets",
+      "automated_collections.html",
+      "dealer_engagement.html",
+      "field_ops_expense.html",
+      "order_to_cash.html",
+      "retailer_loyalty.html",
+      "retailer_onboarding.html"
+    ],
+    "sunder_masala": [
+      "asset-manifest.json",
+      "assets",
+      "automated_collections.html",
+      "dealer_engagement.html",
+      "field_ops_expense.html",
+      "order_to_cash.html",
+      "retailer_loyalty.html",
+      "retailer_onboarding.html"
+    ]
+  }
+}

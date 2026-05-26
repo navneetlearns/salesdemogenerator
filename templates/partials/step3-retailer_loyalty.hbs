@@ -1,11 +1,61 @@
-{{!-- Turnover-Based Loyalty Scheme — Step 3 --}}
+{{!-- Turnover-Based Loyalty Scheme — Step 3: Tier Progress --}}
 <div class="step-section" id="step-3">
-  <div style="padding:40px;text-align:center;max-width:400px;margin:0 auto;">
-    <h2 style="color:var(--brand);font-size:24px;margin-bottom:16px;">Turnover-Based Loyalty Scheme</h2>
-    <h3 style="color:var(--brand-dark);font-size:16px;margin-bottom:24px;">Step 3 of 6</h3>
-    <p style="color:#555;font-size:14px;line-height:1.6;">Reward high-turnover retailers with automated scheme enrollment, milestone tracking, and redemption.</p>
-    <div style="margin-top:32px;padding:20px;background:#f5f5f5;border-radius:12px;">
-      <p style="font-size:13px;color:#888;">🚧 This journey template is a placeholder. Full WhatsApp demo content coming soon.</p>
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 1 · Tier Progress Dashboard</div>
+    <div class="screen-type-lbl">Interactive Template — Progress Card</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:10 AM"}}
+      {{> wa-topbar status="ZoTok Business" actions="call" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        <div class="msg-receiver-wrap">
+          <div class="wa-tmpl">
+            <div class="wa-hdr-img" style="background:linear-gradient(135deg,var(--brand),var(--brand-dark));padding:20px;text-align:center;border-radius:12px 12px 0 0;">
+              <div style="font-size:36px;margin-bottom:4px;">🏅</div>
+              <div style="color:#fff;font-size:16px;">Current Tier</div>
+              <div style="color:#fff;font-size:28px;font-weight:800;">{{journey.loyalty.tier.current}}</div>
+            </div>
+            <div class="wa-tmpl-body">
+              <b>📈 Your Tier Progress</b><br><br>
+              <div style="background:#f0f0f0;border-radius:12px;padding:4px;margin:8px 0;">
+                <div style="background:linear-gradient(90deg,var(--brand),var(--brand-dark));border-radius:8px;height:20px;width:{{multiply (divide journey.loyalty.tier.progressAmount journey.loyalty.tier.currentMax) 100}}%;transition:width 0.5s;"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:12px;">
+                <span>₹0</span>
+                <span>₹{{journey.loyalty.tier.currentMax}}</span>
+              </div>
+              <b>Annual Turnover:</b> ₹{{journey.loyalty.tier.progressAmount}}<br>
+              <b>Next Tier:</b> <span style="color:var(--brand);font-weight:700;">{{journey.loyalty.tier.next}}</span> at ₹{{journey.loyalty.tier.nextMin}}+<br>
+              <b>Amount to Next Tier:</b> ₹{{subtract journey.loyalty.tier.nextMin journey.loyalty.tier.progressAmount}} more<br><br>
+              <b>🎯 Milestones:</b><br>
+              {{#each journey.messages.step3.milestones}}
+              <div style="background:#f9f9f9;border-radius:8px;padding:8px 12px;margin-bottom:4px;border-left:4px solid {{#if achieved}}var(--brand){{else}}#ddd{{/if}};">
+                <span style="font-size:13px;">{{#if achieved}}✅{{else}}⬜{{/if}} <b>{{label}}</b> — {{reward}}</span>
+              </div>
+              {{/each}}
+              <br>
+              <b>Your {{journey.loyalty.tier.current}} Benefits:</b><br>
+              ✓ 5% extra discount<br>
+              ✓ Free delivery<br>
+              ✓ Dedicated relationship manager<br>
+              ✓ Quarterly business review<br>
+              <br>
+              <span style="font-size:12px;color:#888;">Order more to unlock Platinum benefits!</span>
+            </div>
+            <div class="wa-tmpl-signoff">Team,<br>{{brand.name}} India</div>
+            <div class="wa-tmpl-time">10:10 AM</div>
+            <div class="wa-tmpl-btns">
+              <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884" stroke-width="2.5"/><polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5"/><line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5"/></svg>Place Order to Climb</div>
+              <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 1v22M1 12h22" stroke="#00A884" stroke-width="2.5" stroke-linecap="round"/></svg>View All Tiers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="screen-desc" style="background:#D4A8F0;">
+      <strong>Tier Progress Tracking</strong>
+      Retailer sees their current tier status with a visual progress bar showing turnover toward the next tier, milestone achievements, and current tier benefits.
     </div>
   </div>
-</div>
+</div><!-- /step-3 -->

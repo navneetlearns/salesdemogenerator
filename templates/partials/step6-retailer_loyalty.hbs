@@ -1,11 +1,70 @@
-{{!-- Turnover-Based Loyalty Scheme — Step 6 --}}
+{{!-- Turnover-Based Loyalty Scheme — Step 6: Program Summary --}}
 <div class="step-section" id="step-6">
-  <div style="padding:40px;text-align:center;max-width:400px;margin:0 auto;">
-    <h2 style="color:var(--brand);font-size:24px;margin-bottom:16px;">Turnover-Based Loyalty Scheme</h2>
-    <h3 style="color:var(--brand-dark);font-size:16px;margin-bottom:24px;">Step 6 of 6</h3>
-    <p style="color:#555;font-size:14px;line-height:1.6;">Reward high-turnover retailers with automated scheme enrollment, milestone tracking, and redemption.</p>
-    <div style="margin-top:32px;padding:20px;background:#f5f5f5;border-radius:12px;">
-      <p style="font-size:13px;color:#888;">🚧 This journey template is a placeholder. Full WhatsApp demo content coming soon.</p>
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 1 · Program Summary</div>
+    <div class="screen-type-lbl">Interactive Template — Summary Dashboard</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:25 AM"}}
+      {{> wa-topbar status="ZoTok Business" actions="call" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        <div class="msg-receiver-wrap">
+          <div class="wa-tmpl">
+            <div class="wa-hdr-img" style="background:linear-gradient(135deg,var(--brand),var(--brand-dark));padding:20px;text-align:center;border-radius:12px 12px 0 0;">
+              <div style="font-size:32px;margin-bottom:4px;">📊</div>
+              <div style="color:#fff;font-size:18px;font-weight:700;">{{journey.messages.step6.heading}}</div>
+              <div style="color:rgba(255,255,255,0.85);font-size:13px;">{{brand.name}} Loyalty Program</div>
+            </div>
+            <div class="wa-tmpl-body">
+              {{{journey.messages.step6.body}}}<br><br>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                <div style="background:#f0f8ff;border-radius:10px;padding:12px;text-align:center;">
+                  <div style="font-size:22px;font-weight:800;color:var(--brand);">{{journey.loyalty.points.balance}}</div>
+                  <div style="font-size:11px;color:#888;">Points Balance</div>
+                </div>
+                <div style="background:#fff8f0;border-radius:10px;padding:12px;text-align:center;">
+                  <div style="font-size:22px;font-weight:800;color:#b8860b;">{{journey.loyalty.tier.current}}</div>
+                  <div style="font-size:11px;color:#888;">Current Tier</div>
+                </div>
+                <div style="background:#f0fff0;border-radius:10px;padding:12px;text-align:center;">
+                  <div style="font-size:22px;font-weight:800;color:#2e7d32;">{{journey.loyalty.points.lifetime}}</div>
+                  <div style="font-size:11px;color:#888;">Lifetime Points</div>
+                </div>
+                <div style="background:#fff0f8;border-radius:10px;padding:12px;text-align:center;">
+                  <div style="font-size:22px;font-weight:800;color:#6a7b8b;">{{journey.loyalty.tier.next}}</div>
+                  <div style="font-size:11px;color:#888;">Next Tier</div>
+                </div>
+              </div>
+              <div style="background:#f0f0f0;border-radius:12px;padding:4px;margin:8px 0;">
+                <div style="background:linear-gradient(90deg,var(--brand),var(--brand-dark));border-radius:8px;height:16px;width:{{multiply (divide journey.loyalty.tier.progressAmount journey.loyalty.tier.currentMax) 100}}%;transition:width 0.5s;"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:12px;">
+                <span>₹0</span>
+                <span>₹{{journey.loyalty.tier.currentMax}} — {{journey.loyalty.tier.next}} Tier</span>
+              </div>
+              <b>🎯 Next Steps:</b><br>
+              1. Order ₹{{subtract journey.loyalty.tier.nextMin journey.loyalty.tier.progressAmount}} more to reach {{journey.loyalty.tier.next}}<br>
+              2. Earn bonus points with early payments<br>
+              3. Refer other dealers for 500 pts each<br>
+              4. Redeem points for rewards anytime<br><br>
+              <div style="text-align:center;padding:12px;background:#f9f9f9;border-radius:10px;border:1px dashed var(--brand);">
+                <span style="font-size:13px;">💬 Need help? Just type your query here!</span>
+              </div>
+            </div>
+            <div class="wa-tmpl-signoff">Team,<br>{{brand.name}} India</div>
+            <div class="wa-tmpl-time">10:25 AM</div>
+            <div class="wa-tmpl-btns">
+              <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884" stroke-width="2.5"/><polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5"/><line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5"/></svg>Place Order</div>
+              <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 1v22M1 12h22" stroke="#00A884" stroke-width="2.5" stroke-linecap="round"/></svg>Contact Support</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="screen-desc" style="background:#E8D0A8;">
+      <strong>Program Summary Dashboard</strong>
+      Retailer sees a complete summary of their loyalty program status — points balance, current tier, lifetime points, next tier target, progress bar, and actionable next steps.
     </div>
   </div>
-</div>
+</div><!-- /step-6 -->

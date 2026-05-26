@@ -1,11 +1,49 @@
-{{!-- Turnover-Based Loyalty Scheme — Step 4 --}}
+{{!-- Turnover-Based Loyalty Scheme — Step 4: Exclusive Offers --}}
 <div class="step-section" id="step-4">
-  <div style="padding:40px;text-align:center;max-width:400px;margin:0 auto;">
-    <h2 style="color:var(--brand);font-size:24px;margin-bottom:16px;">Turnover-Based Loyalty Scheme</h2>
-    <h3 style="color:var(--brand-dark);font-size:16px;margin-bottom:24px;">Step 4 of 6</h3>
-    <p style="color:#555;font-size:14px;line-height:1.6;">Reward high-turnover retailers with automated scheme enrollment, milestone tracking, and redemption.</p>
-    <div style="margin-top:32px;padding:20px;background:#f5f5f5;border-radius:12px;">
-      <p style="font-size:13px;color:#888;">🚧 This journey template is a placeholder. Full WhatsApp demo content coming soon.</p>
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 1 · Exclusive Offers</div>
+    <div class="screen-type-lbl">Interactive Template — Offers List</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:15 AM"}}
+      {{> wa-topbar status="ZoTok Business" actions="call" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        <div class="msg-receiver-wrap">
+          <div class="wa-tmpl">
+            <div class="wa-hdr-img" style="background:linear-gradient(135deg,var(--brand),var(--brand-dark));padding:20px;text-align:center;border-radius:12px 12px 0 0;">
+              <div style="font-size:32px;margin-bottom:4px;">🎁</div>
+              <div style="color:#fff;font-size:18px;font-weight:700;">{{journey.messages.step4.heading}}</div>
+              <div style="color:rgba(255,255,255,0.85);font-size:13px;">{{brand.name}} Loyalty Members</div>
+            </div>
+            <div class="wa-tmpl-body">
+              {{{journey.messages.step4.body}}}<br><br>
+              {{#each journey.loyalty.offers}}
+              <div style="background:#f9f9f9;border-radius:10px;padding:12px;margin-bottom:10px;border:1px solid #eee;">
+                <div style="font-size:16px;font-weight:700;color:var(--brand);">🔥 {{title}}</div>
+                <div style="font-size:13px;color:#555;margin:4px 0;">{{desc}}</div>
+                <div style="display:flex;justify-content:space-between;font-size:11px;color:#888;">
+                  <span>⏱ Valid until: {{validUntil}}</span>
+                  <span style="background:var(--brand);color:#fff;padding:2px 8px;border-radius:4px;font-weight:600;">{{code}}</span>
+                </div>
+              </div>
+              {{/each}}
+              <br>
+              <span style="font-size:12px;color:#888;">Use the promo code when placing your order to avail the offer!</span>
+            </div>
+            <div class="wa-tmpl-signoff">Team,<br>{{brand.name}} India</div>
+            <div class="wa-tmpl-time">10:15 AM</div>
+            <div class="wa-tmpl-btns">
+              <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884" stroke-width="2.5"/><polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5"/><line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5"/></svg>Place Order with Code</div>
+              <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 1v22M1 12h22" stroke="#00A884" stroke-width="2.5" stroke-linecap="round"/></svg>View All Offers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="screen-desc" style="background:#F0D8A8;">
+      <strong>Exclusive Loyalty Offers</strong>
+      Retailer sees personalized offers available only to loyalty program members — bulk discounts, member specials, and referral bonuses with promo codes and validity dates.
     </div>
   </div>
-</div>
+</div><!-- /step-4 -->

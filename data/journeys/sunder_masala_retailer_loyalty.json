@@ -37,63 +37,208 @@
     "step-6"
   ],
   "dealer": {
-    "name": "Sunder Masala Team",
-    "contactName": "Contact",
-    "phone": "+91 00000 00000"
+    "name": "Spice World Traders",
+    "contactName": "Vikram Singh",
+    "phone": "+91 98765 01234"
   },
   "messages": {
     "step1": {
-      "greeting": "Welcome to Turnover-Based Loyalty Scheme"
+      "greeting": "\ud83c\udf89 Welcome to Sunder Masala's Turnover-Based Loyalty Scheme! Earn exciting rewards on every purchase."
+    },
+    "step2": {
+      "heading": "Your Points Summary",
+      "body": "Here's your current points balance and earning structure for this quarter."
+    },
+    "step3": {
+      "currentTier": "Gold",
+      "nextTier": "Platinum",
+      "progress": 72,
+      "milestones": [
+        {
+          "label": "Annual Turnover \u20b950L",
+          "reward": "Gold Tier",
+          "achieved": true
+        },
+        {
+          "label": "Annual Turnover \u20b91Cr",
+          "reward": "Platinum Tier",
+          "achieved": false
+        },
+        {
+          "label": "Annual Turnover \u20b92Cr",
+          "reward": "Diamond Tier",
+          "achieved": false
+        }
+      ]
+    },
+    "step4": {
+      "heading": "Exclusive Loyalty Offers",
+      "body": "Unlock these special offers available only to loyalty program members."
+    },
+    "step5": {
+      "heading": "Redemption History",
+      "body": "Track all your past reward redemptions and transactions."
+    },
+    "step6": {
+      "heading": "Program Summary",
+      "body": "Your loyalty program overview \u2014 points, tier, and next steps."
     }
+  },
+  "loyalty": {
+    "points": {
+      "balance": 28450,
+      "lifetime": 125000,
+      "currency": "Reward Points",
+      "rate": "\u20b91 = 10 Points"
+    },
+    "earningRates": [
+      {
+        "activity": "Product Purchase",
+        "rate": "10 pts/\u20b9100",
+        "bonus": ""
+      },
+      {
+        "activity": "Early Payment (within 7 days)",
+        "rate": "5 pts/\u20b9100",
+        "bonus": "Extra 2 pts/\u20b9100"
+      },
+      {
+        "activity": "Bulk Order (50+ bags)",
+        "rate": "15 pts/\u20b9100",
+        "bonus": "Double points"
+      },
+      {
+        "activity": "Refer a Dealer",
+        "rate": "500 pts",
+        "bonus": "Per successful referral"
+      }
+    ],
+    "tier": {
+      "current": "Gold",
+      "next": "Platinum",
+      "currentMin": 500000,
+      "currentMax": 1000000,
+      "progressAmount": 725000,
+      "nextMin": 1000000,
+      "benefits": {
+        "Gold": [
+          "5% extra discount",
+          "Free delivery",
+          "Dedicated relationship manager",
+          "Quarterly business review"
+        ],
+        "Platinum": [
+          "10% extra discount",
+          "Free express delivery",
+          "Priority support",
+          "Monthly business review",
+          "Exclusive event access"
+        ],
+        "Diamond": [
+          "15% extra discount",
+          "Free express delivery",
+          "Dedicated account executive",
+          "Weekly review",
+          "VIP event access",
+          "Revenue share bonus"
+        ]
+      }
+    },
+    "offers": [
+      {
+        "title": "Monsoon Bulk Discount",
+        "desc": "Extra 3% off on orders above 100 bags",
+        "validUntil": "31 Aug 2026",
+        "code": "MONSOON3"
+      },
+      {
+        "title": "Gold Member Special",
+        "desc": "Free 1 bag on every 50 bags purchased",
+        "validUntil": "31 Dec 2026",
+        "code": "GOLD50"
+      },
+      {
+        "title": "Referral Bonus",
+        "desc": "Earn 500 points per new dealer referral",
+        "validUntil": "Ongoing",
+        "code": "REFER500"
+      }
+    ],
+    "redemptions": [
+      {
+        "date": "15 Apr 2026",
+        "item": "Hardware Voucher \u20b95,000",
+        "points": 45000,
+        "status": "Completed"
+      },
+      {
+        "date": "22 Feb 2026",
+        "item": "E-Gift Card Amazon \u20b92,500",
+        "points": 22500,
+        "status": "Completed"
+      },
+      {
+        "date": "03 Jan 2026",
+        "item": "Free Cement 5 Bags",
+        "points": 35000,
+        "status": "Completed"
+      },
+      {
+        "date": "12 Nov 2025",
+        "item": "Merchandise Kit",
+        "points": 12000,
+        "status": "Completed"
+      }
+    ]
   },
   "steps": [
     {
       "num": 1,
       "displayNum": 1,
       "title": "Loyalty Program Overview",
-      "meta": "Retailer · Loyalty program",
-      "navTitle": "Step 1 — Loyalty Program Overview",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Overview of loyalty tiers and benefits</span>"
+      "meta": "Retailer \u00b7 Loyalty program",
+      "navTitle": "Step 1 \u2014 Loyalty Program Overview",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Overview of loyalty tiers and benefits</span><span class=\"tag tag-ai\">Loyalty</span><span class=\"tag tag-ord\">Program</span>"
     },
     {
       "num": 2,
       "displayNum": 2,
       "title": "Points & Rewards",
-      "meta": "Retailer · Earn & redeem",
-      "navTitle": "Step 2 — Points & Rewards",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Points earning and reward redemption</span>"
+      "meta": "Retailer \u00b7 Earn & redeem",
+      "navTitle": "Step 2 \u2014 Points & Rewards",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Points earning and reward redemption</span><span class=\"tag tag-ord\">Points</span><span class=\"tag tag-ai\">Rewards</span>"
     },
     {
       "num": 3,
       "displayNum": 3,
       "title": "Tier Progress",
-      "meta": "Retailer · Tier advancement",
-      "navTitle": "Step 3 — Tier Progress",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Track tier progress and milestones</span>"
+      "meta": "Retailer \u00b7 Tier advancement",
+      "navTitle": "Step 3 \u2014 Tier Progress",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Track tier progress and milestones</span><span class=\"tag tag-ord\">Tiers</span><span class=\"tag tag-ai\">Progress</span>"
     },
     {
       "num": 4,
       "displayNum": 4,
       "title": "Exclusive Offers",
-      "meta": "Retailer · Exclusive deals",
-      "navTitle": "Step 4 — Exclusive Offers",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Exclusive offers for loyalty members</span>"
+      "meta": "Retailer \u00b7 Exclusive deals",
+      "navTitle": "Step 4 \u2014 Exclusive Offers",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Exclusive offers for loyalty members</span><span class=\"tag tag-ord\">Offers</span><span class=\"tag tag-ai\">Exclusive</span>"
     },
     {
       "num": 5,
       "displayNum": 5,
       "title": "Redemption History",
-      "meta": "Retailer · Past redemptions",
-      "navTitle": "Step 5 — Redemption History",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">View redemption and transaction history</span>"
+      "meta": "Retailer \u00b7 Past redemptions",
+      "navTitle": "Step 5 \u2014 Redemption History",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">View redemption and transaction history</span><span class=\"tag tag-ord\">History</span><span class=\"tag tag-ai\">Redemption</span>"
     },
     {
       "num": 6,
       "displayNum": 6,
       "title": "Program Summary",
-      "meta": "Retailer · Summary",
-      "navTitle": "Step 6 — Program Summary",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Program summary and next steps</span>"
+      "meta": "Retailer \u00b7 Summary",
+      "navTitle": "Step 6 \u2014 Program Summary",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Program summary and next steps</span><span class=\"tag tag-ord\">Summary</span><span class=\"tag tag-ai\">Next Steps</span>"
     }
   ]
 }

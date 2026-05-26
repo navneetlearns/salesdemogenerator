@@ -1,0 +1,82 @@
+#!/usr/bin/env node
+/**
+ * demo-generator CLI - ZoTok WhatsApp Commerce Journey Demo Generator
+ */
+const fs = require("fs-extra"), path = require("path"), {execSync} = require("child_process");
+const CLI = "demo-generator", ROOT = path.resolve(__dirname,"..");
+function help(){console.log([
+"",""+CLI+" - ZoTok WhatsApp Commerce Journey Demo Generator","",
+"USAGE:",
+"  "+CLI+" build --brand <id> --data <dir> [options]",
+"  "+CLI+" build-all [--dist]",
+"  "+CLI+" init <brand-id> [--dir <parent>]",
+"  "+CLI+" --help","",
+"COMMANDS:","",
+"  build    Generate demo for a brand from external data directory.",
+"           Required: --brand <id> --data <dir>",
+"           The --data dir must contain: brand.json, catalog.json, journey.json, assets/",
+"           Options: --output <dir> --dist --strict",
+"  build-all  Build all brands from project's internal data/",
+"  init       Scaffold a new brand data directory",
+"","EXAMPLES:",
+"  "+CLI+" build --brand acme --data ./mybrand --dist",
+"  "+CLI+" build --brand acme --data ./mybrand --output ./out",
+"  "+CLI+" init newbrand --dir ./brands",
+"  "+CLI+" build-all --dist",""
+].join("\n"));process.exit(0);}
+
+async function cmdInit(id,opt){
+  var pd=opt.dir||process.cwd(),bd=path.join(pd,id);
+  if(await fs.pathExists(bd)){console.error("Exists:",bd);process.exit(1);}
+  await fs.ensureDir(bd);await fs.ensureDir(path.join(bd,"assets","products"));await fs.ensureDir(path.join(bd,"journeys"));
+  var dn=id.charAt(0).toUpperCase()+id.slice(1).replace(/_/g," ");
+  await fs.writeJson(path.join(bd,"brand.json"),{id:id,name:dn,shortName:id.substring(0,3).toUpperCase(),industry:"general",dealerStoreName:"My Store",colors:{brand:"#075e54",brandDark:"#054d44"},assets:{logo:"logo.svg"},secondaryDealers:[{name:"Dealer 1",type:"Retail"},{name:"Dealer 2",type:"Distributor"}]},{spaces:2});
+  await fs.writeJson(path.join(bd,"catalog.json"),[{id:"p1",sku:"PRD001",name:"Product One",category:"Default",price:100,unit:"pcs",image:"product_prd001.svg",tag:"Standard"},{id:"p2",sku:"PRD002",name:"Product Two",category:"Default",price:200,unit:"pcs",image:"product_prd002.svg",tag:"Standard"},{id:"p3",sku:"PRD003",name:"Product Three",category:"Default",price:300,unit:"pcs",image:"product_prd003.svg",tag:"Premium"}],{spaces:2});
+  var today=new Date().toISOString().slice(0,10);
+  await fs.writeJson(path.join(bd,"journey.json"),{id:"order_to_cash",title:"Order to Cash",dealer:{name:"My Store",contactName:"Rajesh",phone:"+91-9876543210",address:"123 Main St"},order:{primaryOrderId:"ORD-001",date:today,transporter:"FastExpress",items:[{productId:"p1",sku:"PRD001",qty:10,unit:"pcs",lineTotal:1000},{productId:"p2",sku:"PRD002",qty:5,unit:"pcs",lineTotal:1000}],summary:{totalItems:2,totalQuantity:15,orderValue:2000},historyOrders:[{id:"H-001",date:"2026-01-15",items:3,amount:2500},{id:"H-002",date:"2026-02-10",items:2,amount:1800}]},invoice:{id:"INV-001",date:today,dueDate:"2026-03-15",discount:50,docId:"DOC-001"},payment:{amount:2000,date:today,method:"Bank Transfer"},ledger:{creditNoteId:"CN-001",creditNoteAmount:200,entries:[]},step3:{cartItems:[],cartSummary:{subtotal:0,discount:0,total:0}},messages:{step1:{greeting:"Welcome!",sections:["Catalog"],categoryQuestion:"Which category?"}},navSteps:["step-1","step-2","step-3","step-4","step-5","step-6","step-7","step-8","step-9","step-10","step-11"],steps:Array.from({length:11},function(_,i){return{num:i+1,displayNum:i+1,title:"Step "+(i+1),meta:"",navTitle:"Step "+(i+1),navDesc:""}})},{spaces:2});
+  await fs.writeFile(path.join(bd,"assets","logo.svg"),'<svg xmlns="http://www.w3.org/2000/svg" width="200" height="80" viewBox="0 0 200 80"><rect width="200" height="80" rx="8" fill="#075e54"/><text x="100" y="48" text-anchor="middle" fill="white" font-size="24" font-weight="bold">'+id+'</text></svg>');
+  for(var sk of["prd001","prd002","prd003"]) await fs.writeFile(path.join(bd,"assets","products","product_"+sk+".svg"),'<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="#e0e0e0"/><text x="100" y="105" text-anchor="middle" fill="#666" font-size="14">'+sk+'</text></svg>');
+  console.log("Scaffolded brand at: "+bd);console.log('Run: '+CLI+' build --brand '+id+' --data '+bd+' --dist');
+}
+
+async function cmdBuild(id,opt){
+  var dd=path.resolve(opt.data),od=opt.output?path.resolve(opt.output):path.resolve(process.cwd(),"generated",id);
+  var bp=path.join(dd,"brand.json"),cp=path.join(dd,"catalog.json"),jp=path.join(dd,"journey.json"),lp=path.join(dd,"assets","logo.png"),ls=path.join(dd,"assets","logo.svg");
+  if(!await fs.pathExists(bp)){console.error("Missing brand.json in",dd);process.exit(1);}
+  if(!await fs.pathExists(cp)){console.error("Missing catalog.json in",dd);process.exit(1);}
+  if(!await fs.pathExists(jp)){console.error("Missing journey.json in",dd);process.exit(1);}
+  if(!await fs.pathExists(lp)&&!await fs.pathExists(ls)){console.error("Missing assets/logo in",dd);process.exit(1);}
+  var tmp=path.join(ROOT,".tmpcli-"+id);await fs.emptyDir(tmp);
+  for(var d of[path.join(tmp,"data","brands"),path.join(tmp,"data","catalogs"),path.join(tmp,"data","journeys"),path.join(tmp,"assets","brands",id),path.join(tmp,"assets","products",id)]) await fs.ensureDir(d);
+  var bd=await fs.readJson(bp);bd.id=id;await fs.writeJson(path.join(tmp,"data","brands",id+".json"),bd,{spaces:2});
+  await fs.copy(cp,path.join(tmp,"data","catalogs",id+"_products.json"));
+  await fs.copy(jp,path.join(tmp,"data","journeys",id+"_order_to_cash.json"));
+  var xd=path.join(dd,"journeys");if(await fs.pathExists(xd))for(var f of await fs.readdir(xd))if(f.endsWith(".json"))await fs.copy(path.join(xd,f),path.join(tmp,"data","journeys",id+"_"+f));
+  if(await fs.pathExists(lp))await fs.copy(lp,path.join(tmp,"assets","brands",id,"logo.png"));else await fs.copy(ls,path.join(tmp,"assets","brands",id,"logo.svg"));
+  var spd=path.join(dd,"assets","products");if(await fs.pathExists(spd))for(var f of await fs.readdir(spd))await fs.copy(path.join(spd,f),path.join(tmp,"assets","products",id,f));
+  var sad=path.join(dd,"assets");if(await fs.pathExists(sad)){var skip=["brands","products","fallbacks","field_ops"];for(var e of await fs.readdir(sad))if(!skip.includes(e)){var s=path.join(sad,e),d=path.join(tmp,"assets",e);if((await fs.stat(s)).isDirectory())await fs.copy(s,d);else await fs.copy(s,d);}}
+  var oD=path.join(ROOT,"data"),oA=path.join(ROOT,"assets"),bD=path.join(ROOT,".data-bak"),bA=path.join(ROOT,".assets-bak");
+  try{
+    if(await fs.pathExists(bD))await fs.remove(bD);if(await fs.pathExists(bA))await fs.remove(bA);
+    if(await fs.pathExists(oD))await fs.move(oD,bD);if(await fs.pathExists(oA))await fs.move(oA,bA);
+    await fs.move(path.join(tmp,"data"),oD);await fs.move(path.join(tmp,"assets"),oA);
+    var fl=(opt.dist?" --dist":"")+(opt.strict?" --strict":"");
+    console.log("\nBuilding "+id+" from: "+dd);execSync("node build.js"+fl,{cwd:ROOT,stdio:"inherit",env:Object.assign({},process.env)});
+    var gn=path.join(ROOT,"generated",id);if(await fs.pathExists(gn)){await fs.emptyDir(od);await fs.copy(gn,od);console.log("\nOutput: "+od);}
+    if(opt.dist){var ds=path.join(ROOT,"dist",id);if(await fs.pathExists(ds)){var d2=path.join(od,"..","dist",id);await fs.emptyDir(d2);await fs.copy(ds,d2);console.log("Dist: "+d2);}}
+  }finally{
+    await fs.remove(oD).catch(function(){});await fs.remove(oA).catch(function(){});
+    if(await fs.pathExists(bD))await fs.move(bD,oD);if(await fs.pathExists(bA))await fs.move(bA,oA);await fs.remove(tmp).catch(function(){});
+  }
+}
+
+function cmdBuildAll(o){var f=(o.dist?" --dist":"")+(o.strict?" --strict":"");execSync("node build.js"+f,{cwd:ROOT,stdio:"inherit",env:Object.assign({},process.env)});console.log("Generated: "+path.join(ROOT,"generated/"));if(o.dist)console.log("Dist: "+path.join(ROOT,"dist/"));}
+
+async function main(){
+  var a=process.argv.slice(2);if(!a.length||a[0]==="--help"||a[0]==="-h"){help();return;}
+  if(a[0]==="init"){if(!a[1]){console.error("Usage: demo-generator init <brand-id> [--dir <parent>]");process.exit(1);}var di=a.indexOf("--dir");await cmdInit(a[1],{dir:di>=0?a[di+1]:undefined});return;}
+  if(a[0]==="build"){var bi=a.indexOf("--brand"),di=a.indexOf("--data"),oi=a.indexOf("--output");if(bi<0||di<0){console.error("Usage: demo-generator build --brand <id> --data <dir> [--output <dir>] [--dist]");process.exit(1);}await cmdBuild(a[bi+1],{data:a[di+1],output:oi>=0?a[oi+1]:undefined,dist:a.includes("--dist"),strict:a.includes("--strict")});return;}
+  if(a[0]==="build-all"){cmdBuildAll({dist:a.includes("--dist"),strict:a.includes("--strict")});return;}
+  console.error("Unknown: "+a[0]+'. Run "'+CLI+' --help".');process.exit(1);
+}
+main().catch(function(e){console.error("Fatal:",e);process.exit(1);});

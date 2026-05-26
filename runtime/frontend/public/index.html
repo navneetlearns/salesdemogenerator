@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ZoTok Demo Generator</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#1a1a1a;min-height:100vh}
+.container{max-width:720px;margin:0 auto;padding:24px 16px}
+h1{font-size:24px;color:#075e54;margin-bottom:4px}
+.subtitle{color:#666;font-size:14px;margin-bottom:24px}
+.card{background:white;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card h3{font-size:16px;margin-bottom:8px;color:#333}
+.url-input{width:100%;padding:12px 16px;font-size:15px;border:2px solid #ddd;border-radius:8px;outline:none;transition:border-color .2s}
+.url-input:focus{border-color:#075e54}
+.journey-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:8px}
+.journey-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #e0e0e0;border-radius:6px;cursor:pointer;transition:background .15s;font-size:13px}
+.journey-item:hover{background:#f5f5f5}
+.journey-item input{margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;font-size:15px;font-weight:600;border:none;border-radius:8px;cursor:pointer;transition:all .2s;width:100%;gap:8px}
+.btn-primary{background:#075e54;color:white}
+.btn-primary:hover{background:#054d44}
+.btn-primary:disabled{background:#a8c5c1;cursor:not-allowed}
+.btn-secondary{background:#e0e0e0;color:#333}
+.btn-secondary:hover{background:#d0d0d0}
+.btn-success{background:#128C7E;color:white}
+.btn-success:hover{background:#0e6b5e}
+.status{font-size:13px;color:#666;text-align:center;padding:8px}
+.status.error{color:#d32f2f}
+.status.success{color:#2e7d32}
+.progress-bar{height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden;display:none}
+.progress-bar.active{display:block}
+.progress-fill{height:100%;background:#075e54;width:0;transition:width .5s;border-radius:2px}
+.preview-area{display:none;margin-top:16px}
+.preview-area.active{display:block}
+.preview-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.preview-nav button{padding:6px 14px;font-size:13px;border:1px solid #ddd;border-radius:4px;background:white;cursor:pointer;transition:all .2s}
+.preview-nav button.active{background:#075e54;color:white;border-color:#075e54}
+.preview-nav button:hover:not(.active){background:#f0f0f0}
+.preview-frame{width:100%;height:600px;border:1px solid #ddd;border-radius:8px;background:white}
+.export-actions{display:flex;gap:8px;margin-top:12px}
+.export-actions .btn{flex:1}
+.session-id{font-size:11px;color:#999;text-align:center;margin-top:8px;word-break:break-all}
+.error-detail{font-size:13px;color:#d32f2f;padding:12px;background:#ffe0e0;border-radius:6px;margin-top:12px;display:none}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.logo-icon{width:32px;height:32px;background:#075e54;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;font-weight:bold}
+@media(max-width:480px){.journey-grid{grid-template-columns:1fr 1fr}.export-actions{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo"><div class="logo-icon">Z</div><h1>ZoTok Demo Generator</h1></div>
+  <p class="subtitle">Generate interactive WhatsApp Commerce journey demos for any brand</p>
+  
+  <div class="card">
+    <h3>Step 1: Enter Brand URL</h3>
+    <input type="url" id="brandUrl" class="url-input" placeholder="https://example-brand.com" autocomplete="url">
+  </div>
+  
+  <div class="card">
+    <h3>Step 2: Select Journeys</h3>
+    <div class="journey-grid" id="journeyGrid">
+      <label class="journey-item"><input type="checkbox" value="order_to_cash" checked> <span>Order to Cash</span></label>
+      <label class="journey-item"><input type="checkbox" value="field_ops_expense"> <span>Field Ops</span></label>
+      <label class="journey-item"><input type="checkbox" value="automated_collections"> <span>Collections</span></label>
+      <label class="journey-item"><input type="checkbox" value="dealer_engagement"> <span>Dealer Eng.</span></label>
+      <label class="journey-item"><input type="checkbox" value="retailer_onboarding"> <span>Onboarding</span></label>
+      <label class="journey-item"><input type="checkbox" value="retailer_loyalty"> <span>Loyalty</span></label>
+    </div>
+  </div>
+  
+  <button id="generateBtn" class="btn btn-primary" onclick="generate()">Generate Demos</button>
+  
+  <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="status" id="status">Enter a brand URL to get started</div>
+  <div class="error-detail" id="errorDetail"></div>
+  
+  <div class="preview-area" id="previewArea">
+    <div class="card">
+      <h3>Preview</h3>
+      <div class="preview-nav" id="previewNav"></div>
+      <iframe class="preview-frame" id="previewFrame" sandbox="allow-scripts allow-same-origin"></iframe>
+    </div>
+    
+    <div class="card">
+      <h3>Export</h3>
+      <div class="export-actions">
+        <button class="btn btn-success" onclick="exportDemo('single')">Export Single HTML</button>
+        <button class="btn btn-success" onclick="exportDemo('zip')">Export ZIP Package</button>
+      </div>
+      <div class="status" id="exportStatus"></div>
+    </div>
+    
+    <div class="session-id" id="sessionId"></div>
+  </div>
+</div>
+
+<script>
+const API = window.location.origin;
+let currentSessionId = null;
+let currentJourneys = [];
+
+async function generate() {
+  const url = document.getElementById('brandUrl').value.trim();
+  if (!url) { setStatus('Please enter a brand URL', 'error'); return; }
+  
+  const checked = document.querySelectorAll('#journeyGrid input:checked');
+  const journeys = Array.from(checked).map(c => c.value);
+  if (journeys.length === 0) { setStatus('Select at least one journey', 'error'); return; }
+  
+  document.getElementById('generateBtn').disabled = true;
+  document.getElementById('generateBtn').textContent = 'Generating...';
+  document.getElementById('previewArea').classList.remove('active');
+  document.getElementById('progressBar').classList.add('active');
+  document.getElementById('progressFill').style.width = '20%';
+  setStatus('Creating session and scraping brand...', '');
+  
+  try {
+    const resp = await fetch(API + '/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, journeys })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    
+    currentSessionId = data.sessionId;
+    document.getElementById('sessionId').textContent = 'Session: ' + data.sessionId;
+    
+    // Poll for completion
+    await pollSession(data.sessionId, journeys);
+  } catch (err) {
+    setStatus('Error: ' + err.message, 'error');
+    document.getElementById('generateBtn').disabled = false;
+    document.getElementById('generateBtn').textContent = 'Generate Demos';
+    document.getElementById('progressBar').classList.remove('active');
+  }
+}
+
+async function pollSession(sessionId, journeys) {
+  const maxAttempts = 60;
+  for (let i = 0; i < maxAttempts; i++) {
+    await new Promise(r => setTimeout(r, 2000));
+    document.getElementById('progressFill').style.width = Math.min(95, 20 + (i / maxAttempts) * 75) + '%';
+    
+    const resp = await fetch(API + '/api/session/' + sessionId);
+    const data = await resp.json();
+    
+    if (data.status === 'complete') {
+      document.getElementById('progressFill').style.width = '100%';
+      currentJourneys = data.generatedFiles.filter(f => f.file.endsWith('.html')).map(f => f.file.replace('.html', ''));
+      showPreview(sessionId, currentJourneys);
+      setStatus('Generation complete! ' + data.generatedFiles.length + ' journeys ready.', 'success');
+      document.getElementById('generateBtn').disabled = false;
+      document.getElementById('generateBtn').textContent = 'Generate Demos';
+      setTimeout(() => { document.getElementById('progressBar').classList.remove('active'); }, 500);
+      return;
+    }
+    
+    if (data.status === 'failed') {
+      document.getElementById('generateBtn').disabled = false;
+      document.getElementById('generateBtn').textContent = 'Generate Demos';
+      document.getElementById('progressBar').classList.remove('active');
+      setStatus('Generation failed', 'error');
+      showError(data.metadata?.error || 'Unknown error during generation');
+      return;
+    }
+  }
+  
+  document.getElementById('generateBtn').disabled = false;
+  document.getElementById('generateBtn').textContent = 'Generate Demos';
+  document.getElementById('progressBar').classList.remove('active');
+  setStatus('Generation timed out', 'error');
+}
+
+function showPreview(sessionId, journeys) {
+  document.getElementById('previewArea').classList.add('active');
+  const nav = document.getElementById('previewNav');
+  nav.innerHTML = '';
+  
+  journeys.forEach((j, idx) => {
+    const btn = document.createElement('button');
+    btn.textContent = j.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    btn.onclick = () => loadPreview(sessionId, j, btn);
+    if (idx === 0) btn.classList.add('active');
+    nav.appendChild(btn);
+  });
+  
+  if (journeys.length > 0) loadPreview(sessionId, journeys[0], nav.querySelector('.active'));
+}
+
+function loadPreview(sessionId, journey, btn) {
+  document.querySelectorAll('#previewNav button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('previewFrame').src = API + '/api/preview/' + sessionId + '/' + journey;
+}
+
+async function exportDemo(mode) {
+  if (!currentSessionId) return;
+  document.getElementById('exportStatus').textContent = 'Exporting...';
+  document.getElementById('exportStatus').className = 'status';
+  
+  try {
+    const resp = await fetch(API + '/api/export/' + currentSessionId, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    
+    // Download
+    const dlUrl = API + '/api/export/' + currentSessionId + '/' + mode;
+    window.open(dlUrl, '_blank');
+    document.getElementById('exportStatus').textContent = 'Download started: ' + (data.totalBytes / 1024).toFixed(1) + ' KB';
+    document.getElementById('exportStatus').className = 'status success';
+  } catch (err) {
+    document.getElementById('exportStatus').textContent = 'Export error: ' + err.message;
+    document.getElementById('exportStatus').className = 'status error';
+  }
+}
+
+function setStatus(msg, type) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status' + (type ? ' ' + type : '');
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorDetail');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+</script>
+</body>
+</html>

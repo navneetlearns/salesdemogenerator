@@ -1,11 +1,95 @@
-{{!-- Turnover-Based Loyalty Scheme — Step 1 --}}
+{{!-- Turnover-Based Loyalty Scheme — Step 1: Loyalty Program Overview --}}
 <div class="step-section" id="step-1">
-  <div style="padding:40px;text-align:center;max-width:400px;margin:0 auto;">
-    <h2 style="color:var(--brand);font-size:24px;margin-bottom:16px;">Turnover-Based Loyalty Scheme</h2>
-    <h3 style="color:var(--brand-dark);font-size:16px;margin-bottom:24px;">Step 1 of 6</h3>
-    <p style="color:#555;font-size:14px;line-height:1.6;">Reward high-turnover retailers with automated scheme enrollment, milestone tracking, and redemption.</p>
-    <div style="margin-top:32px;padding:20px;background:#f5f5f5;border-radius:12px;">
-      <p style="font-size:13px;color:#888;">🚧 This journey template is a placeholder. Full WhatsApp demo content coming soon.</p>
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 1 · Program Announcement</div>
+    <div class="screen-type-lbl">Session Interactive Message — Announcement Card</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:00 AM"}}
+      {{> wa-topbar status="ZoTok Business" actions="call" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        <div class="msg-receiver-wrap">
+          <div class="wa-tmpl">
+            <div class="wa-hdr-img" style="background:linear-gradient(135deg,var(--brand),var(--brand-dark));padding:20px;text-align:center;border-radius:12px 12px 0 0;">
+              <div style="font-size:32px;margin-bottom:8px;">🏆</div>
+              <div style="color:#fff;font-size:18px;font-weight:700;">Turnover-Based Loyalty</div>
+              <div style="color:rgba(255,255,255,0.85);font-size:13px;">{{brand.name}} Rewards Program</div>
+            </div>
+            <div class="wa-tmpl-body">
+              {{{journey.messages.step1.greeting}}}<br><br>
+              <b>✨ Program Highlights:</b><br>
+              • Earn points on every purchase<br>
+              • Climb tiers — Bronze → Gold → Platinum → Diamond<br>
+              • Exclusive discounts &amp; free delivery<br>
+              • Quarterly bonus rewards<br><br>
+              <b>Your Current Tier:</b> <span style="color:var(--brand);font-weight:700;">{{journey.loyalty.tier.current}}</span><br>
+              <b>Points Balance:</b> <span style="color:var(--brand);font-weight:700;">{{journey.loyalty.points.balance}}</span> pts<br><br>
+              No action needed — you're automatically enrolled! 🎉
+            </div>
+            <div class="wa-tmpl-signoff">Team,<br>{{brand.name}} India</div>
+            <div class="wa-tmpl-time">10:00 AM</div>
+            <div class="wa-tmpl-btns">
+              <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884" stroke-width="2.5"/><polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5"/><line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5"/></svg>View Tier Benefits</div>
+              <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 1v22M1 12h22" stroke="#00A884" stroke-width="2.5" stroke-linecap="round"/></svg>Check Points</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="screen-desc" style="background:#C8B8F0;">
+      <strong>Loyalty Program Announcement</strong>
+      Retailer receives an automated welcome message introducing the turnover-based loyalty scheme with tier structure, point earning, and key benefits — all within WhatsApp.
     </div>
   </div>
-</div>
+
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 2 · Tier Benefits Detail</div>
+    <div class="screen-type-lbl">Interactive Template — Tier Comparison Card</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:01 AM"}}
+      {{> wa-topbar status="ZoTok Business" actions="call" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        <div class="msg-sender-wrap">
+          <div class="msg-sender">
+            <div class="msg-body">View Tier Benefits</div>
+            <span class="msg-time">10:01 AM <span class="msg-tick">✓✓</span></span>
+          </div>
+        </div>
+        <div class="msg-receiver-wrap">
+          <div class="wa-tmpl">
+            <div class="wa-tmpl-body">
+              <b>🏅 {{brand.name}} Loyalty Tiers</b><br><br>
+              <div style="background:#f8f4e8;border-radius:8px;padding:12px;margin-bottom:8px;border-left:4px solid #cd7f32;">
+                <b style="color:#cd7f32;">🥉 Bronze</b> — Up to ₹5L turnover<br>
+                <span style="font-size:12px;color:#666;">Base points • Standard delivery</span>
+              </div>
+              <div style="background:#fff8e0;border-radius:8px;padding:12px;margin-bottom:8px;border-left:4px solid #ffd700;">
+                <b style="color:#b8860b;">🥇 Gold</b> — ₹5L–₹10L turnover<br>
+                <span style="font-size:12px;color:#666;">5% extra discount • Free delivery • RM</span>
+              </div>
+              <div style="background:#e8f4f8;border-radius:8px;padding:12px;margin-bottom:8px;border-left:4px solid #e5e4e2;">
+                <b style="color:#6a7b8b;">💎 Platinum</b> — ₹10L–₹20L turnover<br>
+                <span style="font-size:12px;color:#666;">10% extra discount • Express delivery • Priority support</span>
+              </div>
+              <div style="background:#f0e8ff;border-radius:8px;padding:12px;border-left:4px solid #b9f2ff;">
+                <b style="color:#0f52ba;">👑 Diamond</b> — ₹20L+ turnover<br>
+                <span style="font-size:12px;color:#666;">15% extra discount • VIP support • Revenue share</span>
+              </div>
+              <br>
+              <b>You're currently:</b> <span style="color:var(--brand);font-weight:700;">{{journey.loyalty.tier.current}}</span> 🎯
+            </div>
+            <div class="wa-tmpl-signoff">Team,<br>{{brand.name}} India</div>
+            <div class="wa-tmpl-time">10:01 AM</div>
+          </div>
+        </div>
+      </div>
+      <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="screen-desc" style="background:#B0D4F0;">
+      <strong>Tier Benefits Comparison</strong>
+      Retailer views the complete tier structure with benefits for each level, showing their current position and what's needed to reach the next tier.
+    </div>
+  </div>
+</div><!-- /step-1 -->

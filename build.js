@@ -89,6 +89,7 @@ Handlebars.registerHelper('formatCurrency', (amount) => {
 Handlebars.registerHelper('multiply', (a, b) => Number(a) * Number(b));
 Handlebars.registerHelper('subtract', (a, b) => Number(a) - Number(b));
 Handlebars.registerHelper('add', (a, b) => Number(a) + Number(b));
+Handlebars.registerHelper('divide', (a, b) => Number(a) / Number(b));
 
 async function loadScripts(navSteps) {
   const parts = [`const steps = ${JSON.stringify(navSteps)};\n\n`];
