@@ -1,0 +1,12 @@
+# Exclude large development artifacts from Vercel deployment
+.visual-baseline/
+.visual-report/
+generated/
+dist/
+data/extracted/
+scratch/
+node_modules/
+.git/
+*.md
+USER_MANUAL.md
+VERCEL_RUNTIME_NOTES.md
