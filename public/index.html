@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Demo Generator — Minimal UI</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="wrap">
+    <h1>Demo Generator</h1>
+    <p class="lead">Minimal UI to create ephemeral demo sessions and generate journeys.</p>
+
+    <section class="card">
+      <h2>Session</h2>
+      <div id="sessionBox">Creating session…</div>
+    </section>
+
+    <section class="card">
+      <h2>Uploads</h2>
+      <label class="file-row">Logo (png/jpg/webp, &lt; 2MB)
+        <input id="logoInput" type="file" accept="image/*">
+        <button id="uploadLogoBtn" onclick="uploadLogo()" class="btn">Upload Logo</button>
+      </label>
+      <label class="file-row">Catalog (csv/xlsx/json, &lt; 5MB)
+        <input id="catalogInput" type="file" accept=".csv,.xlsx,application/json">
+        <button id="uploadCatalogBtn" onclick="uploadCatalog()" class="btn">Upload Catalog</button>
+      </label>
+      <div id="uploadStatus" class="muted"></div>
+    </section>
+
+    <section class="card">
+      <h2>Journeys</h2>
+      <div class="grid" id="journeyList">
+        <label><input type="checkbox" value="order_to_cash" checked> Order to Cash</label>
+        <label><input type="checkbox" value="field_ops_expense"> Field Ops</label>
+        <label><input type="checkbox" value="automated_collections"> Automated Collections</label>
+        <label><input type="checkbox" value="dealer_engagement"> Dealer Engagement</label>
+        <label><input type="checkbox" value="retailer_onboarding"> Retailer Onboarding</label>
+        <label><input type="checkbox" value="retailer_loyalty"> Retailer Loyalty</label>
+      </div>
+      <button id="generateBtn" onclick="generate()" class="btn primary">Generate</button>
+      <div id="genStatus" class="muted"></div>
+    </section>
+
+    <section class="card">
+      <h2>Preview</h2>
+      <div id="previewLinks" class="muted">No previews yet.</div>
+    </section>
+
+    <section class="card">
+      <h2>Export</h2>
+      <div class="row">
+        <button id="exportSingleBtn" class="btn" onclick="exportDemo('single')">Export Single HTML</button>
+        <button id="exportZipBtn" class="btn" onclick="exportDemo('zip')">Export ZIP</button>
+      </div>
+      <div id="exportStatus" class="muted"></div>
+    </section>
+
+    <footer class="muted small">Frontend: vanilla HTML/CSS/JS — served from /public</footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -50,6 +50,9 @@ async function vercelHandler(req, res) {
   // Re-use the same routes from preview-server
   const FRONTEND_DIR = path.join(__dirname, 'frontend', 'public');
   app.use(express.static(FRONTEND_DIR));
+  // Also serve root public/ (upload-based UI)
+  const PUBLIC_DIR = path.join(__dirname, "..", "public");
+  app.use(express.static(PUBLIC_DIR));
   
   // Import route handlers
   const { createSession, getSession, destroySession, listActiveSessions } = require('./session-manager');

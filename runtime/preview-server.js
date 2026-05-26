@@ -5,6 +5,11 @@ const { createSession, getSession, destroySession, listActiveSessions, startClea
 const { generateSession } = require('./generate-session');
 const { exportSession } = require('./export-engine');
 const { cleanupExpiredSessions } = require('./cleanup');
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 12 * 1024 * 1024 } });
+const { processAndStore: processLogo } = require('./uploads/upload-logo');
+const { processAndStore: processCatalog } = require('./uploads/upload-catalog');
+const { generateSessionFromUploads } = require('./generate-session');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const FRONTEND_DIR = path.join(__dirname, 'frontend', 'public');
@@ -18,6 +23,9 @@ function createPreviewServer(options = {}) {
   
   // Serve frontend static files
   app.use(express.static(FRONTEND_DIR));
+  // Also serve from root public/ directory (upload-based UI)
+  const PUBLIC_DIR = path.join(PROJECT_ROOT, "public");
+  app.use(express.static(PUBLIC_DIR));
   
   // CORS for development
   app.use((req, res, next) => {
@@ -39,7 +47,16 @@ function createPreviewServer(options = {}) {
       
       if (validJourneys.length === 0) return res.status(400).json({ error: 'No valid journeys selected' });
       
-      const session = await createSession({ url, requestedJourneys: validJourneys });
+      // Support two flows:
+      // - URL-based ingestion (legacy)
+      // - Session-based uploads: client supplies `sessionId` and uploads prior to calling generate
+      let session;
+      if (req.body.sessionId) {
+        session = await getSession(req.body.sessionId);
+        if (!session) return res.status(404).json({ error: 'Session not found' });
+      } else {
+        session = await createSession({ url, requestedJourneys: validJourneys });
+      }
       
       // Return immediately with session ID, generation happens async
       res.json({
@@ -50,20 +67,72 @@ function createPreviewServer(options = {}) {
       });
       
       // Generate asynchronously
-      try {
-        await generateSession(session.id, url, { journeys: validJourneys });
-      } catch (genErr) {
-        console.error('[preview] Generation failed:', genErr.message);
-        const s = await getSession(session.id);
-        if (s) {
-          s.metadata.error = genErr.message;
-          s.metadata.generationFailed = true;
-          await fs.writeJson(path.join(s.paths.root, 'metadata.json'), s, { spaces: 2 });
+      (async () => {
+        try {
+          if (req.body.sessionId) {
+            await generateSessionFromUploads(session.id, { journeys: validJourneys });
+          } else {
+            await generateSession(session.id, url, { journeys: validJourneys });
+          }
+        } catch (genErr) {
+          console.error('[preview] Generation failed:', genErr && genErr.message ? genErr.message : genErr);
+          const s = await getSession(session.id);
+          if (s) {
+            s.metadata.error = genErr.message || String(genErr);
+            s.metadata.generationFailed = true;
+            await fs.writeJson(path.join(s.paths.root, 'metadata.json'), s, { spaces: 2 });
+          }
         }
-      }
+      })();
     } catch (err) {
       console.error('[preview] Error:', err);
       if (!res.headersSent) res.status(500).json({ error: err.message });
+    }
+  });
+
+  // POST /api/session/create - Create an ephemeral session
+  app.post('/api/session/create', async (req, res) => {
+    try {
+      const { brandName } = req.body || {};
+      const session = await createSession({ uploadBrandName: brandName });
+      res.json({ sessionId: session.id, expiresAt: session.expiresAt });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // POST /api/upload/logo - multipart/form-data; fields: sessionId, file field 'logo'
+  app.post('/api/upload/logo', upload.single('logo'), async (req, res) => {
+    try {
+      const sessionId = req.body.sessionId || req.query.sessionId;
+      if (!sessionId) return res.status(400).json({ error: 'sessionId required' });
+      const session = await getSession(sessionId);
+      if (!session) return res.status(404).json({ error: 'Session not found or expired' });
+      if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+      const out = await processLogo(session, req.file);
+      // Update metadata
+      session.metadata.uploadedLogo = out.savedAs;
+      await fs.writeJson(path.join(session.paths.root, 'metadata.json'), session, { spaces: 2 });
+      res.json({ saved: out.savedAs });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // POST /api/upload/catalog - multipart/form-data; fields: sessionId, file field 'catalog'
+  app.post('/api/upload/catalog', upload.single('catalog'), async (req, res) => {
+    try {
+      const sessionId = req.body.sessionId || req.query.sessionId;
+      if (!sessionId) return res.status(400).json({ error: 'sessionId required' });
+      const session = await getSession(sessionId);
+      if (!session) return res.status(404).json({ error: 'Session not found or expired' });
+      if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+      const out = await processCatalog(session, req.file);
+      session.metadata.uploadedCatalog = out.savedAs;
+      await fs.writeJson(path.join(session.paths.root, 'metadata.json'), session, { spaces: 2 });
+      res.json({ saved: out.savedAs });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
     }
   });
   
@@ -134,16 +203,19 @@ function createPreviewServer(options = {}) {
       const mode = req.body.mode || 'single';
       const session = await getSession(req.params.sessionId);
       if (!session) return res.status(404).json({ error: 'Session not found or expired' });
-      
       const result = await exportSession(session.id, mode);
-      
-      res.json({
-        status: 'exported',
-        mode,
-        files: result.files,
-        totalBytes: result.totalBytes,
-        exports: result.paths,
-      });
+      // Validate export integrity (no external resources, all assets present)
+      const { validateExport } = require('./export-validator');
+      try {
+        await validateExport(session);
+      } catch (ve) {
+        // remove exports on validation failure
+        const exportDir = require('path').join(session.paths.root, 'exports');
+        await require('fs-extra').remove(exportDir).catch(()=>{});
+        return res.status(500).json({ error: 'Export failed validation: ' + ve.message });
+      }
+
+      res.json({ status: 'exported', mode, files: result.files, totalBytes: result.totalBytes, exports: result.paths });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
