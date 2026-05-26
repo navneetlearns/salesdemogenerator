@@ -79,121 +79,245 @@
       "num": 1,
       "displayNum": 1,
       "title": "Admin Creates Group",
-      "meta": "Admin · Group setup & activation",
-      "navTitle": "Step 1 — Admin Creates Group",
-      "navDesc": "Admin · Group setup &amp; activation<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-group\">Group</span>"
+      "meta": "Admin \u00b7 Group setup & activation",
+      "navTitle": "Step 1 \u2014 Admin Creates Group",
+      "navDesc": "Admin \u00b7 Group setup &amp; activation<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-group\">Group</span>"
     },
     {
       "num": 2,
       "displayNum": 2,
       "title": "ZoAi Capability Panel",
-      "meta": "Overview · AI capabilities",
-      "navTitle": "Step 2 — ZoAi Capability Panel",
-      "navDesc": "Overview · AI capabilities<span class=\"tag tag-ai\">AI</span><span class=\"tag tag-cap\">Capabilities</span>"
+      "meta": "Overview \u00b7 AI capabilities",
+      "navTitle": "Step 2 \u2014 ZoAi Capability Panel",
+      "navDesc": "Overview \u00b7 AI capabilities<span class=\"tag tag-ai\">AI</span><span class=\"tag tag-cap\">Capabilities</span>"
     },
     {
       "num": 3,
       "displayNum": 3,
       "title": "Start Day & Clock-In",
-      "meta": "Sales Exec · Clock-in & attendance",
-      "navTitle": "Step 3 — Start Day & Clock-In",
-      "navDesc": "Sales Exec · Clock-in &amp; attendance<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-session\">Attendance</span>"
+      "meta": "Sales Exec \u00b7 Clock-in & attendance",
+      "navTitle": "Step 3 \u2014 Start Day & Clock-In",
+      "navDesc": "Sales Exec \u00b7 Clock-in &amp; attendance<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-session\">Attendance</span>"
     },
     {
       "num": 4,
       "displayNum": 4,
       "title": "Request Plan",
-      "meta": "Sales Exec · Beat plan & routing",
-      "navTitle": "Step 4 — Request Plan",
-      "navDesc": "Sales Exec · Beat plan &amp; routing<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-dist\">Routing</span>"
+      "meta": "Sales Exec \u00b7 Beat plan & routing",
+      "navTitle": "Step 4 \u2014 Request Plan",
+      "navDesc": "Sales Exec \u00b7 Beat plan &amp; routing<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-dist\">Routing</span>"
     },
     {
       "num": 5,
       "displayNum": 5,
       "title": "Travel & Check-In",
-      "meta": "Sales Exec · Check-in & location",
-      "navTitle": "Step 5 — Travel & Check-In",
-      "navDesc": "Sales Exec · Check-in &amp; location<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-dist\">Location</span>"
+      "meta": "Sales Exec \u00b7 Check-in & location",
+      "navTitle": "Step 5 \u2014 Travel & Check-In",
+      "navDesc": "Sales Exec \u00b7 Check-in &amp; location<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-dist\">Location</span>"
     },
     {
       "num": 6,
       "displayNum": 6,
       "title": "Order Capture & Review",
-      "meta": "Sales Exec · Order capture & review",
-      "navTitle": "Step 6 — Order Capture & Review",
-      "navDesc": "Sales Exec · Order capture &amp; review<span class=\"tag tag-ord\">Order</span><span class=\"tag tag-ops\">Field Ops</span>"
+      "meta": "Sales Exec \u00b7 Order capture & review",
+      "navTitle": "Step 6 \u2014 Order Capture & Review",
+      "navDesc": "Sales Exec \u00b7 Order capture &amp; review<span class=\"tag tag-ord\">Order</span><span class=\"tag tag-ops\">Field Ops</span>"
     },
     {
       "num": 7,
       "displayNum": 7,
       "title": "Order Submit & Notify",
-      "meta": "Sales Exec · Order submit & notify",
-      "navTitle": "Step 7 — Order Submit & Notify",
-      "navDesc": "Sales Exec · Order submit &amp; notify<span class=\"tag tag-ord\">Order</span><span class=\"tag tag-ops\">Field Ops</span>"
+      "meta": "Sales Exec \u00b7 Order submit & notify",
+      "navTitle": "Step 7 \u2014 Order Submit & Notify",
+      "navDesc": "Sales Exec \u00b7 Order submit &amp; notify<span class=\"tag tag-ord\">Order</span><span class=\"tag tag-ops\">Field Ops</span>"
     },
     {
       "num": 8,
       "displayNum": 8,
       "title": "Competitor Insights",
-      "meta": "Sales Exec · Market intelligence",
-      "navTitle": "Step 8 — Competitor Insights",
-      "navDesc": "Sales Exec · Market intelligence<span class=\"tag tag-ai\">AI</span><span class=\"tag tag-ops\">Field Ops</span>"
+      "meta": "Sales Exec \u00b7 Market intelligence",
+      "navTitle": "Step 8 \u2014 Competitor Insights",
+      "navDesc": "Sales Exec \u00b7 Market intelligence<span class=\"tag tag-ai\">AI</span><span class=\"tag tag-ops\">Field Ops</span>"
     },
     {
       "num": 9,
       "displayNum": 9,
       "title": "Realtime ASM Communication",
-      "meta": "ASM · Real-time field comms",
-      "navTitle": "Step 9 — Realtime ASM Communication",
-      "navDesc": "ASM · Real-time field comms<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-session\">Comms</span>"
+      "meta": "ASM \u00b7 Real-time field comms",
+      "navTitle": "Step 9 \u2014 Realtime ASM Communication",
+      "navDesc": "ASM \u00b7 Real-time field comms<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-session\">Comms</span>"
     },
     {
       "num": 10,
       "displayNum": 10,
       "title": "PWA App Installation",
-      "meta": "Sales Exec · PWA offline app",
-      "navTitle": "Step 10 — PWA App Installation",
-      "navDesc": "Sales Exec · PWA offline app<span class=\"tag tag-cap\">PWA</span><span class=\"tag tag-ops\">Field Ops</span>"
+      "meta": "Sales Exec \u00b7 PWA offline app",
+      "navTitle": "Step 10 \u2014 PWA App Installation",
+      "navDesc": "Sales Exec \u00b7 PWA offline app<span class=\"tag tag-cap\">PWA</span><span class=\"tag tag-ops\">Field Ops</span>"
     },
     {
       "num": 11,
       "displayNum": 11,
       "title": "Field Ops Command Center",
-      "meta": "Head Office · Activity & reports",
-      "navTitle": "Step 11 — Field Ops Command Center",
-      "navDesc": "Head Office · Activity &amp; reports<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-ops\">Field Ops</span>"
+      "meta": "Head Office \u00b7 Activity & reports",
+      "navTitle": "Step 11 \u2014 Field Ops Command Center",
+      "navDesc": "Head Office \u00b7 Activity &amp; reports<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-ops\">Field Ops</span>"
     },
     {
       "num": 12,
       "displayNum": 12,
       "title": "DSR Files Expense Claim",
-      "meta": "Sales Exec · Expense claims",
-      "navTitle": "Step 12 — DSR Files Expense Claim",
-      "navDesc": "Sales Exec · Expense claims<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-act\">Expense</span>"
+      "meta": "Sales Exec \u00b7 Expense claims",
+      "navTitle": "Step 12 \u2014 DSR Files Expense Claim",
+      "navDesc": "Sales Exec \u00b7 Expense claims<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-act\">Expense</span>"
     },
     {
       "num": 13,
       "displayNum": 13,
       "title": "Manager Approval Queue",
-      "meta": "Manager · Approval queue",
-      "navTitle": "Step 13 — Manager Approval Queue",
-      "navDesc": "Manager · Approval queue<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-act\">Approval</span>"
+      "meta": "Manager \u00b7 Approval queue",
+      "navTitle": "Step 13 \u2014 Manager Approval Queue",
+      "navDesc": "Manager \u00b7 Approval queue<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-act\">Approval</span>"
     },
     {
       "num": 14,
       "displayNum": 14,
       "title": "Manager Reviews & Approves",
-      "meta": "Manager · Review & approve",
-      "navTitle": "Step 14 — Manager Reviews & Approves",
-      "navDesc": "Manager · Review &amp; approve<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-act\">Approval</span>"
+      "meta": "Manager \u00b7 Review & approve",
+      "navTitle": "Step 14 \u2014 Manager Reviews & Approves",
+      "navDesc": "Manager \u00b7 Review &amp; approve<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-act\">Approval</span>"
     },
     {
       "num": 15,
       "displayNum": 15,
       "title": "DSR Receives Notifications",
-      "meta": "Sales Exec · Status notifications",
-      "navTitle": "Step 15 — DSR Receives Notifications",
-      "navDesc": "Sales Exec · Status notifications<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-act\">Notification</span>"
+      "meta": "Sales Exec \u00b7 Status notifications",
+      "navTitle": "Step 15 \u2014 DSR Receives Notifications",
+      "navDesc": "Sales Exec \u00b7 Status notifications<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-act\">Notification</span>"
     }
-  ]
+  ],
+  "step10": {
+    "orderAmount": 7850,
+    "paidAmount": 2000,
+    "customers": [
+      {
+        "name": "Sharma Supermart",
+        "toPay": 23450,
+        "lastInvoice": "26/03/2026"
+      },
+      {
+        "name": "Om Sai Enterprises",
+        "toPay": 12800,
+        "lastInvoice": "12/03/2026"
+      },
+      {
+        "name": "Rathi Corner House",
+        "toPay": 0,
+        "lastInvoice": null
+      },
+      {
+        "name": "Friends Kirana",
+        "toPay": 19200,
+        "lastInvoice": "01/02/2026"
+      },
+      {
+        "name": "Bharat Trading Co",
+        "toPay": 5600,
+        "lastInvoice": "20/03/2026"
+      },
+      {
+        "name": "Patel Pipes & Hardware",
+        "toPay": 31000,
+        "lastInvoice": "14/03/2026"
+      }
+    ]
+  },
+  "step11": {
+    "orders": [
+      {
+        "time": "05:42 PM",
+        "orderRef": "HDR-1042",
+        "skus": 3,
+        "amount": 9250
+      },
+      {
+        "time": "02:57 PM",
+        "orderRef": "HDR-1038",
+        "skus": 2,
+        "amount": 5600
+      }
+    ],
+    "kpis": {
+      "totalSalespersons": 6,
+      "totalCustomers": 21,
+      "totalOrders": 12,
+      "totalOrderValue": 19720,
+      "totalPayments": 147052
+    },
+    "teamMembers": [
+      {
+        "name": "Ravi Singh",
+        "customers": 3,
+        "checkins": 3,
+        "orders": 2,
+        "skus": 5,
+        "orderValue": 14850,
+        "upiPayment": 9250,
+        "cashPayment": 0
+      },
+      {
+        "name": "Sachin MAH",
+        "customers": 1,
+        "checkins": 1,
+        "orders": 0,
+        "skus": 0,
+        "orderValue": 0,
+        "upiPayment": 0,
+        "cashPayment": 0
+      },
+      {
+        "name": "Vaasu",
+        "customers": 3,
+        "checkins": 3,
+        "orders": 0,
+        "skus": 0,
+        "orderValue": 0,
+        "upiPayment": 100000,
+        "cashPayment": 0
+      },
+      {
+        "name": "Govind Kumar",
+        "customers": 1,
+        "checkins": 1,
+        "orders": 0,
+        "skus": 0,
+        "orderValue": 0,
+        "upiPayment": 0,
+        "cashPayment": 0
+      },
+      {
+        "name": "Raja Ganesan Nagpur",
+        "customers": 11,
+        "checkins": 16,
+        "orders": 8,
+        "skus": 17,
+        "orderValue": 0,
+        "upiPayment": 31000,
+        "cashPayment": 0
+      },
+      {
+        "name": "Nagesh",
+        "customers": 5,
+        "checkins": 6,
+        "orders": 4,
+        "skus": 5,
+        "orderValue": 19720,
+        "upiPayment": 16052,
+        "cashPayment": 0
+      }
+    ]
+  },
+  "step1": {
+    "outstandingAmount": 48500
+  }
 }
