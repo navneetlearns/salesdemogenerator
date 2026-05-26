@@ -2,6 +2,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const { execSync } = require('child_process');
 const { ingestBrand } = require('./brand-ingestion');
+const { buildBrandFromSession } = require('./brand-generator');
 const { getSession, touchSession } = require('./session-manager');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
@@ -20,64 +21,63 @@ async function generateSession(sessionId, brandUrl, options = {}) {
   // 2. Create journey JSONs for selected journeys
   await createJourneyJsons(ingestion, session, selectedJourneys);
   
-  // 3. Swap session data into project and run build
-  const origData = path.join(PROJECT_ROOT, 'data');
-  const origAssets = path.join(PROJECT_ROOT, 'assets');
-  const bakData = path.join(PROJECT_ROOT, '.runtime-data-bak');
-  const bakAssets = path.join(PROJECT_ROOT, '.runtime-assets-bak');
-  
-  // Ensure project-level fallback assets exist
-  await fs.ensureDir(path.join(PROJECT_ROOT, 'assets', 'fallbacks'));
-  
-  try {
-    if (await fs.pathExists(bakData)) await fs.remove(bakData);
-    if (await fs.pathExists(bakAssets)) await fs.remove(bakAssets);
-    if (await fs.pathExists(origData)) await fs.move(origData, bakData);
-    if (await fs.pathExists(origAssets)) await fs.move(origAssets, bakAssets);
-    
-    // Copy session data into project
-    const sessionDataDir = path.join(session.paths.root, 'data');
-    if (await fs.pathExists(sessionDataDir)) {
-      await fs.copy(sessionDataDir, origData);
+  // 3. Create a session-local workspace (under /tmp/sessions/<id>/workspace)
+  // so we never mutate project files. Copy project into workspace (excluding node_modules, generated, dist).
+  const workspace = path.join(session.paths.root, 'workspace');
+  await fs.remove(workspace).catch(() => {});
+  await fs.ensureDir(workspace);
+  console.log('[generate] Preparing workspace:', workspace);
+
+  // Copy project files into workspace but skip heavy dirs
+  await fs.copy(PROJECT_ROOT, workspace, {
+    filter: (src) => {
+      const rel = src.replace(PROJECT_ROOT, '');
+      if (rel.includes('node_modules')) return false;
+      if (rel.includes(path.join('generated'))) return false;
+      if (rel.includes(path.join('dist'))) return false;
+      if (rel.includes(path.join(session.paths.root))) return false;
+      return true;
     }
-    // Copy session assets + ensure fallbacks exist
-    await fs.copy(session.paths.assets, origAssets);
-    
-    // Run the deterministic generator
+  });
+
+  // Merge session data and assets into workspace
+  const sessionDataDir = path.join(session.paths.root, 'data');
+  if (await fs.pathExists(sessionDataDir)) {
+    await fs.copy(sessionDataDir, path.join(workspace, 'data'));
+  }
+  await fs.copy(session.paths.assets, path.join(workspace, 'assets'));
+
+  // Ensure fallback assets in workspace
+  await fs.ensureDir(path.join(workspace, 'assets', 'fallbacks'));
+
+  try {
     const flags = '--dist';
-    console.log('[generate] Running build...');
+    console.log('[generate] Running build in workspace...');
     execSync('node build.js ' + flags, {
-      cwd: PROJECT_ROOT,
+      cwd: workspace,
       stdio: 'pipe',
       encoding: 'utf-8',
-      timeout: 60000,
+      timeout: 120000,
       env: Object.assign({}, process.env, { NODE_ENV: 'production' }),
     });
-    
-    // Copy generated output to session
-    const genSrc = path.join(PROJECT_ROOT, 'generated', ingestion.brandId);
+
+    // Copy generated output from workspace to session
+    const genSrc = path.join(workspace, 'generated', ingestion.brandId);
     if (await fs.pathExists(genSrc)) {
-      if (await fs.pathExists(session.paths.generated)) {
-        await fs.emptyDir(session.paths.generated);
-      }
+      await fs.emptyDir(session.paths.generated).catch(() => {});
       await fs.copy(genSrc, session.paths.generated);
       console.log('[generate] Output copied to session');
     }
-    
-    // Also copy dist if generated
-    const distSrc = path.join(PROJECT_ROOT, 'dist', ingestion.brandId);
+
+    const distSrc = path.join(workspace, 'dist', ingestion.brandId);
     if (await fs.pathExists(distSrc)) {
       const distDst = path.join(session.paths.root, 'dist');
       await fs.ensureDir(distDst);
       await fs.copy(distSrc, distDst);
     }
-    
   } finally {
-    // Restore original data and assets
-    await fs.remove(origData).catch(() => {});
-    await fs.remove(origAssets).catch(() => {});
-    if (await fs.pathExists(bakData)) await fs.move(bakData, origData);
-    if (await fs.pathExists(bakAssets)) await fs.move(bakAssets, origAssets);
+    // Clean up workspace to avoid leaving large copies
+    await fs.remove(workspace).catch(() => {});
   }
   
   await touchSession(sessionId);
@@ -123,6 +123,86 @@ async function createJourneyJsons(ingestion, session, journeyTypes) {
   }
 }
 
+async function generateSessionFromUploads(sessionId, options = {}) {
+  const session = await getSession(sessionId);
+  if (!session) throw new Error('Session not found: ' + sessionId);
+  const selectedJourneys = options.journeys || ['order_to_cash'];
+  console.log('[generate:uploads] Session:', sessionId);
+
+  // 1. Build brand from session uploads
+  const ingestion = await buildBrandFromSession(session);
+  console.log('[generate:uploads] Ingestion complete:', ingestion.brandId);
+
+  // 2. Create journey JSONs
+  await createJourneyJsons(ingestion, session, selectedJourneys);
+
+  // 3. Run build inside a session-local workspace to avoid mutating project files
+  const workspace = path.join(session.paths.root, 'workspace');
+  await fs.remove(workspace).catch(() => {});
+  await fs.ensureDir(workspace);
+
+  await fs.copy(PROJECT_ROOT, workspace, {
+    filter: (src) => {
+      const rel = src.replace(PROJECT_ROOT, '');
+      if (rel.includes('node_modules')) return false;
+      if (rel.includes(path.join('generated'))) return false;
+      if (rel.includes(path.join('dist'))) return false;
+      if (rel.includes(path.join(session.paths.root))) return false;
+      return true;
+    }
+  });
+
+  // Merge session data and assets
+  const sessionDataDir2 = path.join(session.paths.root, 'data');
+  if (await fs.pathExists(sessionDataDir2)) {
+    await fs.copy(sessionDataDir2, path.join(workspace, 'data'));
+  }
+  await fs.copy(session.paths.assets, path.join(workspace, 'assets'));
+
+  try {
+    const flags = '--dist';
+    console.log('[generate:uploads] Running build in workspace...');
+    execSync('node build.js ' + flags, {
+      cwd: workspace,
+      stdio: 'pipe',
+      encoding: 'utf-8',
+      timeout: 120000,
+      env: Object.assign({}, process.env, { NODE_ENV: 'production' }),
+    });
+
+    const genSrc = path.join(workspace, 'generated', ingestion.brandId);
+    if (await fs.pathExists(genSrc)) {
+      await fs.emptyDir(session.paths.generated).catch(() => {});
+      await fs.copy(genSrc, session.paths.generated);
+      console.log('[generate:uploads] Output copied to session');
+    }
+    const distSrc = path.join(workspace, 'dist', ingestion.brandId);
+    if (await fs.pathExists(distSrc)) {
+      const distDst = path.join(session.paths.root, 'dist');
+      await fs.ensureDir(distDst);
+      await fs.copy(distSrc, distDst);
+    }
+  } finally {
+    await fs.remove(workspace).catch(() => {});
+  }
+
+  await touchSession(sessionId);
+
+  session.metadata.generatedAt = Date.now();
+  session.metadata.brandId = ingestion.brandId;
+  session.metadata.brandName = ingestion.brandName;
+  session.metadata.journeys = selectedJourneys;
+  session.metadata.ingestion = {
+    brandName: ingestion.brandName,
+    colors: ingestion.colors,
+    productCount: (ingestion.products && ingestion.products.length) || 0,
+    logoSource: ingestion.logo && ingestion.logo.source,
+  };
+  await fs.writeJson(path.join(session.paths.root, 'metadata.json'), session, { spaces: 2 });
+
+  return { session, ingestion, paths: session.paths };
+}
+
 function makeDealer(brandName) {
   return { name: brandName + ' Store', contactName: 'Rajesh', phone: '+91-9876543210', address: '123 Main Street' };
 }
@@ -165,4 +245,5 @@ function generateRetailerLoyaltyJourney(bn, bid, products) {
   return { id: 'retailer_loyalty', title: 'Retailer Loyalty', dealer: makeDealer(bn), navSteps: Array.from({length:6},function(_,i){return 'step-'+(i+1)}), steps: defaultSteps(6, 'RL') };
 }
 
-module.exports = { generateSession, createJourneyJsons };
+module.exports = { generateSession, generateSessionFromUploads, createJourneyJsons };
+
