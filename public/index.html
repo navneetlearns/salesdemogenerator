@@ -40,8 +40,91 @@
       <div id="genStatus" class="muted" style="margin-top:8px"></div>
     </section>
 
+
+    <section class="card" id="wizardSection">
+      <h2>Create Your Demo</h2>
+      <p class="lead">Configure brand, products, and journey type to generate a custom demo.</p>
+
+      <div class="steps-indicator">
+        <div class="step-dot active" data-step="1">Brand</div>
+        <div class="step-dot" data-step="2">Products</div>
+        <div class="step-dot" data-step="3">Generate</div>
+      </div>
+
+      <div id="wizardError" class="error-msg" style="display:none"></div>
+
+      <!-- Step 1: Brand Info -->
+      <div id="step1" class="wizard-step active">
+        <div class="form-group">
+          <label for="brandNameInput">Brand Name <span class="required">*</span></label>
+          <input type="text" id="brandNameInput" class="form-control" placeholder="e.g. JK Cement" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="primaryColorInput">Primary Color</label>
+            <input type="color" id="primaryColorInput" class="form-control color-input" value="#075e54">
+          </div>
+          <div class="form-group">
+            <label for="secondaryColorInput">Secondary Color</label>
+            <input type="color" id="secondaryColorInput" class="form-control color-input" value="#064e46">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Logo (optional)</label>
+          <div id="logoDropZone" class="drop-zone">
+            <div id="logoPlaceholder">
+              <span>Drop logo here or click to upload</span>
+            </div>
+            <img id="logoPreview" src="" alt="Logo preview" style="display:none; max-height:64px;">
+            <input type="file" id="logoFileInput" accept="image/*" style="display:none">
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Products -->
+      <div id="step2" class="wizard-step">
+        <h3>Products</h3>
+        <p class="muted">Add up to 8 products for the catalog.</p>
+        <div id="productRowsContainer"></div>
+        <button type="button" id="addProductBtn" class="btn btn-outline" onclick="demoUI.addProductRow()">+ Add Product</button>
+      </div>
+
+      <!-- Step 3: Journey & Generate -->
+      <div id="step3" class="wizard-step">
+        <h3>Select Journey Type</h3>
+        <div id="journeyCardsContainer" class="journey-cards-grid"></div>
+        <div style="margin-top:16px">
+          <button type="button" class="btn primary" onclick="demoUI.generate()">Generate Demo</button>
+        </div>
+        <div id="progressBar" class="progress-bar" style="display:none">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Wizard Navigation -->
+      <div class="wizard-nav">
+        <button type="button" id="prevStepBtn" class="btn btn-outline" onclick="demoUI.prevStep()" style="display:none">&larr; Back</button>
+        <button type="button" id="nextStepBtn" class="btn primary" onclick="demoUI.nextStep()">Next &rarr;</button>
+      </div>
+
+      <!-- Preview Area -->
+      <div id="previewArea" style="display:none">
+        <div class="preview-toolbar">
+          <span id="previewTitle" class="preview-title">Preview</span>
+          <div class="preview-actions">
+            <button type="button" class="btn btn-sm btn-outline" onclick="demoUI.openInNewTab()">Open in New Tab</button>
+            <button type="button" class="btn btn-sm primary" onclick="demoUI.download()">Download HTML</button>
+          </div>
+        </div>
+        <iframe id="previewIframe" class="preview-iframe"></iframe>
+      </div>
+    </section>
+
     <footer class="muted small">ZoTok Demo Generator &mdash; static demos + runtime generation</footer>
   </main>
   <script src="/app.js"></script>
+  <script src="/js/handlebars.min.js"></script>
+  <script src="/js/demo-renderer.js"></script>
+  <script src="/js/demo-ui.js"></script>
 </body>
 </html>

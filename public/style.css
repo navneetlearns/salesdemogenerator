@@ -26,3 +26,351 @@ footer{margin-top:18px;text-align:center}
   .grid{grid-template-columns:repeat(2,1fr)}
   .brand-card .btn{font-size:11px;padding:6px 8px}
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+ *  Wizard UI Styles — appended for demo generation wizard
+ * ═══════════════════════════════════════════════════════════ */
+
+/* Steps Indicator */
+.steps-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 20px;
+  padding: 0;
+  list-style: none;
+}
+.step-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 32px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  background: #e8e8e8;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  position: relative;
+}
+.step-dot.active {
+  background: #075e54;
+  color: #fff;
+}
+.step-dot.completed {
+  background: #075e54;
+  color: #fff;
+  opacity: 0.75;
+}
+.step-dot.completed::after {
+  content: " \2713";
+}
+
+/* Wizard Steps */
+.wizard-step {
+  display: none;
+}
+.wizard-step.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Wizard Navigation */
+.wizard-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 14px;
+}
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+.form-group .required {
+  color: #e74c3c;
+}
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  color: #111;
+  transition: border-color 0.2s;
+}
+.form-control:focus {
+  outline: none;
+  border-color: #075e54;
+  box-shadow: 0 0 0 2px rgba(7, 94, 84, 0.15);
+}
+.color-input {
+  width: 60px;
+  height: 36px;
+  padding: 2px;
+  cursor: pointer;
+}
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+.form-row .form-group {
+  flex: 1;
+}
+
+/* Drop Zone */
+.drop-zone {
+  border: 2px dashed #bbb;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.drop-zone:hover {
+  border-color: #075e54;
+  background: rgba(7, 94, 84, 0.03);
+}
+.drop-zone.drag-hover {
+  border-color: #075e54;
+  background: rgba(7, 94, 84, 0.08);
+}
+.drop-zone span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Product Row */
+.product-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+.product-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.product-thumb-placeholder {
+  font-size: 18px;
+  color: #999;
+}
+.product-name-input {
+  flex: 2;
+  min-width: 80px;
+}
+.product-price-input {
+  flex: 1;
+  min-width: 60px;
+}
+.product-unit-select {
+  flex: 1;
+  min-width: 70px;
+}
+.product-row .btn-remove {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  font-size: 16px;
+  line-height: 1;
+  color: #999;
+  background: transparent;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.product-row .btn-remove:hover {
+  color: #e74c3c;
+  border-color: #e74c3c;
+  background: #fff0f0;
+}
+
+/* Journey Cards Grid */
+.journey-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.journey-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  background: #fff;
+  position: relative;
+}
+.journey-card:hover {
+  border-color: #075e54;
+  background: rgba(7, 94, 84, 0.02);
+}
+.journey-card.selected {
+  border-color: #075e54;
+  background: rgba(7, 94, 84, 0.06);
+  box-shadow: 0 0 0 2px rgba(7, 94, 84, 0.2);
+}
+.journey-card h4 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: #111;
+}
+.journey-meta {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.journey-desc {
+  margin: 0;
+  font-size: 12px;
+  color: #555;
+  line-height: 1.3;
+}
+.scaffold-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #7a5700;
+  background: #ffe082;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #075e54, #25d366);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* Preview Area */
+#previewArea {
+  margin-top: 20px;
+  border-top: 2px solid #eee;
+  padding-top: 16px;
+}
+.preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.preview-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+.preview-actions {
+  display: flex;
+  gap: 8px;
+}
+.preview-iframe {
+  width: 100%;
+  height: 520px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+/* Button variants */
+.btn-outline {
+  background: transparent;
+  color: #075e54;
+  border: 1px solid #075e54;
+}
+.btn-outline:hover {
+  background: rgba(7, 94, 84, 0.06);
+  color: #064e46;
+}
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+/* Error message */
+.error-msg {
+  color: #e74c3c;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 8px 0;
+  padding: 8px 12px;
+  background: #fff5f5;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  .step-dot {
+    width: 80px;
+    font-size: 11px;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  .journey-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .product-row {
+    flex-wrap: wrap;
+  }
+  .product-name-input,
+  .product-price-input,
+  .product-unit-select {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}

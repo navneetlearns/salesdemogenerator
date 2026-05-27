@@ -79,6 +79,14 @@ async function init() {
   } else {
     renderRuntimeMode();
   }
+
+  // Initialize wizard UI
+  if (window.DemoRenderer) {
+    DemoRenderer.loadPack().then(function() {
+      if (window.demoUI) demoUI.renderJourneyCards();
+    });
+    if (window.demoUI) demoUI.init();
+  }
 }
 
 document.addEventListener('DOMContentLoaded', init);
