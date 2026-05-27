@@ -232,9 +232,11 @@ async function build() {
     await fs.readFile(path.join(TEMPLATES_DIR, 'layouts', 'base.hbs'), 'utf8')
   );
 
+  const builtBrandIds = [];
   for (const brandFile of await fs.readdir(path.join(DATA_DIR, 'brands'))) {
     if (!brandFile.endsWith('.json')) continue;
     const brandId = path.basename(brandFile, '.json');
+    builtBrandIds.push(brandId);
     console.log(`\n--- Building for brand: ${brandId} ---`);
 
     const brand = await fs.readJson(path.join(DATA_DIR, 'brands', brandFile));
@@ -458,6 +460,24 @@ async function build() {
   }
 
   console.log(`\nBuild complete.${BUILD_DIST ? ' → dist/' : ''}`);
+
+  // Copy additional journey HTML files into dist for static serving
+  if (BUILD_DIST) {
+    for (const brandId of builtBrandIds) {
+      const genDir = path.join(GENERATED_DIR, brandId);
+      const distBrandDir = path.join(DIST_DIR, brandId);
+      if (!await fs.pathExists(genDir) || !await fs.pathExists(distBrandDir)) continue;
+      const htmlFiles = (await fs.readdir(genDir)).filter(f => f.endsWith('.html') && f !== 'order_to_cash.html');
+      for (const htmlFile of htmlFiles) {
+        const src = path.join(genDir, htmlFile);
+        const dest = path.join(distBrandDir, htmlFile);
+        if (!await fs.pathExists(dest)) {
+          await fs.copy(src, dest);
+          console.log('  Copied journey: dist/' + brandId + '/' + htmlFile);
+        }
+      }
+    }
+  }
 }
 
 build().catch(err => {
