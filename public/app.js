@@ -1,31 +1,94 @@
-/* Demo Generator -- Upload-based Frontend */
+/* Demo Generator -- Dual Mode Frontend */
 (function () {
   "use strict";
-  const API = window.location.origin;
-  const STATE = { sessionId: null, generatedFiles: [], polling: false };
-  const $ = id => document.getElementById(id);
+  var API = window.location.origin;
+  var STATE = { sessionId: null, generatedFiles: [], polling: false, mode: 'static', brands: [] };
+  var $ = function(id) { return document.getElementById(id); };
 
   function setText(id, msg, type) {
-    const el = $(id);
+    var el = $(id);
     if (!el) return;
     el.textContent = msg || '';
     el.style.color = type === 'error' ? '#d32f2f' : type === 'success' ? '#2e7d32' : '';
   }
 
-  function disableBtn(id, disabled) {
-    const b = $(id);
-    if (b) b.disabled = !!disabled;
+  function titleCase(s) {
+    return s.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
   }
 
-  function journeyNames() {
-    return Array.from(document.querySelectorAll('#journeyList input:checked')).map(c => c.value);
+  async function detectMode() {
+    try {
+      var r = await fetch(API + '/api/health');
+      if (r.ok) {
+        var d = await r.json();
+        STATE.mode = d.mode || 'static';
+      }
+    } catch (e) {
+      STATE.mode = 'static';
+    }
+    return STATE.mode;
   }
 
+  // ── STATIC MODE ──
+  async function loadStaticBrands() {
+    try {
+      var r = await fetch(API + '/api/brands');
+      if (!r.ok) throw new Error('Failed to fetch brands');
+      var data = await r.json();
+      STATE.brands = data.brands || [];
+      renderStaticUI();
+    } catch (e) {
+      // Fallback: try to load from /dist/ directly
+      renderFallbackUI(e.message);
+    }
+  }
+
+  function renderStaticUI() {
+    var container = $('brandList');
+    if (!container) return;
+    container.innerHTML = '';
+    if (STATE.brands.length === 0) {
+      container.innerHTML = '<p class="muted">No pre-built brands available.</p>';
+      return;
+    }
+    STATE.brands.forEach(function(brand) {
+      var card = document.createElement('div');
+      card.className = 'brand-card';
+      var html = '<h3>' + titleCase(brand.id) + '</h3>';
+      html += '<p class="muted">' + brand.journeys.length + ' journeys</p>';
+      html += '<div class="journey-links">';
+      brand.journeys.forEach(function(jid) {
+        html += '<a href="/dist/' + brand.id + '/' + jid + '.html" target="_blank" class="btn" style="margin:4px">' + titleCase(jid) + '</a>';
+      });
+      html += '</div>';
+      card.innerHTML = html;
+      container.appendChild(card);
+    });
+  }
+
+  function renderFallbackUI(errorMsg) {
+    var container = $('brandList');
+    if (!container) return;
+    // List known brands as fallback
+    var fallbackBrands = ['haldirams', 'jk_cement', 'sundaram_store'];
+    container.innerHTML = '';
+    fallbackBrands.forEach(function(bid) {
+      var card = document.createElement('div');
+      card.className = 'brand-card';
+      card.innerHTML = '<h3>' + titleCase(bid) + '</h3>' +
+        '<a href="/dist/' + bid + '/order_to_cash.html" target="_blank" class="btn">Order to Cash</a> ' +
+        '<a href="/dist/' + bid + '/field_ops_expense.html" target="_blank" class="btn">Field Ops</a> ' +
+        '<a href="/dist/' + bid + '/automated_collections.html" target="_blank" class="btn">Collections</a>';
+      container.appendChild(card);
+    });
+  }
+
+  // ── RUNTIME MODE ──
   async function createSession() {
     try {
       setText('sessionBox', 'Creating session...');
-      const res = await fetch(API + '/api/session/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
-      const data = await res.json();
+      var res = await fetch(API + '/api/session/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
+      var data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to create session');
       STATE.sessionId = data.sessionId;
       setText('sessionBox', 'Session: ' + STATE.sessionId);
@@ -36,122 +99,52 @@
     }
   }
 
-  async function uploadFile(url, file, fieldName) {
-    const form = new FormData();
-    form.append('sessionId', STATE.sessionId);
-    form.append(fieldName, file, file.name);
-    const res = await fetch(API + url, { method: 'POST', body: form });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Upload failed');
-    return data;
-  }
-
-  async function uploadLogo() {
-    const input = $('logoInput');
-    const file = input.files && input.files[0];
-    if (!file) { setText('uploadStatus', 'Select a logo file first', 'error'); return; }
-    if (file.size > 2 * 1024 * 1024) { setText('uploadStatus', 'Logo must be < 2MB', 'error'); return; }
-    disableBtn('uploadLogoBtn', true);
-    setText('uploadStatus', 'Uploading logo...');
-    try {
-      await ensureSession();
-      await uploadFile('/api/upload/logo', file, 'logo');
-      setText('uploadStatus', 'Logo uploaded', 'success');
-    } catch (e) { setText('uploadStatus', 'Logo upload error: ' + e.message, 'error'); }
-    disableBtn('uploadLogoBtn', false);
-  }
-
-  async function uploadCatalog() {
-    const input = $('catalogInput');
-    const file = input.files && input.files[0];
-    if (!file) { setText('uploadStatus', 'Select a catalog file first', 'error'); return; }
-    if (file.size > 5 * 1024 * 1024) { setText('uploadStatus', 'Catalog must be < 5MB', 'error'); return; }
-    const allowed = ['.csv', '.xlsx', '.json'];
-    const name = file.name.toLowerCase();
-    if (!allowed.some(ext => name.endsWith(ext))) { setText('uploadStatus', 'Catalog must be csv, xlsx or json', 'error'); return; }
-    disableBtn('uploadCatalogBtn', true);
-    setText('uploadStatus', 'Uploading catalog...');
-    try {
-      await ensureSession();
-      await uploadFile('/api/upload/catalog', file, 'catalog');
-      setText('uploadStatus', 'Catalog uploaded', 'success');
-    } catch (e) { setText('uploadStatus', 'Catalog upload error: ' + e.message, 'error'); }
-    disableBtn('uploadCatalogBtn', false);
-  }
-
-  async function ensureSession() {
-    if (!STATE.sessionId) await createSession();
-  }
-
   async function generate() {
-    const journeys = journeyNames();
+    var journeys = Array.from(document.querySelectorAll('#journeyList input:checked')).map(function(c) { return c.value; });
     if (journeys.length === 0) { setText('genStatus', 'Select at least one journey', 'error'); return; }
-    await ensureSession();
-    disableBtn('generateBtn', true);
+    if (STATE.mode === 'static') {
+      setText('genStatus', 'Use the brand links above to view pre-built demos', 'error');
+      return;
+    }
+    if (!STATE.sessionId) await createSession();
+    var btn = $('generateBtn');
+    if (btn) btn.disabled = true;
     setText('genStatus', 'Starting generation...');
     try {
-      const res = await fetch(API + '/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: STATE.sessionId, journeys: journeys }) });
-      const data = await res.json();
+      var res = await fetch(API + '/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: STATE.sessionId, journeys: journeys })
+      });
+      var data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Generate failed');
       setText('genStatus', 'Generation started');
-      await pollSession(STATE.sessionId);
     } catch (e) { setText('genStatus', 'Generate error: ' + e.message, 'error'); }
-    disableBtn('generateBtn', false);
+    if (btn) btn.disabled = false;
   }
 
-  async function pollSession(sid) {
-    setText('genStatus', 'Waiting for generation...');
-    STATE.polling = true;
-    for (let i = 0; i < 60 && STATE.polling; i++) {
-      await new Promise(r => setTimeout(r, 2000));
-      try {
-        const r = await fetch(API + '/api/session/' + sid);
-        if (!r.ok) continue;
-        const d = await r.json();
-        if (d.status === 'complete') { STATE.generatedFiles = d.generatedFiles || []; showPreview(sid, STATE.generatedFiles); setText('genStatus', 'Generation complete', 'success'); STATE.polling = false; return; }
-        if (d.status === 'failed') { setText('genStatus', 'Generation failed', 'error'); STATE.polling = false; return; }
-        setText('genStatus', 'Generating...');
-      } catch (e) { /* ignore transient */ }
+  // ── INIT ──
+  async function init() {
+    var mode = await detectMode();
+    var modeIndicator = $('modeIndicator');
+    var staticSection = $('staticSection');
+    var runtimeSection = $('runtimeSection');
+
+    if (modeIndicator) {
+      modeIndicator.textContent = mode === 'static' ? 'Pre-built brand demos (static)' : 'Runtime: Upload & generate';
     }
-    if (STATE.polling) { setText('genStatus', 'Generation timed out', 'error'); STATE.polling = false; }
+
+    if (mode === 'static') {
+      if (staticSection) staticSection.style.display = '';
+      if (runtimeSection) runtimeSection.style.display = 'none';
+      await loadStaticBrands();
+    } else {
+      if (staticSection) staticSection.style.display = 'none';
+      if (runtimeSection) runtimeSection.style.display = '';
+      try { await createSession(); } catch(e) {}
+    }
   }
 
-  function showPreview(sid, files) {
-    const el = $('previewLinks');
-    el.innerHTML = '';
-    if (!files || files.length === 0) { el.textContent = 'No journeys generated.'; return; }
-    files.forEach(f => {
-      const name = (f.file || f).replace(/\.html$/, '').replace(/_/g, ' ');
-      const a = document.createElement('a');
-      a.href = API + '/api/preview/' + sid + '/' + (f.file ? f.file.replace(/\.html$/, '') : f);
-      a.target = '_blank';
-      a.textContent = name.replace(/\b\w/g, c => c.toUpperCase());
-      a.className = 'btn';
-      a.style.margin = '4px';
-      el.appendChild(a);
-    });
-  }
-
-  async function exportDemo(mode) {
-    if (!STATE.sessionId) { setText('exportStatus', 'Generate first', 'error'); return; }
-    setText('exportStatus', 'Preparing export...');
-    try {
-      const r = await fetch(API + '/api/export/' + STATE.sessionId, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode }) });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.error || 'Export failed');
-      const url = API + '/api/export/download/' + STATE.sessionId + '/' + mode;
-      window.open(url, '_blank');
-      setText('exportStatus', 'Export started', 'success');
-    } catch (e) { setText('exportStatus', 'Export error: ' + e.message, 'error'); }
-  }
-
-  // Wire global handlers
-  window.uploadLogo = uploadLogo;
-  window.uploadCatalog = uploadCatalog;
   window.generate = generate;
-  window.exportDemo = exportDemo;
-
-  // create session on load
-  window.addEventListener('load', function () { createSession().catch(()=>{}); });
-
+  init();
 })();

@@ -1,16 +1,25 @@
 {
   "version": 2,
+  "buildCommand": "npm run build:dist && cp -r dist public/dist",
+  "outputDirectory": "public",
   "functions": {
     "api/**/*.js": {
-      "maxDuration": 120
+      "memory": 1024,
+      "maxDuration": 60
     }
   },
   "routes": [
-    { "src": "^/api/(.*)$", "dest": "/api/$1" },
-    { "src": "^/$", "dest": "/public/index.html" },
-    { "src": "^/(.*)$", "dest": "/public/$1" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/dist/(.*)",
+      "dest": "/public/dist/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    }
   ]
 }
-
-
-
