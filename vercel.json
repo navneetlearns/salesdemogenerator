@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build:dist && cp -r dist public/dist",
+  "buildCommand": "bash vercel-build.sh",
   "outputDirectory": "public",
   "functions": {
     "api/**/*.js": {
@@ -14,8 +14,7 @@
       "dest": "/api/$1"
     },
     {
-      "src": "/dist/(.*)",
-      "dest": "/public/dist/$1"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",

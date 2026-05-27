@@ -1,7 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 
-const DIST_DIR = path.join(process.cwd(), 'dist');
+// On Vercel, static files are in the output directory (public/dist)
+// During local dev, they're in the project root
+const DIST_DIR = path.join(process.cwd(), 'public', 'dist');
+
+const JOURNEY_NAMES = {
+  'index': 'Order to Cash',
+  'order_to_cash': 'Order to Cash',
+  'field_ops_expense': 'Field Ops Expense',
+  'dealer_engagement': 'Dealer Engagement',
+  'retailer_onboarding': 'Retailer Onboarding',
+  'retailer_loyalty': 'Retailer Loyalty',
+  'automated_collections': 'Automated Collections'
+};
 
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -18,12 +30,20 @@ module.exports = async (req, res) => {
     }
     const result = brands.map(function(brandId) {
       var brandDir = path.join(DIST_DIR, brandId);
-      var journeys = [];
+      var htmlFiles = [];
       try {
-        journeys = fs.readdirSync(brandDir)
-          .filter(function(f) { return f.endsWith('.html') && f !== 'index.html'; })
-          .map(function(f) { return f.replace('.html', ''); });
+        htmlFiles = fs.readdirSync(brandDir).filter(function(f) { return f.endsWith('.html'); });
       } catch(e) {}
+      var journeys = htmlFiles.map(function(f) {
+        var journeyId = f.replace('.html', '');
+        // Map index.html to order_to_cash
+        var displayId = journeyId === 'index' ? 'order_to_cash' : journeyId;
+        return {
+          id: displayId,
+          name: JOURNEY_NAMES[displayId] || displayId.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); }),
+          url: '/dist/' + brandId + '/' + f
+        };
+      });
       return { id: brandId, journeys: journeys };
     });
     return res.status(200).json({ brands: result });

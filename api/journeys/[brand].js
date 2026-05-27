@@ -1,7 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 
-const DIST_DIR = path.join(process.cwd(), 'dist');
+// On Vercel, static files are in the output directory (public/dist)
+const DIST_DIR = path.join(process.cwd(), 'public', 'dist');
+
+const JOURNEY_NAMES = {
+  'index': 'Order to Cash',
+  'order_to_cash': 'Order to Cash',
+  'field_ops_expense': 'Field Ops Expense',
+  'dealer_engagement': 'Dealer Engagement',
+  'retailer_onboarding': 'Retailer Onboarding',
+  'retailer_loyalty': 'Retailer Loyalty',
+  'automated_collections': 'Automated Collections'
+};
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -24,10 +35,11 @@ module.exports = async (req, res) => {
     }
     const files = fs.readdirSync(brandDir).filter(function(f) { return f.endsWith('.html'); });
     const journeys = files.map(function(f) {
-      const journeyId = f.replace('.html', '');
+      var journeyId = f.replace('.html', '');
+      var displayId = journeyId === 'index' ? 'order_to_cash' : journeyId;
       return {
-        id: journeyId,
-        name: journeyId.replace(/_/g, ' ').replace(/\\b\\w/g, function(c) { return c.toUpperCase(); }),
+        id: displayId,
+        name: JOURNEY_NAMES[displayId] || displayId.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); }),
         url: '/dist/' + brand + '/' + f
       };
     });
