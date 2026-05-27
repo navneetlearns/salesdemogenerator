@@ -16,6 +16,10 @@ echo "=== Copying dist into public/dist ==="
 rm -rf public/dist
 cp -rv dist public/dist
 
+# Build template pack for client-side rendering
+echo "=== Building template-pack.json ==="
+node scripts/build-template-pack.js
+
 echo "=== Verifying public/dist ==="
 ls -la public/dist/ 2>/dev/null || echo "public/dist not found"
 ls public/dist/haldirams/ 2>/dev/null || echo "public/dist/haldirams not found"

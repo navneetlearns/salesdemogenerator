@@ -20,7 +20,8 @@
     "runtime": "node runtime/index.js",
     "runtime:server": "node runtime/preview-server.js",
     "validate:runtime": "node runtime/validate-runtime.js",
-    "cleanup": "node -e \"require('./runtime/cleanup').cleanup().then(()=>process.exit(0))\""
+    "cleanup": "node -e \"require('./runtime/cleanup').cleanup().then(()=>process.exit(0))\"",
+    "build:pack": "node scripts/build-template-pack.js"
   },
   "dependencies": {
     "ajv": "^8.20.0",
