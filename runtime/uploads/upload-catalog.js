@@ -1,27 +1,24 @@
-const fs = require('fs-extra');
 const path = require('path');
-const { validateCatalog } = require('./validate-assets');
+const fs = require('fs-extra');
 
-function deterministicName(sessionId, originalName) {
-  const ext = path.extname(originalName).toLowerCase() || '.json';
-  return `catalog${ext}`;
-}
-
+/**
+ * processAndStore(session, file)
+ * - session: session object from session-manager
+ * - file: multer file object { originalname, buffer, mimetype }
+ * Saves the uploaded catalog into session overrides and returns saved path.
+ */
 async function processAndStore(session, file) {
-  if (!session) throw new Error('Missing session');
-  if (!file || !file.buffer) throw new Error('No file uploaded');
+	if (!session || !file || !file.buffer) throw new Error('Invalid session or file');
 
-  await validateCatalog(file);
+	const ext = path.extname(file.originalname || '') || '.csv';
+	const fileName = 'catalog' + ext;
+	const outDir = session.paths && session.paths.overrides ? session.paths.overrides : path.join(session.paths.root, 'overrides');
+	await fs.ensureDir(outDir);
+	const outPath = path.join(outDir, fileName);
+	await fs.writeFile(outPath, file.buffer);
 
-  const uploadsDir = path.join(session.paths.root, 'uploads');
-  await fs.ensureDir(uploadsDir);
-
-  const name = deterministicName(session.id, file.originalname);
-  const dest = path.join(uploadsDir, name);
-
-  await fs.writeFile(dest, file.buffer);
-
-  return { savedAs: name, dest };
+	const relative = path.relative(session.paths.root, outPath).replace(/\\/g, '/');
+	return { savedAs: relative };
 }
 
-module.exports = { processAndStore, deterministicName };
+module.exports = { processAndStore };

@@ -1,31 +1,25 @@
-const fs = require('fs-extra');
 const path = require('path');
-const sharp = require('sharp');
+const fs = require('fs-extra');
 
-const { validateLogo } = require('./validate-assets');
-const { normalizeImage } = require('../assets/normalize-image');
-
-const LOGO_NAME = 'logo.webp';
-
-function safeFilename(name) {
-  return name.replace(/[^a-z0-9.\-_]/ig, '_');
-}
-
+/**
+ * processAndStore(session, file)
+ * - session: session object from session-manager (contains paths)
+ * - file: multer file object { originalname, buffer, mimetype }
+ * Returns: { savedAs: '<relative-path>' }
+ */
 async function processAndStore(session, file) {
-  if (!session) throw new Error('Missing session');
-  if (!file || !file.buffer) throw new Error('No file uploaded');
+	if (!session || !file || !file.buffer) throw new Error('Invalid session or file');
 
-  await validateLogo(file);
+	const ext = path.extname(file.originalname || '') || '.png';
+	const fileName = 'logo' + ext;
+	const outDir = session.paths && session.paths.brands ? session.paths.brands : path.join(session.paths.root, 'assets', 'brands');
+	await fs.ensureDir(outDir);
+	const outPath = path.join(outDir, fileName);
+	await fs.writeFile(outPath, file.buffer);
 
-  // Normalize image to deterministic webp logo
-  const buf = await normalizeImage(file.buffer, { width: 800, quality: 80 });
-
-  const brandsDir = session.paths.brands;
-  await fs.ensureDir(brandsDir);
-  const dest = path.join(brandsDir, LOGO_NAME);
-  await fs.writeFile(dest, buf);
-
-  return { savedAs: LOGO_NAME, dest };
+	// Return path relative to session root for storing in metadata
+	const relative = path.relative(session.paths.root, outPath).replace(/\\/g, '/');
+	return { savedAs: relative };
 }
 
 module.exports = { processAndStore };

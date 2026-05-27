@@ -414,10 +414,8 @@
         // Write to iframe
         var iframe = document.getElementById('previewIframe');
         if (iframe) {
-          var doc = iframe.contentDocument || iframe.contentWindow.document;
-          doc.open();
-          doc.write(result.html);
-          doc.close();
+          // Use srcdoc for better script isolation and execution
+          iframe.srcdoc = result.html;
         }
 
         // Show preview area
@@ -437,15 +435,17 @@
   /* ── Open in New Tab ──────────────────────────────────── */
 
   function openInNewTab() {
+    var html = window._generatedHtml || '';
     var iframe = document.getElementById('previewIframe');
-    var html = '';
-    if (iframe) {
+    if (!html && iframe && iframe.srcdoc) {
+      html = iframe.srcdoc;
+    } else if (!html && iframe) {
       var doc = iframe.contentDocument || iframe.contentWindow.document;
       html = doc.documentElement.outerHTML;
     }
     // Wrap in full HTML if needed
     if (!html || html.indexOf('<html') === -1) {
-      html = window._generatedHtml || '<p>No preview available</p>';
+      html = '<p>No preview available</p>';
     }
     var blob = new Blob([html], { type: 'text/html' });
     var url = URL.createObjectURL(blob);
@@ -457,9 +457,11 @@
   function download() {
     var html = window._generatedHtml;
     if (!html) {
-      // Try to get from iframe
+      // Try srcdoc first, then contentDocument
       var iframe = document.getElementById('previewIframe');
-      if (iframe) {
+      if (iframe && iframe.srcdoc) {
+        html = iframe.srcdoc;
+      } else if (iframe) {
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         html = doc.documentElement.outerHTML;
       }
