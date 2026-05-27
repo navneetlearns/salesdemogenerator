@@ -3,9 +3,17 @@
   "buildCommand": "bash vercel-build.sh",
   "outputDirectory": "public",
   "functions": {
-    "api/*.js": {
-      "memory": 1024,
-      "maxDuration": 60
+    "api/health.js": {
+      "memory": 512,
+      "maxDuration": 10
+    },
+    "api/brands.js": {
+      "memory": 512,
+      "maxDuration": 10
+    },
+    "api/journeys.js": {
+      "memory": 512,
+      "maxDuration": 10
     }
   },
   "routes": [
