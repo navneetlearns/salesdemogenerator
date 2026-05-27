@@ -3,12 +3,16 @@
   "buildCommand": "bash vercel-build.sh",
   "outputDirectory": "public",
   "functions": {
-    "api/**/*.js": {
+    "api/*.js": {
       "memory": 1024,
       "maxDuration": 60
     }
   },
   "routes": [
+    {
+      "src": "/api/journeys/(.*)",
+      "dest": "/api/journeys?brand=$1"
+    },
     {
       "src": "/api/(.*)",
       "dest": "/api/$1"
