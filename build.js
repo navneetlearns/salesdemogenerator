@@ -15,7 +15,9 @@ const DATA_DIR = path.join(ROOT, 'data');
 const TEMPLATES_DIR = path.join(ROOT, 'templates');
 const GENERATED_DIR = path.join(ROOT, 'generated');
 const DIST_DIR = path.join(ROOT, 'dist');
+const PUBLIC_DIST_DIR = path.join(ROOT, 'public', 'dist');
 const SCRIPTS_DIR = path.join(ROOT, 'scripts');
+const ASSETS_DIR = path.join(ROOT, 'assets');
 
 const BUILD_DIST = process.argv.includes('--dist');
 const STRICT_ASSETS = process.argv.includes('--strict');
@@ -30,6 +32,11 @@ const validateCatalog = ajv.compile(catalogSchema);
 const validateJourney = ajv.compile(journeySchema);
 
 const SCRIPT_CORE_FILES = ['journey-core.js', 'navigation.js', 'overlays.js', 'debug-overlay.js'];
+const HALDIRAM_SOURCE_JOURNEYS = new Set([
+  'campaigns_queries',
+  'dt_fulfillment_payment',
+  'retailer_activation',
+]);
 
 function registerPartialsFromDir(dir, prefix = '') {
   if (!fs.existsSync(dir)) return;
@@ -99,6 +106,12 @@ async function loadScripts(navSteps) {
     parts.push(await fs.readFile(filePath, 'utf8'));
   }
   return parts.join('\n\n');
+}
+
+function haldiramSourceLogoDataUri() {
+  const sourceLogoPath = path.join(ASSETS_DIR, 'brands', 'haldirams', 'logo.jpg');
+  if (!fs.existsSync(sourceLogoPath)) return null;
+  return 'data:image/jpeg;base64,' + fs.readFileSync(sourceLogoPath).toString('base64');
 }
 
 function validateGeneratedHtml(html, brandId) {
@@ -228,6 +241,15 @@ async function build() {
   const foViewTemplate = Handlebars.compile(
     await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'field_ops_expense.hbs'), 'utf8')
   );
+  const cqViewTemplate = Handlebars.compile(
+    await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'campaigns_queries.hbs'), 'utf8')
+  );
+  const dtViewTemplate = Handlebars.compile(
+    await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'dt_fulfillment_payment.hbs'), 'utf8')
+  );
+  const raViewTemplate = Handlebars.compile(
+    await fs.readFile(path.join(TEMPLATES_DIR, 'screens', 'retailer_activation.hbs'), 'utf8')
+  );
   const layoutTemplate = Handlebars.compile(
     await fs.readFile(path.join(TEMPLATES_DIR, 'layouts', 'base.hbs'), 'utf8')
   );
@@ -322,6 +344,7 @@ async function build() {
 
     const catalog = { products: pipeline.products };
     const handwrittenOrderImage = handwrittenOrderDataUri(brand, pipeline.products);
+    const sapArchitectureImage = loadSharedSapDiagramDataUri() || 'data:image/placeholder';
     const cart = journey.cart;
     const scriptsContent = await loadScripts(journey.navSteps);
 
@@ -329,6 +352,7 @@ async function build() {
       brand,
       brandLogo: pipeline.brandLogo,
       handwrittenOrderImage,
+      sapArchitectureImage,
       industry,
       catalog,
       cart,
@@ -385,10 +409,13 @@ async function build() {
     async function buildJourneyContext(rawJourney) {
       const j = normalizeJourney(rawJourney, pipeline.products);
       const jScripts = await loadScripts(j.navSteps);
+      const useHaldiramSourceIdentity = brandId === 'haldirams' && HALDIRAM_SOURCE_JOURNEYS.has(j.id);
       return {
         brand,
-        brandLogo: pipeline.brandLogo,
-        industry,
+        brandLogo: useHaldiramSourceIdentity ? (haldiramSourceLogoDataUri() || pipeline.brandLogo) : pipeline.brandLogo,
+        industry: useHaldiramSourceIdentity
+          ? { ...industry, label: 'FMCG \u2014 Snacks, Sweets & Beverages', partnerLabel: 'Retailer' }
+          : industry,
         journey: j,
         catalog,
         cart: j.cart,
@@ -457,6 +484,42 @@ async function build() {
       fs.writeFileSync(path.join(genDir, 'automated_collections.html'), acHtml, 'utf8');
       console.log('  Generated: generated/' + brandId + '/automated_collections.html');
     }
+
+    // Campaigns & Queries
+    const cqPath = path.join(DATA_DIR, 'journeys', brandId + '_campaigns_queries.json');
+    if (await fs.pathExists(cqPath)) {
+      let cqRaw = { id: 'campaigns_queries', title: 'Campaigns & Queries', screens: [] };
+      try { cqRaw = await fs.readJson(cqPath); } catch (e) {}
+      const cqCtx = await buildJourneyContext(cqRaw);
+      const cqBody = cqViewTemplate(cqCtx);
+      const cqHtml = layoutTemplate({ ...cqCtx, body: cqBody });
+      fs.writeFileSync(path.join(genDir, 'campaigns_queries.html'), cqHtml, 'utf8');
+      console.log('  Generated: generated/' + brandId + '/campaigns_queries.html');
+    }
+
+    // DT Fulfillment & Payment
+    const dtPath = path.join(DATA_DIR, 'journeys', brandId + '_dt_fulfillment_payment.json');
+    if (await fs.pathExists(dtPath)) {
+      let dtRaw = { id: 'dt_fulfillment_payment', title: 'DT Fulfillment & Payment', screens: [] };
+      try { dtRaw = await fs.readJson(dtPath); } catch (e) {}
+      const dtCtx = await buildJourneyContext(dtRaw);
+      const dtBody = dtViewTemplate(dtCtx);
+      const dtHtml = layoutTemplate({ ...dtCtx, body: dtBody });
+      fs.writeFileSync(path.join(genDir, 'dt_fulfillment_payment.html'), dtHtml, 'utf8');
+      console.log('  Generated: generated/' + brandId + '/dt_fulfillment_payment.html');
+    }
+
+    // Retailer Activation
+    const raPath = path.join(DATA_DIR, 'journeys', brandId + '_retailer_activation.json');
+    if (await fs.pathExists(raPath)) {
+      let raRaw = { id: 'retailer_activation', title: 'Retailer Activation', screens: [] };
+      try { raRaw = await fs.readJson(raPath); } catch (e) {}
+      const raCtx = await buildJourneyContext(raRaw);
+      const raBody = raViewTemplate(raCtx);
+      const raHtml = layoutTemplate({ ...raCtx, body: raBody });
+      fs.writeFileSync(path.join(genDir, 'retailer_activation.html'), raHtml, 'utf8');
+      console.log('  Generated: generated/' + brandId + '/retailer_activation.html');
+    }
   }
 
   console.log(`\nBuild complete.${BUILD_DIST ? ' → dist/' : ''}`);
@@ -477,6 +540,9 @@ async function build() {
         }
       }
     }
+    await clearDir(PUBLIC_DIST_DIR);
+    await fs.copy(DIST_DIR, PUBLIC_DIST_DIR);
+    console.log('  Mirrored dist/ to public/dist/ for static APIs');
   }
 }
 
