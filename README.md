@@ -45,6 +45,10 @@ On Windows PowerShell environments that block `npm.ps1`, use:
 npm.cmd run build:dist
 ```
 
+## Secure Share Links
+
+Generated demos can be shared through short `/share/<token>` links backed by Vercel Blob. Configure `BLOB_READ_WRITE_TOKEN` in the Vercel project environment before deploying; links expire after 24 hours and are rejected server-side after expiry.
+
 ## Add A New Brand
 
 1. Create brand JSON at `data/brands/<brand_id>.json`.
