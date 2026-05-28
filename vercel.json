@@ -34,6 +34,10 @@
       "dest": "/api/share/$1"
     },
     {
+      "src": "/api/share/([a-f0-9]{32})",
+      "dest": "/api/share/$1"
+    },
+    {
       "src": "/api/journeys/(.*)",
       "dest": "/api/journeys?brand=$1"
     },
