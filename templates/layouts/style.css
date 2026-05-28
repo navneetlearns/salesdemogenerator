@@ -5479,3 +5479,19 @@
   color: rgba(255, 215, 0, .8) !important;
   border-top-color: rgba(255, 255, 255, .1) !important;
 }
+
+@media (min-width:769px) {
+  body.brand-haldirams.journey-campaigns_queries .screen-desc,
+  body.brand-haldirams.journey-dt_fulfillment_payment .screen-desc,
+  body.brand-haldirams.journey-retailer_activation .screen-desc {
+    width: 375px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  body.brand-haldirams.journey-campaigns_queries .screen-desc strong,
+  body.brand-haldirams.journey-dt_fulfillment_payment .screen-desc strong,
+  body.brand-haldirams.journey-retailer_activation .screen-desc strong {
+    font-size: 13.5px;
+  }
+}

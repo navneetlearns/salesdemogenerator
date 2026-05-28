@@ -16,6 +16,7 @@ async function detectMode() {
 async function loadBrands() {
   try {
     const res = await fetch(API_BASE + '/api/brands');
+    if (!res.ok) throw new Error('Brands API returned ' + res.status);
     const data = await res.json();
     return data.brands || [];
   } catch (e) {
@@ -35,22 +36,38 @@ async function loadJourneys(brand) {
 }
 
 function renderStaticMode(brands) {
-  document.getElementById('modeIndicator').textContent = 'Static mode — viewing pre-built demos';
+  document.getElementById('modeIndicator').textContent = 'Static mode - viewing pre-built demos';
   const container = document.getElementById('brandList');
   if (!container) return;
-  
+
   container.innerHTML = '';
+  if (!brands.length) {
+    container.innerHTML = '<p class="muted">No pre-built brand journeys found. Run the build, then refresh this page.</p>';
+    return;
+  }
+
   brands.forEach(function(brand) {
-    const card = document.createElement('div');
-    card.className = 'brand-card';
-    
-    const title = document.createElement('h3');
+    const card = document.createElement('details');
+    card.className = 'brand-card brand-details';
+
+    const summary = document.createElement('summary');
+    summary.className = 'brand-summary';
+
+    const title = document.createElement('span');
+    title.className = 'brand-summary-title';
     title.textContent = brand.id.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
-    card.appendChild(title);
-    
+
+    const count = document.createElement('span');
+    count.className = 'brand-summary-count';
+    count.textContent = (brand.journeys || []).length + ' journeys';
+
+    summary.appendChild(title);
+    summary.appendChild(count);
+    card.appendChild(summary);
+
     const links = document.createElement('div');
     links.className = 'journey-links grid';
-    brand.journeys.forEach(function(j) {
+    (brand.journeys || []).forEach(function(j) {
       const btn = document.createElement('a');
       btn.href = j.url;
       btn.className = 'btn primary';
@@ -68,7 +85,32 @@ function renderRuntimeMode() {
   const runtimeSection = document.getElementById('runtimeSection');
   if (staticSection) staticSection.style.display = 'none';
   if (runtimeSection) runtimeSection.style.display = 'block';
-  document.getElementById('modeIndicator').textContent = 'Runtime mode — upload assets and generate custom demos';
+  document.getElementById('modeIndicator').textContent = 'Runtime mode - upload assets and generate custom demos';
+  setupRuntimeJourneySelection();
+}
+
+function setupRuntimeJourneySelection() {
+  const list = document.getElementById('journeyList');
+  if (!list) return;
+
+  const options = list.querySelectorAll('.runtime-journey-option');
+  options.forEach(function(option) {
+    const input = option.querySelector('input[type="checkbox"]');
+    if (!input) return;
+    if (option.dataset.selectionBound === 'true') return;
+    option.dataset.selectionBound = 'true';
+
+    function syncSelectedState() {
+      option.classList.toggle('selected', input.checked);
+      option.setAttribute('aria-checked', input.checked ? 'true' : 'false');
+    }
+
+    input.addEventListener('change', syncSelectedState);
+    option.addEventListener('click', function() {
+      setTimeout(syncSelectedState, 0);
+    });
+    syncSelectedState();
+  });
 }
 
 async function init() {
@@ -79,8 +121,8 @@ async function init() {
   } else {
     renderRuntimeMode();
   }
+  setupRuntimeJourneySelection();
 
-  // Initialize wizard UI
   if (window.DemoRenderer) {
     DemoRenderer.loadPack().then(function() {
       if (window.demoUI) demoUI.renderJourneyCards();

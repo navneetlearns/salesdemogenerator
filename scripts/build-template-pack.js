@@ -202,6 +202,15 @@ function buildHelpers() {
   };
 }
 
+function readFixedAssets() {
+  const assets = {};
+  const sapPath = path.join(ROOT, 'assets', 'brands', 'jk_cement', 'sap_architecture.png');
+  if (fs.existsSync(sapPath)) {
+    assets.sapArchitectureImage = 'data:image/png;base64,' + fs.readFileSync(sapPath).toString('base64');
+  }
+  return assets;
+}
+
 // Step 11: Journey descriptions metadata
 function buildJourneyDescriptions() {
   return {
@@ -226,8 +235,8 @@ function buildJourneyDescriptions() {
     dealer_engagement: {
       title: 'Dealer Engagement',
       steps: 3,
-      desc: 'Dealer onboarding and engagement journey with WhatsApp touchpoints',
-      scaffold: false,
+      desc: 'Dealer onboarding and engagement journey with WhatsApp touchpoints. Work in progress template.',
+      scaffold: true,
     },
     retailer_onboarding: {
       title: 'Retailer Onboarding',
@@ -261,6 +270,7 @@ function main() {
     defaultCatalog: readDefaultCatalog(),
     scripts: readScripts(),
     helpers: buildHelpers(),
+    fixedAssets: readFixedAssets(),
     journeyDescriptions: buildJourneyDescriptions(),
   };
 
@@ -280,7 +290,7 @@ function main() {
   const expectedKeys = [
     'version', 'builtAt', 'partials', 'journeyScreens', 'layoutBase',
     'style', 'industries', 'defaultJourneyData', 'defaultBrand',
-    'defaultCatalog', 'scripts', 'helpers', 'journeyDescriptions',
+    'defaultCatalog', 'scripts', 'helpers', 'fixedAssets', 'journeyDescriptions',
   ];
   const missingKeys = expectedKeys.filter(k => !(k in pack));
   if (missingKeys.length) {
@@ -296,6 +306,7 @@ function main() {
   console.log('  Default journeys: ' + Object.keys(pack.defaultJourneyData).length);
   console.log('  Scripts: ' + Object.keys(pack.scripts).length);
   console.log('  Helpers: ' + Object.keys(pack.helpers).length);
+  console.log('  Fixed assets: ' + Object.keys(pack.fixedAssets).length);
   console.log('  Journey descriptions: ' + Object.keys(pack.journeyDescriptions).length);
 }
 

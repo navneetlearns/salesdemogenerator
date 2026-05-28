@@ -8,7 +8,17 @@
   var _currentStep = 1;
   var _logoDataUrl = null;
   var _productRowCount = 0;
-  var _selectedJourney = 'order_to_cash';
+  var _selectedJourneys = ['order_to_cash'];
+  var MAX_GUIDELINE_IMAGE_SIZE = 1024 * 1024;
+  var LAST_PREVIEW_KEY = 'zotok.demoGenerator.lastPreview';
+
+  function isJourneySelected(journeyKey) {
+    return _selectedJourneys.indexOf(journeyKey) !== -1;
+  }
+
+  function primarySelectedJourney() {
+    return _selectedJourneys[0] || 'order_to_cash';
+  }
 
   /* ── Step Navigation ──────────────────────────────────── */
 
@@ -93,6 +103,9 @@
 
   function handleLogoFile(file) {
     if (!file) return;
+    if (file.size > MAX_GUIDELINE_IMAGE_SIZE) {
+      showError('Logo is larger than the 1 MB guideline. It may still work, but smaller images create faster previews and share links.');
+    }
     var reader = new FileReader();
     reader.onload = function(e) {
       _logoDataUrl = e.target.result;
@@ -178,12 +191,7 @@
       inp.style.display = 'none';
       inp.addEventListener('change', function() {
         if (this.files && this.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function(ev) {
-            thumbDiv.innerHTML = '<img src="' + ev.target.result + '" alt="Product">';
-            thumbDiv.setAttribute('data-image-url', ev.target.result);
-          };
-          reader.readAsDataURL(this.files[0]);
+          handleProductImage(this.files[0], thumbDiv);
         }
       });
       document.body.appendChild(inp);
@@ -256,6 +264,9 @@
 
   function handleProductImage(file, thumbEl) {
     if (!file) return;
+    if (file.size > MAX_GUIDELINE_IMAGE_SIZE) {
+      showError('Product image is larger than the 1 MB guideline. Smaller images keep generated demos and share links lighter.');
+    }
     var reader = new FileReader();
     reader.onload = function(e) {
       thumbEl.innerHTML = '<img src="' + e.target.result + '" alt="Product">';
@@ -283,7 +294,10 @@
       var card = document.createElement('div');
       card.className = 'journey-card';
       card.setAttribute('data-journey', key);
-      if (key === _selectedJourney) card.classList.add('selected');
+      card.setAttribute('role', 'checkbox');
+      card.setAttribute('aria-checked', isJourneySelected(key) ? 'true' : 'false');
+      if (desc.scaffold) card.classList.add('journey-card-wip');
+      if (isJourneySelected(key)) card.classList.add('selected');
 
       var title = document.createElement('h4');
       title.textContent = desc.title || key;
@@ -296,27 +310,36 @@
       descP.className = 'journey-desc';
       descP.textContent = desc.desc || '';
 
+      var selectedMark = document.createElement('span');
+      selectedMark.className = 'journey-selected-mark';
+      selectedMark.textContent = 'Selected';
+
       card.appendChild(title);
       card.appendChild(meta);
       card.appendChild(descP);
+      card.appendChild(selectedMark);
 
       if (desc.scaffold) {
         var badge = document.createElement('span');
         badge.className = 'scaffold-badge';
-        badge.textContent = 'Scaffold';
+        badge.textContent = 'Work in progress';
         card.appendChild(badge);
       }
 
-      (function(journeyKey) {
-        card.addEventListener('click', function() {
-          var cards = container.querySelectorAll('.journey-card');
-          for (var c = 0; c < cards.length; c++) {
-            cards[c].classList.remove('selected');
+      (function(journeyKey, cardEl) {
+        cardEl.addEventListener('click', function() {
+          var idx = _selectedJourneys.indexOf(journeyKey);
+          if (idx === -1) {
+            _selectedJourneys.push(journeyKey);
+            cardEl.classList.add('selected');
+            cardEl.setAttribute('aria-checked', 'true');
+          } else {
+            _selectedJourneys.splice(idx, 1);
+            cardEl.classList.remove('selected');
+            cardEl.setAttribute('aria-checked', 'false');
           }
-          card.classList.add('selected');
-          _selectedJourney = journeyKey;
         });
-      })(key);
+      })(key, card);
 
       container.appendChild(card);
     }
@@ -361,8 +384,61 @@
       secondaryColor: secondaryColor,
       logoDataUrl: logoDataUrl,
       products: products,
-      journeyType: _selectedJourney
+      journeyType: primarySelectedJourney(),
+      journeyTypes: _selectedJourneys.slice()
     };
+  }
+
+  function saveLastPreview(result, fallbackBrandName) {
+    if (!global.localStorage || !result || !result.html) return;
+    var payload = {
+      html: result.html,
+      brandName: result.brand ? result.brand.name || fallbackBrandName : fallbackBrandName,
+      journeyType: result.journeyType || primarySelectedJourney(),
+      journeyTypes: _selectedJourneys.slice(),
+      journeyTitle: result.journeyTitle || '',
+      savedAt: new Date().toISOString()
+    };
+    try {
+      global.localStorage.setItem(LAST_PREVIEW_KEY, JSON.stringify(payload));
+    } catch (err) {
+      console.warn('[demo-ui] Could not persist generated preview:', err);
+    }
+  }
+
+  function restoreLastPreview() {
+    if (!global.localStorage) return;
+    var raw = null;
+    try {
+      raw = global.localStorage.getItem(LAST_PREVIEW_KEY);
+    } catch (err) {
+      return;
+    }
+    if (!raw) return;
+
+    var payload;
+    try {
+      payload = JSON.parse(raw);
+    } catch (err2) {
+      return;
+    }
+    if (!payload || !payload.html) return;
+
+    var iframe = document.getElementById('previewIframe');
+    var previewArea = document.getElementById('previewArea');
+    var previewTitle = document.getElementById('previewTitle');
+
+    window._generatedHtml = payload.html;
+    window._generatedBrand = payload.brandName || 'Demo';
+    _selectedJourneys = Array.isArray(payload.journeyTypes) && payload.journeyTypes.length
+      ? payload.journeyTypes
+      : [payload.journeyType || primarySelectedJourney()];
+
+    if (iframe) iframe.srcdoc = payload.html;
+    if (previewArea) previewArea.style.display = 'block';
+    if (previewTitle) {
+      previewTitle.textContent = payload.journeyTitle ? 'Preview - ' + payload.journeyTitle : 'Preview';
+    }
   }
 
   /* ── Generate ─────────────────────────────────────────── */
@@ -385,6 +461,10 @@
     }
     if (formData.products.length === 0) {
       showError('At least one product is required.');
+      return;
+    }
+    if (formData.journeyTypes.length === 0) {
+      showError('Select at least one journey.');
       return;
     }
 
@@ -424,6 +504,7 @@
         // Store generated HTML for later use
         window._generatedHtml = result.html;
         window._generatedBrand = result.brand ? result.brand.name || formData.brandName : formData.brandName;
+        saveLastPreview(result, formData.brandName);
       })
       .catch(function(err) {
         if (progressEl) progressEl.style.display = 'none';
@@ -432,9 +513,9 @@
       });
   }
 
-  /* ── Open in New Tab ──────────────────────────────────── */
+  /* ── Share Link Helpers ───────────────────────────────── */
 
-  function openInNewTab() {
+  function getGeneratedHtml() {
     var html = window._generatedHtml || '';
     var iframe = document.getElementById('previewIframe');
     if (!html && iframe && iframe.srcdoc) {
@@ -443,29 +524,85 @@
       var doc = iframe.contentDocument || iframe.contentWindow.document;
       html = doc.documentElement.outerHTML;
     }
-    // Wrap in full HTML if needed
-    if (!html || html.indexOf('<html') === -1) {
-      html = '<p>No preview available</p>';
+    return html;
+  }
+
+  function setShareStatus(message, isError) {
+    var el = document.getElementById('shareStatus');
+    if (!el) return;
+    el.textContent = message || '';
+    el.classList.toggle('error', !!isError);
+    el.style.display = message ? 'block' : 'none';
+  }
+
+  function copyShareUrl(url) {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      return Promise.resolve(false);
     }
-    var blob = new Blob([html], { type: 'text/html' });
-    var url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
+    return navigator.clipboard.writeText(url)
+      .then(function() { return true; })
+      .catch(function() { return false; });
+  }
+
+  function createShareLink() {
+    clearError();
+    var html = getGeneratedHtml();
+    if (!html || html.indexOf('<html') === -1) {
+      showError('No demo generated yet.');
+      return;
+    }
+
+    var btn = document.getElementById('createShareLinkBtn');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Creating...';
+    }
+    setShareStatus('Creating secure share link...', false);
+
+    fetch('/api/share', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        html: html,
+        brandName: window._generatedBrand || 'Demo',
+        journeyType: primarySelectedJourney()
+      })
+    })
+      .then(function(res) {
+        return res.json().then(function(data) {
+          if (!res.ok) {
+            var err = new Error(data.error || 'Could not create share link.');
+            err.status = res.status;
+            throw err;
+          }
+          return data;
+        });
+      })
+      .then(function(data) {
+        var url = data.url;
+        window._generatedShareUrl = url;
+        window.open(url, '_blank');
+        return copyShareUrl(url).then(function(copied) {
+          var expires = data.expiresAt ? new Date(data.expiresAt).toLocaleString() : '24 hours';
+          setShareStatus('Share link ' + (copied ? 'copied and ' : '') + 'opened. Expires: ' + expires, false);
+        });
+      })
+      .catch(function(err) {
+        showError(err.message || 'Could not create share link.');
+        setShareStatus(err.message || 'Could not create share link.', true);
+      })
+      .finally(function() {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = 'Create Share Link';
+        }
+      });
   }
 
   /* ── Download ─────────────────────────────────────────── */
 
   function download() {
-    var html = window._generatedHtml;
-    if (!html) {
-      // Try srcdoc first, then contentDocument
-      var iframe = document.getElementById('previewIframe');
-      if (iframe && iframe.srcdoc) {
-        html = iframe.srcdoc;
-      } else if (iframe) {
-        var doc = iframe.contentDocument || iframe.contentWindow.document;
-        html = doc.documentElement.outerHTML;
-      }
-    }
+    var html = getGeneratedHtml();
     if (!html) {
       showError('No demo generated yet.');
       return;
@@ -494,6 +631,8 @@
     setupLogoDropZone();
     addProductRow();
     renderJourneyCards();
+    restoreLastPreview();
+    renderJourneyCards();
     showStep(1);
   }
 
@@ -508,7 +647,9 @@
     handleLogoFile: handleLogoFile,
     renderJourneyCards: renderJourneyCards,
     generate: generate,
-    openInNewTab: openInNewTab,
+    restoreLastPreview: restoreLastPreview,
+    createShareLink: createShareLink,
+    openInNewTab: createShareLink,
     download: download
   };
 

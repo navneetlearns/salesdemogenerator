@@ -29,12 +29,12 @@
       </label>
       <h3 style="margin-top:16px">Journeys</h3>
       <div class="grid" id="journeyList">
-        <label><input type="checkbox" value="order_to_cash" checked> Order to Cash</label>
-        <label><input type="checkbox" value="field_ops_expense"> Field Ops</label>
-        <label><input type="checkbox" value="automated_collections"> Collections</label>
-        <label><input type="checkbox" value="dealer_engagement"> Dealer Engagement</label>
-        <label><input type="checkbox" value="retailer_onboarding"> Onboarding</label>
-        <label><input type="checkbox" value="retailer_loyalty"> Loyalty</label>
+        <label class="runtime-journey-option selected"><input type="checkbox" value="order_to_cash" checked><span class="runtime-checkmark"></span> Order to Cash</label>
+        <label class="runtime-journey-option"><input type="checkbox" value="field_ops_expense"><span class="runtime-checkmark"></span> Field Ops</label>
+        <label class="runtime-journey-option"><input type="checkbox" value="automated_collections"><span class="runtime-checkmark"></span> Collections</label>
+        <label class="runtime-journey-option"><input type="checkbox" value="dealer_engagement"><span class="runtime-checkmark"></span> Dealer Engagement</label>
+        <label class="runtime-journey-option"><input type="checkbox" value="retailer_onboarding"><span class="runtime-checkmark"></span> Onboarding</label>
+        <label class="runtime-journey-option"><input type="checkbox" value="retailer_loyalty"><span class="runtime-checkmark"></span> Loyalty</label>
       </div>
       <button id="generateBtn" onclick="generate()" class="btn primary" style="margin-top:12px">Generate</button>
       <div id="genStatus" class="muted" style="margin-top:8px"></div>
@@ -78,6 +78,7 @@
             <img id="logoPreview" src="" alt="Logo preview" style="display:none; max-height:64px;">
             <input type="file" id="logoFileInput" accept="image/*" style="display:none">
           </div>
+          <p class="asset-guidance"><strong>Logo guidance:</strong> use PNG, JPG, or WebP under 1 MB, ideally square or transparent. Without a logo, a brand placeholder is generated automatically.</p>
         </div>
       </div>
 
@@ -85,6 +86,7 @@
       <div id="step2" class="wizard-step">
         <h3>Products</h3>
         <p class="muted">Add up to 8 products for the catalog.</p>
+        <p class="asset-guidance"><strong>Product image guidance:</strong> use clean PNG, JPG, or WebP images under 1 MB each. Missing images are replaced with a product placeholder so the journey still renders.</p>
         <div id="productRowsContainer"></div>
         <button type="button" id="addProductBtn" class="btn btn-outline" onclick="demoUI.addProductRow()">+ Add Product</button>
       </div>
@@ -112,10 +114,11 @@
         <div class="preview-toolbar">
           <span id="previewTitle" class="preview-title">Preview</span>
           <div class="preview-actions">
-            <button type="button" class="btn btn-sm btn-outline" onclick="demoUI.openInNewTab()">Open in New Tab</button>
+            <button type="button" id="createShareLinkBtn" class="btn btn-sm btn-outline" onclick="demoUI.createShareLink()">Create Share Link</button>
             <button type="button" class="btn btn-sm primary" onclick="demoUI.download()">Download HTML</button>
           </div>
         </div>
+        <div id="shareStatus" class="share-status" style="display:none"></div>
         <iframe id="previewIframe" class="preview-iframe"></iframe>
       </div>
     </section>

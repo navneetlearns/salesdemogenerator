@@ -11,7 +11,10 @@ const JOURNEY_NAMES = {
   'dealer_engagement': 'Dealer Engagement',
   'retailer_onboarding': 'Retailer Onboarding',
   'retailer_loyalty': 'Retailer Loyalty',
-  'automated_collections': 'Automated Collections'
+  'automated_collections': 'Automated Collections',
+  'campaigns_queries': 'Campaigns & Queries',
+  'dt_fulfillment_payment': 'DT Fulfillment & Payment',
+  'retailer_activation': 'Retailer Activation'
 };
 
 module.exports = async (req, res) => {

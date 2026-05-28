@@ -36,6 +36,19 @@
     return parts[0].substring(0, 2).toUpperCase();
   }
 
+  function escapeXml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function dataUriSvg(svg) {
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+
   /* ═══════════════════════════════════════════════════════════
    *  loadPack() — fetch /template-pack.json (singleton, cached)
    *  Returns Promise resolving to the pack object.
@@ -161,6 +174,8 @@
     // Override dealerStoreName
     if (input.dealerName) {
       base.dealerStoreName = input.dealerName;
+    } else if (input.name) {
+      base.dealerStoreName = 'Your Store';
     }
 
     return base;
@@ -201,9 +216,10 @@
       baseProducts = [];
     }
 
-    // User's products override/augment
+    // User products fully replace the default catalog so old product names do not leak.
     var userProducts = input.products || [];
     if (userProducts.length > 0) {
+      baseProducts = [];
       for (var i = 0; i < userProducts.length; i++) {
         var up = userProducts[i];
         var product = {
@@ -213,20 +229,10 @@
           category: up.category || 'General',
           price: up.price || 100,
           unit: up.unit || 'unit',
-          image: up.image || ''
+          image: up.imageDataUrl || up.image || ''
         };
         if (up.tags) product.tags = up.tags;
-        if (i < baseProducts.length) {
-          // Overlay user input onto base product
-          for (var key in product) {
-            if (product.hasOwnProperty(key) && product[key] !== '' && product[key] !== undefined) {
-              baseProducts[i][key] = product[key];
-            }
-          }
-        } else {
-          // Append beyond the base products
-          baseProducts.push(product);
-        }
+        baseProducts.push(product);
       }
     }
 
@@ -263,12 +269,101 @@
     };
   }
 
+  function buildCartItemsFromCatalog(catalog) {
+    var products = (catalog && catalog.products) ? catalog.products : [];
+    var qtys = [25, 20, 12, 16];
+    var items = [];
+
+    for (var i = 0; i < Math.min(4, products.length); i++) {
+      var product = products[i] || {};
+      var qty = qtys[i] || (i + 1);
+      var unitPrice = Number(product.price || 0);
+      items.push({
+        id: product.id || ('item' + (i + 1)),
+        sku: product.sku || ('SKU_' + (i + 1)),
+        name: product.name || ('Product ' + (i + 1)),
+        qty: qty,
+        unitPrice: unitPrice,
+        lineTotal: unitPrice * qty,
+        unit: product.unit || 'unit',
+        image: product.image || '',
+        category: product.category || 'All'
+      });
+    }
+
+    return items;
+  }
+
+  function applyCatalogToJourney(journey, catalog) {
+    var products = (catalog && catalog.products) ? catalog.products : [];
+    if (!journey || !products.length) return journey;
+
+    var names = products.map(function(product, index) {
+      return product && product.name ? product.name : ('Product ' + (index + 1));
+    });
+
+    journey.productNames = journey.productNames || {};
+    var productNameKeys = ['opc53', 'opc43', 'ppc', 'cementPpc'];
+    for (var i = 0; i < productNameKeys.length; i++) {
+      journey.productNames[productNameKeys[i]] = names[i] || names[0];
+    }
+
+    journey.step3 = journey.step3 || {};
+    var cartItems = buildCartItemsFromCatalog(catalog);
+    if (cartItems.length) {
+      var orderValue = cartItems.reduce(function(sum, item) { return sum + item.lineTotal; }, 0);
+      var totalQty = cartItems.reduce(function(sum, item) { return sum + item.qty; }, 0);
+      journey.step3.cartItems = cartItems;
+      journey.step3.draftOrder = journey.step3.draftOrder || {};
+      journey.step3.draftOrder.totalValue = orderValue;
+      journey.step3.draftOrder.netValue = orderValue;
+      journey.step3.draftOrder.skuCount = cartItems.length;
+      journey.step3.cartSummary = journey.step3.cartSummary || {};
+      journey.step3.cartSummary.totalItems = cartItems.length;
+      journey.step3.cartSummary.totalQty = totalQty;
+      journey.step3.cartSummary.orderValue = orderValue;
+    }
+
+    return journey;
+  }
+
+  function generateHandwrittenOrderImage(brand, catalog) {
+    var products = (catalog && catalog.products) ? catalog.products : [];
+    var storeName = (brand && brand.dealerStoreName) || 'Your Store';
+    var brandName = (brand && brand.name) || 'Brand';
+    var qtys = [25, 20, 12];
+    var lines = [];
+
+    for (var i = 0; i < Math.min(3, products.length); i++) {
+      var product = products[i] || {};
+      lines.push((product.name || ('Product ' + (i + 1))) + ' - ' + (qtys[i] || (i + 1)) + ' ' + (product.unit || 'unit'));
+    }
+    if (!lines.length) lines.push('Please deliver today');
+
+    var svgLines = lines.map(function(line, index) {
+      return '<text x="38" y="' + (128 + index * 34) + '" font-family="Comic Sans MS, Segoe Print, cursive" font-size="22" fill="#222">' +
+        escapeXml(line) +
+        '</text>';
+    }).join('');
+
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="680" height="430" viewBox="0 0 680 430">' +
+      '<rect width="680" height="430" rx="18" fill="#fffdf7"/>' +
+      '<rect x="18" y="18" width="644" height="394" rx="14" fill="none" stroke="#e5d8b8" stroke-width="2"/>' +
+      '<text x="38" y="58" font-family="Comic Sans MS, Segoe Print, cursive" font-size="28" font-weight="700" fill="#1f2933">Order for ' + escapeXml(storeName) + '</text>' +
+      '<text x="38" y="91" font-family="Comic Sans MS, Segoe Print, cursive" font-size="18" fill="#6b5f45">' + escapeXml(brandName) + ' dealer note</text>' +
+      svgLines +
+      '<text x="38" y="356" font-family="Comic Sans MS, Segoe Print, cursive" font-size="20" fill="#444">Need delivery today. Please confirm.</text>' +
+      '</svg>';
+
+    return dataUriSvg(svg);
+  }
+
   /* ═══════════════════════════════════════════════════════════
    *  buildJourney(journeyType, brand) — deep clone
    *  defaultJourneyData[journeyType], override dealer name,
    *  replace "JK Cement" references in messages
    * ═══════════════════════════════════════════════════════════ */
-  function buildJourney(journeyType, brand) {
+  function buildJourney(journeyType, brand, catalog) {
     var templateData = (_pack.defaultJourneyData || {})[journeyType];
     if (!templateData) {
       console.warn('[DemoRenderer] Unknown journey type:', journeyType);
@@ -307,6 +402,8 @@
     // Fix brand references in title/subtitle
     if (journey.title) journey.title = journey.title.replace(/JK Cement/g, brandName);
     if (journey.subtitle) journey.subtitle = journey.subtitle.replace(/JK Cement/g, brandName);
+
+    applyCatalogToJourney(journey, catalog);
 
     return journey;
   }
@@ -377,7 +474,7 @@
         var cart = buildCart(catalog);
 
         // Build journey data with brand overrides
-        var journey = buildJourney(journeyType, brand);
+        var journey = buildJourney(journeyType, brand, catalog);
 
         // Generate logo placeholder or use provided logo
         var brandLogo = brand.logo || generateLogoPlaceholder(
@@ -419,6 +516,8 @@
           catalog: catalog,
           cart: cart,
           journey: journey,
+          handwrittenOrderImage: generateHandwrittenOrderImage(brand, catalog),
+          sapArchitectureImage: (pack.fixedAssets && pack.fixedAssets.sapArchitectureImage) || '',
           showComposableMarkers: false,
           style: pack.style,
           scripts: combinedScripts
