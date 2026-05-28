@@ -38,10 +38,6 @@
       "dest": "/api/journeys?brand=$1"
     },
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
       "handle": "filesystem"
     },
     {
