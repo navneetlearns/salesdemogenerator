@@ -61,14 +61,5 @@
     "demo",
     "generator"
   ],
-  "license": "MIT",
-  "vercel": {
-    "buildCommand": "npm install",
-    "outputDirectory": "runtime/frontend/public",
-    "functions": {
-      "api/*.js": {
-        "maxDuration": 60
-      }
-    }
-  }
+  "license": "MIT"
 }

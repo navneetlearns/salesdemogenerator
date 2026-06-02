@@ -27,12 +27,14 @@ desktop.ini
 
 # Vercel deployment config (per-brand)
 .vercel/
+.env*.local
 
+# Visual regression artifacts
 .visual-report/
 build/layout-fingerprints.json
 
-.vercel
-.env*.local
-
 # Generated dist in public (built during Vercel deploy)
 public/dist/
+
+# Disabled API routes (not in production)
+api_disabled/
