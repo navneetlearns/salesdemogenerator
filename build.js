@@ -156,7 +156,8 @@ function loadSharedSapDiagramDataUri() {
 
 function handwrittenOrderDataUri(brand, products = []) {
   // Use brand dealer store name instead of hardcoded cement dealer
-  const store = brand.dealerStoreName || 'Sharma Cement Stores';
+  const store = brand.dealerStoreName || brand.shortName || brand.name;
+  // Use catalog product names (industry-specific) for the handwritten note
   const lines = products.slice(0, 3).map((p, i) => {
     const qty = i === 0 ? 25 : i === 1 ? 20 : 12;
     return `${p.name} - ${qty}`;
@@ -323,6 +324,69 @@ async function build() {
     const journey = normalizeJourney(rawJourney, pipeline.products);
     journey.content = buildJourneyContent({});
     pipeline.report.journeyStepCount = journey.steps?.length || 0;
+
+    // ── Inject brand dealer store name into journey messages ──
+    const dealerStoreName = brand.dealerStoreName || brand.shortName || brand.name;
+    if (journey.dealer) {
+      journey.dealer.name = dealerStoreName;
+    }
+    if (journey.messages?.welcome?.body) {
+      journey.messages.welcome.body = journey.messages.welcome.body
+        .replace(/<strong>[^<]*<\/strong>/, '<strong>' + dealerStoreName + '</strong>');
+    }
+
+    // ── Derive product categories from catalog for step1 sections ──
+    if (journey.messages?.step1 && pipeline.products.length > 0) {
+      const productsByCategory = {};
+      for (const p of pipeline.products) {
+        const cat = p.category || 'Other';
+        if (!productsByCategory[cat]) productsByCategory[cat] = [];
+        productsByCategory[cat].push(p);
+      }
+      const categories = Object.keys(productsByCategory);
+      const sections = [];
+
+      // Section 1: Main product category (first category, up to 3 items)
+      if (categories.length > 0) {
+        const mainCat = categories[0];
+        sections.push({
+          label: mainCat,
+          items: productsByCategory[mainCat].slice(0, 3).map(p => ({
+            title: p.name,
+            desc: p.description || (p.unit ? `${p.category} · ${p.unit}` : p.category)
+          }))
+        });
+      }
+
+      // Section 2: Secondary categories (remaining categories)
+      if (categories.length > 1) {
+        const secondaryItems = [];
+        for (let i = 1; i < categories.length; i++) {
+          const cat = categories[i];
+          for (const p of productsByCategory[cat]) {
+            secondaryItems.push({
+              title: p.name,
+              desc: p.description || (p.unit ? `${p.category} · ${p.unit}` : p.category)
+            });
+          }
+        }
+        if (secondaryItems.length > 0) {
+          const label = categories.length === 2 ? categories[1] : `${categories.slice(1).join(' & ')}`;
+          sections.push({ label, items: secondaryItems.slice(0, 3) });
+        }
+      }
+
+      // Section 3: Offers & Trade (always present)
+      sections.push({
+        label: 'Offers & Solutions',
+        items: [
+          { title: 'Seasonal Offers', desc: 'Seasonal combos & clearance offers' },
+          { title: 'Business Solutions', desc: 'Bulk orders & trade schemes' }
+        ]
+      });
+
+      journey.messages.step1.sections = sections;
+    }
 
     // ── Phase 3: Enrich journey data from catalog ──
     const catalogProductMap = Object.fromEntries(pipeline.products.map(p => [p.id, p]));
