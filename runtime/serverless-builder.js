@@ -6,6 +6,7 @@ const ROOT = path.resolve(__dirname, '..');
 const TEMPLATES_DIR = path.join(ROOT, 'templates');
 const SCRIPTS_DIR = path.join(ROOT, 'scripts');
 const SCRIPT_CORE_FILES = ['journey-core.js', 'navigation.js', 'overlays.js', 'debug-overlay.js'];
+const { buildJourneyContent } = require('../services/content-adapter');
 
 // Partial registration (singleton, runs once)
 let _partialsRegistered = false;
@@ -112,7 +113,7 @@ function handwrittenOrderDataUri(store, products) {
 }
 
 // Main render function
-async function renderBrandSession(brandData, catalogProducts, journeyDataMap, brandId) {
+async function renderBrandSession(brandData, catalogProducts, journeyDataMap, brandId, options = {}) {
   registerHelpersOnce();
   registerPartialsOnce();
 
@@ -143,6 +144,7 @@ async function renderBrandSession(brandData, catalogProducts, journeyDataMap, br
     if (!viewTemplate) { console.warn('[serverless-builder] Unknown journey:', jid); continue; }
 
     var journey = normalizeJourney(journeyDataMap[jid], catalogProducts);
+    journey.content = buildJourneyContent({ acceptedLabels: options.acceptedLabels || {} });
     var navSteps = journey.navSteps || (journey.steps || []).map(function(s) { return 'step-' + s.num; });
     var scriptsContent = await loadScripts(navSteps);
 

@@ -5,11 +5,12 @@ const { ingestBrand } = require('./brand-ingestion');
 const { buildBrandFromSession } = require('./brand-generator');
 const { getSession, touchSession } = require('./session-manager');
 const { renderBrandSession } = require('./serverless-builder');
+const { buildJourneyContent, loadContentOverrides } = require('../services/content-adapter');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 
 // ── Helper: render via serverless builder (in-process, no execSync) ──
-async function renderWithServerlessBuilder(ingestion, session, selectedJourneys) {
+async function renderWithServerlessBuilder(ingestion, session, selectedJourneys, options = {}) {
   const brandId = ingestion.brandId;
 
   // Read brand JSON
@@ -38,7 +39,9 @@ async function renderWithServerlessBuilder(ingestion, session, selectedJourneys)
   }
 
   // Render via serverless builder
-  const results = await renderBrandSession(brandData, catalogProducts, journeyDataMap, brandId);
+  const results = await renderBrandSession(brandData, catalogProducts, journeyDataMap, brandId, {
+    acceptedLabels: options.acceptedLabels || {},
+  });
 
   // Write rendered HTML to session
   await fs.ensureDir(session.paths.generated);
@@ -46,6 +49,43 @@ async function renderWithServerlessBuilder(ingestion, session, selectedJourneys)
     await fs.writeFile(path.join(session.paths.generated, journeyId + '.html'), html, 'utf8');
   }
   console.log('[generate] Serverless render complete:', Object.keys(results).length, 'journeys');
+}
+
+async function renderSessionContent(session, selectedJourneys, options = {}) {
+  const brandId = session.metadata.brandId;
+  if (!brandId) throw new Error('Session brand not available');
+
+  let rawCatalog = [];
+  for (const p of [`${brandId}_products.json`, `${brandId}_default.json`]) {
+    const cp = path.join(session.paths.root, 'data', 'catalogs', p);
+    if (await fs.pathExists(cp)) {
+      rawCatalog = await fs.readJson(cp);
+      break;
+    }
+  }
+
+  const catalogProducts = rawCatalog;
+  const brandData = await fs.readJson(path.join(session.paths.root, 'data', 'brands', brandId + '.json'));
+  const journeyDataMap = {};
+  const jd = path.join(session.paths.root, 'data', 'journeys');
+  for (const jt of selectedJourneys) {
+    const jp = path.join(jd, brandId + '_' + jt + '.json');
+    if (await fs.pathExists(jp)) {
+      journeyDataMap[jt] = await fs.readJson(jp);
+    }
+  }
+
+  const stored = options.acceptedLabels ? { acceptedLabels: options.acceptedLabels } : (await loadContentOverrides(session)) || {};
+  const results = await renderBrandSession(brandData, catalogProducts, journeyDataMap, brandId, {
+    acceptedLabels: stored.acceptedLabels || {},
+  });
+
+  await fs.ensureDir(session.paths.generated);
+  for (const [journeyId, html] of Object.entries(results)) {
+    await fs.writeFile(path.join(session.paths.generated, journeyId + '.html'), html, 'utf8');
+  }
+
+  return results;
 }
 
 // ── URL-based generation ──
@@ -65,7 +105,9 @@ async function generateSession(sessionId, brandUrl, options = {}) {
 
   // 3. Render (in-process on Vercel, execSync fallback for local)
   if (process.env.VERCEL) {
-    await renderWithServerlessBuilder(ingestion, session, selectedJourneys);
+    await renderWithServerlessBuilder(ingestion, session, selectedJourneys, {
+      acceptedLabels: options.acceptedLabels || {},
+    });
   } else {
     await runBuildInWorkspace(session, ingestion, selectedJourneys);
   }
@@ -104,7 +146,9 @@ async function generateSessionFromUploads(sessionId, options = {}) {
 
   // 3. Render (in-process on Vercel, execSync fallback for local)
   if (process.env.VERCEL) {
-    await renderWithServerlessBuilder(ingestion, session, selectedJourneys);
+    await renderWithServerlessBuilder(ingestion, session, selectedJourneys, {
+      acceptedLabels: options.acceptedLabels || {},
+    });
   } else {
     await runBuildInWorkspace(session, ingestion, selectedJourneys);
   }
@@ -242,4 +286,4 @@ function generateRetailerLoyaltyJourney(bn, bid, products) {
   return { id: 'retailer_loyalty', title: 'Retailer Loyalty', dealer: makeDealer(bn), navSteps: Array.from({length:6},function(_,i){return 'step-'+(i+1)}), steps: defaultSteps(6, 'RL') };
 }
 
-module.exports = { generateSession, generateSessionFromUploads, createJourneyJsons };
+module.exports = { generateSession, generateSessionFromUploads, createJourneyJsons, renderSessionContent };

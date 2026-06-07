@@ -2,14 +2,14 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs-extra');
 const { createSession, getSession, destroySession, listActiveSessions, startCleanupDaemon } = require('./session-manager');
-const { generateSession } = require('./generate-session');
+const { generateSession, generateSessionFromUploads, renderSessionContent } = require('./generate-session');
 const { exportSession } = require('./export-engine');
 const { cleanupExpiredSessions } = require('./cleanup');
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 12 * 1024 * 1024 } });
 const { processAndStore: processLogo } = require('./uploads/upload-logo');
 const { processAndStore: processCatalog } = require('./uploads/upload-catalog');
-const { generateSessionFromUploads } = require('./generate-session');
+const { adaptJourneyContent, saveContentOverrides, DEFAULT_LABELS } = require('../services/content-adapter');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const FRONTEND_DIR = path.join(__dirname, 'frontend', 'public');
@@ -39,7 +39,7 @@ function createPreviewServer(options = {}) {
   // POST /api/generate - Create a session and generate journeys
   app.post('/api/generate', async (req, res) => {
     try {
-      const { url, journeys } = req.body;
+      const { url, journeys, industry } = req.body;
       if (!url) return res.status(400).json({ error: 'Brand URL is required' });
       
       const selectedJourneys = journeys || ['order_to_cash'];
@@ -54,8 +54,13 @@ function createPreviewServer(options = {}) {
       if (req.body.sessionId) {
         session = await getSession(req.body.sessionId);
         if (!session) return res.status(404).json({ error: 'Session not found' });
+        if (industry) {
+          session.metadata = session.metadata || {};
+          session.metadata.industry = industry;
+          await fs.writeJson(path.join(session.paths.root, 'metadata.json'), session, { spaces: 2 });
+        }
       } else {
-        session = await createSession({ url, requestedJourneys: validJourneys });
+        session = await createSession({ url, requestedJourneys: validJourneys, industry });
       }
       
       // Return immediately with session ID, generation happens async
@@ -93,8 +98,8 @@ function createPreviewServer(options = {}) {
   // POST /api/session/create - Create an ephemeral session
   app.post('/api/session/create', async (req, res) => {
     try {
-      const { brandName } = req.body || {};
-      const session = await createSession({ uploadBrandName: brandName });
+      const { brandName, industry } = req.body || {};
+      const session = await createSession({ uploadBrandName: brandName, industry });
       res.json({ sessionId: session.id, expiresAt: session.expiresAt });
     } catch (e) {
       res.status(500).json({ error: e.message });
@@ -216,6 +221,69 @@ function createPreviewServer(options = {}) {
       }
 
       res.json({ status: 'exported', mode, files: result.files, totalBytes: result.totalBytes, exports: result.paths });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post('/api/experiments/adapt-content', async (req, res) => {
+    try {
+      const { sessionId, industry, brandName, labels, products } = req.body || {};
+      const session = sessionId ? await getSession(sessionId) : null;
+      let catalog = Array.isArray(products) ? products : [];
+
+      if (session) {
+        const brandId = session.metadata?.brandId || 'brand';
+        const catalogPath = path.join(session.paths.root, 'data', 'catalogs', brandId + '_products.json');
+        catalog = await fs.pathExists(catalogPath) ? await fs.readJson(catalogPath) : catalog;
+      }
+      const brandId = session?.metadata?.brandId || 'brand';
+      const result = await adaptJourneyContent({
+        industry: industry || session?.metadata?.industry || 'general',
+        brandName: brandName || session?.metadata?.brandName || brandId,
+        journeyType: 'order_to_cash',
+        products: catalog.map(p => (typeof p === 'string' ? p : p && p.name)).filter(Boolean),
+        labels: labels || DEFAULT_LABELS,
+      });
+
+      res.json({
+        provider: result.provider,
+        model: result.model,
+        acceptedLabels: result.acceptedLabels,
+        adaptationDiff: result.adaptationDiff,
+      });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post('/api/experiments/save-content', async (req, res) => {
+    try {
+      const { sessionId, industry, acceptedLabels, adaptationDiff } = req.body || {};
+      if (!sessionId) return res.status(400).json({ error: 'sessionId required' });
+      const session = await getSession(sessionId);
+      if (!session) return res.status(404).json({ error: 'Session not found or expired' });
+
+      const saveResult = await saveContentOverrides(session, {
+        industry: industry || session.metadata?.industry || 'general',
+        acceptedLabels: acceptedLabels || {},
+        adaptationDiff: adaptationDiff || {},
+      });
+
+      const journeys = session.metadata?.journeys && session.metadata.journeys.length
+        ? session.metadata.journeys
+        : ['order_to_cash'];
+      await renderSessionContent(session, journeys, { acceptedLabels: acceptedLabels || {} });
+
+      session.metadata = session.metadata || {};
+      session.metadata.contentOverridePath = saveResult.savedAs;
+      await fs.writeJson(path.join(session.paths.root, 'metadata.json'), session, { spaces: 2 });
+
+      res.json({
+        status: 'saved',
+        savedAs: saveResult.savedAs,
+        content: saveResult.record,
+      });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

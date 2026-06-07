@@ -4,7 +4,8 @@ async function generateBrandJson(brandName, colors, session) {
   const bd = session.paths.brands;
   let logoFile = 'logo.svg';
   if(await fs.pathExists(bd)){ for(const f of await fs.readdir(bd)){ if(/^logo\.\w+$/.test(f)){ logoFile=f; break; } } }
-  const brandJson = { id:brandId, name:brandName, shortName:brandName.substring(0,3).toUpperCase(), industry:'general', dealerStoreName:brandName+' Store', colors:{ brand:colors.brand||'#075e54', brandDark:colors.brandDark||'#054d44' }, assets:{ logo:logoFile }, secondaryDealers:[{name:brandName+' Retail',type:'Retail'},{name:brandName+' Distributor',type:'Distributor'}] };
+  const industry = (session.metadata && session.metadata.industry) || 'general';
+  const brandJson = { id:brandId, name:brandName, shortName:brandName.substring(0,3).toUpperCase(), industry:industry, dealerStoreName:brandName+' Store', colors:{ brand:colors.brand||'#075e54', brandDark:colors.brandDark||'#054d44' }, assets:{ logo:logoFile }, secondaryDealers:[{name:brandName+' Retail',type:'Retail'},{name:brandName+' Distributor',type:'Distributor'}] };
   const dd = path.join(session.paths.root, 'data', 'brands'); await fs.ensureDir(dd);
   await fs.writeJson(path.join(dd, brandId+'.json'), brandJson, {spaces:2});
   return { brandId, brandJson };

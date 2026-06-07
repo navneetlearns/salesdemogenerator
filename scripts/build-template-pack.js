@@ -147,6 +147,14 @@ function readDefaultCatalog() {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
+function readDefaultContentLabels() {
+  const filePath = path.join(DATA_DIR, 'content', 'order_to_cash_labels.json');
+  if (!fs.existsSync(filePath)) {
+    throw new Error('Missing default content labels: ' + filePath);
+  }
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+}
+
 // Step 9: Scripts
 function readScripts() {
   const scriptFiles = ['journey-core.js', 'navigation.js', 'overlays.js'];
@@ -268,6 +276,7 @@ function main() {
     defaultJourneyData: readDefaultJourneyData(),
     defaultBrand: readDefaultBrand(),
     defaultCatalog: readDefaultCatalog(),
+    defaultContentLabels: readDefaultContentLabels(),
     scripts: readScripts(),
     helpers: buildHelpers(),
     fixedAssets: readFixedAssets(),
@@ -290,7 +299,7 @@ function main() {
   const expectedKeys = [
     'version', 'builtAt', 'partials', 'journeyScreens', 'layoutBase',
     'style', 'industries', 'defaultJourneyData', 'defaultBrand',
-    'defaultCatalog', 'scripts', 'helpers', 'fixedAssets', 'journeyDescriptions',
+    'defaultCatalog', 'defaultContentLabels', 'scripts', 'helpers', 'fixedAssets', 'journeyDescriptions',
   ];
   const missingKeys = expectedKeys.filter(k => !(k in pack));
   if (missingKeys.length) {

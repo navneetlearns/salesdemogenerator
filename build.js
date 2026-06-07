@@ -9,6 +9,7 @@ const { normalizeJourney } = require('./lib/journey-normalizer');
 const { normalizeCatalog } = require('./lib/catalog-normalizer');
 const { runAssetPipeline } = require('./lib/asset-pipeline');
 const { packageDist } = require('./lib/dist-packager');
+const { buildJourneyContent } = require('./services/content-adapter');
 
 const ROOT = __dirname;
 const DATA_DIR = path.join(ROOT, 'data');
@@ -320,6 +321,7 @@ async function build() {
     }
 
     const journey = normalizeJourney(rawJourney, pipeline.products);
+    journey.content = buildJourneyContent({});
     pipeline.report.journeyStepCount = journey.steps?.length || 0;
 
     // ── Phase 3: Enrich journey data from catalog ──
@@ -408,6 +410,7 @@ async function build() {
     // Helper: build context for a non-OTC journey (normalize, load scripts, include style)
     async function buildJourneyContext(rawJourney) {
       const j = normalizeJourney(rawJourney, pipeline.products);
+      j.content = buildJourneyContent({});
       const jScripts = await loadScripts(j.navSteps);
       const useHaldiramSourceIdentity = brandId === 'haldirams' && HALDIRAM_SOURCE_JOURNEYS.has(j.id);
       return {
