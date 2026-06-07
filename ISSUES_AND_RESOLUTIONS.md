@@ -152,10 +152,13 @@ The following stale files and directories were removed:
 - **share-store.test.js:** Fixed URL format assertion — test expected `/share/<token>` (path-based) but implementation returns `/api/share?token=<hex>` (query-based).
 - **Visual baselines:** Regenerated after template fixes (558 screenshots, 380 changed).
 - **modal-send-wrap raw text:** Fixed missing `<div class="` opening tag in `step1-self-service.hbs` line 275 that caused literal "modal-send-wrap">" to render on screen.
-- **Dealer store name:** Injected `brand.dealerStoreName` into journey messages via build.js — replaces hardcoded "Sharma Cement Stores" in welcome message and dealer.name for all brands.
-- **Product categories:** Derived from catalog data instead of hardcoded journey JSON. Build.js groups products by category field and creates 3 sections: main category, secondary categories, Offers & Solutions.
+- **Dealer store name (server-side):** Injected `brand.dealerStoreName` into journey messages via build.js — replaces hardcoded "Sharma Cement Stores" in welcome message and dealer.name for all brands.
+- **Dealer store name (client-side):** Added `INDUSTRY_STORE_NAMES` mapping in `demo-renderer.js` — generates industry-specific store names (e.g., "Sharma Pharma Store", "Sharma Steel Store", "Sharma Food Store") based on selected industry. Replaces "Your Store" fallback.
+- **Product categories (server-side):** Derived from catalog data instead of hardcoded journey JSON. Build.js groups products by category field and creates 3 sections: main category, secondary categories, Offers & Solutions.
+- **Product categories (client-side):** Added `INDUSTRY_CATEGORIES` mapping in `demo-renderer.js` — assigns industry-specific categories to user-entered products based on industry selection. `applyCatalogToJourney()` now derives step1 sections from categorized products.
 - **Handwritten order image:** Updated `handwrittenOrderDataUri()` to use `brand.dealerStoreName` and catalog product names (industry-specific) instead of hardcoded generic names.
 - **Draft order screen:** Updated `step3-ai-capture.hbs` to show structured product list with catalog names instead of just summary data.
+- **Content diff panel collapse:** Added `collapseContentDiff()` in `demo-ui.js` — diff panel now minimizes after Accept (shows "N labels accepted and applied") or Save (shows "Content saved and applied to demo"). Action buttons hide after collapse, reappear on Reset.
 
 ## NEW FEATURES (June 2026)
 
