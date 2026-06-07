@@ -338,6 +338,63 @@
       journey.step3.cartSummary.orderValue = orderValue;
     }
 
+    // Derive product categories from catalog for step1 sections
+    if (journey.messages && journey.messages.step1) {
+      var productsByCategory = {};
+      for (var j = 0; j < products.length; j++) {
+        var p = products[j];
+        var cat = (p && p.category) || 'Other';
+        if (!productsByCategory[cat]) productsByCategory[cat] = [];
+        productsByCategory[cat].push(p);
+      }
+      var categories = Object.keys(productsByCategory);
+      var sections = [];
+
+      // Section 1: Main product category (first category, up to 3 items)
+      if (categories.length > 0) {
+        var mainCat = categories[0];
+        sections.push({
+          label: mainCat,
+          items: productsByCategory[mainCat].slice(0, 3).map(function(p) {
+            return {
+              title: p.name || 'Product',
+              desc: p.description || (p.unit ? p.category + ' \u00b7 ' + p.unit : (p.category || ''))
+            };
+          })
+        });
+      }
+
+      // Section 2: Secondary categories (remaining categories)
+      if (categories.length > 1) {
+        var secondaryItems = [];
+        for (var k = 1; k < categories.length; k++) {
+          var secCat = categories[k];
+          for (var m = 0; m < productsByCategory[secCat].length; m++) {
+            var sp = productsByCategory[secCat][m];
+            secondaryItems.push({
+              title: sp.name || 'Product',
+              desc: sp.description || (sp.unit ? sp.category + ' \u00b7 ' + sp.unit : (sp.category || ''))
+            });
+          }
+        }
+        if (secondaryItems.length > 0) {
+          var label = categories.length === 2 ? categories[1] : categories.slice(1).join(' & ');
+          sections.push({ label: label, items: secondaryItems.slice(0, 3) });
+        }
+      }
+
+      // Section 3: Offers & Trade (always present)
+      sections.push({
+        label: 'Offers & Solutions',
+        items: [
+          { title: 'Seasonal Offers', desc: 'Seasonal combos & clearance offers' },
+          { title: 'Business Solutions', desc: 'Bulk orders & trade schemes' }
+        ]
+      });
+
+      journey.messages.step1.sections = sections;
+    }
+
     return journey;
   }
 
@@ -387,14 +444,21 @@
     var journey = deepClone(templateData);
     var brandName = brand.name || 'Your Brand';
 
-    // Override dealer name to "Your Store"
+    // Override dealer name
+    var dealerStoreName = brand.dealerStoreName || brand.shortName || brand.name || 'Your Store';
     if (journey.dealer) {
-      journey.dealer.name = 'Your Store';
+      journey.dealer.name = dealerStoreName;
     }
 
     // Replace "JK Cement" references in messages
     if (journey.messages) {
       journey.messages = replaceBrandRefs(journey.messages, brandName);
+    }
+
+    // Replace hardcoded store name in welcome message body
+    if (journey.messages && journey.messages.welcome && journey.messages.welcome.body) {
+      journey.messages.welcome.body = journey.messages.welcome.body
+        .replace(/<strong>[^<]*<\/strong>/, '<strong>' + escapeXml(dealerStoreName) + '</strong>');
     }
 
     // Replace "JK Cement" references in steps
