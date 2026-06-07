@@ -49,6 +49,25 @@
     if (panel) panel.style.display = visible ? 'block' : 'none';
   }
 
+  function collapseContentDiff(message) {
+    var list = document.getElementById('contentDiffList');
+    if (list) {
+      var count = _contentAdaptation ? Object.keys(_contentAdaptation.adaptationDiff || {}).length : 0;
+      var changed = 0;
+      if (_contentAdaptation && _contentAdaptation.adaptationDiff) {
+        Object.keys(_contentAdaptation.adaptationDiff).forEach(function(key) {
+          if (_contentAdaptation.adaptationDiff[key].changed) changed++;
+        });
+      }
+      list.innerHTML = '<div style="padding:12px 0;color:#16a34a;font-weight:600">' +
+        (message || ('\u2713 ' + changed + ' labels adapted and applied')) +
+        '</div>';
+    }
+    // Hide the action buttons
+    var btnRow = document.getElementById('contentDiffActions');
+    if (btnRow) btnRow.style.display = 'none';
+  }
+
   function renderContentDiff() {
     var list = document.getElementById('contentDiffList');
     if (!list) return;
@@ -744,13 +763,16 @@
         _contentAdaptation.acceptedLabels[key] = _contentAdaptation.adaptationDiff[key].proposed || _contentAdaptation.originalLabels[key];
       }
     }
-    renderContentDiff();
+    collapseContentDiff('\u2713 ' + Object.keys(_contentAdaptation.acceptedLabels).length + ' labels accepted and applied');
     generate();
   }
 
   function resetContent() {
     if (!_contentAdaptation) return;
     _contentAdaptation.acceptedLabels = Object.assign({}, _contentAdaptation.originalLabels);
+    // Re-show action buttons
+    var btnRow = document.getElementById('contentDiffActions');
+    if (btnRow) btnRow.style.display = 'flex';
     renderContentDiff();
     generate();
   }
@@ -789,6 +811,7 @@
       })
       .then(function(data) {
         setShareStatus('Content saved to ' + (data.savedAs || 'session override'), false);
+        collapseContentDiff('\u2713 Content saved and applied to demo');
         return data;
       })
       .catch(function(err) {
