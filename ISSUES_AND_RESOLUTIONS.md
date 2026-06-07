@@ -151,11 +151,16 @@ The following stale files and directories were removed:
 - **validate.js:** Fixed syntax error (literal newlines in JS string literals) and cwd bug (was running from `scripts/` dir, causing `scripts/scripts/visual-test.js` path). Now uses project root as cwd.
 - **share-store.test.js:** Fixed URL format assertion — test expected `/share/<token>` (path-based) but implementation returns `/api/share?token=<hex>` (query-based).
 - **Visual baselines:** Regenerated after template fixes (558 screenshots, 380 changed).
+- **modal-send-wrap raw text:** Fixed missing `<div class="` opening tag in `step1-self-service.hbs` line 275 that caused literal "modal-send-wrap">" to render on screen.
+- **Dealer store name:** Injected `brand.dealerStoreName` into journey messages via build.js — replaces hardcoded "Sharma Cement Stores" in welcome message and dealer.name for all brands.
+- **Product categories:** Derived from catalog data instead of hardcoded journey JSON. Build.js groups products by category field and creates 3 sections: main category, secondary categories, Offers & Solutions.
+- **Handwritten order image:** Updated `handwrittenOrderDataUri()` to use `brand.dealerStoreName` and catalog product names (industry-specific) instead of hardcoded generic names.
+- **Draft order screen:** Updated `step3-ai-capture.hbs` to show structured product list with catalog names instead of just summary data.
 
 ## NEW FEATURES (June 2026)
 
-- **Content Adapter** (`services/content-adapter.js`): LLM-powered industry label adaptation via OpenCode API (deepseek-v4-flash). Adapts 21 UI labels per industry (Pharma, Steel, Cement, FMCG). Validates responses (no HTML, no emoji, no marketing language), falls back to original on invalid output.
-- **Adapt Content API** (`api/experiments/adapt-content.js`): POST endpoint that accepts `{sessionId, industry, brandName, labels, products}` and returns adapted labels with a diff.
+- **Content Adapter** (`services/content-adapter.js`): LLM-powered industry label adaptation via OpenCode API (deepseek-v4-flash). Adapts 21 UI labels per industry (Pharma, Steel, Cement, FMCG). Validates responses (no HTML, no emoji, no marketing language), falls back to original on invalid output. Now includes industry context (product categories, partner types, terminology) in LLM prompt.
+- **Adapt Content API** (`api/experiments/adapt-content.js`): POST endpoint that accepts `{sessionId, industry, brandName, labels, products}` and returns adapted labels with a diff. Loads industry data from `data/industries/` and passes as context to LLM.
 - **Save Content API** (`api/experiments/save-content.js`): POST endpoint that saves adapted content overrides to a runtime session filesystem.
 - **Default Labels** (`data/content/order_to_cash_labels.json`): 21 generic UI labels used as the base for adaptation.
 
