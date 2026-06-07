@@ -60,7 +60,7 @@ npm.cmd run build:dist
 
 ## Secure Share Links
 
-Generated demos can be shared through short `/share/<token>` links backed by Vercel Blob. Configure `BLOB_READ_WRITE_TOKEN` in the Vercel project environment before deploying; links expire after 24 hours and are rejected server-side after expiry.
+Generated demos can be shared through `/api/share?token=<hex>` links backed by Vercel Blob. Configure `BLOB_READ_WRITE_TOKEN` in the Vercel project environment before deploying; links expire after 24 hours and are rejected server-side after expiry.
 
 ## API Endpoints
 
@@ -70,7 +70,13 @@ Generated demos can be shared through short `/share/<token>` links backed by Ver
 | `GET /api/brands` | List all brands |
 | `GET /api/journeys?brand=<id>` | List journeys for a brand |
 | `POST /api/share` | Create a share link |
-| `GET /api/share/:token` | Retrieve a share link |
+| `GET /api/share?token=<hex>` | Retrieve a shared demo by token |
+| `POST /api/experiments/adapt-content` | Adapt UI labels for an industry via LLM |
+| `POST /api/experiments/save-content` | Save adapted content overrides to a session |
+
+## Content Adapter
+
+The content adapter (`services/content-adapter.js`) uses an LLM (OpenCode API, deepseek-v4-flash) to rewrite generic UI labels into industry-specific terminology. For example, "Browse Products" becomes "Browse Medicines" for Pharma or "Browse Stockyard" for Steel. The adapter validates responses (no HTML, no emoji, no marketing language) and falls back to original labels on invalid output. Default labels are in `data/content/order_to_cash_labels.json`.
 
 ## Add A New Brand
 
@@ -118,6 +124,7 @@ npm run build:dist
 data/
   brands/           Brand JSON files (one per brand)
   catalogs/         Product catalog JSON files
+  content/          Content label defaults (order_to_cash_labels.json)
   industries/       Industry definitions
   journeys/         Journey/step data files
 assets/
@@ -127,6 +134,10 @@ templates/
   layouts/          Page layout templates
   partials/         Reusable UI components
   screens/          Full-screen templates
+services/
+  content-adapter.js  LLM-powered industry label adaptation
+api/
+  experiments/      Content adaptation experiment endpoints
 scripts/
   build-template-pack.js
   clone-journeys.js
