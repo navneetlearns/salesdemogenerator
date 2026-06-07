@@ -64,8 +64,8 @@ function normalizeProducts(products) {
     .filter(Boolean);
 }
 
-function buildSystemPrompt({ industry, brandName, products, labels }) {
-  return [
+function buildSystemPrompt({ industry, brandName, products, labels, industryContext }) {
+  const parts = [
     'You are an expert B2B enterprise UX copywriter. Adapt button labels and UI text',
     'for the given industry. CHANGE the labels to use terminology SPECIFIC to that industry.',
     'The labels must sound natural for someone working in that industry day-to-day.',
@@ -78,36 +78,53 @@ function buildSystemPrompt({ industry, brandName, products, labels }) {
     '',
     'Sample Products:',
     JSON.stringify(products, null, 2),
-    '',
-    'Task:',
-    'Rewrite each label below. CHANGE at least half of them to be industry-specific.',
-    '',
-    'Examples of good adaptations:',
-    '  Pharma: "Browse Products" -> "Browse Medicines", "Place Order" -> "Create Purchase Order", "Price List" -> "Product Catalogue"',
-    '  Steel:  "Browse Products" -> "Browse Stockyard", "Place Order" -> "Raise Indent", "Price List" -> "Rate List"',
-    '  Cement: "Browse Products" -> "Browse Inventory", "Place Order" -> "Raise Material Request", "Price List" -> "Price Bulletin"',
-    '  FMCG:   "Browse Products" -> "Browse Stocks", "Place Order" -> "Place Indent", "Price List" -> "Trade Price List"',
-    '',
-    'Requirements:',
-    '- CHANGE at least half the labels to be industry-specific.',
-    '- Keep labels concise (2-4 words preferred).',
-    '- Do NOT use marketing/sales/promotional language.',
-    '- No HTML, no markdown, no emoji.',
-    '- Return ONLY a JSON object with the exact same keys.',
-    '- Each value must be the adapted label string.',
-    '',
-    'Labels to adapt:',
-    JSON.stringify(labels, null, 2),
-  ].join('\n');
+  ];
+
+  if (industryContext) {
+    parts.push('');
+    parts.push('Industry Context:');
+    if (industryContext.productCategories) {
+      parts.push('Product Categories: ' + industryContext.productCategories.join(', '));
+    }
+    if (industryContext.partnerTypes) {
+      parts.push('Business Partners: ' + industryContext.partnerTypes.join(', '));
+    }
+    if (industryContext.terminology) {
+      parts.push('Industry Terms: ' + JSON.stringify(industryContext.terminology));
+    }
+  }
+
+  parts.push('');
+  parts.push('Task:');
+  parts.push('Rewrite each label below. CHANGE at least half of them to be industry-specific.');
+  parts.push('');
+  parts.push('Examples of good adaptations:');
+  parts.push('  Pharma: "Browse Products" -> "Browse Medicines", "Place Order" -> "Create Purchase Order", "Price List" -> "Product Catalogue"');
+  parts.push('  Steel:  "Browse Products" -> "Browse Stockyard", "Place Order" -> "Raise Indent", "Price List" -> "Rate List"');
+  parts.push('  Cement: "Browse Products" -> "Browse Inventory", "Place Order" -> "Raise Material Request", "Price List" -> "Price Bulletin"');
+  parts.push('  FMCG:   "Browse Products" -> "Browse Stocks", "Place Order" -> "Place Indent", "Price List" -> "Trade Price List"');
+  parts.push('');
+  parts.push('Requirements:');
+  parts.push('- CHANGE at least half the labels to be industry-specific.');
+  parts.push('- Keep labels concise (2-4 words preferred).');
+  parts.push('- Do NOT use marketing/sales/promotional language.');
+  parts.push('- No HTML, no markdown, no emoji.');
+  parts.push('- Return ONLY a JSON object with the exact same keys.');
+  parts.push('- Each value must be the adapted label string.');
+  parts.push('');
+  parts.push('Labels to adapt:');
+  parts.push(JSON.stringify(labels, null, 2));
+  return parts.join('\n');
 }
 
-function buildPromptPayload({ industry, brandName, journeyType, products, labels }) {
+function buildPromptPayload({ industry, brandName, journeyType, products, labels, industryContext }) {
   return {
     industry,
     brandName,
     journeyType,
     products,
     labels,
+    industryContext,
   };
 }
 
@@ -210,6 +227,7 @@ async function adaptJourneyContent({
   journeyType,
   products,
   labels,
+  industryContext,
   client,
   config,
   apiKey,
@@ -222,6 +240,7 @@ async function adaptJourneyContent({
     journeyType,
     products: normalizeProducts(products),
     labels: defaultLabels,
+    industryContext,
   });
 
   let rawResponse = null;

@@ -3,6 +3,23 @@ const path = require('path');
 const { getSession } = require('../../runtime/session-manager');
 const { adaptJourneyContent, DEFAULT_LABELS } = require('../../services/content-adapter');
 
+const ROOT = path.resolve(__dirname, '../..');
+const INDUSTRIES_DIR = path.join(ROOT, 'data', 'industries');
+
+async function loadIndustryContext(industryId) {
+  if (!industryId) return null;
+  const filePath = path.join(INDUSTRIES_DIR, `${industryId}.json`);
+  if (await fs.pathExists(filePath)) {
+    const data = await fs.readJson(filePath);
+    return {
+      productCategories: data.productCategories?.map(c => c.name || c) || data.categoryTabs || [],
+      partnerTypes: data.partnerTypes?.map(p => p.name || p) || [],
+      terminology: data.terminology || {},
+    };
+  }
+  return null;
+}
+
 module.exports = async function adaptContentHandler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
@@ -24,13 +41,16 @@ module.exports = async function adaptContentHandler(req, res) {
       catalog = await fs.pathExists(catalogPath) ? await fs.readJson(catalogPath) : catalog;
     }
     const brandId = session?.metadata?.brandId || 'brand';
+    const industryId = industry || session?.metadata?.industry || 'general';
+    const industryContext = await loadIndustryContext(industryId);
 
     const result = await adaptJourneyContent({
-      industry: industry || session?.metadata?.industry || 'general',
+      industry: industryId,
       brandName: brandName || session?.metadata?.brandName || brandId,
       journeyType: 'order_to_cash',
       products: catalog.map(p => (typeof p === 'string' ? p : p && p.name)).filter(Boolean),
       labels: labels || DEFAULT_LABELS,
+      industryContext,
     });
 
     res.setHeader('Content-Type', 'application/json');
@@ -39,7 +59,6 @@ module.exports = async function adaptContentHandler(req, res) {
       model: result.model,
       acceptedLabels: result.acceptedLabels,
       adaptationDiff: result.adaptationDiff,
-
     });
   } catch (err) {
     res.setHeader('Content-Type', 'application/json');
