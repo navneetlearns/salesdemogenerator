@@ -103,7 +103,7 @@ test('client renderer provides fixed handwritten order and SAP assets for genera
   });
 
   assert.match(result.html, /id="handwritten" src="data:image\/svg\+xml/);
-  assert.match(result.html, /Order%20for%20Your%20Store/);
+  assert.match(result.html, /Order%20for%20Sharma%20General%20Store/);
   assert.match(result.html, /Acme%20Primer%20-%2025/);
   assert.match(result.html, /id="sap" src="data:image\/png;base64,FIXED_SAP"/);
 });

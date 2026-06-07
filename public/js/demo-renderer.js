@@ -13,6 +13,53 @@
   var _partialsRegistered = false;
   var _helpersRegistered = false;
 
+  /* ── Industry → Product Category Mapping ──────────────── */
+  var INDUSTRY_CATEGORIES = {
+    'FMCG': ['Biscuits & Snacks', 'Namkeen & Savouries', 'Beverages', 'Sweets & Desserts'],
+    'Pharma': ['Tablets & Capsules', 'Syrups & Liquids', 'Injections', 'Ointments & Creams'],
+    'Cement': ['OPC', 'PPC', 'White Cement', 'Specialty'],
+    'Steel': ['TMT Bars', 'Coils & Sheets', 'Pipes & Tubes', 'Structural Steel'],
+    'Construction': ['Cement', 'Steel & TMT', 'Paint & Chemicals', 'Hardware & Tools'],
+    'Retail': ['Electronics', 'Clothing & Apparel', 'Groceries & FMCG', 'Home & Kitchen'],
+    'General': ['Products', 'Specialty', 'Bulk & Trade']
+  };
+
+  function getCategoriesForIndustry(industry) {
+    return INDUSTRY_CATEGORIES[industry] || INDUSTRY_CATEGORIES['General'];
+  }
+
+  function assignCategoryToProduct(productName, industryCategories) {
+    if (!productName || !industryCategories || !industryCategories.length) return 'Products';
+    var lower = productName.toLowerCase();
+    for (var i = 0; i < industryCategories.length; i++) {
+      var cat = industryCategories[i].toLowerCase();
+      // Check if product name contains category keywords
+      var keywords = cat.split(/[\s&]+/);
+      for (var k = 0; k < keywords.length; k++) {
+        if (keywords[k].length > 2 && lower.indexOf(keywords[k]) !== -1) {
+          return industryCategories[i];
+        }
+      }
+    }
+    // Default to first category
+    return industryCategories[0];
+  }
+
+  /* ── Industry → Store Name Mapping ──────────────────── */
+  var INDUSTRY_STORE_NAMES = {
+    'FMCG': 'Sharma Food Store',
+    'Pharma': 'Sharma Pharma Store',
+    'Cement': 'Sharma Cement Store',
+    'Steel': 'Sharma Steel Store',
+    'Construction': 'Sharma Hardware Store',
+    'Retail': 'Sharma Retail Store',
+    'General': 'Sharma General Store'
+  };
+
+  function getStoreNameForIndustry(industry) {
+    return INDUSTRY_STORE_NAMES[industry] || INDUSTRY_STORE_NAMES['General'];
+  }
+
   /* ── Utility: deep clone ─────────────────────────────────── */
   function deepClone(obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -175,7 +222,7 @@
     if (input.dealerName) {
       base.dealerStoreName = input.dealerName;
     } else if (input.name) {
-      base.dealerStoreName = 'Your Store';
+      base.dealerStoreName = getStoreNameForIndustry(input.industry || base.industry || 'General');
     }
 
     return base;
@@ -216,17 +263,26 @@
       baseProducts = [];
     }
 
+    // Get industry categories for product assignment
+    var industry = input.industry || 'General';
+    var industryCategories = getCategoriesForIndustry(industry);
+
     // User products fully replace the default catalog so old product names do not leak.
     var userProducts = input.products || [];
     if (userProducts.length > 0) {
       baseProducts = [];
       for (var i = 0; i < userProducts.length; i++) {
         var up = userProducts[i];
+        var category = up.category;
+        // If category is generic ('All', 'General'), assign based on industry
+        if (!category || category === 'All' || category === 'General') {
+          category = assignCategoryToProduct(up.name, industryCategories);
+        }
         var product = {
           id: up.id || ('up' + (i + 1)),
           sku: up.sku || ('SKU_' + (i + 1)),
           name: up.name || ('Product ' + (i + 1)),
-          category: up.category || 'General',
+          category: category,
           price: up.price || 100,
           unit: up.unit || 'unit',
           image: up.imageDataUrl || up.image || ''
