@@ -5,7 +5,7 @@
 
         <!-- Screen 1: Payment Received Notification -->
         <div class="screen-wrap">
-          <div class="screen-lbl">Screen 1 · Payment Received</div>
+          <div class="screen-lbl">Screen 1 · {{journey.content.paymentReceived}}</div>
           <div class="screen-type-lbl">Utility Template — Document Header + Quick Reply</div>
           <div class="phone-frame">
             {{> status-bar time="2:44 PM"}}
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div class="screen-desc" style="background:#D1ECFF;">
-            <strong>Payment Received Notification</strong><br>
+            <strong>{{journey.content.paymentReceived}} Notification</strong><br>
             ZoTok receives the bank transfer from {{brand.name}}'s ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.
           </div>
         </div><!-- /phone-wrap Screen 1 -->

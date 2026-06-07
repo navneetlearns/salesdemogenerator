@@ -5,7 +5,7 @@
 
         <!-- Screen 1: WhatsApp DM — Order Confirmed Template -->
         <div class="screen-wrap">
-          <div class="screen-lbl">Screen 1 · Order Confirmed</div>
+          <div class="screen-lbl">Screen 1 · {{journey.content.orderConfirmed}}</div>
           <div class="screen-type-lbl">Utility Template — Document Header + CTA URL</div>
           <div class="phone-frame">
             {{> status-bar time="11:05 AM"}}
@@ -35,7 +35,7 @@
                     <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
                   </div>
                   <div class="wa-tmpl-body">
-                    <strong style="font-size:13px;display:block;margin-bottom:6px;">Order Confirmed ✔</strong>
+                    <strong style="font-size:13px;display:block;margin-bottom:6px;">{{journey.content.orderConfirmed}} ✔</strong>
                     Your order has been confirmed and is being processed.<br><br>
                     🪪 Order ID: <strong>{{journey.order.primaryOrderId}}</strong><br>
                     🏪 Dealer: <strong>{{journey.dealer.name}}, Hyderabad</strong><br>
@@ -63,7 +63,7 @@
             </div>
           </div><!-- /phone-frame -->
           <div class="screen-desc" style="background:#C8F5D8;">
-            <strong>Order Confirmed Notification</strong>
+            <strong>{{journey.content.orderConfirmed}} Notification</strong>
             {{brand.name}}'s ERP triggers a WhatsApp confirmation once the order is approved. The previous "Order Received" message is shown faded for context. The single CTA links to read-only order details.
           </div>
         </div><!-- /phone-wrap Screen 1 -->

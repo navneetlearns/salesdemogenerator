@@ -20,7 +20,7 @@
                     <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
                   </div>
                   <div class="wa-tmpl-body">
-                    <strong style="font-size:13px;display:block;margin-bottom:6px;">Cash Discount Expiring Tomorrow</strong>
+                    <strong style="font-size:13px;display:block;margin-bottom:6px;">{{journey.content.cashDiscountReminder}}</strong>
                     Dear {{journey.dealer.name}}, this is a friendly reminder that your 2.5% cash discount on Invoice <strong>JK-{{journey.invoice.id}}</strong> expires tomorrow — <strong>{{journey.invoice.date}}</strong>.<br><br>
                     Generate your payment advice today to avail the discount. 🙏<br><br>
                     🧾 Invoice No: <strong>JK-{{journey.invoice.id}}</strong><br>
@@ -31,7 +31,7 @@
                   <div class="wa-tmpl-signoff">Team,<br>{{brand.name}}</div>
                   <div class="wa-tmpl-time">10:00 AM</div>
                                     <div class="wa-tmpl-btns">
-                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Generate Payment Advice</div>
+                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>{{journey.content.generatePaymentAdvice}}</div>
                     <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Raise an Issue</div>
                   </div>
                           </div>
@@ -62,7 +62,7 @@
                     <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
                   </div>
                   <div class="wa-tmpl-body">
-                    <strong style="font-size:13px;display:block;margin-bottom:6px;">Invoice Payment Due in 3 Days</strong>
+                    <strong style="font-size:13px;display:block;margin-bottom:6px;">{{journey.content.invoicePaymentDue}}</strong>
                     Dear {{journey.dealer.name}}, your invoice <strong>JK-{{journey.invoice.id}}</strong> for <strong>{{formatCurrency journey.order.summary.orderValue}}</strong> is due on <strong>{{journey.invoice.dueDate}}</strong> — just 3 days away.<br><br>
                     Kindly generate your payment advice at the earliest to ensure uninterrupted supply of future orders. 🙏<br><br>
                     🧾 Invoice No: <strong>JK-{{journey.invoice.id}}</strong><br>
@@ -73,7 +73,7 @@
                   <div class="wa-tmpl-signoff">Team,<br>{{brand.name}}</div>
                   <div class="wa-tmpl-time">9:00 AM</div>
                                     <div class="wa-tmpl-btns">
-                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Generate Payment Advice</div>
+                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>{{journey.content.generatePaymentAdvice}}</div>
                     <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Raise an Issue</div>
                   </div>
                           </div>
@@ -90,4 +90,3 @@
       
       </div><!-- /phones-row -->
     </div><!-- /step-8 -->
-

@@ -5,7 +5,7 @@
 
         <!-- ═══ Credit Note & Ledger ═══ -->
         <div class="screen-wrap">
-          <div class="screen-lbl">Screen 1 · Credit Note Issued</div>
+          <div class="screen-lbl">Screen 1 · {{journey.content.creditNoteIssued}}</div>
           <div class="screen-type-lbl">Utility Template — Document Header + CTA + Quick Reply</div>
           <div class="phone-frame">
             {{> status-bar time="11:15 AM"}}
@@ -22,7 +22,7 @@
                     <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
                   </div>
                   <div class="wa-tmpl-body">
-                    <strong style="font-size:13px;display:block;margin-bottom:6px;">Credit Note Issued</strong>
+                    <strong style="font-size:13px;display:block;margin-bottom:6px;">{{journey.content.creditNoteIssued}}</strong>
                     Dear {{journey.dealer.name}}, a credit note has been issued against your account. Please find the details below.<br><br>
                     🗒 Credit Note No: <strong>{{journey.ledger.creditNoteId}}</strong><br>
                     🔗 Reference Invoice: <strong>JK-{{journey.invoice.id}}</strong><br>
@@ -43,13 +43,13 @@
             <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
           <div class="screen-desc" style="background:#F3E5F5;">
-            <strong>Credit Note Issued</strong><br>
+            <strong>{{journey.content.creditNoteIssued}}</strong><br>
             When SAP FI raises a credit note (scheme incentive or return refund), the event triggers ZoTok via webhook. ZoTok instantly sends the PDF with credit details. The dealer can view the note or tap Download Ledger to get a full statement.
           </div>
         </div><!-- /screen-wrap Screen 1 -->
         <div class="screen-wrap">
-          <div class="screen-lbl">Screen 2 · Ledger Statement</div>
-          <div class="screen-type-lbl">ZoAi Session Message — Document Header + View Ledger Link</div>
+          <div class="screen-lbl">Screen 2 · {{journey.content.navLedger}} Statement</div>
+          <div class="screen-type-lbl">ZoAi Session Message — Document Header + View {{journey.content.navLedger}} Link</div>
           <div class="phone-frame">
             {{> status-bar time="11:17 AM"}}
             {{> wa-topbar status="ZoTok Business" actions="call" compact=true avatarSrc=brandLogo}}
@@ -65,7 +65,7 @@
                     <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
                   </div>
                   <div class="wa-tmpl-body" style="font-size:13px;color:#111B21;">
-                    <strong style="font-size:13px;display:block;margin-bottom:6px;">Credit Note Issued</strong>
+                    <strong style="font-size:13px;display:block;margin-bottom:6px;">{{journey.content.creditNoteIssued}}</strong>
                     Dear {{journey.dealer.name}}, a credit note has been issued against your account. Please find the details below.<br><br>
                     🗒 Credit Note No: <strong>{{journey.ledger.creditNoteId}}</strong><br>
                     🔗 Reference Invoice: <strong>JK-{{journey.invoice.id}}</strong><br>
@@ -114,13 +114,13 @@
             <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
           <div class="screen-desc" style="background:#E8F5E9;">
-            <strong>Ledger on WhatsApp</strong><br>
-            The dealer taps "Download Ledger" which sends a reply. ZoAi detects the intent and instantly responds with the ledger PDF and a View Ledger link — no app login needed.
+            <strong>{{journey.content.navLedger}} on WhatsApp</strong><br>
+            The dealer taps "Download Ledger" which sends a reply. ZoAi detects the intent and instantly responds with the ledger PDF and a View {{journey.content.navLedger}} link — no app login needed.
           </div>
         </div><!-- /screen-wrap Screen 2 -->
         <div class="screen-wrap">
-          <div class="screen-lbl">Screen 3 · Ledger Page</div>
-          <div class="screen-type-lbl">Commerce WebView — Dealer Ledger Statement</div>
+          <div class="screen-lbl">Screen 3 · {{journey.content.navLedger}} Page</div>
+          <div class="screen-type-lbl">Commerce WebView — Dealer {{journey.content.navLedger}} Statement</div>
           <div class="phone-frame-web">
             <div class="status-bar" style="background:#fff;color:#111;">
               <span style="font-size:12.5px;font-weight:600;color:#111;">11:17</span>
@@ -145,7 +145,7 @@
                 <div style="width:34px;height:34px;border-radius:50%;background:#e0e0e0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#555;flex-shrink:0;">RE</div>
                 <div style="flex:1;min-width:0;">
                   <div style="font-size:13.5px;font-weight:700;color:#111;">{{journey.dealer.name}}</div>
-                  <div style="font-size:10.5px;color:#888;">Ledger · {{journey.order.date}} to {{journey.payment.date}}</div>
+                  <div style="font-size:10.5px;color:#888;">{{journey.content.navLedger}} · {{journey.order.date}} to {{journey.payment.date}}</div>
                 </div>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#555" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke="#555" stroke-width="1.8" stroke-linecap="round"/></svg>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="#555" stroke-width="1.8" stroke-linecap="round"/><polyline points="7 10 12 15 17 10" stroke="#555" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="15" x2="12" y2="3" stroke="#555" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -160,7 +160,7 @@
               </div>
               <!-- Table header -->
               <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:8px 14px;font-size:11px;font-weight:700;color:#444;border-bottom:1px solid #e0e0e0;">
-                <span>Ledger</span><span style="text-align:right;">Debit</span><span style="text-align:right;">Credit</span>
+                <span>{{journey.content.navLedger}}</span><span style="text-align:right;">Debit</span><span style="text-align:right;">Credit</span>
               </div>
               <!-- Opening Balance -->
               <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;background:#FFF8E1;border-bottom:1px solid #e0e0e0;">
@@ -201,10 +201,9 @@
             </div>
           </div>
           <div class="screen-desc" style="background:#FFF8E1;">
-            <strong>Ledger in Embedded Browser</strong><br>
+            <strong>{{journey.content.navLedger}} in Embedded Browser</strong><br>
             The dealer taps View Ledger to open the account statement inside WhatsApp's browser. Filter by Payment, Debit Note, Credit Note, or Sales. Download the PDF directly from here.
           </div>
         </div><!-- /screen-wrap Screen 3 -->
       </div><!-- /phones-row -->
     </div><!-- /step-10 -->
-
