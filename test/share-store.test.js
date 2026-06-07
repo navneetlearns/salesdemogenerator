@@ -58,7 +58,7 @@ test('createShare stores generated html in a private blob behind a random token'
   });
 
   assert.match(result.token, /^[a-f0-9]{32}$/);
-  assert.equal(result.url, 'https://demo.example/share/' + result.token);
+  assert.equal(result.url, 'https://demo.example/api/share?token=' + result.token);
   assert.equal(result.expiresAt, currentTime + SHARE_TTL_MS);
 
   const pathname = 'shares/' + result.token + '.json';
