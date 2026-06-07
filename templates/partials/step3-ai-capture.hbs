@@ -83,8 +83,12 @@
                     <strong>Draft order</strong><br><br>
                     Here is the draft order I have extracted from your note. Please review and confirm:<br><br>
                     🪪 Order ID: <b>{{journey.order.primaryOrderId}}</b><br>
-                    🏪 Dealer: <b>{{journey.dealer.name}}</b><br>
-                    📦 Total SKUs: <b>{{journey.step3.cartSummary.totalItems}}</b><br>
+                    🏪 Dealer: <b>{{journey.dealer.name}}</b><br><br>
+                    📋 <b>Order Items:</b><br>
+                    1. {{catalog.products.0.name}} — 25 bags<br>
+                    2. {{catalog.products.1.name}} — 20 bags<br>
+                    3. {{catalog.products.2.name}} — 12 bags<br>
+                    <br>📦 Total SKUs: <b>{{journey.step3.cartSummary.totalItems}}</b><br>
                     💰 Total Value: <b>{{formatCurrency journey.step3.draftOrder.totalValue}}</b><br>
                     ✅ Net Value: <b>{{formatCurrency journey.step3.draftOrder.netValue}}</b>
                   </div>
