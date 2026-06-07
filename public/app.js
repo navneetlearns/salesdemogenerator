@@ -113,6 +113,34 @@ function setupRuntimeJourneySelection() {
   });
 }
 
+async function ensureRuntimeSession() {
+  if (window._activeSessionId) return window._activeSessionId;
+  const industryInput = document.getElementById('runtimeIndustryInput');
+  const industry = industryInput && industryInput.value ? industryInput.value : 'Cement';
+  try {
+    const res = await fetch(API_BASE + '/api/session/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        brandName: 'Runtime Demo',
+        industry: industry
+      })
+    });
+    const data = await res.json();
+    if (data && data.sessionId) {
+      window._activeSessionId = data.sessionId;
+      const box = document.getElementById('sessionBox');
+      if (box) {
+        box.textContent = 'Session: ' + data.sessionId + ' (expires ' + (data.expiresAt ? new Date(data.expiresAt).toLocaleString() : 'soon') + ')';
+      }
+      return data.sessionId;
+    }
+  } catch (e) {
+    console.warn('Could not create runtime session:', e);
+  }
+  return null;
+}
+
 async function init() {
   const mode = await detectMode();
   if (mode === 'static') {
@@ -120,6 +148,7 @@ async function init() {
     renderStaticMode(brands);
   } else {
     renderRuntimeMode();
+    await ensureRuntimeSession();
   }
   setupRuntimeJourneySelection();
 

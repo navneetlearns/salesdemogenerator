@@ -239,6 +239,20 @@
     return { products: baseProducts };
   }
 
+  function buildContent(userInput) {
+    var input = userInput || {};
+    var base = deepClone(_pack.defaultContentLabels || {});
+    var overrides = input.acceptedLabels || input.content || input.contentOverrides || {};
+
+    for (var key in overrides) {
+      if (overrides.hasOwnProperty(key) && typeof overrides[key] === 'string') {
+        base[key] = overrides[key];
+      }
+    }
+
+    return base;
+  }
+
   /* ═══════════════════════════════════════════════════════════
    *  buildCart(catalog) — takes first 3 products, qty 1-3,
    *  computes lineTotal and orderValue
@@ -475,6 +489,7 @@
 
         // Build journey data with brand overrides
         var journey = buildJourney(journeyType, brand, catalog);
+        journey.content = buildContent(input);
 
         // Generate logo placeholder or use provided logo
         var brandLogo = brand.logo || generateLogoPlaceholder(
@@ -598,6 +613,7 @@
     render: render,
     buildBrand: buildBrand,
     buildCatalog: buildCatalog,
+    buildContent: buildContent,
     buildCart: buildCart,
     buildJourney: buildJourney,
     generatePlaceholderImage: generatePlaceholderImage,

@@ -9,6 +9,7 @@
   var _logoDataUrl = null;
   var _productRowCount = 0;
   var _selectedJourneys = ['order_to_cash'];
+  var _contentAdaptation = null;
   var MAX_GUIDELINE_IMAGE_SIZE = 1024 * 1024;
   var LAST_PREVIEW_KEY = 'zotok.demoGenerator.lastPreview';
 
@@ -18,6 +19,68 @@
 
   function primarySelectedJourney() {
     return _selectedJourneys[0] || 'order_to_cash';
+  }
+
+  function getIndustryValue() {
+    var runtimeIndustry = document.getElementById('runtimeIndustryInput');
+    var wizardIndustry = document.getElementById('industryInput');
+    var value = (wizardIndustry && wizardIndustry.value) || (runtimeIndustry && runtimeIndustry.value) || 'Cement';
+    if (wizardIndustry && !wizardIndustry.value) wizardIndustry.value = value;
+    if (runtimeIndustry && !runtimeIndustry.value) runtimeIndustry.value = value;
+    return value;
+  }
+
+  function getDefaultContentLabels() {
+    if (window.DemoRenderer && typeof DemoRenderer.buildContent === 'function') {
+      return DemoRenderer.buildContent({});
+    }
+    return {};
+  }
+
+  function getSelectedContentLabels() {
+    if (_contentAdaptation && _contentAdaptation.acceptedLabels) {
+      return _contentAdaptation.acceptedLabels;
+    }
+    return getDefaultContentLabels();
+  }
+
+  function setContentPanelVisible(visible) {
+    var panel = document.getElementById('contentReviewPanel');
+    if (panel) panel.style.display = visible ? 'block' : 'none';
+  }
+
+  function renderContentDiff() {
+    var list = document.getElementById('contentDiffList');
+    if (!list) return;
+
+    var adaptation = _contentAdaptation;
+    if (!adaptation) {
+      list.innerHTML = '<p class="muted">Click Adapt Content to generate label suggestions.</p>';
+      setContentPanelVisible(false);
+      return;
+    }
+
+    var diff = adaptation.adaptationDiff || {};
+    var html = '';
+    Object.keys(diff).forEach(function(key) {
+      var row = diff[key];
+      html += '<div class="content-diff-row" style="border-top:1px solid rgba(0,0,0,.08);padding:10px 0">';
+      html += '<div><strong>' + key + '</strong></div>';
+      html += '<div class="muted" style="font-size:12px">Original: ' + (row.original || '') + '</div>';
+      html += '<div style="font-weight:600">Suggested: ' + (row.proposed || '') + '</div>';
+      html += '<div class="muted" style="font-size:12px">' + (row.changed ? 'Changed' : 'No change') + '</div>';
+      html += '</div>';
+    });
+
+    list.innerHTML = html || '<p class="muted">No labels were returned.</p>';
+    setContentPanelVisible(true);
+  }
+
+  function updateAdaptButtonState(isBusy) {
+    var btn = document.getElementById('adaptContentBtn');
+    if (!btn) return;
+    btn.disabled = !!isBusy;
+    btn.textContent = isBusy ? 'Adapting...' : 'Adapt Content';
   }
 
   /* ── Step Navigation ──────────────────────────────────── */
@@ -349,6 +412,7 @@
 
   function collectFormData() {
     var brandName = (document.getElementById('brandNameInput') || {}).value || '';
+    var industry = getIndustryValue();
     var primaryColor = (document.getElementById('primaryColorInput') || {}).value || '#075e54';
     var secondaryColor = (document.getElementById('secondaryColorInput') || {}).value || '#064e46';
     var logoDataUrl = _logoDataUrl;
@@ -380,6 +444,7 @@
 
     return {
       brandName: brandName,
+      industry: industry,
       primaryColor: primaryColor,
       secondaryColor: secondaryColor,
       logoDataUrl: logoDataUrl,
@@ -475,11 +540,13 @@
     // Map form data to DemoRenderer.render() input format
     var userInput = {
       name: formData.brandName,
+      industry: formData.industry,
       brandColor: formData.primaryColor,
       brandColorDark: formData.secondaryColor,
       logo: formData.logoDataUrl || null,
       products: formData.products,
-      journeyType: formData.journeyType
+      journeyType: formData.journeyType,
+      acceptedLabels: getSelectedContentLabels()
     };
 
     if (progressFill) progressFill.style.width = '60%';
@@ -599,6 +666,137 @@
       });
   }
 
+  function adaptContent() {
+    clearError();
+    if (!window.DemoRenderer) {
+      showError('DemoRenderer not loaded. Please refresh the page.');
+      return Promise.resolve(null);
+    }
+
+    var formData = collectFormData();
+    var labels = getDefaultContentLabels();
+    var payload = {
+      industry: formData.industry,
+      brandName: formData.brandName,
+      journeyType: formData.journeyType,
+      products: formData.products.map(function(p) { return p.name; }),
+      labels: labels
+    };
+
+    updateAdaptButtonState(true);
+
+    return fetch('/api/experiments/adapt-content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function(res) {
+        return res.json().then(function(data) {
+          if (!res.ok) {
+            var err = new Error(data.error || 'Could not adapt content.');
+            err.status = res.status;
+            throw err;
+          }
+          return data;
+        });
+      })
+      .then(function(data) {
+        _contentAdaptation = {
+          industry: formData.industry,
+          brandName: formData.brandName,
+          originalLabels: labels,
+          acceptedLabels: data.acceptedLabels || labels,
+          adaptationDiff: data.adaptationDiff || {},
+          provider: data.provider || 'OpenCode',
+          model: data.model || 'deepseek-v4-flash'
+        };
+        renderContentDiff();
+        return _contentAdaptation;
+      })
+      .catch(function(err) {
+        _contentAdaptation = {
+          industry: formData.industry,
+          brandName: formData.brandName,
+          originalLabels: labels,
+          acceptedLabels: labels,
+          adaptationDiff: {},
+          provider: 'fallback',
+          model: 'original'
+        };
+        renderContentDiff();
+        showError(err.message || 'Could not adapt content.');
+        return _contentAdaptation;
+      })
+      .finally(function() {
+        updateAdaptButtonState(false);
+      });
+  }
+
+  // Accept / Reset / Save content review actions
+  function acceptContent() {
+    if (!_contentAdaptation) {
+      adaptContent();
+      return;
+    }
+    _contentAdaptation.acceptedLabels = {};
+    for (var key in _contentAdaptation.adaptationDiff) {
+      if (_contentAdaptation.adaptationDiff.hasOwnProperty(key)) {
+        _contentAdaptation.acceptedLabels[key] = _contentAdaptation.adaptationDiff[key].proposed || _contentAdaptation.originalLabels[key];
+      }
+    }
+    renderContentDiff();
+    generate();
+  }
+
+  function resetContent() {
+    if (!_contentAdaptation) return;
+    _contentAdaptation.acceptedLabels = Object.assign({}, _contentAdaptation.originalLabels);
+    renderContentDiff();
+    generate();
+  }
+
+  function saveContent() {
+    clearError();
+    if (!_contentAdaptation) {
+      showError('Adapt content first.');
+      return Promise.resolve(null);
+    }
+    var sessionId = global._activeSessionId || window._activeSessionId || '';
+    if (!sessionId) {
+      showError('No active session is available yet. Save requires a runtime session.');
+      return Promise.resolve(null);
+    }
+
+    return fetch('/api/experiments/save-content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: sessionId,
+        industry: _contentAdaptation.industry,
+        acceptedLabels: _contentAdaptation.acceptedLabels,
+        adaptationDiff: _contentAdaptation.adaptationDiff
+      })
+    })
+      .then(function(res) {
+        return res.json().then(function(data) {
+          if (!res.ok) {
+            var err = new Error(data.error || 'Could not save content.');
+            err.status = res.status;
+            throw err;
+          }
+          return data;
+        });
+      })
+      .then(function(data) {
+        setShareStatus('Content saved to ' + (data.savedAs || 'session override'), false);
+        return data;
+      })
+      .catch(function(err) {
+        showError(err.message || 'Could not save content.');
+        return null;
+      });
+  }
+
   /* ── Download ─────────────────────────────────────────── */
 
   function download() {
@@ -629,9 +827,11 @@
 
   function init() {
     setupLogoDropZone();
+    getIndustryValue();
     addProductRow();
     renderJourneyCards();
     restoreLastPreview();
+    renderContentDiff();
     renderJourneyCards();
     showStep(1);
   }
@@ -647,6 +847,10 @@
     handleLogoFile: handleLogoFile,
     renderJourneyCards: renderJourneyCards,
     generate: generate,
+    adaptContent: adaptContent,
+    acceptContent: acceptContent,
+    resetContent: resetContent,
+    saveContent: saveContent,
     restoreLastPreview: restoreLastPreview,
     createShareLink: createShareLink,
     openInNewTab: createShareLink,
