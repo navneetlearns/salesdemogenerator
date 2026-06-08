@@ -120,14 +120,12 @@ This means replacements can corrupt any CSS/JS/SVG that happens to contain a rep
 - Field Ops & Expense (3 brands)
 - Automated Collections (3 brands)
 - Dealer Engagement (3 brands, scaffold only)
+| Dealer Engagement | 3 brands, 3 steps | Complete (was scaffold) |
 | Retailer Onboarding to Cash | 3 brands, 12 steps | Complete (was scaffold) |
 | Retailer Loyalty | 3 brands, 6 steps | Complete |
-| Dealer Engagement | 3 brands, 3 steps | Complete (was scaffold) |
-- **Campaigns & Queries** (Haldiram only)
-- **DT Fulfillment & Payment** (Haldiram only)
-- **Retailer Activation** (Haldiram only)
-
-One scaffold journey (Dealer Engagement) still needs real content.
+| Campaigns &amp; Queries | Haldiram only | Complete |
+| DT Fulfillment &amp; Payment | Haldiram only | Complete |
+| Retailer Activation | Haldiram only | Complete |
 
 ---
 
@@ -150,6 +148,8 @@ The following stale files and directories were removed:
 ## FIXES COMPLETED (June 2026)
 
 - **Retailer Onboarding to Cash (scaffold → complete, 10→12 steps)**: Replaced all 10 placeholder partials (step1-step10) with 12 real WhatsApp phone-screen templates (step1-step12) extracted from Haldiram's reference HTML. Includes: activation campaign, registration WebView, partner approval, self-service menu, campaigns & queries, AI scheme explanation (Hinglish), self-service ordering, catalog browse, AI order capture, distributor confirmation, invoice upload, payment collection, and order/payment nudges. Data-driven for all 3 brands (JK Cement, Haldiram's, Sundaram Store). Server-side build and client-side renderer both updated.
+
+- **Dealer Engagement (scaffold → complete)**: Replaced 3 placeholder partials (step1-step3) with real WhatsApp phone-screen templates extracted from Banas_Diary reference HTML (WhatsApp mock generator projects). Includes: bulk purchase campaign → product category selection → price list response → scheme notification → AI Hinglish explanation → loyalty points inquiry → credit balance query → SE escalation. Data-driven for all 3 brands. Fixed `scaffold: true` hardcoded in `scripts/build-template-pack.js` that was blocking client-side wizard.
 
 - **validate.js:** Fixed syntax error (literal newlines in JS string literals) and cwd bug (was running from `scripts/` dir, causing `scripts/scripts/visual-test.js` path). Now uses project root as cwd.
 - **share-store.test.js:** Fixed URL format assertion — test expected `/share/<token>` (path-based) but implementation returns `/api/share?token=<hex>` (query-based).
