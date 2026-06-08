@@ -120,13 +120,13 @@ This means replacements can corrupt any CSS/JS/SVG that happens to contain a rep
 - Field Ops & Expense (3 brands)
 - Automated Collections (3 brands)
 - Dealer Engagement (3 brands, scaffold only)
-- Retailer Onboarding (3 brands, scaffold only)
-- Retailer Loyalty (3 brands)
-- Campaigns & Queries (Haldiram only)
-- DT Fulfillment & Payment (Haldiram only)
-- Retailer Activation (Haldiram only)
+| Retailer Onboarding to Cash | 3 brands, 12 steps | Complete (was scaffold) |
+| Retailer Loyalty | 3 brands, 6 steps | Complete |
+- **Campaigns & Queries** (Haldiram only)
+- **DT Fulfillment & Payment** (Haldiram only)
+- **Retailer Activation** (Haldiram only)
 
-Two scaffold journeys (Dealer Engagement, Retailer Onboarding) still need real content.
+One scaffold journey (Dealer Engagement) still needs real content.
 
 ---
 
@@ -147,6 +147,8 @@ The following stale files and directories were removed:
 ---
 
 ## FIXES COMPLETED (June 2026)
+
+- **Retailer Onboarding to Cash (scaffold → complete, 10→12 steps)**: Replaced all 10 placeholder partials (step1-step10) with 12 real WhatsApp phone-screen templates (step1-step12) extracted from Haldiram's reference HTML. Includes: activation campaign, registration WebView, partner approval, self-service menu, campaigns & queries, AI scheme explanation (Hinglish), self-service ordering, catalog browse, AI order capture, distributor confirmation, invoice upload, payment collection, and order/payment nudges. Data-driven for all 3 brands (JK Cement, Haldiram's, Sundaram Store). Server-side build and client-side renderer both updated.
 
 - **validate.js:** Fixed syntax error (literal newlines in JS string literals) and cwd bug (was running from `scripts/` dir, causing `scripts/scripts/visual-test.js` path). Now uses project root as cwd.
 - **share-store.test.js:** Fixed URL format assertion — test expected `/share/<token>` (path-based) but implementation returns `/api/share?token=<hex>` (query-based).

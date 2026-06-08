@@ -1,11 +1,122 @@
-{{!-- Retailer Onboarding to Cash — Step 5 --}}
-<div class="step-section" id="step-5">
-  <div style="padding:40px;text-align:center;max-width:400px;margin:0 auto;">
-    <h2 style="color:var(--brand);font-size:24px;margin-bottom:16px;">Retailer Onboarding to Cash</h2>
-    <h3 style="color:var(--brand-dark);font-size:16px;margin-bottom:24px;">Step 5 of 10</h3>
-    <p style="color:#555;font-size:14px;line-height:1.6;">Onboard new retail partners via WhatsApp, guide them through self-service ordering, catalog browse, and complete their first order-to-invoice cycle.</p>
-    <div style="margin-top:32px;padding:20px;background:#f5f5f5;border-radius:12px;">
-      <p style="font-size:13px;color:#888;">🚧 This journey template is a placeholder. Full WhatsApp demo content coming soon.</p>
+{{!-- Step 5: Self Service Ordering — 3 screens
+  Screen 1 · Self Service Menu (Session Interactive Message — Reply Button)
+  Screen 2 · Browse Products (Interactive List — Bottom Sheet Open)
+  Screen 3 · Product Selection (Interactive List — Bottom Sheet Open)
+--}}
+<div id="step-5" class="step-section">
+
+  <!-- Screen 1: Menu Navigation -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 1 · Self Service Menu</div>
+    <div class="screen-type-lbl">Session Interactive Message — Reply Button</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:40 AM"}}
+      {{> wa-topbar status="Business Account" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        <div class="msg-sender-wrap">
+          <div class="msg-sender">
+            <div class="msg-body">Order Now</div>
+            <span class="msg-time">10:40 AM <span class="msg-tick">✓✓</span></span>
+          </div>
+        </div>
+        {{#with journey.messages.step5}}
+          <div class="msg-receiver-wrap">
+            <div class="wa-list-card">
+              <div class="wa-list-body">{{greeting}}</div>
+              <div class="wa-list-time">10:40 AM</div>
+              <div class="wa-list-btn-row">
+                <svg width="15" height="13" viewBox="0 0 24 20" fill="none"><line x1="0" y1="2" x2="24" y2="2" stroke="#00A884" stroke-width="2.5"/><line x1="0" y1="10" x2="24" y2="10" stroke="#00A884" stroke-width="2.5"/><line x1="0" y1="18" x2="24" y2="18" stroke="#00A884" stroke-width="2.5"/></svg>
+                <span class="wa-list-btn-label">What can I help with?</span>
+              </div>
+            </div>
+          </div>
+        {{/with}}
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#C8B8F0;">
+      <strong>Menu Navigation</strong>
+      Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.
+    </div>
+  </div>
+
+  <!-- Screen 2: Browse Products -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 2 · Browse Products</div>
+    <div class="screen-type-lbl">Interactive List — Bottom Sheet Open</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:41 AM"}}
+      {{> wa-topbar status="Business Account" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        {{#with journey.messages.step5}}
+          <div class="msg-receiver-wrap">
+            <div class="wa-list-card">
+              <div class="wa-list-body">{{categoryQuestion}}</div>
+              <div class="wa-list-time">10:41 AM</div>
+              <div class="wa-list-btn-row">
+                <svg width="15" height="13" viewBox="0 0 24 20" fill="none"><line x1="0" y1="2" x2="24" y2="2" stroke="#00A884" stroke-width="2.5"/><line x1="0" y1="10" x2="24" y2="10" stroke="#00A884" stroke-width="2.5"/><line x1="0" y1="18" x2="24" y2="18" stroke="#00A884" stroke-width="2.5"/></svg>
+                <span class="wa-list-btn-label">Select a category</span>
+              </div>
+            </div>
+          </div>
+        {{/with}}
+      </div>
+      <div class="wa-bottom-sheet" style="background:#fff;border-top:1px solid #e0e0e0;padding:12px 16px;">
+        <div style="font-size:14px;font-weight:600;color:#111;margin-bottom:8px;">Product Categories</div>
+        <div class="menu-row" style="display:flex;gap:8px;flex-wrap:wrap;">
+          {{#each journey.messages.step5.sections}}
+            <div class="menu-chip" style="padding:6px 12px;background:#f0f0f0;border-radius:16px;font-size:12px;color:#333;">{{this.label}}</div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#C8B8F0;">
+      <strong>Product Categories</strong>
+      ZoTok opens the catalog category list for the retailer to choose the product category they want to order from.
+    </div>
+  </div>
+
+  <!-- Screen 3: Product Selection -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 3 · Product Selection</div>
+    <div class="screen-type-lbl">Interactive List — Bottom Sheet Open</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:42 AM"}}
+      {{> wa-topbar status="Business Account" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        {{#each journey.messages.step5.sections}}
+          <div class="msg-receiver-wrap">
+            <div class="wa-list-card">
+              <div class="wa-list-body" style="font-weight:600;">{{this.label}}</div>
+              <div class="wa-list-time">10:42 AM</div>
+            </div>
+          </div>
+          {{#each this.items}}
+            <div class="msg-receiver-wrap" style="margin-top:2px;">
+              <div class="msg-receiver">
+                <div class="msg-body" style="font-size:13px;"><strong>{{this.title}}</strong> — {{this.desc}}</div>
+                <span class="msg-time">10:42 AM</span>
+              </div>
+            </div>
+          {{/each}}
+        {{/each}}
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#C8B8F0;">
+      <strong>Catalog View</strong>
+      Retailer browses the product catalog with images, pricing, and quantity selectors directly in WhatsApp.
     </div>
   </div>
 </div>

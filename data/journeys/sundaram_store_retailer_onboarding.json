@@ -1,151 +1,299 @@
 {
   "id": "retailer_onboarding",
   "title": "Retailer Onboarding to Cash",
-  "brand": "sundaram_store",
-  "screens": [
+  "subtitle": "Activation, Onboarding & First Order Cycle",
+  "brandId": "sundaram_store",
+  "steps": [
     {
-      "id": "step1-retailer_onboarding",
-      "type": "step1-retailer_onboarding"
+      "num": 1, "displayNum": 1,
+      "title": "Activation & Registration",
+      "meta": "Retailer · Activation campaign & signup",
+      "navTitle": "Step 1 — Activation & Registration",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Prospective retailer receives activation campaign, registers via WebView, and gets application confirmation</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-web\">WebView</span>"
     },
     {
-      "id": "step2-retailer_onboarding",
-      "type": "step2-retailer_onboarding"
+      "num": 2, "displayNum": 2,
+      "title": "Welcome & Self Service",
+      "meta": "Retailer · Welcome & menu discovery",
+      "navTitle": "Step 2 — Welcome & Self Service",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer is approved, welcomed, and given access to full self-service menu</span><span class=\"tag tag-session\">Interactive</span>"
     },
     {
-      "id": "step3-retailer_onboarding",
-      "type": "step3-retailer_onboarding"
+      "num": 3, "displayNum": 3,
+      "title": "Campaigns & Queries",
+      "meta": "Retailer · Campaigns & AI support",
+      "navTitle": "Step 3 — Campaigns & Queries",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Back-to-school campaign sent; retailer queries product; ZoAi responds with price list</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "id": "step4-retailer_onboarding",
-      "type": "step4-retailer_onboarding"
+      "num": 4, "displayNum": 4,
+      "title": "Scheme & Product Queries",
+      "meta": "Retailer · Schemes & AI agents",
+      "navTitle": "Step 4 — Scheme & Product Queries",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Stationery scheme notification; retailer asks ZoAi; AI explains in Hinglish</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "id": "step5-retailer_onboarding",
-      "type": "step5-retailer_onboarding"
+      "num": 5, "displayNum": 5,
+      "title": "Self Service Ordering",
+      "meta": "Retailer · Menu-driven ordering",
+      "navTitle": "Step 5 — Self Service Ordering",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer navigates self-service menu to browse categories and select products</span><span class=\"tag tag-ord\">Ordering</span>"
     },
     {
-      "id": "step6-retailer_onboarding",
-      "type": "step6-retailer_onboarding"
+      "num": 6, "displayNum": 6,
+      "title": "Catalog Browse & Order",
+      "meta": "Retailer · Catalog & cart checkout",
+      "navTitle": "Step 6 — Catalog Browse & Order",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer browses catalog, reviews cart, gets order confirmation on WhatsApp</span><span class=\"tag tag-web\">WebView</span><span class=\"tag tag-ord\">Cart</span>"
     },
     {
-      "id": "step7-retailer_onboarding",
-      "type": "step7-retailer_onboarding"
+      "num": 7, "displayNum": 7,
+      "title": "AI Order Capture",
+      "meta": "Retailer · AI reads handwritten orders",
+      "navTitle": "Step 7 — AI Order Capture",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer sends handwritten order; ZoAi extracts items into structured draft order</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "id": "step8-retailer_onboarding",
-      "type": "step8-retailer_onboarding"
+      "num": 8, "displayNum": 8,
+      "title": "Distributor Confirmation",
+      "meta": "Distributor · Order review & approval",
+      "navTitle": "Step 8 — Distributor Confirmation",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor receives order alert, reviews and accepts in ZoTok portal</span><span class=\"tag tag-dist\">Distributor</span>"
     },
     {
-      "id": "step9-retailer_onboarding",
-      "type": "step9-retailer_onboarding"
+      "num": 9, "displayNum": 9,
+      "title": "Order to Invoice",
+      "meta": "Distributor · Fulfilment & invoicing",
+      "navTitle": "Step 9 — Order to Invoice",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor processes order in fulfilment portal and uploads invoice</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-inv\">Invoice</span>"
     },
     {
-      "id": "step10-retailer_onboarding",
-      "type": "step10-retailer_onboarding"
+      "num": 10, "displayNum": 10,
+      "title": "Invoice & Payment",
+      "meta": "Retailer · UPI payment & receipt",
+      "navTitle": "Step 10 — Invoice & Payment",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer gets invoice with UPI QR, pays directly, receives confirmation</span><span class=\"tag tag-inv\">Invoice</span><span class=\"tag tag-pay\">Payment</span>"
+    },
+    {
+      "num": 11, "displayNum": 11,
+      "title": "Collect Digital Orders",
+      "meta": "Distributor · Order nudges to retailers",
+      "navTitle": "Step 11 — Collect Digital Orders",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor selects retailers and sends bulk order nudges via WhatsApp</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-mktg\">Campaign</span>"
+    },
+    {
+      "num": 12, "displayNum": 12,
+      "title": "Collect Payments",
+      "meta": "Distributor + Retailer · Payment reminders",
+      "navTitle": "Step 12 — Collect Payments",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor views pending invoices, sends payment reminders with UPI links</span><span class=\"tag tag-pay\">Payment</span><span class=\"tag tag-dist\">Distributor</span>"
     }
   ],
-  "navSteps": [
-    "step-1",
-    "step-2",
-    "step-3",
-    "step-4",
-    "step-5",
-    "step-6",
-    "step-7",
-    "step-8",
-    "step-9",
-    "step-10"
+  "screens": [
+    { "type": "retailer_onboarding" }
   ],
   "dealer": {
-    "name": "Sundaram Store Team",
-    "contactName": "Contact",
-    "phone": "+91 00000 00000"
+    "name": "Sharma Notebook Stores",
+    "contactName": "Ramesh",
+    "phone": "+91 98765 43210",
+    "address": "8, Market Road, Salem, Tamil Nadu"
+  },
+  "retailer": {
+    "name": "Ramesh Patel",
+    "storeName": "Ganesh General Stores",
+    "phone": "+91 98765 43210",
+    "gst": "08AABCU9603R1ZM",
+    "territory": "Salem East"
+  },
+  "distributor": {
+    "name": "Salem Stationery Distributors",
+    "contact": "Kumar",
+    "phone": "+91 98765 43211",
+    "territory": "Salem Division"
   },
   "messages": {
     "step1": {
-      "greeting": "Welcome to Retailer Onboarding to Cash"
+      "campaign": {
+        "title": "📚 Become a Sundaram Store Retail Partner!",
+        "body": "Hi Ramesh! 🙏<br><br>Sundaram Store is expanding its retail network. Become an official partner and enjoy:<br><br>✅ Wholesale pricing on stationery<br>✅ New school season schemes<br>✅ AI-powered ordering support<br><br>Tap <strong>Register Now</strong> below!",
+        "time": "9:20 AM",
+        "cta": "Register Now"
+      },
+      "submitted": {
+        "title": "Application Received",
+        "body": "Dear <strong>Ramesh Patel</strong>,<br><br>Thank you for submitting your application to become a <strong>Retail Partner of Sundaram Store</strong>.<br><br>Our team will review your details and get back to you shortly. You will be <strong>automatically notified on this channel</strong> upon successful registration.",
+        "time": "9:32 AM"
+      }
+    },
+    "step2": {
+      "welcome": {
+        "title": "🎉 Welcome to Sundaram Store Retailer Network!",
+        "body": "Congratulations <strong>Ramesh Patel</strong>! 🎉<br><br>Your store <strong>Ganesh General Stores</strong> is now an approved Sundaram Store Retail Partner.<br><br>Tap <strong>Open Menu</strong> below to access your self-service dashboard.",
+        "time": "10:00 AM",
+        "cta": "Open Menu"
+      }
+    },
+    "step3": {
+      "campaign": {
+        "title": "📖 Back to School Offer",
+        "body": "Stock up for the new school season! 📚<br><br>Special discounts on notebooks, drawing books, and stationery sets. Orders above ₹25,000 get extra 5% off + free delivery.<br><br>Limited period offer!",
+        "time": "10:15 AM",
+        "cta": "View Offer"
+      },
+      "queryResponse": {
+        "title": "Price List — Notebooks",
+        "body": "Here's the current trade price list for Notebooks:<br><br><strong>A4 Spiral Book</strong><br>MRP ₹150 · Trade ₹120<br><br><strong>Drawing Book</strong><br>MRP ₹110 · Trade ₹90<br><br><strong>Single Subject Notebook</strong><br>MRP ₹140 · Trade ₹110<br><br><strong>Six Subject Book</strong><br>MRP ₹190 · Trade ₹150",
+        "time": "10:18 AM",
+        "cta": "Place Order"
+      }
+    },
+    "step4": {
+      "scheme": {
+        "title": "💰 Current Scheme — Notebook Range",
+        "body": "Buy <strong>50 pcs A4 Spiral Books</strong> → Get <strong>10 pcs FREE</strong> + ₹1,000 ZoPs credited to your account.<br><br>Valid till 31 Dec 2026.",
+        "time": "10:30 AM",
+        "cta": "Avail Scheme"
+      },
+      "aiTyping": {
+        "body": "Scheme query detected, ZoAi is composing a response...",
+        "time": "10:31 AM"
+      },
+      "aiResponse": {
+        "title": "ZoAi Scheme Explanation",
+        "body": "Bhai, is scheme mein aapko har 50 A4 Spiral Books par 10 FREE mil rahe hain. Plus ₹1,000 ZoPoints jo next order mein discount ki tarah use kar sakte hain. Scheme 31 Dec 2026 tak valid hai. Kya aap order dena chahenge? 😊",
+        "time": "10:32 AM",
+        "cta": "Yes, Place Order"
+      }
+    },
+    "step5": {
+      "greeting": "Namaste Ramesh! 🙏<br>How can I help you today?",
+      "categoryQuestion": "Which category would you like to explore? 🔍<br><br>Select from Sundaram Store's full range below.",
+      "sections": [
+        { "label": "Notebooks", "items": [
+          { "title": "A4 Spiral Book", "desc": "200 pages · Ruled" },
+          { "title": "Single Subject Notebook", "desc": "120 pages · 6 subjects available" },
+          { "title": "Six Subject Book", "desc": "Separate sections · 600 pages total" }
+        ]},
+        { "label": "Art & Drawing", "items": [
+          { "title": "Drawing Book", "desc": "A3 size · 40 sheets" },
+          { "title": "Sketch Pens", "desc": "12 color pack" }
+        ]},
+        { "label": "Office Supplies", "items": [
+          { "title": "Files & Folders", "desc": "Box files, ring binders" },
+          { "title": "Writing Instruments", "desc": "Pens, pencils, markers" }
+        ]}
+      ]
+    },
+    "step6": {
+      "catalog": "Browse Sundaram Store's product catalog below.",
+      "cartReview": "Review your cart before placing the order.",
+      "orderConfirmed": {
+        "title": "📋 Order Confirmed",
+        "body": "Thanks for your order, Ramesh!<br><br>🪪 <strong>Order ID: SUN-3892</strong><br>🏪 Retailer: Ganesh General Stores<br>📦 Total SKUs: 2<br>💰 Total Value: ₹3,200<br>✅ Net Value: ₹3,040",
+        "time": "10:45 AM"
+      }
+    },
+    "step7": {
+      "orderNote": { "body": "Ramesh sent a photo of a handwritten order note.", "time": "11:00 AM" },
+      "draftOrder": {
+        "title": "📝 Draft Order Extracted",
+        "body": "Draft order extracted from your note:<br><br>🪪 <strong>Order ID: SUN-3892</strong><br>🏪 Retailer: Ganesh General Stores<br>📦 Total SKUs: 4<br>💰 Total Value: ₹6,200<br>✅ Net Value: ₹5,890<br><br>Items: A4 Spiral Book x20, Drawing Book x15",
+        "time": "11:02 AM",
+        "cta": "Confirm Order"
+      }
+    },
+    "step8": {
+      "orderReceived": {
+        "title": "📦 New Order Received",
+        "body": "A new order is awaiting your confirmation.<br><br>🏪 Retailer: Ganesh General Stores<br>📋 Order ID: SUN-3892<br>📦 Total SKUs: 4<br>💰 Order Value: ₹3,200<br>📅 Date: 18 April 2026",
+        "time": "11:05 AM",
+        "cta": "Review Order"
+      },
+      "orderAccepted": {
+        "title": "✅ Order Confirmed",
+        "body": "Your order has been confirmed and is being processed.<br><br>🪪 Order ID: SUN-3892<br>🏪 Retailer: Ganesh General Stores<br>📦 Total SKUs: 4<br>💰 Order Value: ₹3,200",
+        "time": "11:10 AM"
+      }
+    },
+    "step9": {
+      "fulfilmentList": "Pending orders ready for processing and invoicing.",
+      "invoiceUpload": "Upload the invoice PDF. ZoAi will pre-populate fields from the confirmed order."
+    },
+    "step10": {
+      "invoice": {
+        "title": "🧾 Invoice Generated",
+        "body": "Please find the attached invoice. Kindly review and make payment by due date. 🙏<br><br>🪪 Invoice No: SINV-2147<br>📅 Invoice Date: 18/04/2026<br>💰 Amount: ₹5,890<br>⏰ Due Date: 25/04/2026",
+        "time": "11:30 AM",
+        "cta": "Pay Now"
+      },
+      "paymentReminder": {
+        "title": "⏰ Payment Reminder",
+        "body": "Outstanding Details:<br><br>Customer Name: Ramesh Patel<br>Total Outstanding: ₹5,890<br><br>UPI: sundarampay@hdfcbank",
+        "time": "11:35 AM",
+        "cta": "Pay Now via UPI"
+      },
+      "paymentConfirmed": {
+        "title": "✅ Payment Received",
+        "body": "Your payment of <strong>₹5,890</strong> has been received successfully.<br><br>🧾 Receipt: SUN-3892-PAY<br>📅 Date: 18/04/2026<br>💳 Mode: UPI<br><br>Order-to-Cash cycle complete! 🙌",
+        "time": "11:40 AM"
+      }
+    },
+    "step11": {
+      "nudgePrompt": "Select retailers to send order nudges.",
+      "nudgeSent": {
+        "title": "📣 Order Nudge Sent",
+        "body": "Selected retailers have been nudged via WhatsApp to place their next order."
+      }
+    },
+    "step12": {
+      "invoiceDashboard": "View retailers with pending invoices.",
+      "paymentNudge": {
+        "title": "⏰ Payment Reminder Sent",
+        "body": "Retailer Ganesh General Stores has been sent a payment reminder for Invoice SINV-2147 (₹5,890)."
+      }
     }
   },
-  "steps": [
-    {
-      "num": 1,
-      "displayNum": 1,
-      "title": "Welcome & Registration",
-      "meta": "Retailer · Onboarding start",
-      "navTitle": "Step 1 — Welcome & Registration",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer signs up and begins onboarding</span>"
-    },
-    {
-      "num": 2,
-      "displayNum": 2,
-      "title": "Document Verification",
-      "meta": "Retailer · KYC & docs",
-      "navTitle": "Step 2 — Document Verification",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Verify business documents and KYC</span>"
-    },
-    {
-      "num": 3,
-      "displayNum": 3,
-      "title": "Store Setup",
-      "meta": "Retailer · Store configuration",
-      "navTitle": "Step 3 — Store Setup",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Configure store profile and preferences</span>"
-    },
-    {
-      "num": 4,
-      "displayNum": 4,
-      "title": "Catalog Integration",
-      "meta": "Retailer · Product catalog",
-      "navTitle": "Step 4 — Catalog Integration",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Add products and set up catalog</span>"
-    },
-    {
-      "num": 5,
-      "displayNum": 5,
-      "title": "Payment Setup",
-      "meta": "Retailer · Payment configuration",
-      "navTitle": "Step 5 — Payment Setup",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Configure payment methods and banking</span>"
-    },
-    {
-      "num": 6,
-      "displayNum": 6,
-      "title": "Training & Walkthrough",
-      "meta": "Retailer · Platform training",
-      "navTitle": "Step 6 — Training & Walkthrough",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Interactive platform walkthrough and training</span>"
-    },
-    {
-      "num": 7,
-      "displayNum": 7,
-      "title": "First Order",
-      "meta": "Retailer · Place first order",
-      "navTitle": "Step 7 — First Order",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Guided first order placement</span>"
-    },
-    {
-      "num": 8,
-      "displayNum": 8,
-      "title": "Review & Approve",
-      "meta": "Retailer · Admin review",
-      "navTitle": "Step 8 — Review & Approve",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Admin reviews and approves the retailer</span>"
-    },
-    {
-      "num": 9,
-      "displayNum": 9,
-      "title": "Go Live",
-      "meta": "Retailer · Going live",
-      "navTitle": "Step 9 — Go Live",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer goes live on the platform</span>"
-    },
-    {
-      "num": 10,
-      "displayNum": 10,
-      "title": "Onboarding Complete",
-      "meta": "Retailer · Complete",
-      "navTitle": "Step 10 — Onboarding Complete",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Onboarding complete, full access granted</span>"
+  "cart": {
+    "items": [
+      { "productId": "p1", "qty": 20, "tag": "Notebook" },
+      { "productId": "p2", "qty": 15, "tag": "Drawing" }
+    ],
+    "summary": {
+      "totalItems": 2,
+      "totalQuantity": "35 pcs",
+      "orderValue": "₹3,200"
     }
-  ]
+  },
+  "order": {
+    "primaryOrderId": "SUN-3892",
+    "date": "18 April 2026",
+    "items": [
+      { "productId": "p1", "qty": 20, "lineTotal": 2400 },
+      { "productId": "p2", "qty": 15, "lineTotal": 1350 }
+    ],
+    "summary": {
+      "orderValue": 3200,
+      "netValue": 3040
+    }
+  },
+  "invoice": {
+    "id": "SINV-2147",
+    "date": "18/04/2026",
+    "dueDate": "25/04/2026",
+    "amount": 5890,
+    "docId": "DOC-4821"
+  },
+  "payment": {
+    "amount": 5890,
+    "date": "18/04/2026",
+    "method": "UPI",
+    "reference": "UPI-20260418-003",
+    "upiId": "sundarampay@hdfcbank"
+  },
+  "productNames": {
+    "a4Spiral": "A4 Spiral Book (200 pages)",
+    "drawingBook": "Drawing Book (A3, 40 sheets)",
+    "singleSubject": "Single Subject Notebook (120 pages)",
+    "sixSubject": "Six Subject Book (600 pages)"
+  }
 }

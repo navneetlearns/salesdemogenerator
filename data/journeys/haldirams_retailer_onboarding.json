@@ -1,151 +1,302 @@
 {
   "id": "retailer_onboarding",
   "title": "Retailer Onboarding to Cash",
-  "brand": "haldirams",
-  "screens": [
+  "subtitle": "Activation, Onboarding & First Order Cycle",
+  "brandId": "haldirams",
+  "steps": [
     {
-      "id": "step1-retailer_onboarding",
-      "type": "step1-retailer_onboarding"
+      "num": 1, "displayNum": 1,
+      "title": "Activation & Registration",
+      "meta": "Retailer · Activation campaign & signup",
+      "navTitle": "Step 1 — Activation & Registration",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Prospective retailer receives activation campaign, registers via WebView, and gets application confirmation</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-web\">WebView</span>"
     },
     {
-      "id": "step2-retailer_onboarding",
-      "type": "step2-retailer_onboarding"
+      "num": 2, "displayNum": 2,
+      "title": "Welcome & Self Service",
+      "meta": "Retailer · Welcome & menu discovery",
+      "navTitle": "Step 2 — Welcome & Self Service",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer is approved, welcomed, and given access to full self-service menu</span><span class=\"tag tag-session\">Interactive</span>"
     },
     {
-      "id": "step3-retailer_onboarding",
-      "type": "step3-retailer_onboarding"
+      "num": 3, "displayNum": 3,
+      "title": "Campaigns & Queries",
+      "meta": "Retailer · Campaigns & AI support",
+      "navTitle": "Step 3 — Campaigns & Queries",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Diwali campaign sent; retailer queries product category; ZoAi responds with price list</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "id": "step4-retailer_onboarding",
-      "type": "step4-retailer_onboarding"
+      "num": 4, "displayNum": 4,
+      "title": "Scheme & Product Queries",
+      "meta": "Retailer · Schemes & AI agents",
+      "navTitle": "Step 4 — Scheme & Product Queries",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Bhujia scheme notification sent; retailer asks ZoAi; AI explains in Hinglish</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "id": "step5-retailer_onboarding",
-      "type": "step5-retailer_onboarding"
+      "num": 5, "displayNum": 5,
+      "title": "Self Service Ordering",
+      "meta": "Retailer · Menu-driven ordering",
+      "navTitle": "Step 5 — Self Service Ordering",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer navigates self-service menu to browse categories and select products</span><span class=\"tag tag-ord\">Ordering</span>"
     },
     {
-      "id": "step6-retailer_onboarding",
-      "type": "step6-retailer_onboarding"
+      "num": 6, "displayNum": 6,
+      "title": "Catalog Browse & Order",
+      "meta": "Retailer · Catalog & cart checkout",
+      "navTitle": "Step 6 — Catalog Browse & Order",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer browses catalog, reviews cart, gets order confirmation on WhatsApp</span><span class=\"tag tag-web\">WebView</span><span class=\"tag tag-ord\">Cart</span>"
     },
     {
-      "id": "step7-retailer_onboarding",
-      "type": "step7-retailer_onboarding"
+      "num": 7, "displayNum": 7,
+      "title": "AI Order Capture",
+      "meta": "Retailer · AI reads handwritten orders",
+      "navTitle": "Step 7 — AI Order Capture",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer sends handwritten order; ZoAi extracts items into structured draft order</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "id": "step8-retailer_onboarding",
-      "type": "step8-retailer_onboarding"
+      "num": 8, "displayNum": 8,
+      "title": "Distributor Confirmation",
+      "meta": "Distributor · Order review & approval",
+      "navTitle": "Step 8 — Distributor Confirmation",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor receives order alert, reviews and accepts in ZoTok portal</span><span class=\"tag tag-dist\">Distributor</span>"
     },
     {
-      "id": "step9-retailer_onboarding",
-      "type": "step9-retailer_onboarding"
+      "num": 9, "displayNum": 9,
+      "title": "Order to Invoice",
+      "meta": "Distributor · Fulfilment & invoicing",
+      "navTitle": "Step 9 — Order to Invoice",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor processes order in fulfilment portal and uploads invoice</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-inv\">Invoice</span>"
     },
     {
-      "id": "step10-retailer_onboarding",
-      "type": "step10-retailer_onboarding"
+      "num": 10, "displayNum": 10,
+      "title": "Invoice & Payment",
+      "meta": "Retailer · UPI payment & receipt",
+      "navTitle": "Step 10 — Invoice & Payment",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer gets invoice with UPI QR, pays directly, receives confirmation</span><span class=\"tag tag-inv\">Invoice</span><span class=\"tag tag-pay\">Payment</span>"
+    },
+    {
+      "num": 11, "displayNum": 11,
+      "title": "Collect Digital Orders",
+      "meta": "Distributor · Order nudges to retailers",
+      "navTitle": "Step 11 — Collect Digital Orders",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor selects retailers and sends bulk order nudges via WhatsApp</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-mktg\">Campaign</span>"
+    },
+    {
+      "num": 12, "displayNum": 12,
+      "title": "Collect Payments",
+      "meta": "Distributor + Retailer · Payment reminders",
+      "navTitle": "Step 12 — Collect Payments",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor views pending invoices, sends payment reminders with UPI links</span><span class=\"tag tag-pay\">Payment</span><span class=\"tag tag-dist\">Distributor</span>"
     }
   ],
-  "navSteps": [
-    "step-1",
-    "step-2",
-    "step-3",
-    "step-4",
-    "step-5",
-    "step-6",
-    "step-7",
-    "step-8",
-    "step-9",
-    "step-10"
+  "screens": [
+    { "type": "retailer_onboarding" }
   ],
   "dealer": {
-    "name": "Haldirams Team",
-    "contactName": "Contact",
-    "phone": "+91 00000 00000"
+    "name": "Haldiram's Distributors",
+    "contactName": "Shyam",
+    "phone": "+91 98765 43210",
+    "address": "45, Industrial Area, Nagpur, Maharashtra"
+  },
+  "retailer": {
+    "name": "Ramesh Patel",
+    "storeName": "Ganesh General Stores",
+    "phone": "+91 98765 43210",
+    "gst": "08AABCU9603R1ZM",
+    "territory": "Nagpur East"
+  },
+  "distributor": {
+    "name": "Shyam Distributors",
+    "contact": "Shyam Verma",
+    "phone": "+91 98765 43211",
+    "territory": "Nagpur Division"
   },
   "messages": {
     "step1": {
-      "greeting": "Welcome to Retailer Onboarding to Cash"
+      "campaign": {
+        "title": "🚀 Become a Haldiram's Retail Partner!",
+        "body": "Hi Ramesh! 🙏<br><br>Haldiram's is back on your shelf. Explore new products, festive schemes &amp; easy ordering — all on WhatsApp.<br><br>✅ Direct from Haldiram's<br>✅ Festive schemes &amp; rewards<br>✅ AI-powered ordering<br><br>Tap <strong>Register Now</strong> below!",
+        "time": "9:20 AM",
+        "cta": "Register Now"
+      },
+      "submitted": {
+        "title": "Application Received",
+        "body": "Dear <strong>Ramesh Patel</strong>,<br><br>Thank you for submitting your application to become a <strong>Retail Partner of Haldiram's India</strong>.<br><br>Our team will review your details and get back to you shortly. You will be <strong>automatically notified on this channel</strong> for any queries or upon successful registration.<br><br>We look forward to welcoming you as a partner!",
+        "time": "9:32 AM"
+      }
+    },
+    "step2": {
+      "welcome": {
+        "title": "🎉 Welcome to Haldiram's Retailer Network!",
+        "body": "Congratulations <strong>Ramesh Patel</strong>! 🎉<br><br>Your store <strong>Ganesh General Stores</strong> is now an approved Haldiram's Retail Partner.<br><br>Tap <strong>Open Menu</strong> below to access your self-service dashboard — order Namkeen, check schemes, view invoices, and more.",
+        "time": "10:00 AM",
+        "cta": "Open Menu"
+      }
+    },
+    "step3": {
+      "campaign": {
+        "title": "🪔 Diwali Festive Offer",
+        "body": "Stock up for Diwali! 🪔<br><br>Bhujia, Mathri &amp; Assorted Gift Packs are selling out fast. Special scheme on orders above ₹10,000 — extra 5% off + free display stand.<br><br>Limited period offer!",
+        "time": "10:15 AM",
+        "cta": "View Offer"
+      },
+      "queryResponse": {
+        "title": "Price List — Namkeen",
+        "body": "Here's the current trade price list for Namkeen:<br><br><strong>Aloo Bhujia 400g</strong><br>MRP ₹70 · Trade ₹56<br><br><strong>Moong Dal 150g</strong><br>MRP ₹30 · Trade ₹24<br><br><strong>Mixed Namkeen 200g</strong><br>MRP ₹40 · Trade ₹32<br><br><strong>Mathri 400g</strong><br>MRP ₹75 · Trade ₹60",
+        "time": "10:18 AM",
+        "cta": "Place Order"
+      }
+    },
+    "step4": {
+      "scheme": {
+        "title": "💰 Current Scheme — Bhujia Range",
+        "body": "Buy <strong>10 ctns Aloo Bhujia 400g</strong> → Get <strong>2 ctns FREE</strong> + ₹500 ZoPs credited to your account.<br><br>Valid till 31 Oct 2026.<br><br>Tap below to place your order with scheme pricing applied automatically.",
+        "time": "10:30 AM",
+        "cta": "Avail Scheme"
+      },
+      "aiTyping": {
+        "body": "Scheme query detected, ZoAi is composing a response...",
+        "time": "10:31 AM"
+      },
+      "aiResponse": {
+        "title": "ZoAi Scheme Explanation",
+        "body": "Bhai, is scheme mein aapko har 10 cartoons Aloo Bhujia 400g par 2 cartoons FREE mil rahe hain. Matlab aap 10 ka pay karenge aur 12 ka maal milega. Plus ₹500 ZoPoints jo next order mein discount ki tarah use kar sakte hain. Scheme 31 Oct 2026 tak valid hai. Kya aap order dena chahenge? 😊",
+        "time": "10:32 AM",
+        "cta": "Yes, Place Order"
+      }
+    },
+    "step5": {
+      "greeting": "Namaste Ramesh! 🙏<br>How can I help you today?",
+      "categoryQuestion": "Which category would you like to explore? 🔍<br><br>Select from Haldiram's full range below.",
+      "sections": [
+        { "label": "Namkeen", "items": [
+          { "title": "Aloo Bhujia", "desc": "Classic crispy bhujia · Bestseller" },
+          { "title": "Moong Dal", "desc": "Crispy moong dal namkeen" },
+          { "title": "Mixed Namkeen", "desc": "Assorted savoury mix" }
+        ]},
+        { "label": "Sweets", "items": [
+          { "title": "Soan Papdi", "desc": "Flaky sweet · Premium box" },
+          { "title": "Gulab Jamun", "desc": "Soft syrupy dumplings" }
+        ]},
+        { "label": "Snacks & Gift Packs", "items": [
+          { "title": "Mathri", "desc": "Savory crackers" },
+          { "title": "Gift Packs", "desc": "Festive assorted gift boxes" }
+        ]}
+      ]
+    },
+    "step6": {
+      "catalog": "Browse Haldiram's product catalog below. Tap any item to see details and add to cart.",
+      "cartReview": "Review your cart before placing the order.",
+      "orderConfirmed": {
+        "title": "📋 Order Confirmed",
+        "body": "Thanks for your order, Ramesh! Here are the confirmed details:<br><br>🪪 <strong>Order ID: HDIN-3892</strong><br>🏪 Retailer: Ganesh General Stores<br>📦 Total SKUs: 2<br>💰 Total Value: ₹4,032<br>✅ Net Value: ₹3,830<br><br>You will be notified once the distributor confirms.",
+        "time": "10:45 AM"
+      }
+    },
+    "step7": {
+      "orderNote": {
+        "body": "Ramesh sent a photo of a handwritten order note.",
+        "time": "11:00 AM"
+      },
+      "draftOrder": {
+        "title": "📝 Draft Order Extracted",
+        "body": "Here is the draft order I have extracted from your note. Please review and confirm:<br><br>🪪 <strong>Order ID: HDIN-3892</strong><br>🏪 Retailer: Ganesh General Stores<br>📦 Total SKUs: 4<br>💰 Total Value: ₹7,840<br>✅ Net Value: ₹7,448<br><br>Items: Aloo Bhujia x20, Khatta Meetha x15",
+        "time": "11:02 AM",
+        "cta": "Confirm Order"
+      }
+    },
+    "step8": {
+      "orderReceived": {
+        "title": "📦 New Order Received",
+        "body": "A new order is awaiting your confirmation.<br><br>🏪 Retailer: Ganesh General Stores<br>📋 Order ID: HDIN-3892<br>📦 Total SKUs: 4<br>💰 Order Value: ₹7,840<br>📅 Date: 18 April 2026",
+        "time": "11:05 AM",
+        "cta": "Review Order"
+      },
+      "orderAccepted": {
+        "title": "✅ Order Confirmed",
+        "body": "Your order has been confirmed and is being processed.<br><br>🪪 Order ID: HDIN-3892<br>🏪 Retailer: Ganesh General Stores<br>📦 Total SKUs: 4<br>💰 Order Value: ₹7,840<br>📅 Dispatch Date: 19 April 2026",
+        "time": "11:10 AM"
+      }
+    },
+    "step9": {
+      "fulfilmentList": "Pending orders ready for processing and invoicing.",
+      "invoiceUpload": "Upload the invoice PDF. ZoAi will pre-populate fields from the confirmed order."
+    },
+    "step10": {
+      "invoice": {
+        "title": "🧾 Invoice Generated",
+        "body": "Please find the attached invoice. Kindly review and make payment by due date. 🙏<br><br>🪪 Invoice No: HINV-2147<br>📅 Invoice Date: 18/04/2026<br>💰 Amount: ₹7,448<br>⏰ Due Date: 25/04/2026",
+        "time": "11:30 AM",
+        "cta": "Pay Now"
+      },
+      "paymentReminder": {
+        "title": "⏰ Payment Reminder",
+        "body": "Outstanding Details:<br><br>Customer Name: Ramesh Patel<br>Total Outstanding: ₹7,448<br><br>You can make the payment by:<br>• Scanning the QR code above<br>• UPI Payment ID: haldiramspay@hdfcbank<br><br>For any clarifications, reply to this message.",
+        "time": "11:35 AM",
+        "cta": "Pay Now via UPI"
+      },
+      "paymentConfirmed": {
+        "title": "✅ Payment Received",
+        "body": "Thank you! Your payment of <strong>₹7,448</strong> has been received successfully.<br><br>🧾 Receipt: HDIN-3892-PAY<br>📅 Date: 18/04/2026<br>💳 Mode: UPI<br><br>Order-to-Cash cycle complete! 🙌",
+        "time": "11:40 AM"
+      }
+    },
+    "step11": {
+      "nudgePrompt": "Select retailers to send order nudges and review their order status.",
+      "nudgeSent": {
+        "title": "📣 Order Nudge Sent",
+        "body": "Selected retailers have been nudged via WhatsApp to place their next order. You'll be notified when they respond."
+      }
+    },
+    "step12": {
+      "invoiceDashboard": "View retailers with pending invoices and trigger payment reminders.",
+      "paymentNudge": {
+        "title": "⏰ Payment Reminder Sent",
+        "body": "Retailer Ganesh General Stores has been sent a payment reminder for Invoice HINV-2147 (₹7,448) via WhatsApp with UPI link."
+      }
     }
   },
-  "steps": [
-    {
-      "num": 1,
-      "displayNum": 1,
-      "title": "Welcome & Registration",
-      "meta": "Retailer · Onboarding start",
-      "navTitle": "Step 1 — Welcome & Registration",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer signs up and begins onboarding</span>"
-    },
-    {
-      "num": 2,
-      "displayNum": 2,
-      "title": "Document Verification",
-      "meta": "Retailer · KYC & docs",
-      "navTitle": "Step 2 — Document Verification",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Verify business documents and KYC</span>"
-    },
-    {
-      "num": 3,
-      "displayNum": 3,
-      "title": "Store Setup",
-      "meta": "Retailer · Store configuration",
-      "navTitle": "Step 3 — Store Setup",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Configure store profile and preferences</span>"
-    },
-    {
-      "num": 4,
-      "displayNum": 4,
-      "title": "Catalog Integration",
-      "meta": "Retailer · Product catalog",
-      "navTitle": "Step 4 — Catalog Integration",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Add products and set up catalog</span>"
-    },
-    {
-      "num": 5,
-      "displayNum": 5,
-      "title": "Payment Setup",
-      "meta": "Retailer · Payment configuration",
-      "navTitle": "Step 5 — Payment Setup",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Configure payment methods and banking</span>"
-    },
-    {
-      "num": 6,
-      "displayNum": 6,
-      "title": "Training & Walkthrough",
-      "meta": "Retailer · Platform training",
-      "navTitle": "Step 6 — Training & Walkthrough",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Interactive platform walkthrough and training</span>"
-    },
-    {
-      "num": 7,
-      "displayNum": 7,
-      "title": "First Order",
-      "meta": "Retailer · Place first order",
-      "navTitle": "Step 7 — First Order",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Guided first order placement</span>"
-    },
-    {
-      "num": 8,
-      "displayNum": 8,
-      "title": "Review & Approve",
-      "meta": "Retailer · Admin review",
-      "navTitle": "Step 8 — Review & Approve",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Admin reviews and approves the retailer</span>"
-    },
-    {
-      "num": 9,
-      "displayNum": 9,
-      "title": "Go Live",
-      "meta": "Retailer · Going live",
-      "navTitle": "Step 9 — Go Live",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer goes live on the platform</span>"
-    },
-    {
-      "num": 10,
-      "displayNum": 10,
-      "title": "Onboarding Complete",
-      "meta": "Retailer · Complete",
-      "navTitle": "Step 10 — Onboarding Complete",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Onboarding complete, full access granted</span>"
+  "cart": {
+    "items": [
+      { "productId": "p1", "qty": 20, "tag": "Namkeen" },
+      { "productId": "p2", "qty": 15, "tag": "Mixture" }
+    ],
+    "summary": {
+      "totalItems": 2,
+      "totalQuantity": "35 packs",
+      "orderValue": "₹4,032"
     }
-  ]
+  },
+  "order": {
+    "primaryOrderId": "HDIN-3892",
+    "date": "18 April 2026",
+    "items": [
+      { "productId": "p1", "qty": 12, "lineTotal": 2160 },
+      { "productId": "p2", "qty": 10, "lineTotal": 1600 }
+    ],
+    "summary": {
+      "orderValue": 4032,
+      "netValue": 3830
+    }
+  },
+  "invoice": {
+    "id": "HINV-2147",
+    "date": "18/04/2026",
+    "dueDate": "25/04/2026",
+    "amount": 7448,
+    "docId": "DOC-4821"
+  },
+  "payment": {
+    "amount": 7448,
+    "date": "18/04/2026",
+    "method": "UPI",
+    "reference": "UPI-20260418-002",
+    "upiId": "haldiramspay@hdfcbank"
+  },
+  "productNames": {
+    "alooBhujia": "Aloo Bhujia (400g)",
+    "khattaMeetha": "Khatta Meetha Mixture (350g)",
+    "navratan": "Navratan Mixture (500g)",
+    "soanPapdi": "Soan Papdi (250g)"
+  }
 }

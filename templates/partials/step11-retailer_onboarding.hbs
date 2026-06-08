@@ -1,0 +1,97 @@
+{{!-- Step 11: Collect Digital Orders — 3 screens
+  Screen 1 · Distributor Menu (Interactive List)
+  Screen 2 · Select Retailers (Commerce WebView — Retailer Nudge List)
+  Screen 3 · Order Nudge to Retailer (Utility Template — Image Header + CTA)
+--}}
+<div id="step-11" class="step-section">
+
+  <!-- Screen 1: Distributor Menu -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 1 · Distributor Menu</div>
+    <div class="screen-type-lbl">Interactive List — Channel Partner Menu</div>
+    <div class="phone-frame">
+      {{> status-bar time="2:00 PM"}}
+      {{> wa-topbar status="Partner Portal" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        <div class="msg-receiver-wrap">
+          <div class="wa-list-card">
+            <div class="wa-list-body"><strong>{{journey.distributor.name}}</strong><br>{{brand.name}} Partner Portal</div>
+            <div class="wa-list-time">2:00 PM</div>
+            <div class="wa-list-btn-row">
+              <svg width="15" height="13" viewBox="0 0 24 20" fill="none"><line x1="0" y1="2" x2="24" y2="2" stroke="#00A884" stroke-width="2.5"/><line x1="0" y1="10" x2="24" y2="10" stroke="#00A884" stroke-width="2.5"/><line x1="0" y1="18" x2="24" y2="18" stroke="#00A884" stroke-width="2.5"/></svg>
+              <span class="wa-list-btn-label">Drive more orders</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wa-bottom-sheet" style="background:#fff;border-top:1px solid #e0e0e0;padding:12px 16px;">
+        <div style="font-size:14px;font-weight:600;color:#111;margin-bottom:8px;">Partner Dashboard</div>
+        <div class="menu-row" style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="menu-chip" style="padding:6px 12px;background:#f0f0f0;border-radius:16px;font-size:12px;color:#333;">📣 Nudge Retailers</div>
+          <div class="menu-chip" style="padding:6px 12px;background:#f0f0f0;border-radius:16px;font-size:12px;color:#333;">📊 Order Reports</div>
+          <div class="menu-chip" style="padding:6px 12px;background:#f0f0f0;border-radius:16px;font-size:12px;color:#333;">👥 Retailer List</div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#F8BBD0;">
+      <strong>Distributor Menu</strong>
+      Distributor accesses their self-service menu to manage order nudges and collections.
+    </div>
+  </div>
+
+  <!-- Screen 2: Select Retailers -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 2 · Select Retailers</div>
+    <div class="screen-type-lbl">Commerce WebView — Retailer Nudge List</div>
+    <div class="phone-frame">
+      {{> status-bar time="2:02 PM"}}
+      {{> wa-topbar back=true status="Retailer Selection" actions="more" avatarSrc=brandLogo}}
+      <div class="webview-area" style="flex:1;background:#fff;padding:16px;overflow-y:auto;">
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:12px;">Select Retailers to Nudge</div>
+        <div style="border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:8px;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" checked> <span style="font-size:13px;font-weight:600;">{{journey.retailer.storeName}}</span>
+          </label>
+          <div style="font-size:11px;color:#888;margin-top:4px;">Last order: {{journey.order.date}} · ₹{{journey.order.summary.orderValue}}</div>
+        </div>
+        <div style="border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:8px;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox"> <span style="font-size:13px;font-weight:600;">Patel Sweet Mart</span>
+          </label>
+          <div style="font-size:11px;color:#888;margin-top:4px;">Last order: 10/04/2026 · ₹12,500</div>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:#075E54;color:#fff;border-radius:8px;text-align:center;font-weight:600;font-size:14px;">📣 Send Nudge to 1 Retailer</div>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#F8BBD0;">
+      <strong>Retailer Selection</strong>
+      Distributor picks retailers to nudge for orders and reviews order status before sending the campaign.
+    </div>
+  </div>
+
+  <!-- Screen 3: Order Nudge Sent -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 3 · Order Nudge to Retailer</div>
+    <div class="screen-type-lbl">Utility Template — Image Header + CTA + Quick Reply</div>
+    <div class="phone-frame">
+      {{> status-bar time="2:05 PM"}}
+      {{> wa-topbar status="Business Account" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        {{#with journey.messages.step11.nudgeSent}}
+          {{> whatsapp-message}}
+        {{/with}}
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#F8BBD0;">
+      <strong>Order Campaign Sent</strong>
+      Selected retailers receive a WhatsApp nudge prompting them to place their next order directly through the channel.
+    </div>
+  </div>
+</div>

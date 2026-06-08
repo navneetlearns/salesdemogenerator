@@ -1,11 +1,103 @@
-{{!-- Retailer Onboarding to Cash — Step 7 --}}
-<div class="step-section" id="step-7">
-  <div style="padding:40px;text-align:center;max-width:400px;margin:0 auto;">
-    <h2 style="color:var(--brand);font-size:24px;margin-bottom:16px;">Retailer Onboarding to Cash</h2>
-    <h3 style="color:var(--brand-dark);font-size:16px;margin-bottom:24px;">Step 7 of 10</h3>
-    <p style="color:#555;font-size:14px;line-height:1.6;">Onboard new retail partners via WhatsApp, guide them through self-service ordering, catalog browse, and complete their first order-to-invoice cycle.</p>
-    <div style="margin-top:32px;padding:20px;background:#f5f5f5;border-radius:12px;">
-      <p style="font-size:13px;color:#888;">🚧 This journey template is a placeholder. Full WhatsApp demo content coming soon.</p>
+{{!-- Step 7: AI Order Capture — 3 screens
+  Screen 1 · Handwritten Order Note (Session Message)
+  Screen 2 · Draft Order (Interactive Template — Image Header + CTA)
+  Screen 3 · Cart & Checkout (Commerce WebView)
+--}}
+<div id="step-7" class="step-section">
+
+  <!-- Screen 1: Handwritten Order Note -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 1 · Retailer Sends Order Note</div>
+    <div class="screen-type-lbl">Session Message — Handwritten Note + AI Acknowledgement</div>
+    <div class="phone-frame">
+      {{> status-bar time="11:00 AM"}}
+      {{> wa-topbar status="Business Account" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        <div class="msg-sender-wrap">
+          <div class="msg-sender">
+            <div class="msg-body">📷 Order Note</div>
+            <span class="msg-time">11:00 AM <span class="msg-tick">✓✓</span></span>
+          </div>
+        </div>
+        {{#with journey.messages.step7.orderNote}}
+          <div class="msg-receiver-wrap">
+            <div class="wa-tmpl">
+              <div class="wa-tmpl-body">{{body}}</div>
+              <div class="wa-tmpl-time">{{time}}</div>
+            </div>
+          </div>
+        {{/with}}
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#FFE0B2;">
+      <strong>Handwritten Order</strong>
+      Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.
+    </div>
+  </div>
+
+  <!-- Screen 2: Draft Order -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 2 · Draft Order</div>
+    <div class="screen-type-lbl">Interactive Template — Image Header + CTA Buttons</div>
+    <div class="phone-frame">
+      {{> status-bar time="11:02 AM"}}
+      {{> wa-topbar status="Business Account" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        {{#with journey.messages.step7.draftOrder}}
+          {{> whatsapp-message}}
+        {{/with}}
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#FFE0B2;">
+      <strong>AI Extracts Order</strong>
+      ZoAi reads the image and extracts a structured draft order with items and quantities for retailer review.
+    </div>
+  </div>
+
+  <!-- Screen 3: Checkout WebView -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 3 · Cart &amp; Checkout</div>
+    <div class="screen-type-lbl">Commerce WebView — Cart Review &amp; Checkout</div>
+    <div class="phone-frame">
+      {{> status-bar time="11:03 AM"}}
+      {{> wa-topbar back=true status=brand.name actions="more" avatarSrc=brandLogo}}
+      <div class="webview-area" style="flex:1;background:#fff;padding:16px;overflow-y:auto;">
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:12px;">🛒 Review &amp; Checkout</div>
+        {{#with journey.order}}
+        <div style="background:#f9f9f9;border-radius:8px;padding:12px;margin-bottom:12px;">
+          <div style="font-size:12px;color:#888;margin-bottom:4px;">Order ID: <strong style="color:#111;">{{primaryOrderId}}</strong></div>
+          <div style="font-size:12px;color:#888;">Date: <strong style="color:#111;">{{date}}</strong></div>
+        </div>
+        {{#each items}}
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px;">
+          <span>{{productId}} x{{qty}}</span>
+          <strong>₹{{lineTotal}}</strong>
+        </div>
+        {{/each}}
+        {{/with}}
+        {{#with journey.order.summary}}
+        <div style="margin-top:12px;padding:10px;background:#f0f0f0;border-radius:8px;">
+          <div style="display:flex;justify-content:space-between;font-weight:700;font-size:14px;"><span>Total</span><span>₹{{orderValue}}</span></div>
+        </div>
+        {{/with}}
+        <div style="margin-top:12px;padding:10px;background:#075E54;color:#fff;border-radius:8px;text-align:center;font-weight:600;font-size:14px;">✅ Confirm Order</div>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#FFE0B2;">
+      <strong>Review &amp; Checkout</strong>
+      Retailer reviews the AI-generated cart in a WebView and proceeds to checkout with a single tap.
     </div>
   </div>
 </div>

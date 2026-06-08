@@ -1,11 +1,89 @@
-{{!-- Retailer Onboarding to Cash — Step 9 --}}
-<div class="step-section" id="step-9">
-  <div style="padding:40px;text-align:center;max-width:400px;margin:0 auto;">
-    <h2 style="color:var(--brand);font-size:24px;margin-bottom:16px;">Retailer Onboarding to Cash</h2>
-    <h3 style="color:var(--brand-dark);font-size:16px;margin-bottom:24px;">Step 9 of 10</h3>
-    <p style="color:#555;font-size:14px;line-height:1.6;">Onboard new retail partners via WhatsApp, guide them through self-service ordering, catalog browse, and complete their first order-to-invoice cycle.</p>
-    <div style="margin-top:32px;padding:20px;background:#f5f5f5;border-radius:12px;">
-      <p style="font-size:13px;color:#888;">🚧 This journey template is a placeholder. Full WhatsApp demo content coming soon.</p>
+{{!-- Step 9: Order to Invoice — 3 screens
+  Screen 1 · Distributor Menu (Interactive List)
+  Screen 2 · Orders to Process (Commerce WebView — Orders Pending Billing)
+  Screen 3 · Upload Invoice (Commerce WebView — Invoice Upload + AI Parse)
+--}}
+<div id="step-9" class="step-section">
+
+  <!-- Screen 1: Distributor Menu -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 1 · Distributor Menu</div>
+    <div class="screen-type-lbl">Interactive List — Channel Partner Menu</div>
+    <div class="phone-frame">
+      {{> status-bar time="11:15 AM"}}
+      {{> wa-topbar status="Partner Portal" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        <div class="msg-receiver-wrap">
+          <div class="wa-list-card">
+            <div class="wa-list-body"><strong>{{journey.distributor.name}}</strong><br>Haldiram's Partner Portal</div>
+            <div class="wa-list-time">11:15 AM</div>
+            <div class="wa-list-btn-row">
+              <svg width="15" height="13" viewBox="0 0 24 20" fill="none"><line x1="0" y1="2" x2="24" y2="2" stroke="#00A884" stroke-width="2.5"/><line x1="0" y1="10" x2="24" y2="10" stroke="#00A884" stroke-width="2.5"/><line x1="0" y1="18" x2="24" y2="18" stroke="#00A884" stroke-width="2.5"/></svg>
+              <span class="wa-list-btn-label">Manage your orders</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wa-bottom-sheet" style="background:#fff;border-top:1px solid #e0e0e0;padding:12px 16px;">
+        <div style="font-size:14px;font-weight:600;color:#111;margin-bottom:8px;">Partner Dashboard</div>
+        <div class="menu-row" style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="menu-chip" style="padding:6px 12px;background:#f0f0f0;border-radius:16px;font-size:12px;color:#333;">📦 Orders to Process</div>
+          <div class="menu-chip" style="padding:6px 12px;background:#f0f0f0;border-radius:16px;font-size:12px;color:#333;">🧾 Upload Invoice</div>
+          <div class="menu-chip" style="padding:6px 12px;background:#f0f0f0;border-radius:16px;font-size:12px;color:#333;">📋 Pending Invoices</div>
+          <div class="menu-chip" style="padding:6px 12px;background:#f0f0f0;border-radius:16px;font-size:12px;color:#333;">💳 Payments Received</div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#C8E6C9;">
+      <strong>Distributor Menu</strong>
+      Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.
+    </div>
+  </div>
+
+  <!-- Screen 2: Fulfilment List -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 2 · Orders to Process</div>
+    <div class="screen-type-lbl">Commerce WebView — Orders Pending Billing</div>
+    <div class="phone-frame">
+      {{> status-bar time="11:16 AM"}}
+      {{> wa-topbar back=true status="Fulfilment Portal" actions="more" avatarSrc=brandLogo}}
+      <div class="webview-area" style="flex:1;background:#fff;padding:16px;overflow-y:auto;">
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:12px;">📦 Orders Pending Processing</div>
+        <div style="border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:8px;background:#fff8e1;">
+          <div style="font-size:13px;font-weight:600;color:#111;">{{journey.order.primaryOrderId}}</div>
+          <div style="font-size:11px;color:#888;">{{journey.retailer.storeName}} · {{journey.order.date}}</div>
+          <div style="font-size:11px;color:#e65100;margin-top:4px;font-weight:600;">⚠ Pending billing</div>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:#075E54;color:#fff;border-radius:8px;text-align:center;font-weight:600;font-size:13px;">📄 Generate Invoice</div>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#C8E6C9;">
+      <strong>Fulfilment List</strong>
+      Distributor views pending orders on the ZoTok portal and selects an order to process and invoice.
+    </div>
+  </div>
+
+  <!-- Screen 3: Invoice Upload -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 3 · Upload Invoice</div>
+    <div class="screen-type-lbl">Commerce WebView — Invoice Upload &amp; AI Parse</div>
+    <div class="phone-frame">
+      {{> status-bar time="11:20 AM"}}
+      {{> wa-topbar back=true status="Invoice Upload" actions="more" avatarSrc=brandLogo}}
+      <div class="webview-area" style="flex:1;background:#fff;padding:16px;overflow-y:auto;">
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:12px;">🧾 Upload Invoice</div>
+        <div style="background:#f5f5f5;border:2px dashed #ccc;border-radius:12px;padding:24px;text-align:center;">
+          <div style="font-size:24px;margin-bottom:8px;">📄</div>
+          <div style="font-size:13px;color:#555;">Drop invoice PDF here<br>or tap to browse</div>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:#888;text-align:center;">ZoAi will auto-populate fields from Order {{journey.order.primaryOrderId}}</div>
+        <div style="margin-top:12px;padding:10px;background:#075E54;color:#fff;border-radius:8px;text-align:center;font-weight:600;font-size:13px;">📤 Upload &amp; Parse</div>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#C8E6C9;">
+      <strong>Invoice Upload</strong>
+      Distributor uploads the invoice PDF; ZoAi pre-populates the fields from the confirmed order, saving time.
     </div>
   </div>
 </div>

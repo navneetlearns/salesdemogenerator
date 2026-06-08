@@ -1,11 +1,88 @@
-{{!-- Retailer Onboarding to Cash — Step 6 --}}
-<div class="step-section" id="step-6">
-  <div style="padding:40px;text-align:center;max-width:400px;margin:0 auto;">
-    <h2 style="color:var(--brand);font-size:24px;margin-bottom:16px;">Retailer Onboarding to Cash</h2>
-    <h3 style="color:var(--brand-dark);font-size:16px;margin-bottom:24px;">Step 6 of 10</h3>
-    <p style="color:#555;font-size:14px;line-height:1.6;">Onboard new retail partners via WhatsApp, guide them through self-service ordering, catalog browse, and complete their first order-to-invoice cycle.</p>
-    <div style="margin-top:32px;padding:20px;background:#f5f5f5;border-radius:12px;">
-      <p style="font-size:13px;color:#888;">🚧 This journey template is a placeholder. Full WhatsApp demo content coming soon.</p>
+{{!-- Step 6: Catalog Browse & Order — 3 screens
+  Screen 1 · Browse Products Catalog (Commerce WebView)
+  Screen 2 · Cart Review (Commerce WebView — Cart)
+  Screen 3 · Order Received (Utility Template — Document Header + CTA)
+--}}
+<div id="step-6" class="step-section">
+
+  <!-- Screen 1: Browse Catalog WebView -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 1 · Browse Products Catalog</div>
+    <div class="screen-type-lbl">Commerce WebView — Catalog Browse</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:43 AM"}}
+      {{> wa-topbar back=true status=brand.name actions="more" avatarSrc=brandLogo}}
+      <div class="webview-area" style="flex:1;background:#fff;padding:16px;overflow-y:auto;">
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:12px;">{{brand.name}} Catalog</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          {{#each catalog.products}}
+          <div class="product-card" style="border:1px solid #e8e8e8;border-radius:10px;padding:10px;text-align:center;">
+            <div style="width:60px;height:60px;background:#f5f5f5;border-radius:8px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:24px;">📦</div>
+            <div style="font-size:12px;font-weight:600;color:#111;">{{name}}</div>
+            <div style="font-size:11px;color:#888;">₹{{price}}/{{unit}}</div>
+            <div style="margin-top:6px;padding:4px 8px;background:#075E54;color:#fff;border-radius:12px;font-size:10px;font-weight:600;display:inline-block;">+ Add</div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#B2EBF2;">
+      <strong>WebView Catalog</strong>
+      Retailer browses products inside WhatsApp's native browser with real product images and pricing.
+    </div>
+  </div>
+
+  <!-- Screen 2: Cart Review WebView -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 2 · Cart Review</div>
+    <div class="screen-type-lbl">Commerce WebView — Cart</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:44 AM"}}
+      {{> wa-topbar back=true status=brand.name actions="more" avatarSrc=brandLogo}}
+      <div class="webview-area" style="flex:1;background:#fff;padding:16px;overflow-y:auto;">
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:12px;">🛒 Your Cart</div>
+        {{#with journey.cart}}
+        {{#each items}}
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+          <div><span style="font-weight:600;font-size:13px;">{{tag}}</span><span style="font-size:11px;color:#888;margin-left:4px;">×{{qty}}</span></div>
+        </div>
+        {{/each}}
+        <div style="margin-top:12px;padding:10px;background:#f9f9f9;border-radius:8px;">
+          <div style="display:flex;justify-content:space-between;font-size:13px;"><span>Items</span><span>{{summary.totalItems}}</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;"><span>Total</span><span><strong>{{summary.orderValue}}</strong></span></div>
+        </div>
+        {{/with}}
+        <div style="margin-top:12px;padding:10px;background:#075E54;color:#fff;border-radius:8px;text-align:center;font-weight:600;font-size:14px;">✓ Place Order</div>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#B2EBF2;">
+      <strong>Cart Review</strong>
+      Retailer reviews selected items, quantities, and total order value in the cart before submitting the order.
+    </div>
+  </div>
+
+  <!-- Screen 3: Order Confirmed -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 3 · Order Received</div>
+    <div class="screen-type-lbl">Utility Template — Document Header + CTA Buttons</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:45 AM"}}
+      {{> wa-topbar status="Business Account" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        {{#with journey.messages.step6.orderConfirmed}}
+          {{> whatsapp-message}}
+        {{/with}}
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#B2EBF2;">
+      <strong>Order Confirmed</strong>
+      ZoTok sends an automated order confirmation to the retailer with the order ID, SKU list, and total value.
     </div>
   </div>
 </div>
