@@ -1,11 +1,95 @@
-{{!-- Dealer Engagement — Step 2 --}}
-<div class="step-section" id="step-2">
-  <div style="padding:40px;text-align:center;max-width:400px;margin:0 auto;">
-    <h2 style="color:var(--brand);font-size:24px;margin-bottom:16px;">Dealer Engagement</h2>
-    <h3 style="color:var(--brand-dark);font-size:16px;margin-bottom:24px;">Step 2 of 3</h3>
-    <p style="color:#555;font-size:14px;line-height:1.6;">Push targeted bulk cement campaigns to dealers, resolve wholesale scheme and pricing queries via ZoAi, and manage credit and loyalty.</p>
-    <div style="margin-top:32px;padding:20px;background:#f5f5f5;border-radius:12px;">
-      <p style="font-size:13px;color:#888;">🚧 This journey template is a placeholder. Full WhatsApp demo content coming soon.</p>
+{{!-- Step 2: Scheme & Product Queries — 3 screens
+  Screen 1 · Scheme Notification (Marketing Template)
+  Screen 2 · AI Typing Indicator (Session Message)
+  Screen 3 · AI Explains Scheme (Session Message — Hinglish)
+--}}
+<div id="step-2" class="step-section">
+
+  <!-- Screen 1: Scheme Notification -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 1 · Scheme Notification</div>
+    <div class="screen-type-lbl">Marketing Template — Image Header + CTA Buttons</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:30 AM"}}
+      {{> wa-topbar status="Business Account" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        {{#with journey.messages.step2.scheme}}
+          {{> whatsapp-message}}
+        {{/with}}
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#E1BEE7;">
+      <strong>Scheme Notification</strong>
+      ZoTok pushes the latest volume scheme as a marketing message to dealers, driving awareness and incremental orders.
+    </div>
+  </div>
+
+  <!-- Screen 2: AI Typing -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 2 · Dealer Asks — AI Typing</div>
+    <div class="screen-type-lbl">Session Message — AI Typing Indicator</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:31 AM"}}
+      {{> wa-topbar status="Business Account" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        <div class="msg-sender-wrap">
+          <div class="msg-sender">
+            <div class="msg-body">Can you explain this scheme in Hindi?</div>
+            <span class="msg-time">10:31 AM <span class="msg-tick">✓✓</span></span>
+          </div>
+        </div>
+        <div class="msg-receiver-wrap">
+          <div class="wa-typing">
+            <div style="display:flex;align-items:center;gap:4px;padding:8px 12px;">
+              <div style="width:6px;height:6px;background:#888;border-radius:50%;animation:pulse 1s infinite;"></div>
+              <div style="width:6px;height:6px;background:#888;border-radius:50%;animation:pulse 1s infinite 0.2s;"></div>
+              <div style="width:6px;height:6px;background:#888;border-radius:50%;animation:pulse 1s infinite 0.4s;"></div>
+              <span style="font-size:11px;color:#888;margin-left:4px;">ZoAi is typing...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#E1BEE7;">
+      <strong>Query to ZoAi</strong>
+      Dealer sends a scheme-related question in natural language. ZoAi picks it up instantly and starts composing a response.
+    </div>
+  </div>
+
+  <!-- Screen 3: AI Hinglish Response -->
+  <div class="screen-wrap">
+    <div class="screen-lbl">Screen 3 · AI Explains Scheme</div>
+    <div class="screen-type-lbl">Session Message — AI Hinglish Response</div>
+    <div class="phone-frame">
+      {{> status-bar time="10:32 AM"}}
+      {{> wa-topbar status="Business Account" actions="video+more" avatarSrc=brandLogo}}
+      <div class="chat-area">
+        {{> date-pill text="Today"}}
+        {{#with journey.messages.step2.aiResponse}}
+          {{> whatsapp-message}}
+        {{/with}}
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="screen-desc" style="background:#E1BEE7;">
+      <strong>AI Response in Hinglish</strong>
+      ZoAi explains the scheme in Hinglish, making it easy for the dealer to understand the offer and act on it immediately.
     </div>
   </div>
 </div>

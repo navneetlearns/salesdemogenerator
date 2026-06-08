@@ -1,60 +1,112 @@
 {
   "id": "dealer_engagement",
   "title": "Dealer Engagement",
+  "subtitle": "Campaigns, Schemes & AI Support for Dealers",
   "brand": "haldirams",
   "screens": [
-    {
-      "id": "step1-dealer_engagement",
-      "type": "step1-dealer_engagement"
-    },
-    {
-      "id": "step2-dealer_engagement",
-      "type": "step2-dealer_engagement"
-    },
-    {
-      "id": "step3-dealer_engagement",
-      "type": "step3-dealer_engagement"
-    }
+    { "id": "step1-dealer_engagement", "type": "step1-dealer_engagement" },
+    { "id": "step2-dealer_engagement", "type": "step2-dealer_engagement" },
+    { "id": "step3-dealer_engagement", "type": "step3-dealer_engagement" }
   ],
-  "navSteps": [
-    "step-1",
-    "step-2",
-    "step-3"
-  ],
+  "navSteps": ["step-1", "step-2", "step-3"],
   "dealer": {
-    "name": "Haldirams Team",
-    "contactName": "Contact",
-    "phone": "+91 00000 00000"
+    "name": "Haldiram's Distributors",
+    "contactName": "Shyam",
+    "phone": "+91 98765 43210",
+    "address": "45, Industrial Area, Nagpur, Maharashtra"
   },
   "messages": {
     "step1": {
-      "greeting": "Welcome to Dealer Engagement"
+      "campaign": {
+        "title": "🪔 Diwali Bulk Purchase Campaign",
+        "body": "Stock up for Diwali! 🪔<br><br>Aloo Bhujia, Mathri &amp; Assorted Gift Packs are selling out fast. Special scheme on orders above ₹10,000 — extra 5% off + free display stand.<br><br>Limited period offer!",
+        "time": "10:15 AM",
+        "cta": "View Offer"
+      },
+      "categoryQuestion": "Which category would you like to explore? 🔍<br><br>Select from Haldiram's full range below.",
+      "queryResponse": {
+        "title": "Price List — Namkeen",
+        "body": "Here's the current dealer price list for Namkeen:<br><br><strong>Aloo Bhujia 400g</strong><br>MRP ₹70 · Dealer ₹56<br><br><strong>Moong Dal 150g</strong><br>MRP ₹30 · Dealer ₹24<br><br><strong>Mixed Namkeen 200g</strong><br>MRP ₹40 · Dealer ₹32<br><br><strong>Mathri 400g</strong><br>MRP ₹75 · Dealer ₹60",
+        "time": "10:18 AM",
+        "cta": "Place Order"
+      },
+      "sections": [
+        {
+          "label": "Namkeen",
+          "items": [
+            { "title": "Aloo Bhujia", "desc": "Classic crispy bhujia · Bestseller" },
+            { "title": "Moong Dal", "desc": "Crispy moong dal namkeen" },
+            { "title": "Mixed Namkeen", "desc": "Assorted savoury mix" }
+          ]
+        },
+        {
+          "label": "Sweets",
+          "items": [
+            { "title": "Soan Papdi", "desc": "Flaky sweet · Premium box" },
+            { "title": "Gulab Jamun", "desc": "Soft syrupy dumplings" }
+          ]
+        }
+      ]
+    },
+    "step2": {
+      "scheme": {
+        "title": "💰 Festive Volume Scheme",
+        "body": "Buy <strong>10 ctns Aloo Bhujia 400g</strong> → Get <strong>2 ctns FREE</strong> + ₹500 ZoPs credited to your account.<br><br>Valid till 31 Oct 2026.<br><br>Tap below to place your order with scheme pricing applied.",
+        "time": "10:30 AM",
+        "cta": "Avail Scheme"
+      },
+      "aiTyping": {
+        "body": "Scheme query detected, ZoAi is composing a response...",
+        "time": "10:31 AM"
+      },
+      "aiResponse": {
+        "title": "ZoAi Scheme Explanation",
+        "body": "Bhai, is scheme mein aapko har 10 cartoons Aloo Bhujia par 2 cartoons FREE mil rahe hain. Matlab aap 10 ka pay karenge aur 12 ka maal milega. Plus ₹500 ZoPoints jo next order mein discount ki tarah use kar sakte hain. Scheme 31 Oct 2026 tak valid hai. Kya aap order dena chahenge? 😊",
+        "time": "10:32 AM",
+        "cta": "Yes, Place Order"
+      }
+    },
+    "step3": {
+      "loyaltyQuery": {
+        "title": "🏆 ZoAi — Points & Loyalty",
+        "body": "Shyam bhai, aapke current loyalty points 8,500 hain. Aap inhe next order mein ₹8,500 ke discount mein badal sakte hain. Aapka loyalty tier 'Silver' hai — 3% extra discount on all orders. Kya aap points redeem karna chahenge? 😊",
+        "time": "10:45 AM",
+        "cta": "Redeem Points"
+      },
+      "creditQuery": {
+        "title": "💰 ZoAi — Credit Balance",
+        "body": "Aapke current credit balance:<br><br>Total Credit Limit: ₹3,00,000<br>Used: ₹1,80,000<br>Available: ₹1,20,000<br><br>Kya aap credit limit badhwan chahenge? Main aapki application SE ko forward kar sakta hoon.",
+        "time": "10:47 AM",
+        "cta": "Increase Credit Limit"
+      },
+      "escalation": {
+        "title": "📞 ZoAi — Escalating to SE",
+        "body": "Samajh gaya Shyam bhai! Main aapki query aapke dedicated Sales Executive <strong>Mr. Rajesh Kumar</strong> ko forward kar raha hoon. Woh 30 minutes mein aapko call karenge. Aap directly unse baat kar sakte hain.<br><br>SE Contact: +91 98765 43215<br><br>Kya aapko kisi aur cheez mein madad chahiye? 😊",
+        "time": "10:50 AM"
+      }
     }
   },
   "steps": [
     {
-      "num": 1,
-      "displayNum": 1,
-      "title": "Engagement Overview",
-      "meta": "Brand · Dealer engagement",
-      "navTitle": "Step 1 — Engagement Overview",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Overview of dealer engagement program</span>"
+      "num": 1, "displayNum": 1,
+      "title": "Campaign & Promotions",
+      "meta": "Dealer · Campaigns & product queries",
+      "navTitle": "Step 1 — Campaign & Promotions",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer receives festive campaign, browses product categories, and gets instant price list</span><span class=\"tag tag-mktg\">Marketing</span>"
     },
     {
-      "num": 2,
-      "displayNum": 2,
-      "title": "Engagement Activities",
-      "meta": "Brand · Activities & rewards",
-      "navTitle": "Step 2 — Engagement Activities",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Activities, rewards and engagement metrics</span>"
+      "num": 2, "displayNum": 2,
+      "title": "Scheme & Product Queries",
+      "meta": "Dealer · Schemes & AI support",
+      "navTitle": "Step 2 — Scheme & Product Queries",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Festive scheme sent; dealer asks ZoAi for details and gets Hinglish explanation</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "num": 3,
-      "displayNum": 3,
-      "title": "Engagement Summary",
-      "meta": "Brand · Program summary",
-      "navTitle": "Step 3 — Engagement Summary",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Program results and next steps</span>"
+      "num": 3, "displayNum": 3,
+      "title": "Loyalty & Credit Queries",
+      "meta": "Dealer · AI-powered query resolution",
+      "navTitle": "Step 3 — Loyalty & Credit Queries",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer checks loyalty points, queries credit, and gets escalated to SE</span><span class=\"tag tag-ai\">AI Agents</span>"
     }
   ]
 }

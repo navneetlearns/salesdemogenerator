@@ -1,60 +1,112 @@
 {
   "id": "dealer_engagement",
   "title": "Dealer Engagement",
+  "subtitle": "Campaigns, Schemes & AI Support for Dealers",
   "brand": "jk_cement",
   "screens": [
-    {
-      "id": "step1-dealer_engagement",
-      "type": "step1-dealer_engagement"
-    },
-    {
-      "id": "step2-dealer_engagement",
-      "type": "step2-dealer_engagement"
-    },
-    {
-      "id": "step3-dealer_engagement",
-      "type": "step3-dealer_engagement"
-    }
+    { "id": "step1-dealer_engagement", "type": "step1-dealer_engagement" },
+    { "id": "step2-dealer_engagement", "type": "step2-dealer_engagement" },
+    { "id": "step3-dealer_engagement", "type": "step3-dealer_engagement" }
   ],
-  "navSteps": [
-    "step-1",
-    "step-2",
-    "step-3"
-  ],
+  "navSteps": ["step-1", "step-2", "step-3"],
   "dealer": {
-    "name": "JK Cement Team",
-    "contactName": "Contact",
-    "phone": "+91 00000 00000"
+    "name": "Sharma Cement Stores",
+    "contactName": "Ramesh",
+    "phone": "+91 98765 43210",
+    "address": "12, Industrial Area, Jaipur, Rajasthan"
   },
   "messages": {
     "step1": {
-      "greeting": "Welcome to Dealer Engagement"
+      "campaign": {
+        "title": "🏗️ Bulk Purchase Campaign",
+        "body": "Stock up for the construction season! 🧱<br><br>JK Super OPC &amp; PPC at special trade prices. Bulk orders above ₹50,000 get <strong>extra 3% discount</strong> + free delivery.<br><br>Limited period offer — order now!",
+        "time": "10:15 AM",
+        "cta": "View Offer"
+      },
+      "categoryQuestion": "Which category would you like to explore? 🔍<br><br>Select from JK Cement full range below.",
+      "queryResponse": {
+        "title": "Price List — Grey Cement",
+        "body": "Here's the current dealer price list for Grey Cement:<br><br><strong>JK Super OPC 53 Grade (50kg)</strong><br>MRP ₹380 · Dealer ₹350<br><br><strong>JK Super OPC 43 Grade (50kg)</strong><br>MRP ₹360 · Dealer ₹330<br><br><strong>JK Super PPC (50kg)</strong><br>MRP ₹340 · Dealer ₹310<br><br>Prices ex-factory. Minimum order 100 bags.",
+        "time": "10:18 AM",
+        "cta": "View Full Catalog"
+      },
+      "sections": [
+        {
+          "label": "Grey Cement",
+          "items": [
+            { "title": "OPC 53 Grade", "desc": "High strength · Premium construction" },
+            { "title": "PPC", "desc": "Durable & eco-friendly" },
+            { "title": "OPC 43 Grade", "desc": "General purpose" }
+          ]
+        },
+        {
+          "label": "White Cement & Specialty",
+          "items": [
+            { "title": "White Cement", "desc": "JK White & LevelMaxX" },
+            { "title": "Specialty Products", "desc": "Wall putty, waterproofing" }
+          ]
+        }
+      ]
+    },
+    "step2": {
+      "scheme": {
+        "title": "💰 Monsoon Protection Scheme",
+        "body": "Buy <strong>100 bags JK Super OPC 53 Grade</strong> → Get <strong>5 bags FREE</strong> + ₹2,000 ZoPs credited to your account.<br><br>Valid till 31 Aug 2026.<br><br>Tap below to place your order with scheme pricing applied automatically.",
+        "time": "10:30 AM",
+        "cta": "Avail Scheme"
+      },
+      "aiTyping": {
+        "body": "Scheme query detected, ZoAi is composing a response...",
+        "time": "10:31 AM"
+      },
+      "aiResponse": {
+        "title": "ZoAi Scheme Explanation",
+        "body": "Bhai, is scheme mein aapko har 100 bags OPC 53 par 5 bags FREE mil rahe hain. Matlab aap 100 bags ka pay karenge aur 105 bags ka maal milega. Plus ₹2,000 ZoPoints jo next order mein discount ki tarah use kar sakte hain. Scheme 31 Aug 2026 tak valid hai. Kya aap order dena chahenge? 😊",
+        "time": "10:32 AM",
+        "cta": "Yes, Place Order"
+      }
+    },
+    "step3": {
+      "loyaltyQuery": {
+        "title": "🏆 ZoAi — Points & Loyalty",
+        "body": "Ramesh bhai, aapke current loyalty points 12,500 hain. Aap inhe next order mein ₹12,500 ke discount mein badal sakte hain. Aapka loyalty tier 'Gold' hai — 5% extra discount on all orders. Kya aap points redeem karna chahenge? 😊",
+        "time": "10:45 AM",
+        "cta": "Redeem Points"
+      },
+      "creditQuery": {
+        "title": "💰 ZoAi — Credit Balance",
+        "body": "Aapke current credit balance ki baat karein to:<br><br>Total Credit Limit: ₹5,00,000<br>Used: ₹3,25,000<br>Available: ₹1,75,000<br><br>Kya aap credit limit badhwan chahenge? Main aapki application SE ko forward kar sakta hoon.",
+        "time": "10:47 AM",
+        "cta": "Increase Credit Limit"
+      },
+      "escalation": {
+        "title": "📞 ZoAi — Escalating to SE",
+        "body": "Samajh gaya Ramesh bhai! Main aapki query aapke dedicated Sales Executive <strong>Mr. Vikram Sharma</strong> ko forward kar raha hoon. Woh 30 minutes mein aapko call karenge. Aap directly unse baat kar sakte hain.<br><br>SE Contact: +91 98765 43215<br><br>Kya aapko kisi aur cheez mein madad chahiye? 😊",
+        "time": "10:50 AM"
+      }
     }
   },
   "steps": [
     {
-      "num": 1,
-      "displayNum": 1,
-      "title": "Engagement Overview",
-      "meta": "Brand · Dealer engagement",
-      "navTitle": "Step 1 — Engagement Overview",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Overview of dealer engagement program</span>"
+      "num": 1, "displayNum": 1,
+      "title": "Campaign & Promotions",
+      "meta": "Dealer · Campaigns & product queries",
+      "navTitle": "Step 1 — Campaign & Promotions",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer receives bulk purchase campaign, browses product categories, and gets instant price list</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-ord\">Catalog</span>"
     },
     {
-      "num": 2,
-      "displayNum": 2,
-      "title": "Engagement Activities",
-      "meta": "Brand · Activities & rewards",
-      "navTitle": "Step 2 — Engagement Activities",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Activities, rewards and engagement metrics</span>"
+      "num": 2, "displayNum": 2,
+      "title": "Scheme & Product Queries",
+      "meta": "Dealer · Schemes & AI support",
+      "navTitle": "Step 2 — Scheme & Product Queries",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Monsoon protection scheme sent; dealer asks ZoAi for details and gets Hinglish explanation</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "num": 3,
-      "displayNum": 3,
-      "title": "Engagement Summary",
-      "meta": "Brand · Program summary",
-      "navTitle": "Step 3 — Engagement Summary",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Program results and next steps</span>"
+      "num": 3, "displayNum": 3,
+      "title": "Loyalty & Credit Queries",
+      "meta": "Dealer · AI-powered query resolution",
+      "navTitle": "Step 3 — Loyalty & Credit Queries",
+      "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer checks loyalty points via ZoAi, queries credit balance, and gets escalated to SE when needed</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-act\">Support</span>"
     }
   ]
 }

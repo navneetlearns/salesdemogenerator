@@ -122,6 +122,7 @@ This means replacements can corrupt any CSS/JS/SVG that happens to contain a rep
 - Dealer Engagement (3 brands, scaffold only)
 | Retailer Onboarding to Cash | 3 brands, 12 steps | Complete (was scaffold) |
 | Retailer Loyalty | 3 brands, 6 steps | Complete |
+| Dealer Engagement | 3 brands, 3 steps | Complete (was scaffold) |
 - **Campaigns & Queries** (Haldiram only)
 - **DT Fulfillment & Payment** (Haldiram only)
 - **Retailer Activation** (Haldiram only)
