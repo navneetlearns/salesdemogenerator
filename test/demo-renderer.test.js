@@ -125,6 +125,40 @@ test('client renderer maps user product data into product names, cart lines, and
   assert.doesNotMatch(result.html, /JK Super OPC/);
 });
 
+test('remapStepReferences corrects all 4 reference types', async function() {
+  const renderer = loadRendererWithPack(createPack());
+  await renderer.loadPack();
+  const { remapStepReferences } = renderer;
+
+  const inputHtml = [
+    '<div id="step-3" class="step-section">',
+    '  <span data-step="3">content</span>',
+    '  <a href="#step-3">link</a>',
+    '  <button onclick="scrollToStep(3)">Nav</button>',
+    '</div>',
+    '<div id="step-5" class="step-section">',
+    '  <span data-step="5">content</span>',
+    '  <a href="#step-5">link</a>',
+    '  <button onclick="scrollToStep(5)">Nav</button>',
+    '</div>'
+  ].join('\n');
+
+  const result = remapStepReferences(inputHtml, [1,2,3,4,5,6,7,8,9,10,11,12], [3, 5]);
+
+  assert.match(result.html, /id="step-1"/);
+  assert.match(result.html, /data-step="1"/);
+  assert.match(result.html, /scrollToStep\(1\)/);
+  assert.match(result.html, /href="#step-1"/);
+  assert.match(result.html, /id="step-2"/);
+  assert.match(result.html, /data-step="2"/);
+  assert.match(result.html, /scrollToStep\(2\)/);
+  assert.match(result.html, /href="#step-2"/);
+  assert.doesNotMatch(result.html, /id="step-3"/);
+  assert.doesNotMatch(result.html, /id="step-5"/);
+  assert.equal(result.stepMap[3], 1);
+  assert.equal(result.stepMap[5], 2);
+});
+
 test('journey metadata marks incomplete templates as work in progress', async function() {
   const renderer = loadRendererWithPack(createPack());
   await renderer.loadPack();

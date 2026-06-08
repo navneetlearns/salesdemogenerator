@@ -750,6 +750,34 @@
     configurable: true
   });
 
+  /**
+   * remapStepReferences(html, fullSteps, selectedSteps)
+   * Post-processes compiled HTML to remap step IDs, data attributes,
+   * scrollToStep calls, and anchor hrefs from original numbers to display numbers.
+   * @param {string} html - Compiled HTML with all step sections
+   * @param {Array} fullSteps - Full steps array for the journey
+   * @param {Array} selectedSteps - Array of selected step numbers (original)
+   * @returns {{ html: string, stepMap: Object }}
+   */
+  DemoRenderer.remapStepReferences = function(html, fullSteps, selectedSteps) {
+    var stepMap = {};
+    for (var i = 0; i < selectedSteps.length; i++) {
+      stepMap[selectedSteps[i]] = i + 1;
+    }
+    // Sort descending to avoid substring collisions (e.g., step-1 vs step-10)
+    var sorted = selectedSteps.slice().sort(function(a, b) { return b - a; });
+    var result = html;
+    for (var j = 0; j < sorted.length; j++) {
+      var orig = sorted[j];
+      var display = stepMap[orig];
+      result = result.split('id="step-' + orig + '"').join('id="step-' + display + '"');
+      result = result.split('data-step="' + orig + '"').join('data-step="' + display + '"');
+      result = result.split('scrollToStep(' + orig + ')').join('scrollToStep(' + display + ')');
+      result = result.split('href="#step-' + orig + '"').join('href="#step-' + display + '"');
+    }
+    return { html: result, stepMap: stepMap };
+  };
+
   global.DemoRenderer = DemoRenderer;
 
 })(typeof window !== 'undefined' ? window : this);
