@@ -490,7 +490,7 @@
    *  defaultJourneyData[journeyType], override dealer name,
    *  replace "JK Cement" references in messages
    * ═══════════════════════════════════════════════════════════ */
-  function buildJourney(journeyType, brand, catalog) {
+  function buildJourney(journeyType, brand, catalog, selectedSteps) {
     var templateData = (_pack.defaultJourneyData || {})[journeyType];
     if (!templateData) {
       console.warn('[DemoRenderer] Unknown journey type:', journeyType);
@@ -515,6 +515,24 @@
     if (journey.messages && journey.messages.welcome && journey.messages.welcome.body) {
       journey.messages.welcome.body = journey.messages.welcome.body
         .replace(/<strong>[^<]*<\/strong>/, '<strong>' + escapeXml(dealerStoreName) + '</strong>');
+    }
+
+    // Step filtering for custom demos
+    if (selectedSteps && selectedSteps.length > 0 && journey.steps) {
+      var fullSteps = journey.steps;
+      var filtered = [];
+      for (var i = 0; i < selectedSteps.length; i++) {
+        var stepNum = selectedSteps[i];
+        var stepIdx = stepNum - 1;
+        if (stepIdx >= 0 && stepIdx < fullSteps.length) {
+          var step = deepClone(fullSteps[stepIdx]);
+          step.originalNum = step.num;
+          step.displayNum = i + 1;
+          step.num = step.displayNum;
+          filtered.push(step);
+        }
+      }
+      journey.steps = filtered;
     }
 
     // Replace "JK Cement" references in steps
@@ -585,6 +603,9 @@
         // Determine journey type
         var journeyType = input.journeyType || 'order_to_cash';
 
+        // Determine render mode
+        var isCustomDemo = !!(input.selectedSteps && input.selectedSteps.length > 0);
+
         // Build brand context
         var brand = buildBrand(input);
 
@@ -608,7 +629,7 @@
         var cart = buildCart(catalog);
 
         // Build journey data with brand overrides
-        var journey = buildJourney(journeyType, brand, catalog);
+        var journey = buildJourney(journeyType, brand, catalog, isCustomDemo ? input.selectedSteps : undefined);
         journey.content = buildContent(input);
 
         // Generate logo placeholder or use provided logo
@@ -633,8 +654,13 @@
         }
         var combinedScripts = scriptParts.join('\n\n');
 
-        // Compile journey template from pack.journeyScreens[journeyType]
-        var journeyTemplateSrc = (pack.journeyScreens || {})[journeyType];
+        // Select journey template source
+        var journeyTemplateSrc;
+        if (isCustomDemo) {
+          journeyTemplateSrc = DemoRenderer.buildDynamicOrchestrator(journeyType, input.selectedSteps, pack);
+        } else {
+          journeyTemplateSrc = (pack.journeyScreens || {})[journeyType];
+        }
         if (!journeyTemplateSrc) {
           throw new Error('Unknown journey type: ' + journeyType);
         }
@@ -651,6 +677,7 @@
           catalog: catalog,
           cart: cart,
           journey: journey,
+          isCustomDemo: isCustomDemo,
           handwrittenOrderImage: generateHandwrittenOrderImage(brand, catalog),
           sapArchitectureImage: (pack.fixedAssets && pack.fixedAssets.sapArchitectureImage) || '',
           showComposableMarkers: false,
@@ -665,6 +692,15 @@
         context.body = bodyHtml;
         var finalHtml = layoutTemplate(context);
 
+        // Post-process step references for custom demos
+        var stepMap;
+        if (isCustomDemo) {
+          var fullSteps = (pack.defaultJourneyData[journeyType] || {}).steps || [];
+          var remapped = DemoRenderer.remapStepReferences(finalHtml, fullSteps, input.selectedSteps);
+          finalHtml = remapped.html;
+          stepMap = remapped.stepMap;
+        }
+
         // Determine journey title from journeyDescriptions
         var journeyDescs = pack.journeyDescriptions || {};
         var journeyTitle = (journeyDescs[journeyType] && journeyDescs[journeyType].title) || journey.title || journeyType;
@@ -673,7 +709,9 @@
           html: finalHtml,
           brand: brand,
           journeyType: journeyType,
-          journeyTitle: journeyTitle
+          journeyTitle: journeyTitle,
+          isCustomDemo: isCustomDemo,
+          stepMap: stepMap
         };
       });
   }
@@ -759,6 +797,25 @@
    * @param {Array} selectedSteps - Array of selected step numbers (original)
    * @returns {{ html: string, stepMap: Object }}
    */
+  /**
+   * buildDynamicOrchestrator(journeyType, selectedSteps, pack)
+   * Assembles a Handlebars template string from partial sources for only the selected steps.
+   */
+  DemoRenderer.buildDynamicOrchestrator = function(journeyType, selectedSteps, pack) {
+    var p = pack || _pack;
+    var partials = p.partials || {};
+    var parts = [];
+    for (var i = 0; i < selectedSteps.length; i++) {
+      var stepNum = selectedSteps[i];
+      var partialName = 'step' + stepNum + '-' + journeyType;
+      var source = partials[partialName];
+      if (source) {
+        parts.push(source);
+      }
+    }
+    return parts.join('\n');
+  };
+
   DemoRenderer.remapStepReferences = function(html, fullSteps, selectedSteps) {
     var stepMap = {};
     for (var i = 0; i < selectedSteps.length; i++) {

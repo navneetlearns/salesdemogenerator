@@ -125,6 +125,46 @@ test('client renderer maps user product data into product names, cart lines, and
   assert.doesNotMatch(result.html, /JK Super OPC/);
 });
 
+test('buildDynamicOrchestrator assembles only selected step partials', async function() {
+  var pack = createPack();
+  pack.partials['step1-retailer_onboarding'] = 'STEP1_CONTENT';
+  pack.partials['step3-retailer_onboarding'] = 'STEP3_CONTENT';
+  pack.partials['step5-retailer_onboarding'] = 'STEP5_CONTENT';
+  const renderer = loadRendererWithPack(pack);
+  await renderer.loadPack();
+  var template = renderer.buildDynamicOrchestrator('retailer_onboarding', [1, 3, 5]);
+  assert.match(template, /STEP1_CONTENT/);
+  assert.match(template, /STEP3_CONTENT/);
+  assert.match(template, /STEP5_CONTENT/);
+  assert.doesNotMatch(template, /step2/);
+  assert.doesNotMatch(template, /step4/);
+});
+
+test('isCustomDemo flag is true when selectedSteps provided', async function() {
+  const renderer = loadRendererWithPack(createPack());
+  await renderer.loadPack();
+  var result = await renderer.render({
+    name: 'Test Brand',
+    products: [],
+    journeyType: 'retailer_onboarding',
+    selectedSteps: [1, 2, 3]
+  });
+  assert.equal(result.isCustomDemo, true);
+  assert.ok(result.stepMap);
+});
+
+test('isCustomDemo flag is false without selectedSteps', async function() {
+  const renderer = loadRendererWithPack(createPack());
+  await renderer.loadPack();
+  var result = await renderer.render({
+    name: 'Test Brand',
+    products: [],
+    journeyType: 'retailer_onboarding'
+  });
+  assert.equal(result.isCustomDemo, false);
+  assert.equal(result.stepMap, undefined);
+});
+
 test('remapStepReferences corrects all 4 reference types', async function() {
   const renderer = loadRendererWithPack(createPack());
   await renderer.loadPack();
