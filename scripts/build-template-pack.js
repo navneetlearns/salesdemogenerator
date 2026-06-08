@@ -243,13 +243,13 @@ function buildJourneyDescriptions() {
     dealer_engagement: {
       title: 'Dealer Engagement',
       steps: 3,
-      desc: 'Dealer onboarding and engagement journey with WhatsApp touchpoints. Work in progress template.',
-      scaffold: true,
+      desc: 'Campaigns, schemes, AI support and loyalty management for dealers',
+      scaffold: false,
     },
     retailer_onboarding: {
       title: 'Retailer Onboarding',
-      steps: 10,
-      desc: 'Retailer digital onboarding with verification and catalogue activation',
+      steps: 12,
+      desc: 'Retailer digital onboarding with verification, catalog activation, and order to cash cycle',
       scaffold: false,
     },
     retailer_loyalty: {
