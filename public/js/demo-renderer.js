@@ -800,6 +800,13 @@
     configurable: true
   });
 
+  // getJourneySteps(journeyType) — returns the steps array (with titles) or null
+  DemoRenderer.getJourneySteps = function(journeyType) {
+    if (!_pack || !_pack.defaultJourneyData) return null;
+    var data = _pack.defaultJourneyData[journeyType];
+    return data && data.steps ? data.steps : null;
+  };
+
   /**
    * remapStepReferences(html, fullSteps, selectedSteps)
    * Post-processes compiled HTML to remap step IDs, data attributes,

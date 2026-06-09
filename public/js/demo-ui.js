@@ -450,6 +450,9 @@
     }
 
     items.innerHTML = '';
+    var steps = window.DemoRenderer && window.DemoRenderer.getJourneySteps
+      ? window.DemoRenderer.getJourneySteps(journeyKey)
+      : null;
     for (var i = 1; i <= desc.steps; i++) {
       var label = document.createElement('label');
       label.className = 'step-checkbox-row';
@@ -463,10 +466,26 @@
       badge.textContent = i;
       var lbl = document.createElement('span');
       lbl.className = 'step-label';
-      lbl.textContent = 'Step ' + i;
+      // Use step title from journey data if available, fall back to "Step N"
+      var stepTitle = (steps && steps[i - 1] && steps[i - 1].title) || null;
+      lbl.textContent = stepTitle || 'Step ' + i;
+      // Add a subtitle line for meta
+      var stepMeta = (steps && steps[i - 1] && steps[i - 1].meta) || null;
       label.appendChild(cb);
       label.appendChild(badge);
-      label.appendChild(lbl);
+      var textWrap = document.createElement('span');
+      textWrap.className = 'step-text-wrap';
+      var titleSpan = document.createElement('span');
+      titleSpan.className = 'step-title';
+      titleSpan.textContent = lbl.textContent;
+      textWrap.appendChild(titleSpan);
+      if (stepMeta) {
+        var metaSpan = document.createElement('span');
+        metaSpan.className = 'step-meta';
+        metaSpan.textContent = stepMeta;
+        textWrap.appendChild(metaSpan);
+      }
+      label.appendChild(textWrap);
       items.appendChild(label);
     }
 
