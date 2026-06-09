@@ -225,19 +225,11 @@ Client-side wizard currently supports all 9 journeys (verified via `build-templa
 - Verify step selection works for each journey type in the wizard
 - Test with all 3 brands
 
-### PEND-3: Shareable Hub Links (Multi-Journey Share)
-Currently share links contain a single demo HTML page. User wants to share a hub page that links to multiple journeys. Need to:
-- Build a multi-journey hub page at share time (combining selected journeys)
-- Generate hub HTML with navigation cards linking to individual journey pages within the share
-- Update `/api/share` to accept multiple journey HTMLs and construct a hub
-- Update client-side wizard to allow selecting multiple journeys for a combined share
+### PEND-3: Shareable Hub Links (Multi-Journey Share) — RESOLVED (June 9)
+**Resolution:** `renderMultiJourney()` always produces a single hub HTML blob. The existing `/api/share` endpoint stores this blob and serves it. `share-store.js` now stores `journeyTypes` array alongside `journeyType` for multi-journey context. No API changes needed — the hub HTML is self-contained with iframes.
 
-### PEND-4: Deploy Uncommitted Work
-25 modified files + 1 new file (`templates/hub.hbs`) pending commit and deploy:
-- Hub index pages with hub.hbs template
-- Haldiram-exclusive journeys in template-pack
-- Content-Type safety for fetch calls
-- Journey data updates for all 3 brands
+### PEND-4: Deploy Uncommitted Work — RESOLVED (June 9)
+All work committed and deployed. Hub pages, template-pack changes, content-type safety, layout fixes, and hub-wrapping changes are live at https://demo-generator-one.vercel.app.
 
 ---
 
