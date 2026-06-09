@@ -8,6 +8,23 @@
 
 ## RESOLVED (June 2026)
 
+### FIX-5: Hub page redesign — 4 issues resolved (June 10)
+
+**Issues:**
+1. File size too large for share link (srcdoc entity encoding doubled size)
+2. Hub not rendering correctly when only 1 journey selected
+3. "Back to Main Menu" links led to 404
+4. Hub overflowed vertically with stacked iframes
+
+**Resolution:**
+- View-switching hub: cards view → click → journey opens (cards hidden), "← Main Menu" bar returns to cards
+- Journey HTMLs stored in `<script type="text/plain">` tags (base64) — no srcdoc encoding overhead
+- Blob URLs created at runtime for iframe `src`
+- ALL 8 journeys shown as cards: selected are clickable, unselected dimmed with "Coming Soon" badge
+- Hub-bridge script injected into every journey: intercepts `index.html`/`#main-menu` clicks, sends `postMessage("zotok:back-to-hub")` to parent
+- `pushState`/`popstate` for browser back button support
+- `mj-card-disabled` class (45% opacity, grayscale) for unselected journeys
+
 ### FIX-1: Handwritten order image lost quantity suffixes
 
 **Evidence:** `generateHandwrittenOrderImage()` during a refactor dropped the `qtys = [25, 20, 12]` suffix logic that appends `- 25 tin`, `- 20 bag` to product names. Test expected `Acme Primer - 25`, got just `Acme Primer`.
@@ -211,12 +228,18 @@ The following stale files and directories were removed:
 ## PENDING WORK (June 2026)
 
 ### PEND-1: Content Adaptation for All Journeys
-Currently the content adapter only works for `order_to_cash` (21 labels in `data/content/order_to_cash_labels.json`). The other 8 journeys have no equivalent label files. Need to:
-- Extract UI labels from each journey's partials (field_ops_expense, automated_collections, dealer_engagement, retailer_onboarding, retailer_loyalty, campaigns_queries, dt_fulfillment_payment, retailer_activation)
-- Create `data/content/<journey>_labels.json` for each
-- Extend `services/content-adapter.js` to accept a `journeyType` parameter and load the right label set
-- Update `api/experiments/adapt-content.js` to handle multi-journey adaptation
-- Wire into client-side wizard UI so users can adapt labels for any selected journey
+Currently the content adapter only works for `order_to_cash` (21 labels in `data/content/order_to_cash_labels.json`). The other 8 journeys have no equivalent label files.
+
+**Adaptation Difficulty Ranking (June 10 analysis):**
+
+| Group | Journeys | Industry Hits | Priority |
+|-------|----------|--------------|----------|
+| **A — Critical** | order_to_cash (37), retailer_onboarding (48), dealer_engagement (28) | Heavily brand-specific: "JK Cement", product names, "bags", schemes | First |
+| **B — Moderate** | retailer_loyalty (14), automated_collections (12) | "bags", "cement", "Scheme" terms | Second |
+| **C — Low** | field_ops_expense (6), campaigns_queries (7) | Hardcoded customer names, generic terms | Third |
+| **D — Clean** | retailer_activation (1), dt_fulfillment_payment (0) | Almost no brand text — "Adapt Content" button should be hidden | Skip |
+
+**UX Change planned:** Hide "Adapt Content" button for Group D journeys. For unadapted journeys in hub, show notice: "Demo content — may not reflect your industry."
 
 ### PEND-2: Custom Demo for All 9 Journeys
 Client-side wizard currently supports all 9 journeys (verified via `build-template-pack.js` JOURNEY_IDS). But `buildDynamicOrchestrator()` has `knownMismatches` only for `field_ops_expense→field-ops` and `automated_collections→collections`. Need to:
@@ -238,8 +261,7 @@ All work committed and deployed. Hub pages, template-pack changes, content-type 
 | Priority | Issue | Type | Effort | Impact |
 |---|---|---|---|---|
 | **P0** | PEND-1: Content adaptation for all journeys | Feature | High | Content adaptation limited to 1/9 journeys |
-| **P0** | PEND-3: Shareable hub links | Feature | High | Cannot share multi-journey demos |
-| **P0** | PEND-4: Deploy uncommitted work | Deploy | Low | Hub pages, template-pack, safety fixes not on production |
+| **P0** | FIX-5: Hub page file size, 404, UX | Bug | High | RESOLVED June 10 |
 | **P1** | PEND-2: Custom demo for all 9 journeys | Feature | Medium | Step selection may miss some journey types |
 | **P1** | BUG-1: Prices never replaced | Bug | Medium | Every brand shows wrong prices |
 | **P1** | BUG-2: Secondary dealers unreplaced | Bug | Low | Admin portal shows wrong names |
