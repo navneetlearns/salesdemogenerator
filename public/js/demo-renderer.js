@@ -782,7 +782,7 @@
    *  available journeys as clickable cards. Used when the user
    *  selects "home" (WhatsApp Commerce OS) as their journey.
    * ═══════════════════════════════════════════════════════════ */
-  function buildHomePage(brand, brandLogoUrl, pack) {
+  function buildHomePage(brand, brandLogoUrl, pack, selectedTypes) {
     var brandName = brand.name || 'Brand';
     var shortName = brand.shortName || brandName;
     var brandColor = (brand.colors && brand.colors.brand) || '#075e54';
@@ -790,6 +790,15 @@
     var dealerStoreName = brand.dealerStoreName || shortName;
     var journeyDescs = pack.journeyDescriptions || {};
     var journeyData = pack.defaultJourneyData || {};
+
+    // Build selectedTypes set for quick lookup
+    var selectedSet = null;
+    if (Array.isArray(selectedTypes) && selectedTypes.length > 0) {
+      selectedSet = {};
+      for (var si = 0; si < selectedTypes.length; si++) {
+        selectedSet[selectedTypes[si]] = true;
+      }
+    }
 
     // Build journey cards from descriptions, merging hubMeta
     var journeyOrder = ['home', 'order_to_cash', 'field_ops_expense', 'automated_collections', 'dealer_engagement', 'retailer_onboarding', 'retailer_loyalty', 'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation'];
@@ -801,6 +810,8 @@
       if (!desc) continue;
       // Skip "home" card when rendering the home page itself
       if (jt === 'home') continue;
+      // Filter by selectedTypes if provided — only show selected journeys
+      if (selectedSet && !selectedSet[jt]) continue;
       cardNum++;
       var meta = (journeyData[jt] && journeyData[jt].hubMeta) || {};
       var emoji = meta.emoji || '\u{1F4F1}';
@@ -916,11 +927,6 @@
     var journeyTypes = Array.isArray(input.journeyTypes) && input.journeyTypes.length > 0
       ? input.journeyTypes.slice()
       : (input.journeyType ? [input.journeyType] : ['order_to_cash']);
-
-    // Single journey — delegate to render()
-    if (journeyTypes.length <= 1) {
-      return render(input);
-    }
 
     return loadPack().then(function(pack) {
       var promises = [];
@@ -1046,6 +1052,7 @@
     buildContent: buildContent,
     buildCart: buildCart,
     buildJourney: buildJourney,
+    buildHomePage: buildHomePage,
     generatePlaceholderImage: generatePlaceholderImage,
     generateLogoPlaceholder: generateLogoPlaceholder,
     downloadHtml: downloadHtml

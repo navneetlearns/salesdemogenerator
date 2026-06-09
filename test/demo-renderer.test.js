@@ -362,3 +362,84 @@ test('empty selectedSteps array returns handled error', async function() {
   assert.equal(result.html, '');
   assert.equal(result.error, 'No steps selected');
 });
+
+/* ═══════════════════════════════════════════════════════════
+   Hub wrapping: renderMultiJourney always produces hub HTML
+   ═══════════════════════════════════════════════════════════ */
+
+test('renderMultiJourney with single journey wraps output in hub HTML', async function() {
+  const renderer = loadRendererWithPack(createPack());
+  await renderer.loadPack();
+  var result = await renderer.renderMultiJourney({
+    name: 'Acme Corp',
+    products: [
+      { name: 'Acme Widget', price: 100, unit: 'piece', imageDataUrl: 'data:img' }
+    ],
+    industry: 'General',
+    journeyTypes: ['order_to_cash']
+  });
+  assert.ok(result.html);
+  // Should be hub-wrapped, not just a bare journey
+  assert.match(result.html, /mj-nav|hp-wrap|<!DOCTYPE html>/);
+  assert.equal(result.journeyTypes.length, 1);
+  assert.equal(result.journeyTypes[0], 'order_to_cash');
+});
+
+test('buildHomePage filters cards by selectedTypes', async function() {
+  var pack = createPack();
+  // Add more journey descriptions to test filtering
+  pack.journeyDescriptions['field_ops_expense'] = { title: 'Field Ops', steps: 15, desc: 'Field ops', scaffold: false };
+  pack.journeyDescriptions['automated_collections'] = { title: 'Collections', steps: 11, desc: 'Auto', scaffold: false };
+  pack.journeyScreens['field_ops_expense'] = '<div>field ops screen</div>';
+  pack.journeyScreens['automated_collections'] = '<div>collections screen</div>';
+  const renderer = loadRendererWithPack(pack);
+  await renderer.loadPack();
+
+  var brand = renderer.buildBrand({ name: 'Test', products: [], industry: 'General' });
+  var fullHtml = renderer.buildHomePage(brand, '', pack);
+  var filteredHtml = renderer.buildHomePage(brand, '', pack, ['order_to_cash']);
+
+  // Full page should have 3 non-home cards
+  assert.match(fullHtml, /Order to Cash/);
+  assert.match(fullHtml, /Field Ops/);
+  assert.match(fullHtml, /Collections/);
+
+  // Filtered page should have only the selected journey
+  assert.match(filteredHtml, /Order to Cash/);
+  assert.doesNotMatch(filteredHtml, /Field Ops/);
+  assert.doesNotMatch(filteredHtml, /Collections/);
+});
+
+test('renderMultiJourney hub only includes selected journeys', async function() {
+  var pack = createPack();
+  pack.journeyDescriptions['field_ops_expense'] = { title: 'Field Ops', steps: 15, desc: 'Field ops', scaffold: false };
+  pack.journeyScreens['field_ops_expense'] = '<div>Field Ops journey screen</div>';
+  const renderer = loadRendererWithPack(pack);
+  await renderer.loadPack();
+
+  var result = await renderer.renderMultiJourney({
+    name: 'Test Brand',
+    products: [{ name: 'Test Product', price: 100, unit: 'piece', imageDataUrl: 'data:img' }],
+    industry: 'General',
+    journeyTypes: ['order_to_cash', 'retailer_onboarding']
+  });
+
+  // Hub should include both selected journeys
+  assert.match(result.html, /Order to Cash/);
+  assert.match(result.html, /Retailer Onboarding/);
+  // But NOT the unselected one
+  assert.doesNotMatch(result.html, /Field Ops/);
+  assert.equal(result.journeyTypes.length, 2);
+});
+
+test('buildHomePage home card is never rendered even in full listing', async function() {
+  var pack = createPack();
+  const renderer = loadRendererWithPack(pack);
+  await renderer.loadPack();
+
+  var brand = renderer.buildBrand({ name: 'Test', products: [] });
+  var fullHtml = renderer.buildHomePage(brand, '', pack);
+  // "WhatsApp Commerce OS" should NOT appear as a clickable card title
+  // (it may appear in the page title or footer which is fine)
+  assert.doesNotMatch(fullHtml, /hp-card-title">\s*WhatsApp Commerce OS/);
+});

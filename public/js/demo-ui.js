@@ -372,6 +372,8 @@
 
     for (var key in descriptions) {
       if (!descriptions.hasOwnProperty(key)) continue;
+      // Skip "home" — it's always included as the default wrapper, not a selectable journey
+      if (key === 'home') continue;
       var desc = descriptions[key];
       var card = document.createElement('div');
       card.className = 'journey-card';
@@ -659,12 +661,8 @@
 
     if (progressFill) progressFill.style.width = '60%';
 
-    // Use renderMultiJourney when 2+ journeys selected, single render otherwise
-    var renderFn = (formData.journeyTypes.length > 1)
-      ? DemoRenderer.renderMultiJourney
-      : DemoRenderer.render;
-
-    renderFn(userInput)
+    // Always use renderMultiJourney — it wraps output in a hub page regardless of count
+    DemoRenderer.renderMultiJourney(userInput)
       .then(function(result) {
         if (progressFill) progressFill.style.width = '100%';
         setTimeout(function() {

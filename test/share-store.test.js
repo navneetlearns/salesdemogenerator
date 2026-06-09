@@ -70,6 +70,22 @@ test('createShare stores generated html in a private blob behind a random token'
   assert.equal(stored.brandName, 'Acme Cement');
   assert.equal(stored.journeyType, 'order_to_cash');
   assert.equal(stored.expiresAt, currentTime + SHARE_TTL_MS);
+  assert.equal(stored.journeyTypes, null);
+
+  // Verify journeyTypes is stored when provided
+  const result2 = await createShare({
+    html: '<!doctype html><html><body>Multi</body></html>',
+    brandName: 'Acme Multi',
+    journeyType: 'order_to_cash',
+    journeyTypes: ['order_to_cash', 'dealer_engagement']
+  }, {
+    blob: blob.client,
+    now: function() { return currentTime; },
+    origin: 'https://demo.example'
+  });
+  const pathname2 = 'shares/' + result2.token + '.json';
+  const stored2 = JSON.parse(blob.blobs.get(pathname2).body);
+  assert.deepEqual(stored2.journeyTypes, ['order_to_cash', 'dealer_engagement']);
 });
 
 test('createShare rejects missing and oversized html', async function() {

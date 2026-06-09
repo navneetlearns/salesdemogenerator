@@ -237,6 +237,7 @@ function buildJourneyDescriptions() {
       steps: 1,
       desc: 'Hub page with overview and navigation to all WhatsApp Commerce journeys',
       scaffold: false,
+      selectable: false,
     },
     order_to_cash: {
       title: 'Order to Cash',
