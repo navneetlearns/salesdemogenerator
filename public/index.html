@@ -117,6 +117,13 @@
       <div id="step3" class="wizard-step">
         <h3>Select Journey Type</h3>
         <div id="journeyCardsContainer" class="journey-cards-grid"></div>
+        <div id="stepSelectionPanel" class="step-selection-panel" style="display:none; margin-top:12px">
+          <h4>Steps to include</h4>
+          <div class="step-checklist">
+            <label class="step-all-toggle"><input type="checkbox" checked onchange="demoUI.toggleAllSteps(this.checked)"> Select All</label>
+            <div id="stepChecklistItems"></div>
+          </div>
+        </div>
         <div style="margin-top:16px">
           <button type="button" class="btn primary" onclick="demoUI.generate()">Generate Demo</button>
         </div>

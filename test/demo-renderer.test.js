@@ -21,9 +21,34 @@ function loadRendererWithPack(pack) {
   return sandbox.DemoRenderer;
 }
 
+function makeRetailerOnboardingSteps(count) {
+  var steps = [];
+  for (var i = 1; i <= count; i++) {
+    steps.push({ num: i, title: 'Step ' + i, meta: 'Retailer' });
+  }
+  return steps;
+}
+
+function makeRetailerOnboardingPartials(journeyType, count) {
+  var partials = {};
+  for (var i = 1; i <= count; i++) {
+    partials['step' + i + '-' + journeyType] = '<div id="step-' + i + '" class="step-section" data-step="' + i + '">Step ' + i + ' content for {{brand.name}}<button onclick="scrollToStep(' + i + ')">Nav</button><a href="#step-' + i + '">link</a></div>';
+  }
+  return partials;
+}
+
+function makeJourneyScreen(journeyType, count) {
+  var parts = [];
+  for (var i = 1; i <= count; i++) {
+    parts.push('<div id="step-' + i + '" class="step-section" data-step="' + i + '">Step ' + i + ' content for {{brand.name}}<button onclick="scrollToStep(' + i + ')">Nav</button><a href="#step-' + i + '">link</a></div>');
+  }
+  return parts.join('\n');
+}
+
 function createPack() {
+  var PARTIAL_COUNT = 12;
   return {
-    partials: {},
+    partials: makeRetailerOnboardingPartials('retailer_onboarding', PARTIAL_COUNT),
     helpers: {},
     industries: {
       general: {
@@ -68,6 +93,26 @@ function createPack() {
           ppc: 'JK Protect PPC',
           cementPpc: 'JK Super Cement PPC'
         }
+      },
+      retailer_onboarding: {
+        id: 'retailer_onboarding',
+        title: 'Retailer Onboarding',
+        dealer: { name: 'Test Store' },
+        steps: makeRetailerOnboardingSteps(12),
+        step3: {
+          draftOrder: { totalValue: 100, netValue: 95, skuCount: 2 },
+          cartSummary: { totalItems: 2, totalQty: 30, orderValue: 100 },
+          cartItems: [
+            { name: 'JK Super OPC', unitPrice: 350, lineTotal: 3500, unit: 'bag' },
+            { name: 'JK PPC', unitPrice: 360, lineTotal: 3600, unit: 'bag' }
+          ]
+        },
+        productNames: {
+          opc53: 'JK Super OPC 53 Grade',
+          opc43: 'JK Super OPC 43 Grade',
+          ppc: 'JK Protect PPC',
+          cementPpc: 'JK Super Cement PPC'
+        }
       }
     },
     journeyScreens: {
@@ -77,13 +122,15 @@ function createPack() {
         '<span id="p0">{{journey.productNames.opc53}}</span>',
         '<span id="p1">{{journey.step3.cartItems.0.name}}</span>',
         '<img id="user-product" src="{{catalog.products.0.image}}">'
-      ].join('')
+      ].join(''),
+      retailer_onboarding: makeJourneyScreen('retailer_onboarding', 12)
     },
     layoutBase: '<html><body>{{{body}}}</body></html>',
     style: '',
     scripts: {},
     journeyDescriptions: {
       order_to_cash: { title: 'Order to Cash', steps: 11, desc: 'Complete', scaffold: false },
+      retailer_onboarding: { title: 'Retailer Onboarding', steps: 12, desc: 'Complete', scaffold: false },
       dealer_engagement: { title: 'Dealer Engagement', steps: 3, desc: 'Partial', scaffold: true }
     },
     fixedAssets: {
@@ -203,4 +250,115 @@ test('journey metadata marks incomplete templates as work in progress', async fu
   const renderer = loadRendererWithPack(createPack());
   await renderer.loadPack();
   assert.equal(renderer.journeyDescriptions.dealer_engagement.scaffold, true);
+});
+
+/* ═══════════════════════════════════════════════════════════
+   Task 3: buildJourney step filtering with originalNum/displayNum
+   ═══════════════════════════════════════════════════════════ */
+
+test('buildJourney filters steps and sets originalNum + displayNum', async function() {
+  const renderer = loadRendererWithPack(createPack());
+  await renderer.loadPack();
+  var brand = renderer.buildBrand({ name: 'Test', products: [] });
+  var catalog = renderer.buildCatalog({ name: 'Test', products: [] });
+  var journey = renderer.buildJourney('retailer_onboarding', brand, catalog, [1, 3, 5]);
+
+  assert.equal(journey.steps.length, 3);
+  assert.equal(journey.steps[0].num, 1);
+  assert.equal(journey.steps[0].originalNum, 1);
+  assert.equal(journey.steps[0].displayNum, 1);
+  assert.equal(journey.steps[1].num, 2);
+  assert.equal(journey.steps[1].originalNum, 3);
+  assert.equal(journey.steps[1].displayNum, 2);
+  assert.equal(journey.steps[2].num, 3);
+  assert.equal(journey.steps[2].originalNum, 5);
+  assert.equal(journey.steps[2].displayNum, 3);
+});
+
+test('buildJourney without selectedSteps keeps all steps unchanged', async function() {
+  const renderer = loadRendererWithPack(createPack());
+  await renderer.loadPack();
+  var brand = renderer.buildBrand({ name: 'Test', products: [] });
+  var catalog = renderer.buildCatalog({ name: 'Test', products: [] });
+  var journey = renderer.buildJourney('retailer_onboarding', brand, catalog);
+
+  assert.equal(journey.steps.length, 12);
+  assert.equal(journey.steps[0].originalNum, undefined);
+  assert.equal(journey.steps[0].displayNum, undefined);
+});
+
+/* ═══════════════════════════════════════════════════════════
+   Task 4: render with step selection produces sequential IDs
+   ═══════════════════════════════════════════════════════════ */
+
+test('render with step selection produces sequential step IDs', async function() {
+  const renderer = loadRendererWithPack(createPack());
+  await renderer.loadPack();
+  var result = await renderer.render({
+    name: 'Test Brand',
+    products: [],
+    journeyType: 'retailer_onboarding',
+    selectedSteps: [1, 3, 5]
+  });
+  assert.match(result.html, /id="step-1"/);
+  assert.match(result.html, /id="step-2"/);
+  assert.match(result.html, /id="step-3"/);
+  assert.doesNotMatch(result.html, /id="step-4"/);
+  assert.doesNotMatch(result.html, /id="step-5"/);
+  assert.doesNotMatch(result.html, /id="step-6"/);
+  assert.equal(result.isCustomDemo, true);
+  assert.ok(result.stepMap);
+});
+
+test('render without step selection is unchanged', async function() {
+  const renderer = loadRendererWithPack(createPack());
+  await renderer.loadPack();
+  var result = await renderer.render({
+    name: 'Test Brand',
+    products: [],
+    journeyType: 'retailer_onboarding'
+  });
+  assert.equal(result.isCustomDemo, false);
+  assert.equal(result.stepMap, undefined);
+});
+
+/* ═══════════════════════════════════════════════════════════
+   Task 6: Integration tests — full render + empty selection
+   ═══════════════════════════════════════════════════════════ */
+
+test('full render with step selection returns valid HTML with sequential step IDs', async function() {
+  const renderer = loadRendererWithPack(createPack());
+  await renderer.loadPack();
+  var result = await renderer.render({
+    name: 'Acme Corp',
+    products: [],
+    journeyType: 'retailer_onboarding',
+    selectedSteps: [1, 3, 5]
+  });
+
+  assert.ok(result.html);
+  assert.ok(result.html.length > 400);
+  assert.match(result.html, /id="step-1"/);
+  assert.match(result.html, /id="step-2"/);
+  assert.match(result.html, /id="step-3"/);
+  assert.doesNotMatch(result.html, /id="step-4"/);
+  assert.doesNotMatch(result.html, /id="step-5"/);
+  assert.equal(result.isCustomDemo, true);
+  assert.equal(result.stepMap[1], 1);
+  assert.equal(result.stepMap[3], 2);
+  assert.equal(result.stepMap[5], 3);
+});
+
+test('empty selectedSteps array returns handled error', async function() {
+  const renderer = loadRendererWithPack(createPack());
+  await renderer.loadPack();
+  var result = await renderer.render({
+    name: 'Test',
+    products: [],
+    journeyType: 'retailer_onboarding',
+    selectedSteps: []
+  });
+  assert.ok(result);
+  assert.equal(result.html, '');
+  assert.equal(result.error, 'No steps selected');
 });

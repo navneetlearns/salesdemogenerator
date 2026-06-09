@@ -420,11 +420,75 @@
             cardEl.classList.remove('selected');
             cardEl.setAttribute('aria-checked', 'false');
           }
+          updateStepSelection();
         });
       })(key, card);
 
       container.appendChild(card);
     }
+  }
+
+  /* ── Step Selection ──────────────────────────────────── */
+
+  function updateStepSelection() {
+    var panel = document.getElementById('stepSelectionPanel');
+    var items = document.getElementById('stepChecklistItems');
+    if (!panel || !items) return;
+
+    var journeyKey = primarySelectedJourney();
+    if (!journeyKey) {
+      panel.style.display = 'none';
+      return;
+    }
+
+    var descs = (window.DemoRenderer && window.DemoRenderer.journeyDescriptions) || {};
+    var desc = descs[journeyKey];
+    if (!desc || !desc.steps || desc.steps <= 1) {
+      panel.style.display = 'none';
+      window.selectedSteps = null;
+      return;
+    }
+
+    items.innerHTML = '';
+    for (var i = 1; i <= desc.steps; i++) {
+      var label = document.createElement('label');
+      label.className = 'step-checkbox-row';
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.value = i;
+      cb.checked = true;
+      cb.onchange = onStepToggle;
+      var badge = document.createElement('span');
+      badge.className = 'step-num-badge';
+      badge.textContent = i;
+      var lbl = document.createElement('span');
+      lbl.className = 'step-label';
+      lbl.textContent = 'Step ' + i;
+      label.appendChild(cb);
+      label.appendChild(badge);
+      label.appendChild(lbl);
+      items.appendChild(label);
+    }
+
+    panel.style.display = 'block';
+    window.selectedSteps = null; // null = all steps
+  }
+
+  function toggleAllSteps(checked) {
+    var checkboxes = document.querySelectorAll('#stepChecklistItems input[type="checkbox"]');
+    checkboxes.forEach(function(cb) { cb.checked = checked; });
+    onStepToggle();
+  }
+
+  function onStepToggle() {
+    var checkboxes = document.querySelectorAll('#stepChecklistItems input[type="checkbox"]');
+    var checked = [];
+    checkboxes.forEach(function(cb) {
+      if (cb.checked) checked.push(parseInt(cb.value));
+    });
+    window.selectedSteps = (checked.length === checkboxes.length) ? null : checked;
+    var generateBtn = document.getElementById('generateBtn');
+    if (generateBtn) generateBtn.disabled = (checked.length === 0);
   }
 
   /* ── Collect Form Data ─────────────────────────────────── */
@@ -567,6 +631,11 @@
       journeyType: formData.journeyType,
       acceptedLabels: getSelectedContentLabels()
     };
+
+    // Add step selection if user has selected specific steps
+    if (window.selectedSteps) {
+      userInput.selectedSteps = window.selectedSteps;
+    }
 
     if (progressFill) progressFill.style.width = '60%';
 
@@ -856,6 +925,7 @@
     restoreLastPreview();
     renderContentDiff();
     renderJourneyCards();
+    updateStepSelection();
     showStep(1);
   }
 
@@ -877,7 +947,10 @@
     restoreLastPreview: restoreLastPreview,
     createShareLink: createShareLink,
     openInNewTab: createShareLink,
-    download: download
+    download: download,
+    updateStepSelection: updateStepSelection,
+    toggleAllSteps: toggleAllSteps,
+    onStepToggle: onStepToggle
   };
 
   global.demoUI = demoUI;

@@ -603,6 +603,18 @@
         // Determine journey type
         var journeyType = input.journeyType || 'order_to_cash';
 
+        // Handle empty step selection early
+        if (input.selectedSteps && input.selectedSteps.length === 0) {
+          return {
+            html: '',
+            brand: null,
+            journeyType: journeyType,
+            journeyTitle: '',
+            isCustomDemo: true,
+            error: 'No steps selected'
+          };
+        }
+
         // Determine render mode
         var isCustomDemo = !!(input.selectedSteps && input.selectedSteps.length > 0);
 
@@ -821,16 +833,27 @@
     for (var i = 0; i < selectedSteps.length; i++) {
       stepMap[selectedSteps[i]] = i + 1;
     }
-    // Sort descending to avoid substring collisions (e.g., step-1 vs step-10)
-    var sorted = selectedSteps.slice().sort(function(a, b) { return b - a; });
+    // Phase 1: replace original step references with unique placeholders
+    // to avoid collisions where a later replacement partially matches
+    // a value that was just created by an earlier replacement
     var result = html;
-    for (var j = 0; j < sorted.length; j++) {
-      var orig = sorted[j];
+    var placeholders = {};
+    for (var j = 0; j < selectedSteps.length; j++) {
+      var orig = selectedSteps[j];
+      var ph = '%%STEP_' + j + '%%';
       var display = stepMap[orig];
-      result = result.split('id="step-' + orig + '"').join('id="step-' + display + '"');
-      result = result.split('data-step="' + orig + '"').join('data-step="' + display + '"');
-      result = result.split('scrollToStep(' + orig + ')').join('scrollToStep(' + display + ')');
-      result = result.split('href="#step-' + orig + '"').join('href="#step-' + display + '"');
+      placeholders['id="' + ph + '"'] = 'id="step-' + display + '"';
+      placeholders['data-step="' + ph + '"'] = 'data-step="' + display + '"';
+      placeholders['scrollToStep(' + ph + ')'] = 'scrollToStep(' + display + ')';
+      placeholders['href="#' + ph + '"'] = 'href="#step-' + display + '"';
+      result = result.split('id="step-' + orig + '"').join('id="' + ph + '"');
+      result = result.split('data-step="' + orig + '"').join('data-step="' + ph + '"');
+      result = result.split('scrollToStep(' + orig + ')').join('scrollToStep(' + ph + ')');
+      result = result.split('href="#step-' + orig + '"').join('href="#' + ph + '"');
+    }
+    // Phase 2: replace placeholders with final values
+    for (var ph in placeholders) {
+      result = result.split(ph).join(placeholders[ph]);
     }
     return { html: result, stepMap: stepMap };
   };
