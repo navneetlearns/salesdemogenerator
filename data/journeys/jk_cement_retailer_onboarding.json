@@ -102,7 +102,9 @@
     }
   ],
   "screens": [
-    { "type": "retailer_onboarding" }
+    {
+      "type": "retailer_onboarding"
+    }
   ],
   "dealer": {
     "name": "Sharma Cement Stores",
@@ -184,23 +186,44 @@
         {
           "label": "Grey Cement",
           "items": [
-            { "title": "OPC 53 Grade", "desc": "Ordinary Portland Cement · High strength construction" },
-            { "title": "PPC", "desc": "Portland Pozzolana Cement · Durable & eco-friendly" },
-            { "title": "OPC 43 Grade", "desc": "General purpose cement · All-round construction" }
+            {
+              "title": "OPC 53 Grade",
+              "desc": "Ordinary Portland Cement · High strength construction"
+            },
+            {
+              "title": "PPC",
+              "desc": "Portland Pozzolana Cement · Durable & eco-friendly"
+            },
+            {
+              "title": "OPC 43 Grade",
+              "desc": "General purpose cement · All-round construction"
+            }
           ]
         },
         {
           "label": "White Cement & Specialty",
           "items": [
-            { "title": "White Cement", "desc": "JK White & LevelMaxX · Specialty finishes" },
-            { "title": "Specialty Products", "desc": "Wall putty, waterproofing & allied products" }
+            {
+              "title": "White Cement",
+              "desc": "JK White & LevelMaxX · Specialty finishes"
+            },
+            {
+              "title": "Specialty Products",
+              "desc": "Wall putty, waterproofing & allied products"
+            }
           ]
         },
         {
           "label": "Offers & Solutions",
           "items": [
-            { "title": "Seasonal Offers", "desc": "Seasonal combos & clearance offers" },
-            { "title": "Business Solutions", "desc": "Bulk orders & trade schemes" }
+            {
+              "title": "Seasonal Offers",
+              "desc": "Seasonal combos & clearance offers"
+            },
+            {
+              "title": "Business Solutions",
+              "desc": "Bulk orders & trade schemes"
+            }
           ]
         }
       ]
@@ -279,8 +302,16 @@
   },
   "cart": {
     "items": [
-      { "productId": "p1", "qty": 20, "tag": "OPC" },
-      { "productId": "p2", "qty": 15, "tag": "PPC" }
+      {
+        "productId": "p1",
+        "qty": 20,
+        "tag": "OPC"
+      },
+      {
+        "productId": "p2",
+        "qty": 15,
+        "tag": "PPC"
+      }
     ],
     "summary": {
       "totalItems": 4,
@@ -292,8 +323,16 @@
     "primaryOrderId": "JKO-3892",
     "date": "18 April 2026",
     "items": [
-      { "productId": "p1", "qty": 20, "lineTotal": 7000 },
-      { "productId": "p2", "qty": 15, "lineTotal": 4650 }
+      {
+        "productId": "p1",
+        "qty": 20,
+        "lineTotal": 7000
+      },
+      {
+        "productId": "p2",
+        "qty": 15,
+        "lineTotal": 4650
+      }
     ],
     "summary": {
       "orderValue": 7840,
@@ -319,5 +358,14 @@
     "opc43": "JK Super OPC 43 Grade (50kg)",
     "ppc": "JK Super Protect PPC (50kg)",
     "cementPpc": "JK Super Cement PPC (50kg)"
+  },
+  "hubMeta": {
+    "emoji": "🏪",
+    "color": "#C62828",
+    "tags": [
+      "Onboarding",
+      "Registration",
+      "Order to Cash"
+    ]
   }
 }

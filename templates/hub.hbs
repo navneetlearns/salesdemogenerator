@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{brand.name}} — WhatsApp Commerce OS | ZoTok</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: #fff;
+      display: flex; flex-direction: column; min-height: 100vh;
+    }
+    .top-strip { height: 6px; background: {{brandColor}}; flex-shrink: 0; }
+    .main-wrap { flex: 1; display: flex; min-height: 0; }
+    .left-panel {
+      width: 42%; background: #fff; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 48px 40px;
+      border-right: 1px solid #f0f0f0;
+    }
+    .brand-logo {
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 3px solid rgba({{brandRgb}}, .25);
+      object-fit: cover; margin-bottom: 20px;
+    }
+    .brand-label {
+      font-size: 11px; font-weight: 700; color: {{brandColor}};
+      text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 10px;
+    }
+    .brand-title {
+      font-size: 32px; font-weight: 800; color: #111; line-height: 1.15;
+      margin-bottom: 16px; text-align: center;
+    }
+    .brand-title span { color: {{brandColor}}; }
+    .brand-desc {
+      font-size: 13px; color: #555; line-height: 1.65;
+      text-align: center; max-width: 320px; margin-bottom: 28px;
+    }
+    .wa-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #f5f5f5; border: 1px solid #e0e0e0;
+      border-radius: 24px; padding: 9px 18px;
+      font-size: 12.5px; color: #222; font-weight: 600;
+    }
+    .brand-stats { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+    .stat-pill {
+      font-size: 11px; font-weight: 700; color: {{brandColor}};
+      background: rgba({{brandRgb}}, .07);
+      border: 1px solid rgba({{brandRgb}}, .2);
+      border-radius: 14px; padding: 5px 13px;
+    }
+    .right-panel { flex: 1; background: #f7f7f8; overflow-y: auto; padding: 36px 32px 48px; }
+    .section-label {
+      font-size: 10.5px; font-weight: 700; color: #999;
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;
+    }
+    .j-item {
+      display: flex; align-items: stretch; text-decoration: none; color: inherit;
+      margin-bottom: 10px; background: #fff; border-radius: 14px;
+      border: 1px solid #e8e8e8; overflow: hidden;
+      transition: box-shadow .15s ease, transform .15s ease; cursor: pointer;
+    }
+    .j-item:hover { box-shadow: 0 6px 24px rgba(0,0,0,.1); transform: translateX(4px); }
+    .j-badge {
+      background: var(--c); width: 68px; flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 4px; padding: 14px 0;
+    }
+    .j-num { font-size: 10.5px; font-weight: 900; color: rgba(255,255,255,.45); letter-spacing: .5px; }
+    .j-emoji { font-size: 26px; line-height: 1.1; }
+    .j-body {
+      flex: 1; padding: 14px 52px 13px 18px;
+      clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);
+      display: flex; flex-direction: column; justify-content: center; gap: 5px;
+    }
+    .j-top { display: flex; align-items: center; gap: 10px; }
+    .j-title { font-size: 14.5px; font-weight: 700; color: #111; flex: 1; }
+    .j-steps {
+      font-size: 10px; font-weight: 700; color: var(--c);
+      background: rgba(0,0,0,.04); padding: 3px 9px; border-radius: 9px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .j-desc { font-size: 12px; color: #666; line-height: 1.45; max-width: 480px; }
+    .j-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+    .j-tag {
+      font-size: 10.5px; font-weight: 600; padding: 2px 7px;
+      border-radius: 6px; background: rgba(0,0,0,.05); color: #555;
+    }
+    .bottom-strip {
+      background: {{brandColor}}; padding: 10px 24px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .footer-text { font-size: 11.5px; color: rgba(255,255,255,.85); font-weight: 500; text-align: center; }
+    .footer-text strong { color: #fff; }
+    @media(max-width:768px) {
+      .main-wrap { flex-direction: column; }
+      .left-panel { width: 100%; border-right: none; border-bottom: 1px solid #f0f0f0; padding: 32px 24px 28px; }
+      .brand-title { font-size: 26px; }
+      .right-panel { padding: 24px 16px 40px; }
+      .j-badge { width: 58px; }
+      .j-emoji { font-size: 22px; }
+      .j-title { font-size: 13.5px; }
+      .j-desc { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-strip"></div>
+  <div class="main-wrap">
+    <div class="left-panel">
+      {{#if brandLogo}}
+      <img class="brand-logo" src="{{brandLogo}}" alt="{{brand.name}} logo">
+      {{/if}}
+      <div class="brand-label">{{brand.name}}</div>
+      <h1 class="brand-title">WhatsApp<br><span>Commerce OS</span></h1>
+      <p class="brand-desc">A unified WhatsApp operating system for {{brand.name}} retail ecosystem — retailer, field executive, and distributor journeys on a single number. Powered by ZoTok.</p>
+      <div class="wa-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" fill="#25D366"/>
+          <path d="M17.5 14.5c-.3-.1-1.7-.8-2-.9s-.5-.2-.7.2-.8.9-1 1.1-.4.2-.7.1a8.5 8.5 0 01-2.6-1.6 9.9 9.9 0 01-1.8-2.2c-.2-.3 0-.5.1-.6l.5-.6.3-.5a.4.4 0 000-.4l-.9-2.1c-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4A4.4 4.4 0 006 9.7a7.6 7.6 0 001.6 4c1.8 2.4 4.1 3.8 7.8 4.3.8.1 1.5-.1 2-.4a4 4 0 001.3-1.7c.1-.4.1-.7 0-.9z" fill="#fff"/>
+        </svg>
+        {{dealerStoreName}} &nbsp;&#183;&nbsp; {{brand.name}} ZoTok
+      </div>
+      <div class="brand-stats">
+        <div class="stat-pill">&#9679; {{journeys.length}} Modules</div>
+        <div class="stat-pill">&#9679; Live Journey Demos</div>
+      </div>
+    </div>
+    <div class="right-panel">
+      <div class="section-label">Select a Module to Explore</div>
+      {{#each journeys}}
+      <a class="j-item" href="{{this.url}}" style="--c:{{this.color}}">
+        <div class="j-badge">
+          <div class="j-num">{{this.num}}</div>
+          <div class="j-emoji">{{this.emoji}}</div>
+        </div>
+        <div class="j-body">
+          <div class="j-top">
+            <div class="j-title">{{this.title}}</div>
+            <div class="j-steps">{{this.steps}} Steps</div>
+          </div>
+          <div class="j-desc">{{this.desc}}</div>
+          <div class="j-tags">
+            {{#each this.tags}}<span class="j-tag">{{this}}</span>{{/each}}
+          </div>
+        </div>
+      </a>
+      {{/each}}
+    </div>
+  </div>
+  <div class="bottom-strip">
+    <div class="footer-text"><strong>{{brand.name}} WhatsApp Commerce OS</strong> &nbsp;&#183;&nbsp; Powered by <a href="https://zotok.ai" target="_blank" style="color:#fff;font-weight:700;text-decoration:underline;">ZoTok.ai</a> &nbsp;&#183;&nbsp; Journey Simulations for Internal Demo Use</div>
+  </div>
+</body>
+</html>

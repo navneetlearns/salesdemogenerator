@@ -354,5 +354,15 @@
     "cementPpc": "Soan Papdi (250g)",
     "ppcTag1": "Premium Quality · Namkeen",
     "ppcTag2": "Fresh Packed · Sweets"
+  },
+  "hubMeta": {
+    "emoji": "🛒",
+    "color": "#1565C0",
+    "tags": [
+      "Ordering",
+      "Catalog",
+      "Invoicing",
+      "Payments"
+    ]
   }
 }

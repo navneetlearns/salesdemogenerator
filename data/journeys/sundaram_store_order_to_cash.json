@@ -354,5 +354,15 @@
     "cementPpc": "Six Subject Notebook",
     "ppcTag1": "College Ruled · 200p",
     "ppcTag2": "Premium Paper · A4"
+  },
+  "hubMeta": {
+    "emoji": "🛒",
+    "color": "#1565C0",
+    "tags": [
+      "Ordering",
+      "Catalog",
+      "Invoicing",
+      "Payments"
+    ]
   }
 }

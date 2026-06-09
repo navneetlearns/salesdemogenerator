@@ -344,5 +344,15 @@
     "cementPpc": "JK Super Cement PPC (50kg)",
     "ppcTag1": "IS 1489 Certified · PPC",
     "ppcTag2": "All Weather Safe · PPC"
+  },
+  "hubMeta": {
+    "emoji": "🛒",
+    "color": "#1565C0",
+    "tags": [
+      "Ordering",
+      "Catalog",
+      "Invoicing",
+      "Payments"
+    ]
   }
 }

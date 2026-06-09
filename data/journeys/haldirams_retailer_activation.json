@@ -4,8 +4,14 @@
   "subtitle": "Retailer Activation & Onboarding",
   "brand": "haldirams",
   "screens": [
-    { "id": "step1-retailer_activation", "type": "step1-retailer_activation" },
-    { "id": "step2-retailer_activation", "type": "step2-retailer_activation" }
+    {
+      "id": "step1-retailer_activation",
+      "type": "step1-retailer_activation"
+    },
+    {
+      "id": "step2-retailer_activation",
+      "type": "step2-retailer_activation"
+    }
   ],
   "dealer": {
     "name": "Haldiram's Distributors",
@@ -17,7 +23,7 @@
       "num": 1,
       "displayNum": 1,
       "title": "Retailer Onboarding",
-      "meta": "Retailer \u00b7 Activation & Registration",
+      "meta": "Retailer · Activation & Registration",
       "navTitle": "Step 1 &mdash; Retailer Onboarding",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Run targeted campaigns to identify and activate new retail partners &mdash; from first touchpoint to verified registration</span><span class=\"tag tag-act\">Activation</span><span class=\"tag tag-cmp\">Campaigns</span><span class=\"tag tag-act\">Onboarding</span>"
     },
@@ -25,9 +31,18 @@
       "num": 2,
       "displayNum": 2,
       "title": "Welcome & Self Service",
-      "meta": "Retailer \u00b7 Self-service discovery",
+      "meta": "Retailer · Self-service discovery",
       "navTitle": "Step 2 &mdash; Welcome &amp; Self Service",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Approved retailers access a self-service menu covering ordering, product queries, schemes, invoices, and instant support</span><span class=\"tag tag-ord\">Self-service</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-ord\">Orders</span>"
     }
-  ]
+  ],
+  "hubMeta": {
+    "emoji": "⚡",
+    "color": "#F57F17",
+    "tags": [
+      "Activation",
+      "Launch",
+      "Engagement"
+    ]
+  }
 }

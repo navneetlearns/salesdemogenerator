@@ -4,11 +4,24 @@
   "subtitle": "Campaigns, Schemes & AI Support for Dealers",
   "brand": "sundaram_store",
   "screens": [
-    { "id": "step1-dealer_engagement", "type": "step1-dealer_engagement" },
-    { "id": "step2-dealer_engagement", "type": "step2-dealer_engagement" },
-    { "id": "step3-dealer_engagement", "type": "step3-dealer_engagement" }
+    {
+      "id": "step1-dealer_engagement",
+      "type": "step1-dealer_engagement"
+    },
+    {
+      "id": "step2-dealer_engagement",
+      "type": "step2-dealer_engagement"
+    },
+    {
+      "id": "step3-dealer_engagement",
+      "type": "step3-dealer_engagement"
+    }
   ],
-  "navSteps": ["step-1", "step-2", "step-3"],
+  "navSteps": [
+    "step-1",
+    "step-2",
+    "step-3"
+  ],
   "dealer": {
     "name": "Sharma Notebook Stores",
     "contactName": "Ramesh",
@@ -34,16 +47,31 @@
         {
           "label": "Notebooks",
           "items": [
-            { "title": "A4 Spiral Book", "desc": "200 pages · Ruled" },
-            { "title": "Single Subject Notebook", "desc": "120 pages" },
-            { "title": "Six Subject Book", "desc": "600 pages total" }
+            {
+              "title": "A4 Spiral Book",
+              "desc": "200 pages · Ruled"
+            },
+            {
+              "title": "Single Subject Notebook",
+              "desc": "120 pages"
+            },
+            {
+              "title": "Six Subject Book",
+              "desc": "600 pages total"
+            }
           ]
         },
         {
           "label": "Art & Drawing",
           "items": [
-            { "title": "Drawing Book", "desc": "A3 size · 40 sheets" },
-            { "title": "Sketch Pens", "desc": "12 color pack" }
+            {
+              "title": "Drawing Book",
+              "desc": "A3 size · 40 sheets"
+            },
+            {
+              "title": "Sketch Pens",
+              "desc": "12 color pack"
+            }
           ]
         }
       ]
@@ -88,25 +116,37 @@
   },
   "steps": [
     {
-      "num": 1, "displayNum": 1,
+      "num": 1,
+      "displayNum": 1,
       "title": "Campaign & Promotions",
       "meta": "Dealer · Campaigns & product queries",
       "navTitle": "Step 1 — Campaign & Promotions",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer receives back-to-school campaign, browses categories, gets price list</span><span class=\"tag tag-mktg\">Marketing</span>"
     },
     {
-      "num": 2, "displayNum": 2,
+      "num": 2,
+      "displayNum": 2,
       "title": "Scheme & Product Queries",
       "meta": "Dealer · Schemes & AI support",
       "navTitle": "Step 2 — Scheme & Product Queries",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Bulk notebook scheme sent; dealer asks ZoAi for details</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "num": 3, "displayNum": 3,
+      "num": 3,
+      "displayNum": 3,
       "title": "Loyalty & Credit Queries",
       "meta": "Dealer · AI-powered query resolution",
       "navTitle": "Step 3 — Loyalty & Credit Queries",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer checks loyalty points, queries credit, gets escalated to SE</span><span class=\"tag tag-ai\">AI Agents</span>"
     }
-  ]
+  ],
+  "hubMeta": {
+    "emoji": "🤝",
+    "color": "#E65100",
+    "tags": [
+      "Campaigns",
+      "AI Agents",
+      "Dealer Schemes"
+    ]
+  }
 }

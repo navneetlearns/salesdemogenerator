@@ -606,7 +606,109 @@ async function build() {
           console.log('  Copied journey: dist/' + brandId + '/' + htmlFile);
         }
       }
+
+      // ── Generate hub index.html ──
+      // Move current index.html (order_to_cash) to order_to_cash.html
+      const currentIndex = path.join(distBrandDir, 'index.html');
+      const otcTarget = path.join(distBrandDir, 'order_to_cash.html');
+      if (await fs.pathExists(currentIndex) && !await fs.pathExists(otcTarget)) {
+        await fs.copy(currentIndex, otcTarget);
+      }
+
+      // Read journey descriptions from template-pack.json for hub metadata
+      const templatePackPath = path.join(ROOT, 'public', 'template-pack.json');
+      let templatePack = {};
+      try { templatePack = await fs.readJson(templatePackPath); } catch (e) {}
+      const journeyDescs = templatePack.journeyDescriptions || {};
+
+      // Build hub journey list from available HTML files + journey data
+      const hubJourneys = [];
+      const journeyFiles = (await fs.readdir(distBrandDir)).filter(f => f.endsWith('.html') && f !== 'index.html');
+      for (const jf of journeyFiles) {
+        const jKey = jf.replace('.html', '');
+        const jDesc = journeyDescs[jKey] || {};
+        // Read hubMeta from journey JSON
+        const jJsonPath = path.join(DATA_DIR, 'journeys', brandId + '_' + jKey + '.json');
+        let hubMeta = {};
+        try {
+          const jData = await fs.readJson(jJsonPath);
+          hubMeta = jData.hubMeta || {};
+        } catch (e) {}
+        hubJourneys.push({
+          key: jKey,
+          num: String(hubJourneys.length + 1).padStart(2, '0'),
+          title: jDesc.title || jKey.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+          steps: jDesc.steps || '?',
+          desc: jDesc.desc || '',
+          emoji: hubMeta.emoji || '\u{1F4F1}',
+          color: hubMeta.color || (brand.colors && brand.colors.brand) || '#333',
+          tags: hubMeta.tags || [],
+          url: jf
+        });
+      }
+
+      // Sort journeys by a defined order
+      const journeyOrder = ['order_to_cash', 'field_ops_expense', 'automated_collections', 'dealer_engagement', 'retailer_onboarding', 'retailer_loyalty', 'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation'];
+      hubJourneys.sort((a, b) => {
+        const ai = journeyOrder.indexOf(a.key);
+        const bi = journeyOrder.indexOf(b.key);
+        return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+      });
+      // Re-number after sort
+      hubJourneys.forEach((j, i) => { j.num = String(i + 1).padStart(2, '0'); });
+
+      if (hubJourneys.length > 0) {
+        const hubTemplateSrc = await fs.readFile(path.join(TEMPLATES_DIR, 'hub.hbs'), 'utf8');
+        const hubTemplate = Handlebars.compile(hubTemplateSrc);
+
+        // Convert hex color to RGB tuple for rgba()
+        function hexToRgb(hex) {
+          const h = hex.replace('#', '');
+          return [
+            parseInt(h.substring(0, 2), 16),
+            parseInt(h.substring(2, 4), 16),
+            parseInt(h.substring(4, 6), 16)
+          ].join(', ');
+        }
+
+        // Load brand data from JSON (brand var is out of scope here)
+        const brandJsonPath = path.join(DATA_DIR, 'brands', brandId + '.json');
+        let brandData = {};
+        try { brandData = await fs.readJson(brandJsonPath); } catch (e) {}
+        const brandColor = (brandData.colors && brandData.colors.brand) || '#333';
+        const dealerStoreName = brandData.dealerStoreName || brandData.shortName || brandData.name || brandId;
+
+        // Try to get brand logo from the dist assets
+        let brandLogoDataUri = '';
+        try {
+          const assetManifestPath = path.join(distBrandDir, 'asset-manifest.json');
+          const assetManifest = await fs.readJson(assetManifestPath);
+          if (assetManifest.brandLogo) {
+            const logoPath = path.join(distBrandDir, assetManifest.brandLogo);
+            if (await fs.pathExists(logoPath)) {
+              const logoBuf = await fs.readFile(logoPath);
+              const ext = assetManifest.brandLogo.split('.').pop().toLowerCase();
+              const mime = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/' + ext;
+              brandLogoDataUri = 'data:' + mime + ';base64,' + logoBuf.toString('base64');
+            }
+          }
+        } catch (e) {}
+
+        const hubContext = {
+          brand: { name: brandData.name || brandId },
+          brandColor: brandColor,
+          brandRgb: hexToRgb(brandColor),
+          brandLogo: brandLogoDataUri,
+          dealerStoreName: dealerStoreName,
+          journeys: hubJourneys
+        };
+
+        const hubHtml = hubTemplate(hubContext);
+        await fs.writeFile(currentIndex, hubHtml, 'utf8');
+        console.log('  Hub: dist/' + brandId + '/index.html (' + hubJourneys.length + ' journeys)');
+      }
     }
+
     await clearDir(PUBLIC_DIST_DIR);
     await fs.copy(DIST_DIR, PUBLIC_DIST_DIR);
     console.log('  Mirrored dist/ to public/dist/ for static APIs');

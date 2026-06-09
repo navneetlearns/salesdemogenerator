@@ -5,84 +5,96 @@
   "brandId": "haldirams",
   "steps": [
     {
-      "num": 1, "displayNum": 1,
+      "num": 1,
+      "displayNum": 1,
       "title": "Activation & Registration",
       "meta": "Retailer · Activation campaign & signup",
       "navTitle": "Step 1 — Activation & Registration",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Prospective retailer receives activation campaign, registers via WebView, and gets application confirmation</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-web\">WebView</span>"
     },
     {
-      "num": 2, "displayNum": 2,
+      "num": 2,
+      "displayNum": 2,
       "title": "Welcome & Self Service",
       "meta": "Retailer · Welcome & menu discovery",
       "navTitle": "Step 2 — Welcome & Self Service",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer is approved, welcomed, and given access to full self-service menu</span><span class=\"tag tag-session\">Interactive</span>"
     },
     {
-      "num": 3, "displayNum": 3,
+      "num": 3,
+      "displayNum": 3,
       "title": "Campaigns & Queries",
       "meta": "Retailer · Campaigns & AI support",
       "navTitle": "Step 3 — Campaigns & Queries",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Diwali campaign sent; retailer queries product category; ZoAi responds with price list</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "num": 4, "displayNum": 4,
+      "num": 4,
+      "displayNum": 4,
       "title": "Scheme & Product Queries",
       "meta": "Retailer · Schemes & AI agents",
       "navTitle": "Step 4 — Scheme & Product Queries",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Bhujia scheme notification sent; retailer asks ZoAi; AI explains in Hinglish</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "num": 5, "displayNum": 5,
+      "num": 5,
+      "displayNum": 5,
       "title": "Self Service Ordering",
       "meta": "Retailer · Menu-driven ordering",
       "navTitle": "Step 5 — Self Service Ordering",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer navigates self-service menu to browse categories and select products</span><span class=\"tag tag-ord\">Ordering</span>"
     },
     {
-      "num": 6, "displayNum": 6,
+      "num": 6,
+      "displayNum": 6,
       "title": "Catalog Browse & Order",
       "meta": "Retailer · Catalog & cart checkout",
       "navTitle": "Step 6 — Catalog Browse & Order",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer browses catalog, reviews cart, gets order confirmation on WhatsApp</span><span class=\"tag tag-web\">WebView</span><span class=\"tag tag-ord\">Cart</span>"
     },
     {
-      "num": 7, "displayNum": 7,
+      "num": 7,
+      "displayNum": 7,
       "title": "AI Order Capture",
       "meta": "Retailer · AI reads handwritten orders",
       "navTitle": "Step 7 — AI Order Capture",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer sends handwritten order; ZoAi extracts items into structured draft order</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "num": 8, "displayNum": 8,
+      "num": 8,
+      "displayNum": 8,
       "title": "Distributor Confirmation",
       "meta": "Distributor · Order review & approval",
       "navTitle": "Step 8 — Distributor Confirmation",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor receives order alert, reviews and accepts in ZoTok portal</span><span class=\"tag tag-dist\">Distributor</span>"
     },
     {
-      "num": 9, "displayNum": 9,
+      "num": 9,
+      "displayNum": 9,
       "title": "Order to Invoice",
       "meta": "Distributor · Fulfilment & invoicing",
       "navTitle": "Step 9 — Order to Invoice",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor processes order in fulfilment portal and uploads invoice</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-inv\">Invoice</span>"
     },
     {
-      "num": 10, "displayNum": 10,
+      "num": 10,
+      "displayNum": 10,
       "title": "Invoice & Payment",
       "meta": "Retailer · UPI payment & receipt",
       "navTitle": "Step 10 — Invoice & Payment",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer gets invoice with UPI QR, pays directly, receives confirmation</span><span class=\"tag tag-inv\">Invoice</span><span class=\"tag tag-pay\">Payment</span>"
     },
     {
-      "num": 11, "displayNum": 11,
+      "num": 11,
+      "displayNum": 11,
       "title": "Collect Digital Orders",
       "meta": "Distributor · Order nudges to retailers",
       "navTitle": "Step 11 — Collect Digital Orders",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor selects retailers and sends bulk order nudges via WhatsApp</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-mktg\">Campaign</span>"
     },
     {
-      "num": 12, "displayNum": 12,
+      "num": 12,
+      "displayNum": 12,
       "title": "Collect Payments",
       "meta": "Distributor + Retailer · Payment reminders",
       "navTitle": "Step 12 — Collect Payments",
@@ -90,7 +102,9 @@
     }
   ],
   "screens": [
-    { "type": "retailer_onboarding" }
+    {
+      "type": "retailer_onboarding"
+    }
   ],
   "dealer": {
     "name": "Haldiram's Distributors",
@@ -169,19 +183,49 @@
       "greeting": "Namaste Ramesh! 🙏<br>How can I help you today?",
       "categoryQuestion": "Which category would you like to explore? 🔍<br><br>Select from Haldiram's full range below.",
       "sections": [
-        { "label": "Namkeen", "items": [
-          { "title": "Aloo Bhujia", "desc": "Classic crispy bhujia · Bestseller" },
-          { "title": "Moong Dal", "desc": "Crispy moong dal namkeen" },
-          { "title": "Mixed Namkeen", "desc": "Assorted savoury mix" }
-        ]},
-        { "label": "Sweets", "items": [
-          { "title": "Soan Papdi", "desc": "Flaky sweet · Premium box" },
-          { "title": "Gulab Jamun", "desc": "Soft syrupy dumplings" }
-        ]},
-        { "label": "Snacks & Gift Packs", "items": [
-          { "title": "Mathri", "desc": "Savory crackers" },
-          { "title": "Gift Packs", "desc": "Festive assorted gift boxes" }
-        ]}
+        {
+          "label": "Namkeen",
+          "items": [
+            {
+              "title": "Aloo Bhujia",
+              "desc": "Classic crispy bhujia · Bestseller"
+            },
+            {
+              "title": "Moong Dal",
+              "desc": "Crispy moong dal namkeen"
+            },
+            {
+              "title": "Mixed Namkeen",
+              "desc": "Assorted savoury mix"
+            }
+          ]
+        },
+        {
+          "label": "Sweets",
+          "items": [
+            {
+              "title": "Soan Papdi",
+              "desc": "Flaky sweet · Premium box"
+            },
+            {
+              "title": "Gulab Jamun",
+              "desc": "Soft syrupy dumplings"
+            }
+          ]
+        },
+        {
+          "label": "Snacks & Gift Packs",
+          "items": [
+            {
+              "title": "Mathri",
+              "desc": "Savory crackers"
+            },
+            {
+              "title": "Gift Packs",
+              "desc": "Festive assorted gift boxes"
+            }
+          ]
+        }
       ]
     },
     "step6": {
@@ -258,8 +302,16 @@
   },
   "cart": {
     "items": [
-      { "productId": "p1", "qty": 20, "tag": "Namkeen" },
-      { "productId": "p2", "qty": 15, "tag": "Mixture" }
+      {
+        "productId": "p1",
+        "qty": 20,
+        "tag": "Namkeen"
+      },
+      {
+        "productId": "p2",
+        "qty": 15,
+        "tag": "Mixture"
+      }
     ],
     "summary": {
       "totalItems": 2,
@@ -271,8 +323,16 @@
     "primaryOrderId": "HDIN-3892",
     "date": "18 April 2026",
     "items": [
-      { "productId": "p1", "qty": 12, "lineTotal": 2160 },
-      { "productId": "p2", "qty": 10, "lineTotal": 1600 }
+      {
+        "productId": "p1",
+        "qty": 12,
+        "lineTotal": 2160
+      },
+      {
+        "productId": "p2",
+        "qty": 10,
+        "lineTotal": 1600
+      }
     ],
     "summary": {
       "orderValue": 4032,
@@ -298,5 +358,14 @@
     "khattaMeetha": "Khatta Meetha Mixture (350g)",
     "navratan": "Navratan Mixture (500g)",
     "soanPapdi": "Soan Papdi (250g)"
+  },
+  "hubMeta": {
+    "emoji": "🏪",
+    "color": "#C62828",
+    "tags": [
+      "Onboarding",
+      "Registration",
+      "Order to Cash"
+    ]
   }
 }

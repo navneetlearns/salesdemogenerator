@@ -733,23 +733,42 @@
     }
     setShareStatus('Creating secure share link...', false);
 
+    // Pre-flight size check — Vercel serverless body limit is ~4.5 MB
+    var bodyStr = JSON.stringify({
+      html: html,
+      brandName: window._generatedBrand || 'Demo',
+      journeyType: primarySelectedJourney()
+    });
+    if (bodyStr.length > 4 * 1024 * 1024) {
+      showError('Demo HTML is too large to share (' + Math.round(bodyStr.length / 1024 / 1024 * 10) / 10 + ' MB). Try generating fewer journeys or removing large images.');
+      setShareStatus('Demo too large to share.', true);
+      if (btn) { btn.disabled = false; btn.textContent = 'Create Share Link'; }
+      return;
+    }
+
     fetch('/api/share', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        html: html,
-        brandName: window._generatedBrand || 'Demo',
-        journeyType: primarySelectedJourney()
-      })
+      body: bodyStr
     })
       .then(function(res) {
-        return res.json().then(function(data) {
-          if (!res.ok) {
-            var err = new Error(data.error || 'Could not create share link.');
-            err.status = res.status;
-            throw err;
+        var ct = res.headers.get('content-type') || '';
+        if (ct.indexOf('application/json') !== -1) {
+          return res.json().then(function(data) {
+            if (!res.ok) {
+              var err = new Error(data.error || 'Could not create share link.');
+              err.status = res.status;
+              throw err;
+            }
+            return data;
+          });
+        }
+        // Non-JSON response (e.g. 413 from Vercel proxy)
+        return res.text().then(function(text) {
+          if (res.status === 413) {
+            throw new Error('Demo HTML is too large to share. Try generating fewer journeys or removing large images.');
           }
-          return data;
+          throw new Error('Server error (' + res.status + '): ' + (text.substring(0, 200) || res.statusText));
         });
       })
       .then(function(data) {
@@ -798,13 +817,19 @@
       body: JSON.stringify(payload)
     })
       .then(function(res) {
-        return res.json().then(function(data) {
-          if (!res.ok) {
-            var err = new Error(data.error || 'Could not adapt content.');
-            err.status = res.status;
-            throw err;
-          }
-          return data;
+        var ct = res.headers.get('content-type') || '';
+        if (ct.indexOf('application/json') !== -1) {
+          return res.json().then(function(data) {
+            if (!res.ok) {
+              var err = new Error(data.error || 'Could not adapt content.');
+              err.status = res.status;
+              throw err;
+            }
+            return data;
+          });
+        }
+        return res.text().then(function(text) {
+          throw new Error('Server error (' + res.status + '): ' + (text.substring(0, 200) || res.statusText));
         });
       })
       .then(function(data) {
@@ -888,13 +913,19 @@
       })
     })
       .then(function(res) {
-        return res.json().then(function(data) {
-          if (!res.ok) {
-            var err = new Error(data.error || 'Could not save content.');
-            err.status = res.status;
-            throw err;
-          }
-          return data;
+        var ct = res.headers.get('content-type') || '';
+        if (ct.indexOf('application/json') !== -1) {
+          return res.json().then(function(data) {
+            if (!res.ok) {
+              var err = new Error(data.error || 'Could not save content.');
+              err.status = res.status;
+              throw err;
+            }
+            return data;
+          });
+        }
+        return res.text().then(function(text) {
+          throw new Error('Server error (' + res.status + '): ' + (text.substring(0, 200) || res.statusText));
         });
       })
       .then(function(data) {

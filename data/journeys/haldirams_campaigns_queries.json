@@ -4,9 +4,18 @@
   "subtitle": "Campaigns & Product Queries",
   "brand": "haldirams",
   "screens": [
-    { "id": "step1-campaigns_queries", "type": "step1-campaigns_queries" },
-    { "id": "step2-campaigns_queries", "type": "step2-campaigns_queries" },
-    { "id": "step3-campaigns_queries", "type": "step3-campaigns_queries" }
+    {
+      "id": "step1-campaigns_queries",
+      "type": "step1-campaigns_queries"
+    },
+    {
+      "id": "step2-campaigns_queries",
+      "type": "step2-campaigns_queries"
+    },
+    {
+      "id": "step3-campaigns_queries",
+      "type": "step3-campaigns_queries"
+    }
   ],
   "dealer": {
     "name": "Haldiram's Distributors",
@@ -18,7 +27,7 @@
       "num": 1,
       "displayNum": 1,
       "title": "Campaigns & Queries",
-      "meta": "Retailer \u00b7 Campaigns & AI support",
+      "meta": "Retailer · Campaigns & AI support",
       "navTitle": "Step 1 &mdash; Campaigns &amp; Queries",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Push festive and product campaigns to retailers and resolve product or pricing queries instantly &mdash; no sales rep needed</span><span class=\"tag tag-cmp\">Campaigns</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-sch\">Product Queries</span>"
     },
@@ -26,7 +35,7 @@
       "num": 2,
       "displayNum": 2,
       "title": "Scheme & Product Queries",
-      "meta": "Retailer \u00b7 Schemes & AI agents",
+      "meta": "Retailer · Schemes & AI agents",
       "navTitle": "Step 2 &mdash; Scheme &amp; Product Queries",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Notify retailers about active trade schemes and let ZoAi answer scheme and product questions in real time, in Hinglish</span><span class=\"tag tag-sch\">Schemes</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-cmp\">Campaigns</span>"
     },
@@ -34,9 +43,18 @@
       "num": 3,
       "displayNum": 3,
       "title": "Scheme & Loyalty Queries",
-      "meta": "Retailer \u00b7 Points, credit & SE escalation",
+      "meta": "Retailer · Points, credit & SE escalation",
       "navTitle": "Step 3 &mdash; Scheme &amp; Loyalty Queries",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer queries points wallet, credit notes, and payment credits &mdash; ZoAi resolves in Hinglish and escalates to sales exec when needed</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-sch\">Schemes</span><span class=\"tag tag-act\">SE Escalation</span>"
     }
-  ]
+  ],
+  "hubMeta": {
+    "emoji": "📢",
+    "color": "#AD1457",
+    "tags": [
+      "Campaigns",
+      "Queries",
+      "Support"
+    ]
+  }
 }

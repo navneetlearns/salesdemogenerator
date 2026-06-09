@@ -142,5 +142,14 @@
       "navTitle": "Step 11 — Payment Not Received ❌",
       "navDesc": "Missed PTP · Re-engage"
     }
-  ]
+  ],
+  "hubMeta": {
+    "emoji": "💰",
+    "color": "#2E7D32",
+    "tags": [
+      "Collections",
+      "UPI",
+      "Automation"
+    ]
+  }
 }

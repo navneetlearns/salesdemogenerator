@@ -24,6 +24,9 @@ const JOURNEY_IDS = [
   'dealer_engagement',
   'retailer_onboarding',
   'retailer_loyalty',
+  'campaigns_queries',
+  'dt_fulfillment_payment',
+  'retailer_activation',
 ];
 
 // Step 1: Partials
@@ -119,11 +122,15 @@ function readIndustries() {
 function readDefaultJourneyData() {
   const journeys = {};
   for (const jid of JOURNEY_IDS) {
-    const filePath = path.join(DATA_DIR, 'journeys', 'jk_cement_' + jid + '.json');
+    // Try jk_cement first, fall back to haldirams for exclusive journeys
+    let filePath = path.join(DATA_DIR, 'journeys', 'jk_cement_' + jid + '.json');
+    if (!fs.existsSync(filePath)) {
+      filePath = path.join(DATA_DIR, 'journeys', 'haldirams_' + jid + '.json');
+    }
     if (fs.existsSync(filePath)) {
       journeys[jid] = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     } else {
-      console.warn('[build-template-pack] Missing default journey: jk_cement_' + jid + '.json');
+      console.warn('[build-template-pack] Missing default journey: ' + jid + '.json');
     }
   }
   return journeys;
@@ -256,6 +263,24 @@ function buildJourneyDescriptions() {
       title: 'Retailer Loyalty',
       steps: 6,
       desc: 'Loyalty program for retailers with points, rewards, and tier tracking',
+      scaffold: false,
+    },
+    campaigns_queries: {
+      title: 'Campaigns & Queries',
+      steps: 3,
+      desc: 'Push targeted campaigns to retailers and resolve scheme and pricing queries via AI',
+      scaffold: false,
+    },
+    dt_fulfillment_payment: {
+      title: 'DT Fulfillment & Payment',
+      steps: 5,
+      desc: 'Distributor territory fulfillment with order tracking, delivery confirmation, and payment processing',
+      scaffold: false,
+    },
+    retailer_activation: {
+      title: 'Retailer Activation',
+      steps: 2,
+      desc: 'Activate new retailers with welcome campaigns, scheme enrollment, and first-order incentives',
       scaffold: false,
     },
   };

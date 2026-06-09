@@ -4,11 +4,24 @@
   "subtitle": "Campaigns, Schemes & AI Support for Dealers",
   "brand": "jk_cement",
   "screens": [
-    { "id": "step1-dealer_engagement", "type": "step1-dealer_engagement" },
-    { "id": "step2-dealer_engagement", "type": "step2-dealer_engagement" },
-    { "id": "step3-dealer_engagement", "type": "step3-dealer_engagement" }
+    {
+      "id": "step1-dealer_engagement",
+      "type": "step1-dealer_engagement"
+    },
+    {
+      "id": "step2-dealer_engagement",
+      "type": "step2-dealer_engagement"
+    },
+    {
+      "id": "step3-dealer_engagement",
+      "type": "step3-dealer_engagement"
+    }
   ],
-  "navSteps": ["step-1", "step-2", "step-3"],
+  "navSteps": [
+    "step-1",
+    "step-2",
+    "step-3"
+  ],
   "dealer": {
     "name": "Sharma Cement Stores",
     "contactName": "Ramesh",
@@ -34,16 +47,31 @@
         {
           "label": "Grey Cement",
           "items": [
-            { "title": "OPC 53 Grade", "desc": "High strength · Premium construction" },
-            { "title": "PPC", "desc": "Durable & eco-friendly" },
-            { "title": "OPC 43 Grade", "desc": "General purpose" }
+            {
+              "title": "OPC 53 Grade",
+              "desc": "High strength · Premium construction"
+            },
+            {
+              "title": "PPC",
+              "desc": "Durable & eco-friendly"
+            },
+            {
+              "title": "OPC 43 Grade",
+              "desc": "General purpose"
+            }
           ]
         },
         {
           "label": "White Cement & Specialty",
           "items": [
-            { "title": "White Cement", "desc": "JK White & LevelMaxX" },
-            { "title": "Specialty Products", "desc": "Wall putty, waterproofing" }
+            {
+              "title": "White Cement",
+              "desc": "JK White & LevelMaxX"
+            },
+            {
+              "title": "Specialty Products",
+              "desc": "Wall putty, waterproofing"
+            }
           ]
         }
       ]
@@ -88,25 +116,37 @@
   },
   "steps": [
     {
-      "num": 1, "displayNum": 1,
+      "num": 1,
+      "displayNum": 1,
       "title": "Campaign & Promotions",
       "meta": "Dealer · Campaigns & product queries",
       "navTitle": "Step 1 — Campaign & Promotions",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer receives bulk purchase campaign, browses product categories, and gets instant price list</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-ord\">Catalog</span>"
     },
     {
-      "num": 2, "displayNum": 2,
+      "num": 2,
+      "displayNum": 2,
       "title": "Scheme & Product Queries",
       "meta": "Dealer · Schemes & AI support",
       "navTitle": "Step 2 — Scheme & Product Queries",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Monsoon protection scheme sent; dealer asks ZoAi for details and gets Hinglish explanation</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>"
     },
     {
-      "num": 3, "displayNum": 3,
+      "num": 3,
+      "displayNum": 3,
       "title": "Loyalty & Credit Queries",
       "meta": "Dealer · AI-powered query resolution",
       "navTitle": "Step 3 — Loyalty & Credit Queries",
       "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer checks loyalty points via ZoAi, queries credit balance, and gets escalated to SE when needed</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-act\">Support</span>"
     }
-  ]
+  ],
+  "hubMeta": {
+    "emoji": "🤝",
+    "color": "#E65100",
+    "tags": [
+      "Campaigns",
+      "AI Agents",
+      "Dealer Schemes"
+    ]
+  }
 }

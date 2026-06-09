@@ -147,10 +147,19 @@ The following stale files and directories were removed:
 
 ## FIXES COMPLETED (June 2026)
 
-- **WIP: Step Selection for Custom Demos** — In progress (June 8). Users will be able to select/deselect individual steps within a predefined journey when creating custom demos via the wizard. Architecture: runtime dynamic orchestrator + `remapStepReferences()` post-processing. Core renderer wiring (isCustomDemo flag, buildDynamicOrchestrator, step filtering, ID remapping) is implemented. Remaining: add journey data to template-pack test fixture, step selection UI (demo-ui.js), integration tests, final wiring verification.
+- **Field Ops & Expense — Layout fixes (June 9)**: Fixed WhatsApp screens appearing vertically/cut-off across 6 steps. Changed `#step-3.active`, `#step-4.active`, `#step-6.active`, `#step-9`, `.step-section.phone-layout` from `flex-wrap: wrap`/`display: block` to `flex-wrap: nowrap` with `overflow-x: auto`. Removed hardcoded step4 large illustration image. Restructured step6 and step9 images to left side with WhatsApp screens on right. Reduced step6 image from 720px to 560px. Added `overflow: hidden; max-height: 610px` to step9 image so it clips rather than overflowing. Both server-side (style.css + build.js) and client-side (template-pack.json) paths updated.
+
+- **Field Ops & Expense — Hardcoded JK Cement URLs removed (June 9)**: Replaced 3 hardcoded `jkcement.zotok.ai` URLs in steps 12, 13, 14 with generic `zotok.ai` equivalents. `expense.jkcement.zotok.ai` → `expense.zotok.ai`, `claims.jkcement.zotok.ai` → `claims.zotok.ai`.
+
+- **Step Selection for Custom Demos** — Complete (June 9). Users can select/deselect individual steps when creating custom demos via the wizard. Architecture: runtime dynamic orchestrator + `remapStepReferences()` + `buildDynamicOrchestrator()` + `knownMismatches` for `field_ops_expense→field-ops` and `automated_collections→collections`. Step checklist UI with Select All/Deselect All toggle. 25 tests pass. Step titles shown in checklist.
+
+- **Hub Index Pages** — Implemented (June 9, uncommitted). Each brand gets a hub index.html (Orient-style two-panel layout) at `dist/{brand}/index.html` linking to all journey HTMLs. Template: `templates/hub.hbs`. 3 Haldiram-exclusive journeys added to `build-template-pack.js` JOURNEY_IDS and journeyDescriptions.
+
+- **Content-Type Safety** — Implemented (June 9, uncommitted). All 3 fetch call sites in `demo-ui.js` (`/api/share`, `/api/experiments/adapt-content`, `/api/experiments/save-content`) check Content-Type header before calling `.json()`. Pre-flight size check for share endpoint to prevent Vercel 413 errors.
+
 - **Pending: P0 bugs** — BUG-1 (prices never replaced), BUG-2 (secondary dealers unreplaced), BUG-4 (product name mismatch) — still open.
 
-- **Retailer Onboarding to Cash (scaffold → complete, 10→12 steps)**: Replaced all 10 placeholder partials (step1-step10) with 12 real WhatsApp phone-screen templates (step1-step12) extracted from Haldiram's reference HTML. Includes: activation campaign, registration WebView, partner approval, self-service menu, campaigns & queries, AI scheme explanation (Hinglish), self-service ordering, catalog browse, AI order capture, distributor confirmation, invoice upload, payment collection, and order/payment nudges. Data-driven for all 3 brands (JK Cement, Haldiram's, Sundaram Store). Server-side build and client-side renderer both updated.
+- **Retailer Onboarding to Cash (scaffold → complete, 10→12 steps)**
 
 - **Dealer Engagement (scaffold → complete)**: Replaced 3 placeholder partials (step1-step3) with real WhatsApp phone-screen templates extracted from Banas_Diary reference HTML (WhatsApp mock generator projects). Includes: bulk purchase campaign → product category selection → price list response → scheme notification → AI Hinglish explanation → loyalty points inquiry → credit balance query → SE escalation. Data-driven for all 3 brands. Fixed `scaffold: true` hardcoded in `scripts/build-template-pack.js` that was blocking client-side wizard.
 
@@ -175,14 +184,51 @@ The following stale files and directories were removed:
 
 ---
 
+## PENDING WORK (June 2026)
+
+### PEND-1: Content Adaptation for All Journeys
+Currently the content adapter only works for `order_to_cash` (21 labels in `data/content/order_to_cash_labels.json`). The other 8 journeys have no equivalent label files. Need to:
+- Extract UI labels from each journey's partials (field_ops_expense, automated_collections, dealer_engagement, retailer_onboarding, retailer_loyalty, campaigns_queries, dt_fulfillment_payment, retailer_activation)
+- Create `data/content/<journey>_labels.json` for each
+- Extend `services/content-adapter.js` to accept a `journeyType` parameter and load the right label set
+- Update `api/experiments/adapt-content.js` to handle multi-journey adaptation
+- Wire into client-side wizard UI so users can adapt labels for any selected journey
+
+### PEND-2: Custom Demo for All 9 Journeys
+Client-side wizard currently supports all 9 journeys (verified via `build-template-pack.js` JOURNEY_IDS). But `buildDynamicOrchestrator()` has `knownMismatches` only for `field_ops_expense→field-ops` and `automated_collections→collections`. Need to:
+- Audit all 9 journeys for partial naming conventions vs journey IDs
+- Add any missing `knownMismatches` entries
+- Verify step selection works for each journey type in the wizard
+- Test with all 3 brands
+
+### PEND-3: Shareable Hub Links (Multi-Journey Share)
+Currently share links contain a single demo HTML page. User wants to share a hub page that links to multiple journeys. Need to:
+- Build a multi-journey hub page at share time (combining selected journeys)
+- Generate hub HTML with navigation cards linking to individual journey pages within the share
+- Update `/api/share` to accept multiple journey HTMLs and construct a hub
+- Update client-side wizard to allow selecting multiple journeys for a combined share
+
+### PEND-4: Deploy Uncommitted Work
+25 modified files + 1 new file (`templates/hub.hbs`) pending commit and deploy:
+- Hub index pages with hub.hbs template
+- Haldiram-exclusive journeys in template-pack
+- Content-Type safety for fetch calls
+- Journey data updates for all 3 brands
+
+---
+
 ## RESOLUTION PRIORITY
 
 | Priority | Issue | Type | Effort | Impact |
 |---|---|---|---|---|
-| **P0** | BUG-1: Prices never replaced | Bug | Medium | Every brand shows wrong prices |
-| **P0** | BUG-2: Secondary dealers unreplaced | Bug | Low | Admin portal shows wrong names |
-| **P0** | BUG-4: Product name mismatch | Bug | Low | Catalog data = single source of truth |
-| **P1** | BUG-3: Replacement overlaps | Bug | Medium | Silent HTML corruption risk |
+| **P0** | PEND-1: Content adaptation for all journeys | Feature | High | Content adaptation limited to 1/9 journeys |
+| **P0** | PEND-3: Shareable hub links | Feature | High | Cannot share multi-journey demos |
+| **P0** | PEND-4: Deploy uncommitted work | Deploy | Low | Hub pages, template-pack, safety fixes not on production |
+| **P1** | PEND-2: Custom demo for all 9 journeys | Feature | Medium | Step selection may miss some journey types |
+| **P1** | BUG-1: Prices never replaced | Bug | Medium | Every brand shows wrong prices |
+| **P1** | BUG-2: Secondary dealers unreplaced | Bug | Low | Admin portal shows wrong names |
+| **P1** | BUG-4: Product name mismatch | Bug | Low | Catalog data = single source of truth |
+| **P2** | BUG-3: Replacement overlaps | Bug | Medium | Silent HTML corruption risk |
 | **P2** | STR-1: 200K monolith | Architecture | High | Root cause of all issues |
 | **P2** | STR-2: 411 inline styles | Architecture | High | Brand theming impossible |
 | **P2** | STR-3: 252 inline SVGs | Architecture | Medium | Icon changes painful |
