@@ -974,16 +974,24 @@
 
   /* ═══════════════════════════════════════════════════════════
    *  buildMultiJourneyHtml(results, journeyTypes, pack, input)
-   *  Stacked iframe hub — each selected journey in its own section
-   *  with sticky nav bar. Uses srcdoc for self-contained iframes.
-   *  Only SELECTED journeys are shown (no "Coming Soon" cards).
+   *  Stacked iframe hub. Journey HTMLs in <script> tags → Blob URL
+   *  → iframe src. No srcdoc encoding overhead. Nav scrolls to sections.
+   *  Only SELECTED journeys are shown.
    * ═══════════════════════════════════════════════════════════ */
   function buildMultiJourneyHtml(results, journeyTypes, pack, input) {
     var brandName = (results[0].brand && results[0].brand.name) || input.name || 'Brand';
     var brandColor = input.brandColor || '#075e54';
     var journeyDescs = pack.journeyDescriptions || {};
 
-    // --- Build sticky nav items (selected journeys only) ---
+    // Build data scripts — raw HTML, only escape </script>
+    var dataScripts = '';
+    for (var r = 0; r < results.length; r++) {
+      var dt = journeyTypes[r];
+      var safe = results[r].html.replace(/<\/script>/gi, '<\\/script>');
+      dataScripts += '<script type="text/plain" id="jd-' + dt + '">' + safe + '<\/script>\n';
+    }
+
+    // Build nav items
     var navItems = '';
     var colorCache = {};
     for (var i = 0; i < journeyTypes.length; i++) {
@@ -995,13 +1003,13 @@
       var steps = desc.steps || '?';
       var jColor = meta.color || brandColor;
       colorCache[jt] = jColor;
-      navItems += '<a class="mj-btn" href="#s-' + jt + '" style="--c:' + jColor + '">' +
+      navItems += '<a class="mj-btn" href="#s-' + jt + '" style="--c:' + jColor + '" onclick="scrollToSection(\'' + jt + '\')">' +
         '<span class="mj-e">' + emoji + '</span>' +
         '<span class="mj-t">' + escapeAttr(title) + '</span>' +
         '<span class="mj-s">' + steps + ' steps</span></a>';
     }
 
-    // --- Build iframe sections (selected journeys only) ---
+    // Build iframe sections
     var sections = '';
     for (var j = 0; j < results.length; j++) {
       var jt2 = journeyTypes[j];
@@ -1011,18 +1019,17 @@
       var meta2 = getJourneyMeta(jt2);
       var emoji2 = meta2.emoji || '\u{1F4F1}';
       var steps2 = desc2.steps || '?';
-      var encodedHtml = escapeAttr(results[j].html);
       sections += '<div id="s-' + jt2 + '" class="mj-block">' +
         '<div class="mj-block-bar" style="background:' + jColor2 + '">' +
         '<span class="mj-block-emoji">' + emoji2 + '</span>' +
         '<span class="mj-block-title">' + escapeAttr(title2) + '</span>' +
         '<span class="mj-block-steps">' + steps2 + ' steps</span>' +
         '</div>' +
-        '<iframe class="mj-frame" srcdoc="' + encodedHtml + '"></iframe>' +
+        '<iframe class="mj-frame" id="mjf-' + jt2 + '" src="about:blank"></iframe>' +
         '</div>';
     }
 
-    // --- Build complete hub HTML ---
+    // Build complete hub HTML
     var hubHtml = '<!DOCTYPE html><html lang="en"><head>' +
       '<meta charset="UTF-8">' +
       '<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">' +
@@ -1046,6 +1053,28 @@
       '</style></head><body>' +
       '<div class="mj-bar"><span class="mj-bar-brand">' + escapeAttr(brandName) + '</span>' + navItems + '</div>' +
       sections +
+      dataScripts +
+      '<script>' +
+      '(function(){' +
+      // Create Blob URLs from script data and set iframe src
+      'var scripts=document.querySelectorAll("script[id^=\'jd-\']");' +
+      'for(var i=0;i<scripts.length;i++){' +
+      'var el=scripts[i];' +
+      'var jt=el.id.replace("jd-","");' +
+      'var html=el.textContent;' +
+      'var blob=new Blob([html],{type:"text/html;charset=utf-8"});' +
+      'var url=URL.createObjectURL(blob);' +
+      'var iframe=document.getElementById("mjf-"+jt);' +
+      'if(iframe)iframe.src=url;' +
+      '}' +
+      // Scroll to section on nav click
+      'window.scrollToSection=function(jt){' +
+      'var section=document.getElementById("s-"+jt);' +
+      'if(section)section.scrollIntoView({behavior:"smooth"});' +
+      'return false;' +
+      '};' +
+      '})();' +
+      '<\/script>' +
       '</body></html>';
 
     return {
