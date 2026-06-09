@@ -18,6 +18,7 @@ const SCRIPTS_DIR = path.join(ROOT, 'scripts');
 const PUBLIC_DIR = path.join(ROOT, 'public');
 
 const JOURNEY_IDS = [
+  'home',
   'order_to_cash',
   'field_ops_expense',
   'automated_collections',
@@ -122,6 +123,8 @@ function readIndustries() {
 function readDefaultJourneyData() {
   const journeys = {};
   for (const jid of JOURNEY_IDS) {
+    // 'home' is a virtual journey with no JSON data file
+    if (jid === 'home') continue;
     // Try jk_cement first, fall back to haldirams for exclusive journeys
     let filePath = path.join(DATA_DIR, 'journeys', 'jk_cement_' + jid + '.json');
     if (!fs.existsSync(filePath)) {
@@ -229,6 +232,12 @@ function readFixedAssets() {
 // Step 11: Journey descriptions metadata
 function buildJourneyDescriptions() {
   return {
+    home: {
+      title: 'WhatsApp Commerce OS',
+      steps: 1,
+      desc: 'Hub page with overview and navigation to all WhatsApp Commerce journeys',
+      scaffold: false,
+    },
     order_to_cash: {
       title: 'Order to Cash',
       steps: 11,

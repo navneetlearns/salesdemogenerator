@@ -648,6 +648,7 @@
       logo: formData.logoDataUrl || null,
       products: formData.products,
       journeyType: formData.journeyType,
+      journeyTypes: formData.journeyTypes.length > 1 ? formData.journeyTypes : undefined,
       acceptedLabels: getSelectedContentLabels()
     };
 
@@ -658,7 +659,12 @@
 
     if (progressFill) progressFill.style.width = '60%';
 
-    DemoRenderer.render(userInput)
+    // Use renderMultiJourney when 2+ journeys selected, single render otherwise
+    var renderFn = (formData.journeyTypes.length > 1)
+      ? DemoRenderer.renderMultiJourney
+      : DemoRenderer.render;
+
+    renderFn(userInput)
       .then(function(result) {
         if (progressFill) progressFill.style.width = '100%';
         setTimeout(function() {
@@ -734,11 +740,16 @@
     setShareStatus('Creating secure share link...', false);
 
     // Pre-flight size check — Vercel serverless body limit is ~4.5 MB
-    var bodyStr = JSON.stringify({
+    var bodyPayload = {
       html: html,
       brandName: window._generatedBrand || 'Demo',
       journeyType: primarySelectedJourney()
-    });
+    };
+    // When multiple journeys were generated, include journeyTypes for context
+    if (_selectedJourneys.length > 1) {
+      bodyPayload.journeyTypes = _selectedJourneys.slice();
+    }
+    var bodyStr = JSON.stringify(bodyPayload);
     if (bodyStr.length > 4 * 1024 * 1024) {
       showError('Demo HTML is too large to share (' + Math.round(bodyStr.length / 1024 / 1024 * 10) / 10 + ' MB). Try generating fewer journeys or removing large images.');
       setShareStatus('Demo too large to share.', true);
