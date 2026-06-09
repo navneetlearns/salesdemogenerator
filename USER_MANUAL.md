@@ -126,20 +126,40 @@ For packaged version (all assets included): dist/<your_brand_id>/index.html
 
 ---
 
-## The 6 Journey Types
+## The 10 Journey Types
 
   Order to Cash          Customer orders via WhatsApp, AI capture, payment    11 steps
   Field Ops & Expense    Sales exec beat plan, visits, check-ins, reports     15 steps
   Automated Collections  Payment reminders, collections dashboard             11 steps
   Dealer Engagement      Dealer interaction and communication                  3 steps
-  Retailer Onboarding    New retailer signup and setup                        10 steps
+  Retailer Onboarding    New retailer signup and setup                        12 steps
   Retailer Loyalty       Points, tiers, offers, redemptions                    6 steps
+  Campaigns & Queries    Brand campaigns and query management (Haldiram)       3 steps
+  DT Fulfillment & Pay   Direct-to-retailer fulfillment & payment (Haldiram)   5 steps
+  Retailer Activation    Retailer activation workflow (Haldiram)               2 steps
+  WhatsApp Commerce OS   Hub landing page with overview of all journeys        1 page
+
+The first 6 are available for all brands. The last 3 are Haldiram-exclusive. "WhatsApp Commerce OS" renders a hub landing page listing all journeys as clickable cards.
 
 For additional journeys, create:
   data/journeys/<brand_id>_<journey_id>.json
 
-Journey IDs: order_to_cash, field_ops_expense, automated_collections,
-             dealer_engagement, retailer_onboarding, retailer_loyalty
+---
+
+## Client-Side Wizard (Dynamic Demos)
+
+Visit the deployed site at https://demo-generator-one.vercel.app to use the interactive wizard. No coding required:
+
+1. **Enter your brand name** and pick industry (General, Building Materials, Food & Beverages)
+2. **Upload your logo** (PNG, max 500 KB) — generates placeholder if skipped
+3. **Add your products** with names, prices, and optional images
+4. **Select journeys** — pick one or multiple journey types to demo
+5. **Preview** — your branded demo renders instantly in the browser
+6. **Download or Share** — save as HTML file or get a secure share link (expires in 24 hours)
+
+**Multi-Journey Demos:** Select 2+ journeys and they render as a combined hub page with sticky navigation. Each journey runs in its own iframe to avoid conflicts.
+
+**Custom Step Selection:** For Order to Cash, you can pick specific steps to include (e.g. just order + payment) and the demo renders only those steps with renumbered navigation.
 
 ---
 

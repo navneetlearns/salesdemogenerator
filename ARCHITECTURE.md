@@ -1,16 +1,67 @@
 # Architecture
 
-This project generates static demo HTML from structured data and shared Handlebars templates.
+This project has **two independent rendering paths** that must be updated together for any change affecting demo output.
 
-## Runtime Shape
+## Dual Rendering Architecture
 
-- `data/brands/*.json`: brand metadata, colors, asset references, and optional build-time semantic replacements.
-- `data/catalogs/*.json`: product catalog data used by cards, carts, and receipts.
-- `data/journeys/*.json`: ordered journey steps and screen composition data.
-- `data/extracted/*.json`: extracted baseline journey/content data that can be cloned for demo onboarding.
-- `assets/`: brand, product, and shared fallback assets.
-- `templates/`: Handlebars layouts, partials, and screen blocks.
-- `build.js`: validates data, runs the asset pipeline, renders Handlebars, applies temporary post-render virtualization, writes `generated/`, and packages `dist/`.
+### Path A: Server-Side Static Build (`build.js`)
+
+`build.js` reads `data/`, `assets/`, and `templates/`, renders Handlebars server-side, applies post-render patches (brand replacements, asset injection), and writes `generated/` and `dist/`. This produces pre-built, self-contained HTML files for known brands.
+
+### Path B: Client-Side Dynamic Wizard (`demo-renderer.js` + `demo-ui.js`)
+
+At build time, `scripts/build-template-pack.js` packs all Handlebars partials, helpers, journey data, brand defaults, and layout templates into `public/template-pack.json`. At runtime, the browser loads this pack, the user fills a wizard form, and `DemoRenderer.render()` compiles and renders the demo entirely client-side. No server calls after initial page load.
+
+**Critical:** Any change to rendering logic (partials, helpers, brand building, product name mapping, journey templates) must be verified against BOTH paths. The `demo-renderer.js` renderer is a self-contained re-implementation of the build pipeline for the browser.
+
+### Key Client-Side Files
+
+| File | Responsibility |
+|------|---------------|
+| `public/js/demo-renderer.js` | Handlebars renderer — loads pack, builds brand/catalog/journey/cart, compiles templates |
+| `public/js/demo-ui.js` | Wizard UI — form collection, preview iframe, share links, step selection, journey selection |
+| `public/template-pack.json` | Build-time manifest of all partials, helpers, journey data, defaults |
+| `public/preview.html` | Wizard landing page (entry point for client-side generation) |
+| `scripts/build-template-pack.js` | Builds template-pack.json from source data and templates |
+
+### Client-Side Public API (`DemoRenderer`)
+
+```javascript
+DemoRenderer.render(userInput)            // Render a single journey
+DemoRenderer.renderMultiJourney(userInput) // Render 2+ journeys as iframe hub
+DemoRenderer.loadPack()                    // Load template-pack.json (cached)
+DemoRenderer.buildBrand(userInput)         // Merge user input with default brand
+DemoRenderer.buildCatalog(userInput)       // Build catalog from user products
+DemoRenderer.buildJourney(type, brand, cat, steps) // Build journey data context
+DemoRenderer.getJourneySteps(type)         // Get step metadata for a journey
+DemoRenderer.remapStepReferences(html, fullSteps, selectedSteps) // Remap step IDs for custom demos
+DemoRenderer.downloadHtml(html, filename)  // Trigger browser download
+```
+
+## Multi-Journey Rendering
+
+When the user selects 2+ journey types in the wizard, `renderMultiJourney()` renders each journey independently via `render()` and assembles the results into a single hub-style HTML document:
+
+- Each journey is wrapped in an `<iframe srcdoc="...">` to avoid DOM ID collisions
+- A sticky navigation bar provides journey cards with emoji, title, and step count
+- The entire hub is stored as a single blob for sharing (same `/api/share` endpoint)
+- Size constraint: 4 MB limit (9 client-rendered journeys ≈ 2-2.5 MB, well within limit)
+
+`renderMultiJourney()` and `buildMultiJourneyHtml()` are in `demo-renderer.js` and exposed on the `DemoRenderer` public API.
+
+## Home Page (WhatsApp Commerce OS)
+
+Selecting "home" as the journey type renders a standalone hub landing page via `buildHomePage()`. It lists all available journeys as clickable cards with descriptions, step counts, and tags. The home page is built entirely client-side from `pack.journeyDescriptions` and served as a self-contained HTML document.
+
+## Server-Side Build Pipeline
+
+`data/brands/*.json`: brand metadata, colors, asset references, and optional build-time semantic replacements.
+`data/catalogs/*.json`: product catalog data used by cards, carts, and receipts.
+`data/journeys/*.json`: ordered journey steps and screen composition data.
+`data/extracted/*.json`: extracted baseline journey/content data that can be cloned for demo onboarding.
+`assets/`: brand, product, and shared fallback assets.
+`templates/`: Handlebars layouts, partials, and screen blocks.
+`build.js`: validates data, runs the asset pipeline, renders Handlebars, applies temporary post-render virtualization, writes `generated/`, and packages `dist/`.
 
 ## Sunder Masala Virtualization Layer
 
