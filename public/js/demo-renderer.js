@@ -1002,13 +1002,13 @@
       htmlMap[journeyTypes[r]] = results[r].html;
     }
 
-    // --- Build journey data scripts (store HTMLs without encoding) ---
+    // --- Build journey data scripts (direct HTML, no base64 overhead) ---
     var dataScripts = '';
     for (var dk in htmlMap) {
       if (htmlMap.hasOwnProperty(dk)) {
-        // Use base64 encoding to safely embed HTML in script tag without escaping issues
-        var b64 = btoa(unescape(encodeURIComponent(htmlMap[dk])));
-        dataScripts += '<script type="text/plain" id="journey-data-' + dk + '" data-base64="true">' + b64 + '<\/script>\n';
+        // Escape only </script> to keep HTML safe inside a script tag
+        var safeHtml = htmlMap[dk].replace(/<\/script>/gi, '<\\/script>');
+        dataScripts += '<script type="text/plain" id="journey-data-' + dk + '">' + safeHtml + '<\\/script>\n';
       }
     }
 
@@ -1097,13 +1097,10 @@
       '(function(){' +
       'var _currentJourney=null;' +
       'var _blobUrls={};' +
-      // Decode base64 journey data
+      // Get journey HTML directly from script tag (no decoding needed)
       'function getJourneyHtml(jt){' +
       '  var el=document.getElementById("journey-data-"+jt);' +
       '  if(!el)return null;' +
-      '  if(el.getAttribute("data-base64")==="true"){' +
-      '    return decodeURIComponent(escape(atob(el.textContent.trim())));' +
-      '  }' +
       '  return el.textContent;' +
       '}' +
       'window.openJourney=function(jt){' +
