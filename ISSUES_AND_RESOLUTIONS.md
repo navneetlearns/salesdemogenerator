@@ -6,6 +6,30 @@
 
 ---
 
+## RESOLVED (June 2026)
+
+### FIX-1: Handwritten order image lost quantity suffixes
+
+**Evidence:** `generateHandwrittenOrderImage()` during a refactor dropped the `qtys = [25, 20, 12]` suffix logic that appends `- 25 tin`, `- 20 bag` to product names. Test expected `Acme Primer - 25`, got just `Acme Primer`.
+
+**Resolution:** Restored the quantity + unit suffix logic in the product loop. Changed max products from 5 back to 3 (matches original). Default fallback line now uses `- 25 bag` / `- 20 bag` format instead of parenthetical.
+
+---
+
+### FIX-2: Product names not mapped to journey templates
+
+**Evidence:** User-provided product names were applied to `step.productNames[]` arrays but NOT to `journey.productNames{}` (template-level keys like `opc53`, `ppc`) or `journey.step3.cartItems[].name`. Template rendered `JK Super OPC 53 Grade` instead of user's product name.
+
+**Resolution:** Added two replacement blocks in `applyCatalogToJourney()`: maps catalog product names to `journey.productNames{}` object keys and `journey.step3.cartItems[].name` arrays.
+
+---
+
+### FIX-3: Multi-journey rendering and home page landed
+
+**Implementation:** `renderMultiJourney()` and `buildMultiJourneyHtml()` added to `demo-renderer.js` — iframe-based hub with sticky nav bar. `buildHomePage()` renders the "WhatsApp Commerce OS" landing page. Wired into `demo-ui.js` `generate()` function to branch based on `formData.journeyTypes.length > 1`.
+
+---
+
 ## CRITICAL BUGS (Busted Now)
 
 ### BUG-1: Prices Are Never Replaced — Sundaram Store Shows Cement Prices

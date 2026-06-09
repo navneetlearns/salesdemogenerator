@@ -58,6 +58,12 @@ On Windows PowerShell environments that block `npm.ps1`, use:
 npm.cmd run build:dist
 ```
 
+## Multi-Journey Demos
+
+When the user selects 2+ journey types in the wizard, `renderMultiJourney()` renders each journey independently and assembles them into a single hub-style HTML document with sticky navigation and `<iframe srcdoc="...">` sections per journey. This avoids DOM ID collisions between journeys while keeping everything in one shareable blob.
+
+The "WhatsApp Commerce OS" (home) journey renders a standalone hub landing page with clickable cards for all available journeys, serving as a navigation index.
+
 ## Secure Share Links
 
 Generated demos can be shared through `/api/share?token=<hex>` links backed by Vercel Blob. Configure `BLOB_READ_WRITE_TOKEN` in the Vercel project environment before deploying; links expire after 24 hours and are rejected server-side after expiry.
