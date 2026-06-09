@@ -10,6 +10,10 @@ function loadRendererWithPack(pack) {
   const sandbox = {
     console,
     Handlebars,
+    // Browser-compatible base64 encode/decode for hub HTML embedding
+    btoa: function(str) { return Buffer.from(str, 'binary').toString('base64'); },
+    atob: function(str) { return Buffer.from(str, 'base64').toString('binary'); },
+    unescape: function(str) { return str.replace(/%([0-9A-Fa-f]{2})/g, function(_, hex) { return String.fromCharCode(parseInt(hex, 16)); }); },
     fetch: async function() {
       return { ok: true, json: async function() { return pack; } };
     }
@@ -379,8 +383,10 @@ test('renderMultiJourney with single journey wraps output in hub HTML', async fu
     journeyTypes: ['order_to_cash']
   });
   assert.ok(result.html);
-  // Should be hub-wrapped, not just a bare journey
-  assert.match(result.html, /mj-nav|hp-wrap|<!DOCTYPE html>/);
+  // Hub contains card view, journey data script, and iframe container
+  assert.match(result.html, /mjCardsView/);
+  assert.match(result.html, /mjJourneyView/);
+  assert.match(result.html, /journey-data-order_to_cash/);
   assert.equal(result.journeyTypes.length, 1);
   assert.equal(result.journeyTypes[0], 'order_to_cash');
 });
@@ -410,7 +416,7 @@ test('buildHomePage filters cards by selectedTypes', async function() {
   assert.doesNotMatch(filteredHtml, /Collections/);
 });
 
-test('renderMultiJourney hub only includes selected journeys', async function() {
+test('renderMultiJourney hub shows selected journeys active and unselected dimmed', async function() {
   var pack = createPack();
   pack.journeyDescriptions['field_ops_expense'] = { title: 'Field Ops', steps: 15, desc: 'Field ops', scaffold: false };
   pack.journeyScreens['field_ops_expense'] = '<div>Field Ops journey screen</div>';
@@ -424,11 +430,13 @@ test('renderMultiJourney hub only includes selected journeys', async function() 
     journeyTypes: ['order_to_cash', 'retailer_onboarding']
   });
 
-  // Hub should include both selected journeys
+  // Selected journeys appear as clickable cards (not disabled)
   assert.match(result.html, /Order to Cash/);
   assert.match(result.html, /Retailer Onboarding/);
-  // But NOT the unselected one
-  assert.doesNotMatch(result.html, /Field Ops/);
+  // Unselected journey appears but is dimmed (mj-card-disabled)
+  assert.match(result.html, /mj-card-disabled/);
+  // Unselected journey has "Coming Soon" badge
+  assert.match(result.html, /Coming Soon/);
   assert.equal(result.journeyTypes.length, 2);
 });
 

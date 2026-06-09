@@ -699,6 +699,24 @@
         }
         var combinedScripts = scriptParts.join('\n\n');
 
+        // Inject hub-bridge script so "Main Menu" / back-to-menu links
+        // post a message to the parent hub instead of navigating to index.html (404)
+        combinedScripts += '\n\n/* Hub bridge: intercept main-menu links and notify parent */\n' +
+          '(function(){' +
+          'document.addEventListener("click",function(e){' +
+          'var a=e.target.closest&&e.target.closest("a");' +
+          'if(!a)return;' +
+          'var href=a.getAttribute("href")||"";' +
+          'var text=(a.textContent||"").toLowerCase();' +
+          'if(href==="index.html"||href==="#main-menu"||href==="/"||text.indexOf("main menu")!==-1){' +
+          'e.preventDefault();' +
+          'if(window.parent&&window.parent!==window){' +
+          'window.parent.postMessage("zotok:back-to-hub","*");' +
+          '}' +
+          '}' +
+          '});' +
+          '})();';
+
         // Select journey template source
         var journeyTemplateSrc;
         if (isCustomDemo) {
@@ -956,53 +974,73 @@
 
   /* ═══════════════════════════════════════════════════════════
    *  buildMultiJourneyHtml(results, journeyTypes, pack, input)
-   *  Combines rendered journey HTMLs into a single hub document.
-   *  Uses srcdoc iframes to avoid step-ID collisions between
-   *  independent journeys. CSS/JS is per-iframe (self-contained).
+   *  Builds a view-switching hub HTML document.
+   *
+   *  Architecture:
+   *   - Journey HTMLs stored in <script type="text/plain"> tags (no encoding)
+   *   - Cards view shows ALL journeys (unselected dimmed "Coming Soon")
+   *   - Click card → Blob URL → iframe loads journey, cards hidden
+   *   - "Back to Main Menu" / postMessage → cards shown again
+   *   - Eliminates srcdoc overhead (fixes file size issue)
    * ═══════════════════════════════════════════════════════════ */
   function buildMultiJourneyHtml(results, journeyTypes, pack, input) {
     var brandName = (results[0].brand && results[0].brand.name) || input.name || 'Brand';
     var brandColor = input.brandColor || '#075e54';
+    var brandRgb = hexToRgb(brandColor);
     var journeyDescs = pack.journeyDescriptions || {};
+    var journeyData = pack.defaultJourneyData || {};
 
-    // --- Build sticky nav items ---
-    var navItems = '';
-    var colorCache = {};
-    for (var i = 0; i < journeyTypes.length; i++) {
-      var jt = journeyTypes[i];
-      var desc = journeyDescs[jt] || {};
-      var title = results[i].journeyTitle || desc.title || jt;
-      var meta = getJourneyMeta(jt);
-      var emoji = meta.emoji || '\u{1F4F1}';
-      var steps = desc.steps || '?';
-      var jColor = meta.color || brandColor;
-      colorCache[jt] = jColor;
-      navItems += '<a class="mj-btn" href="#s-' + jt + '" style="--c:' + jColor + '">' +
-        '<span class="mj-e">' + emoji + '</span>' +
-        '<span class="mj-t">' + escapeAttr(title) + '</span>' +
-        '<span class="mj-s">' + steps + ' steps</span></a>';
+    // Build Set of selected journey types for quick lookup
+    var selectedSet = {};
+    for (var s = 0; s < journeyTypes.length; s++) {
+      selectedSet[journeyTypes[s]] = true;
     }
 
-    // --- Build iframe sections ---
-    var sections = '';
-    for (var j = 0; j < results.length; j++) {
-      var jt2 = journeyTypes[j];
-      var desc2 = journeyDescs[jt2] || {};
-      var title2 = results[j].journeyTitle || desc2.title || jt2;
-      var jColor2 = colorCache[jt2] || brandColor;
-      var meta2 = getJourneyMeta(jt2);
-      var emoji2 = meta2.emoji || '\u{1F4F1}';
-      var steps2 = desc2.steps || '?';
-      // Full journey HTML → srcdoc attribute (HTML-entity-encoded)
-      var encodedHtml = escapeAttr(results[j].html);
-      sections += '<div id="s-' + jt2 + '" class="mj-block">' +
-        '<div class="mj-block-bar" style="background:' + jColor2 + '">' +
-        '<span class="mj-block-emoji">' + emoji2 + '</span>' +
-        '<span class="mj-block-title">' + escapeAttr(title2) + '</span>' +
-        '<span class="mj-block-steps">' + steps2 + ' steps</span>' +
-        '</div>' +
-        '<iframe class="mj-frame" srcdoc="' + encodedHtml + '"></iframe>' +
-        '</div>';
+    // Build a data map: journeyType → rendered HTML (from results)
+    var htmlMap = {};
+    for (var r = 0; r < results.length; r++) {
+      htmlMap[journeyTypes[r]] = results[r].html;
+    }
+
+    // --- Build journey data scripts (store HTMLs without encoding) ---
+    var dataScripts = '';
+    for (var dk in htmlMap) {
+      if (htmlMap.hasOwnProperty(dk)) {
+        // Use base64 encoding to safely embed HTML in script tag without escaping issues
+        var b64 = btoa(unescape(encodeURIComponent(htmlMap[dk])));
+        dataScripts += '<script type="text/plain" id="journey-data-' + dk + '" data-base64="true">' + b64 + '<\/script>\n';
+      }
+    }
+
+    // --- Build cards (ALL journeys, unselected dimmed) ---
+    var journeyOrder = ['order_to_cash', 'field_ops_expense', 'automated_collections', 'dealer_engagement', 'retailer_onboarding', 'retailer_loyalty', 'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation'];
+    var cards = '';
+    var cardNum = 0;
+    for (var oi = 0; oi < journeyOrder.length; oi++) {
+      var jt = journeyOrder[oi];
+      var desc = journeyDescs[jt];
+      if (!desc) continue;
+      if (jt === 'home') continue;
+      cardNum++;
+      var isSelected = !!selectedSet[jt];
+      var meta = (journeyData[jt] && journeyData[jt].hubMeta) || {};
+      var emoji = meta.emoji || '📱';
+      var color = meta.color || brandColor;
+      var tags = meta.tags || [];
+      var tagHtml = '';
+      for (var ti = 0; ti < tags.length; ti++) {
+        tagHtml += '<span class="mj-tag">' + escapeAttr(tags[ti]) + '</span>';
+      }
+      var cardClass = 'mj-card' + (isSelected ? '' : ' mj-card-disabled');
+      var onclick = isSelected ? ' onclick="openJourney(\'' + jt + '\')"' : '';
+      var comingSoon = isSelected ? '' : '<span class="mj-coming-soon">Coming Soon</span>';
+      cards += '<div class="' + cardClass + '"' + onclick + ' style="--c:' + color + '">' +
+        '<div class="mj-card-badge"><div class="mj-card-num">' + String(cardNum).padStart(2, '0') + '</div><div class="mj-card-emoji">' + emoji + '</div></div>' +
+        '<div class="mj-card-body">' +
+        '<div class="mj-card-top"><div class="mj-card-title">' + escapeAttr(desc.title) + comingSoon + '</div><div class="mj-card-steps">' + (desc.steps || '?') + ' Steps</div></div>' +
+        '<div class="mj-card-desc">' + escapeAttr(desc.desc || '') + '</div>' +
+        '<div class="mj-card-tags">' + tagHtml + '</div>' +
+        '</div></div>';
     }
 
     // --- Build complete hub HTML ---
@@ -1012,23 +1050,101 @@
       '<title>' + escapeAttr(brandName) + ' \u2014 WhatsApp Commerce OS | ZoTok</title>' +
       '<style>' +
       '*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}' +
-      'html{scroll-behavior:smooth}' +
-      'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f5f5f5}' +
-      '.mj-bar{position:sticky;top:0;z-index:999;background:' + brandColor + ';padding:8px 14px;display:flex;align-items:center;gap:8px;overflow-x:auto;box-shadow:0 2px 10px rgba(0,0,0,.15);min-height:52px}' +
-      '.mj-bar-brand{color:rgba(255,255,255,.9);font-size:12.5px;font-weight:700;white-space:nowrap;margin-right:6px;flex-shrink:0;letter-spacing:.3px}' +
-      '.mj-btn{display:inline-flex;align-items:center;gap:5px;color:#fff;text-decoration:none;padding:5px 12px;border-radius:8px;font-size:11.5px;font-weight:600;white-space:nowrap;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.06);flex-shrink:0;transition:background .15s}' +
-      '.mj-btn:hover{background:rgba(255,255,255,.25)}' +
-      '.mj-e{font-size:16px;line-height:1}' +
-      '.mj-s{font-size:9.5px;color:rgba(255,255,255,.55);font-weight:500;margin-left:2px}' +
-      '.mj-block{scroll-margin-top:56px}' +
-      '.mj-block-bar{display:flex;align-items:center;gap:8px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600}' +
-      '.mj-block-emoji{font-size:18px}' +
-      '.mj-block-steps{font-size:10px;color:rgba(255,255,255,.6);font-weight:500}' +
-      '.mj-frame{width:100%;height:100vh;border:none;display:block}' +
-      '@media(max-width:640px){.mj-bar{padding:6px 10px;gap:5px}.mj-btn{padding:4px 9px;font-size:10.5px}.mj-t{display:none}.mj-block-bar{padding:6px 12px;font-size:12px}}' +
+      'html,body{height:100%}' +
+      'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f5f5f5;display:flex;flex-direction:column}' +
+      '.mj-strip{height:4px;background:' + brandColor + ';flex-shrink:0}' +
+      '.mj-header{background:#fff;border-bottom:1px solid #e8e8e8;padding:10px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;min-height:48px}' +
+      '.mj-logo{width:32px;height:32px;border-radius:50%;background:' + brandColor + ';color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0}' +
+      '.mj-brand{font-size:14px;font-weight:700;color:#111}' +
+      '.mj-badge-wa{display:inline-flex;align-items:center;gap:4px;background:#f0f0f0;border-radius:12px;padding:3px 10px;font-size:10.5px;color:#555;font-weight:600}' +
+      '.mj-main{flex:1;display:flex;min-height:0}' +
+      '.mj-cards-view{flex:1;overflow-y:auto;padding:24px 20px}' +
+      '.mj-section-label{font-size:10.5px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}' +
+      '.mj-card{display:flex;align-items:stretch;background:#fff;border-radius:14px;border:1px solid #e8e8e8;overflow:hidden;margin-bottom:10px;transition:box-shadow .15s,transform .15s;cursor:pointer}' +
+      '.mj-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.1);transform:translateX(4px)}' +
+      '.mj-card-disabled{opacity:.45;cursor:not-allowed;filter:grayscale(30%)}' +
+      '.mj-card-disabled:hover{transform:none;box-shadow:none}' +
+      '.mj-card-badge{background:var(--c);width:64px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:12px 0}' +
+      '.mj-card-num{font-size:10px;font-weight:900;color:rgba(255,255,255,.45);letter-spacing:.5px}' +
+      '.mj-card-emoji{font-size:24px;line-height:1.1}' +
+      '.mj-card-body{flex:1;padding:12px 48px 11px 16px;clip-path:polygon(0 0,calc(100% - 20px) 0,100% 50%,calc(100% - 20px) 100%,0 100%);display:flex;flex-direction:column;justify-content:center;gap:4px}' +
+      '.mj-card-top{display:flex;align-items:center;gap:8px}' +
+      '.mj-card-title{font-size:14px;font-weight:700;color:#111;flex:1}' +
+      '.mj-coming-soon{font-size:9px;font-weight:600;color:' + brandColor + ';background:rgba(' + brandRgb + ',.1);padding:2px 7px;border-radius:6px;margin-left:6px;white-space:nowrap}' +
+      '.mj-card-steps{font-size:10px;font-weight:700;color:var(--c);background:rgba(0,0,0,.04);padding:3px 8px;border-radius:8px;white-space:nowrap;flex-shrink:0}' +
+      '.mj-card-desc{font-size:11.5px;color:#666;line-height:1.4;max-width:480px}' +
+      '.mj-card-tags{display:flex;gap:4px;flex-wrap:wrap}' +
+      '.mj-tag{font-size:10px;font-weight:600;padding:2px 6px;border-radius:5px;background:rgba(0,0,0,.05);color:#555}' +
+      '.mj-journey-view{display:none;flex:1;flex-direction:column;min-height:0}' +
+      '.mj-journey-bar{background:' + brandColor + ';padding:6px 16px;display:flex;align-items:center;gap:8px;flex-shrink:0;min-height:40px}' +
+      '.mj-back-btn{color:#fff;text-decoration:none;font-size:12.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.12);border:none}' +
+      '.mj-back-btn:hover{background:rgba(255,255,255,.25)}' +
+      '.mj-journey-title{color:#fff;font-size:13px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+      '.mj-frame{flex:1;width:100%;border:none;display:block}' +
+      '@media(max-width:768px){.mj-card-badge{width:56px}.mj-card-emoji{font-size:20px}.mj-card-title{font-size:13px}.mj-card-desc{display:none}.mj-card-body{padding-right:36px}}' +
       '</style></head><body>' +
-      '<div class="mj-bar"><span class="mj-bar-brand">' + escapeAttr(brandName) + '</span>' + navItems + '</div>' +
-      sections +
+      '<div class="mj-strip"></div>' +
+      '<div class="mj-header"><div class="mj-logo">' + escapeAttr((brandName || 'B')[0].toUpperCase()) + '</div><div class="mj-brand">' + escapeAttr(brandName) + '</div><div class="mj-badge-wa"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#25D366"/><path d="M17.5 14.5c-.3-.1-1.7-.8-2-.9s-.5-.2-.7.2-.8.9-1 1.1-.4.2-.7.1a8.5 8.5 0 01-2.6-1.6 9.9 9.9 0 01-1.8-2.2c-.2-.3 0-.5.1-.6l.5-.6.3-.5a.4.4 0 000-.4l-.9-2.1c-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4A4.4 4.4 0 006 9.7a7.6 7.6 0 001.6 4c1.8 2.4 4.1 3.8 7.8 4.3.8.1 1.5-.1 2-.4a4 4 0 001.3-1.7c.1-.4.1-.7 0-.9z" fill="#fff"/></svg> WhatsApp Commerce OS</div></div>' +
+      '<div class="mj-main">' +
+      '<div id="mjCardsView" class="mj-cards-view"><div class="mj-section-label">Select a Module to Explore</div>' + cards + '</div>' +
+      '<div id="mjJourneyView" class="mj-journey-view">' +
+      '<div class="mj-journey-bar"><button class="mj-back-btn" onclick="closeJourney()">← Main Menu</button><span id="mjJourneyTitle" class="mj-journey-title"></span></div>' +
+      '<iframe id="mjIframe" class="mj-frame"></iframe>' +
+      '</div>' +
+      '</div>' +
+      dataScripts +
+      '<script>' +
+      '(function(){' +
+      'var _currentJourney=null;' +
+      'var _blobUrls={};' +
+      // Decode base64 journey data
+      'function getJourneyHtml(jt){' +
+      '  var el=document.getElementById("journey-data-"+jt);' +
+      '  if(!el)return null;' +
+      '  if(el.getAttribute("data-base64")==="true"){' +
+      '    return decodeURIComponent(escape(atob(el.textContent.trim())));' +
+      '  }' +
+      '  return el.textContent;' +
+      '}' +
+      'window.openJourney=function(jt){' +
+      '  var html=getJourneyHtml(jt);' +
+      '  if(!html)return;' +
+      '  if(!_blobUrls[jt]){' +
+      '    var blob=new Blob([html],{type:"text/html;charset=utf-8"});' +
+      '    _blobUrls[jt]=URL.createObjectURL(blob);' +
+      '  }' +
+      '  _currentJourney=jt;' +
+      '  document.getElementById("mjCardsView").style.display="none";' +
+      '  var jv=document.getElementById("mjJourneyView");' +
+      '  jv.style.display="flex";' +
+      '  document.getElementById("mjIframe").src=_blobUrls[jt];' +
+      '  document.getElementById("mjJourneyTitle").textContent=jt.replace(/_/g," ").replace(/\\b\\w/g,function(l){return l.toUpperCase()});' +
+      '  if(window.history&&history.pushState){history.pushState({journey:jt},"",location.href)}' +
+      '};' +
+      'window.closeJourney=function(){' +
+      '  var iframe=document.getElementById("mjIframe");' +
+      '  iframe.src="about:blank";' +
+      '  document.getElementById("mjJourneyView").style.display="none";' +
+      '  document.getElementById("mjCardsView").style.display="block";' +
+      '  _currentJourney=null;' +
+      '  if(window.history&&history.pushState){history.pushState({journey:null},"",location.href)}' +
+      '};' +
+      // Listen for postMessage from journey iframes (back-to-menu, main-menu clicks)
+      'window.addEventListener("message",function(e){' +
+      '  if(e.data==="zotok:back-to-hub"||e.data==="zotok:main-menu"){' +
+      '    closeJourney();' +
+      '  }' +
+      '});' +
+      // Handle browser back button
+      'window.addEventListener("popstate",function(e){' +
+      '  if(e.state&&e.state.journey){' +
+      '    openJourney(e.state.journey);' +
+      '  }else if(_currentJourney){' +
+      '    closeJourney();' +
+      '  }' +
+      '});' +
+      '})();' +
+      '<\/script>' +
       '</body></html>';
 
     return {
