@@ -816,10 +816,22 @@
   DemoRenderer.buildDynamicOrchestrator = function(journeyType, selectedSteps, pack) {
     var p = pack || _pack;
     var partials = p.partials || {};
+
+    // Some journey types use a different naming prefix in their partials
+    // than the journeyType key itself. Map known mismatches here.
+    var partialPrefix = journeyType;
+    var knownMismatches = {
+      'field_ops_expense': 'field-ops',
+      'automated_collections': 'collections'
+    };
+    if (knownMismatches[partialPrefix]) {
+      partialPrefix = knownMismatches[partialPrefix];
+    }
+
     var parts = [];
     for (var i = 0; i < selectedSteps.length; i++) {
       var stepNum = selectedSteps[i];
-      var partialName = 'step' + stepNum + '-' + journeyType;
+      var partialName = 'step' + stepNum + '-' + partialPrefix;
       var source = partials[partialName];
       if (source) {
         parts.push(source);
