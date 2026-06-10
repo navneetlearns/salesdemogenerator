@@ -1072,6 +1072,10 @@
       '.jv-back:hover{background:rgba(' + brandRgb + ',.12)}' +
       '.jv-title{font-size:14px;font-weight:700;color:#111}' +
       '.jv-frame{flex:1;width:100%;border:none}' +
+      'body.journey-active .hp-strip,body.journey-active .hp-left{display:none}' +
+      'body.journey-active .hp-wrap{display:block}' +
+      'body.journey-active .hp-right{position:fixed;inset:0;padding:0;z-index:20}' +
+      'body.journey-active .journey-view{position:fixed;inset:0}' +
       '@media(max-width:768px){.hp-wrap{flex-direction:column}.hp-left{width:100%;border-right:none;border-bottom:1px solid #f0f0f0;padding:32px 24px 28px}.hp-title{font-size:26px}.hp-right{padding:24px 16px 40px}.hp-card-badge{width:58px}.hp-card-emoji{font-size:22px}.hp-card-title{font-size:13.5px}.hp-card-desc{display:none}}' +
       '</style></head><body>' +
       '<div class="hp-strip"></div>' +
@@ -1115,6 +1119,7 @@
       'window.loadJourney = function(jt) {' +
       '  var html = journeyHtmls[jt];' +
       '  if (!html) return;' +
+      '  html = html.replace(/<\\\\\\/script>/g, "<" + "/script>");' +
       '  if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);' +
       '  var blob = new Blob([html], {type: "text/html;charset=utf-8"});' +
       '  currentBlobUrl = URL.createObjectURL(blob);' +
@@ -1122,11 +1127,13 @@
       '  var desc = journeyDescs[jt] || {};' +
       '  document.getElementById("jv-title").textContent = desc.title || jt;' +
       '  document.getElementById("hp-cards-container").style.display = "none";' +
+      '  document.body.classList.add("journey-active");' +
       '  document.getElementById("jv").classList.add("active");' +
       '};' +
       'window.backToCards = function() {' +
       '  document.getElementById("jv-frame").src = "about:blank";' +
       '  document.getElementById("jv").classList.remove("active");' +
+      '  document.body.classList.remove("journey-active");' +
       '  document.getElementById("hp-cards-container").style.display = "";' +
       '};' +
       'document.getElementById("hp-cards-container").addEventListener("click", function(e) {' +

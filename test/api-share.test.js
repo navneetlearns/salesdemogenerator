@@ -74,6 +74,7 @@ test('GET v3 share serves a complete hub page with journey loader script', async
   assert.match(res.body, /window\.loadJourney=function/);
   assert.match(res.body, /window\._hubToken="0123456789abcdef0123456789abcdef"/);
   assert.match(res.body, /field_ops_expense/);
+  assert.match(res.body, /journey-active/);
   assert.match(res.body, /<\/script><\/body><\/html>$/);
   assert.doesNotMatch(res.body, /undefined$/);
 });

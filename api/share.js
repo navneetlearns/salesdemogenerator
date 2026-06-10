@@ -154,6 +154,10 @@ function serveMultiBlobHub(res, share) {
     '.jv-back:hover{background:rgba(0,0,0,.07)}' +
     '.jv-title{font-size:14px;font-weight:700;color:#111}' +
     '.jv-frame{flex:1;width:100%;border:none}' +
+    'body.journey-active .hp-strip,body.journey-active .hp-left{display:none}' +
+    'body.journey-active .hp-wrap{display:block}' +
+    'body.journey-active .hp-right{position:fixed;inset:0;padding:0;z-index:20}' +
+    'body.journey-active .journey-view{position:fixed;inset:0}' +
     '@media(max-width:768px){.hp-wrap{flex-direction:column}.hp-left{width:100%;border-right:none;border-bottom:1px solid #f0f0f0;padding:32px 24px 28px}.hp-title{font-size:26px}.hp-right{padding:24px 16px 40px}.hp-card-badge{width:58px}.hp-card-emoji{font-size:22px}.hp-card-title{font-size:13.5px}.hp-card-desc{display:none}}' +
     '</style></head><body>' +
     '<div class="hp-strip"></div>' +
@@ -218,6 +222,7 @@ function serveMultiBlobHub(res, share) {
 '  var frame=document.getElementById("jv-frame");' +
 '  cards.style.display="block";' +
 '  view.classList.remove("active");' +
+'  document.body.classList.remove("journey-active");' +
 '  frame.src="about:blank";' +
 '  if(currentBlobUrl){URL.revokeObjectURL(currentBlobUrl);currentBlobUrl=null;}' +
 '};' +
@@ -228,6 +233,7 @@ function serveMultiBlobHub(res, share) {
 '  var frame=document.getElementById("jv-frame");' +
 '  document.getElementById("jv-title").textContent=meta.title||journeyType;' +
 '  document.getElementById("hp-cards-container").style.display="none";' +
+'  document.body.classList.add("journey-active");' +
 '  document.getElementById("jv").classList.add("active");' +
 '  if(cache[journeyType]){setFrame(cache[journeyType]);return;}' +
 '  loading[journeyType]=true;' +
