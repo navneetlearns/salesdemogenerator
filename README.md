@@ -60,13 +60,23 @@ npm.cmd run build:dist
 
 ## Multi-Journey Demos
 
-When the user selects 2+ journey types in the wizard, `renderMultiJourney()` renders each journey independently and assembles them into a single hub-style HTML document with sticky navigation and `<iframe srcdoc="...">` sections per journey. This avoids DOM ID collisions between journeys while keeping everything in one shareable blob.
+When the user selects one or more journey types in the wizard, `renderMultiJourney()` renders each journey independently and assembles the result into a hub-style HTML document. Hub cards use resilient metadata fallbacks: if `journeyDescriptions` is sparse, cards still show a title, step count, short description, and tags from `defaultJourneyData`, first-step metadata, or safe defaults. This keeps custom demo share pages from showing blank journey descriptions.
+
+Journey content is loaded into iframes through Blob URLs rather than `srcdoc`, so nested journey scripts, menu clicks, and next/back controls execute reliably without DOM ID collisions.
 
 The "WhatsApp Commerce OS" (home) journey renders a standalone hub landing page with clickable cards for all available journeys, serving as a navigation index.
 
 ## Secure Share Links
 
 Generated demos can be shared through `/api/share?token=<hex>` links backed by Vercel Blob. Configure `BLOB_READ_WRITE_TOKEN` in the Vercel project environment before deploying; links expire after 24 hours and are rejected server-side after expiry.
+
+Share links are backward compatible across three versions:
+
+- v1: stores a single HTML blob for smaller demos.
+- v2: stores render config and re-renders client-side through a Blob URL iframe.
+- v3: stores hub metadata plus one blob per journey; the hub fetches each journey on demand and loads it through a Blob URL iframe.
+
+The v3 hub card metadata is server-rendered from stable journey defaults in `api/share.js`, so share-link hubs show step counts and tags even when the stored share payload only contains journey types and blob paths.
 
 ## API Endpoints
 
@@ -163,6 +173,12 @@ dist/               Packaged output for deployment
 ## Production
 
 Deployed at `https://demo-generator-one.vercel.app` (static mode on Vercel).
+
+Latest production deploy notes:
+
+- `119e5e2 Fix hub card metadata and SAP diagram sizing`
+- Hub cards now retain visible descriptions, step counts, and tags for custom demos and v3 share links.
+- Order to Cash SAP architecture diagram sizing is bounded in CSS instead of expanding full-width.
 
 ## Documentation
 

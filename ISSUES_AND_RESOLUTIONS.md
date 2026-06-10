@@ -62,6 +62,30 @@ document.getElementById("hp-cards").addEventListener("click", function(e) {
 
 **Resolution:** Added `safeJson()` helper that reads response as text first, then tries `JSON.parse`. On parse failure, throws a readable error with the first 200 chars of the response body. Applied to both init hub and per-journey upload POST requests.
 
+### FIX-14: Hub card descriptions blank in custom demo/share hub (June 10)
+
+**Issue:** Custom demo hub cards could render with blank descriptions when `journeyDescriptions` was incomplete or unavailable. The v3 share hub also had a separate server-rendered card path that showed only title/description and did not expose step count or tags.
+
+**Root cause:** The client hub trusted `pack.journeyDescriptions` too strongly, and the server share hub in `api/share.js` maintained a compact metadata table without step/tag UI. The two paths drifted.
+
+**Resolution:**
+- Added `getHubCardMeta()` in `public/js/demo-renderer.js`.
+- `buildHomePage()` and `buildMultiJourneyHtml()` now fall back through journey data, first-step metadata, and safe defaults.
+- `api/share.js` v3 hub metadata now includes step counts and tags for each known journey.
+- Regression coverage added in `test/demo-renderer.test.js` and `test/api-share.test.js`.
+
+### FIX-15: Order to Cash SAP architecture diagram enlarged full-width (June 10)
+
+**Issue:** The Order to Cash SAP architecture diagram expanded to the full available width, making the architecture image too large inside the journey.
+
+**Root cause:** `templates/partials/step6-sap-architecture.hbs` used inline wrapper/image styles with `width:100%`, so the image scaled with the viewport/container instead of staying at a controlled diagram size.
+
+**Resolution:**
+- Replaced inline sizing with `.sap-architecture-card` and `.sap-architecture-img`.
+- Added bounded sizing in `templates/layouts/style.css`: desktop max 920px wide / 560px high, mobile bounded by viewport height.
+- Regenerated `public/template-pack.json` so dynamic wizard demos use the same partial/CSS.
+- Added a static regression test to prevent restoring inline full-width image sizing.
+
 ### FIX-5: Hub page redesign — 4 issues resolved (June 10)
 
 **Issues:**
@@ -311,7 +335,7 @@ Client-side wizard currently supports all 9 journeys (verified via `build-templa
 Client automatically selects v3 for multi-journey shares (2+ journeys). Hub page uses Haldiram-style two-panel layout with `data-journey` attribute + event delegation for card clicks. All rendering paths use Blob URLs instead of srcdoc/document.write.
 
 ### PEND-4: Deploy Uncommitted Work — RESOLVED (June 10)
-All work committed and deployed. Live at https://demo-generator-one.vercel.app. Recent commits: v3 multi-blob share, Blob URL preview/share, safe JSON parsing, hub card syntax fix.
+All work committed and deployed. Live at https://demo-generator-one.vercel.app. Recent commits: v3 multi-blob share, Blob URL preview/share, safe JSON parsing, hub card syntax fix, single-journey hub controls, hub card metadata fallback, and SAP diagram sizing fix. Latest noted production commit: `119e5e2 Fix hub card metadata and SAP diagram sizing`.
 
 ---
 
@@ -323,6 +347,8 @@ All work committed and deployed. Live at https://demo-generator-one.vercel.app. 
 | **P0** | FIX-10: Hub clicks broken (srcdoc/document.write) | Bug | Medium | RESOLVED June 10 |
 | **P0** | FIX-11: v3 multi-blob share architecture | Feature | High | RESOLVED June 10 |
 | **P0** | FIX-12: Hub card syntax error (FUNCTION_INVOCATION_FAILED) | Bug | Medium | RESOLVED June 10 |
+| **P1** | FIX-14: Hub card descriptions/metadata blank | Bug | Low | RESOLVED June 10 |
+| **P1** | FIX-15: SAP architecture diagram oversized | Bug | Low | RESOLVED June 10 |
 | **P1** | PEND-2: Custom demo for all 9 journeys | Feature | Medium | Step selection may miss some journey types |
 | **P1** | BUG-1: Prices never replaced | Bug | Medium | Every brand shows wrong prices |
 | **P1** | BUG-2: Secondary dealers unreplaced | Bug | Low | Admin portal shows wrong names |

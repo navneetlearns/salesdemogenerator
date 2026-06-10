@@ -50,6 +50,8 @@ When the user selects 2+ journey types in the wizard, `renderMultiJourney()` ren
 
 `renderMultiJourney()` and `buildMultiJourneyHtml()` are in `demo-renderer.js` and exposed on the `DemoRenderer` public API.
 
+Hub card metadata is intentionally defensive. `buildHomePage()` and `buildMultiJourneyHtml()` use `getHubCardMeta()` to derive visible card text from, in order: `pack.journeyDescriptions`, `pack.defaultJourneyData[journey].hubMeta`, first-step metadata, and safe hardcoded defaults. This prevents custom demo hubs from rendering blank descriptions when a journey description object is incomplete. Any new journey should still provide `journeyDescriptions` and `hubMeta.tags`, but the hub must remain usable when either is missing.
+
 ## Share Architecture (3 versions, backward compatible)
 
 ### v1: HTML Blob Share (legacy)
@@ -66,6 +68,8 @@ Two-step upload for pre-rendered multi-journey demos:
 Hub page (`GET /api/share?token=xxx`) serves Haldiram-style two-panel HTML that fetches individual journeys via `fetch("/api/share?token=xxx&journey=otc")` + Blob URL iframes. Each request stays under the 4.1MB limit. Client shows upload progress.
 
 **Key insight:** `srcdoc` and `document.write()` don't execute inline `<script>` blocks reliably in large HTML. All rendering paths now use Blob URLs (`URL.createObjectURL` + `iframe.src`).
+
+The v3 share hub is rendered server-side in `api/share.js`, not by `demo-renderer.js`. It therefore maintains its own compact `JOURNEY_META` table for hub card title, color, description, step count, and tags. Keep this table aligned with `journeyDescriptions`/`hubMeta` when adding or renaming journey types.
 
 ## Home Page (WhatsApp Commerce OS)
 
@@ -105,6 +109,8 @@ This keeps the patch isolated and reversible: removing the Sunder `replacements`
 Global integration visuals, including SAP architecture diagrams, must remain shared. Sunder Masala replacement entries map accidental brand-local SAP diagram paths back to JK Cement/shared paths. If the diagram filename changes later, update only the relevant replacement entries in `data/brands/sunder_masala.json`.
 
 The current shared SAP diagram source is `assets/brands/jk_cement/sap_architecture.png` (may be PNG or JPEG on disk). It is injected as a data URI into the SAP architecture screen when the baseline template still contains `data:image/placeholder`. Do not run generic replacement tokens (for example substring `"Cement"`) after this injection.
+
+The Order to Cash SAP architecture screen is `templates/partials/step6-sap-architecture.hbs`. The diagram must use `.sap-architecture-card` and `.sap-architecture-img`, with sizing controlled in `templates/layouts/style.css`. Do not restore inline `width:100%` image sizing; the CSS caps desktop rendering at 920px wide / 560px high and uses viewport-bounded sizing on mobile.
 
 ## Asset Path Handling
 

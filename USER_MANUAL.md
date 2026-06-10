@@ -157,7 +157,9 @@ Visit the deployed site at https://demo-generator-one.vercel.app to use the inte
 5. **Preview** — your branded demo renders instantly in the browser
 6. **Download or Share** — save as HTML file or get a secure share link (expires in 24 hours)
 
-**Multi-Journey Demos:** Select 2+ journeys and they render as a combined hub page with sticky navigation. Each journey runs in its own iframe to avoid conflicts.
+**Hub Demos:** Selecting one or more journeys opens a hub page with journey cards. Each card shows the module title, step count, short description, and tags. Clicking a journey collapses the hub and opens that journey inside an iframe; the Back to Modules button returns to the card hub.
+
+**Multi-Journey Demos:** Select 2+ journeys and they render as a combined hub page. Each journey runs in its own iframe to avoid conflicts, and secure share links load each journey on demand.
 
 **Custom Step Selection:** For Order to Cash, you can pick specific steps to include (e.g. just order + payment) and the demo renders only those steps with renumbered navigation.
 
