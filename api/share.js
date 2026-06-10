@@ -108,9 +108,13 @@ function serveMultiBlobHub(res, share) {
   var token = share.token || '';
   var brandName = escAttr(config.name || share.brandName || 'Demo');
   var brandColor = escAttr(config.brandColor || '#075e54');
+  var journeyTypes = Array.isArray(share.journeyTypes) && share.journeyTypes.length
+    ? share.journeyTypes
+    : journeys.map(function(j) { return j.type; });
 
-  var journeyList = journeys.map(function(j) {
-    return { type: j.type, path: j.path };
+  var journeyList = journeyTypes.map(function(type) {
+    var match = journeys.find(function(j) { return j.type === type; });
+    return { type: type, path: match ? match.path : null };
   });
 
   var html = '<!DOCTYPE html><html lang="en"><head>' +
@@ -207,6 +211,44 @@ function serveMultiBlobHub(res, share) {
 '  var card=e.target.closest("[data-journey]");' +
 '  if(card)window.loadJourney(card.getAttribute("data-journey"));' +
 '});' +
+'window._hubToken=' + JSON.stringify(token) + ';' +
+'window.backToCards=function(){' +
+'  var cards=document.getElementById("hp-cards-container");' +
+'  var view=document.getElementById("jv");' +
+'  var frame=document.getElementById("jv-frame");' +
+'  cards.style.display="block";' +
+'  view.classList.remove("active");' +
+'  frame.src="about:blank";' +
+'  if(currentBlobUrl){URL.revokeObjectURL(currentBlobUrl);currentBlobUrl=null;}' +
+'};' +
+'window.loadJourney=function(journeyType){' +
+'  if(!journeyType||loading[journeyType])return;' +
+'  var meta=JOURNEY_META[journeyType]||{title:journeyType};' +
+'  var card=document.getElementById("card-"+journeyType);' +
+'  var frame=document.getElementById("jv-frame");' +
+'  document.getElementById("jv-title").textContent=meta.title||journeyType;' +
+'  document.getElementById("hp-cards-container").style.display="none";' +
+'  document.getElementById("jv").classList.add("active");' +
+'  if(cache[journeyType]){setFrame(cache[journeyType]);return;}' +
+'  loading[journeyType]=true;' +
+'  if(card)card.classList.add("loading");' +
+'  fetch("/api/share?token="+encodeURIComponent(window._hubToken)+"&journey="+encodeURIComponent(journeyType),{cache:"no-store"})' +
+'    .then(function(res){if(!res.ok)throw new Error("Could not load this journey.");return res.text();})' +
+'    .then(function(html){cache[journeyType]=html;setFrame(html);})' +
+'    .catch(function(err){setFrame("<!doctype html><html><body style=\\"font-family:Arial,sans-serif;padding:32px\\"><h2>Journey could not be opened</h2><p>"+escapeHtml(err.message||"Please try again.")+"</p></body></html>");})' +
+'    .finally(function(){loading[journeyType]=false;if(card)card.classList.remove("loading");});' +
+'};' +
+'function setFrame(html){' +
+'  var frame=document.getElementById("jv-frame");' +
+'  if(currentBlobUrl){URL.revokeObjectURL(currentBlobUrl);currentBlobUrl=null;}' +
+'  currentBlobUrl=URL.createObjectURL(new Blob([html],{type:"text/html;charset=utf-8"}));' +
+'  frame.src=currentBlobUrl;' +
+'}' +
+'function escapeHtml(value){return String(value||"").replace(/[&<>\\"]/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;","\\\"":"&quot;"}[ch];});}' +
+'if(journeys.length===1){window.loadJourney(journeys[0].type);}' +
+'})();' +
+'</script>' +
+'</body></html>';
 
   sendHtml(res, 200, html);
 }
