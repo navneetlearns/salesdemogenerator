@@ -383,6 +383,16 @@ test('renderMultiJourney with single journey wraps output in hub HTML', async fu
   assert.match(result.html, /hp-card/);
   assert.match(result.html, /jv-frame/);
   assert.match(result.html, /jd-order_to_cash/);
+  assert.match(result.html, /data-journey="order_to_cash"/);
+  assert.match(result.html, /addEventListener\("click"/);
+  assert.match(result.html, /<\/script><\/body><\/html>$/);
+  assert.doesNotMatch(result.html, /onclick="loadJourney/);
+  assert.doesNotMatch(result.html, /<\\\/script><\/body><\/html>$/);
+  var scripts = Array.from(result.html.matchAll(/<script(?: type="text\/plain" id="jd-[^"]+")?>([\s\S]*?)<\/script>/g));
+  assert.equal(scripts.length, 2);
+  assert.doesNotThrow(function() {
+    new Function(scripts[1][1]);
+  });
   assert.equal(result.journeyTypes.length, 1);
   assert.equal(result.journeyTypes[0], 'order_to_cash');
 });

@@ -997,7 +997,7 @@
     for (var r = 0; r < results.length; r++) {
       var dt = journeyTypes[r];
       var safe = results[r].html.replace(/<\/script>/gi, '<\\/script>');
-      dataScripts += '<script type="text/plain" id="jd-' + dt + '">' + safe + '<\\/script>\n';
+      dataScripts += '<script type="text/plain" id="jd-' + dt + '">' + safe + '</script>\n';
     }
 
     // Build journey cards (matching Haldiram hub design)
@@ -1015,7 +1015,7 @@
       for (var ti = 0; ti < tags.length; ti++) {
         tagHtml += '<span class="hp-tag">' + escapeAttr(tags[ti]) + '</span>';
       }
-      cards += '<div class="hp-card" style="--c:' + color + '" onclick="loadJourney(\'' + jt + '\')">' +
+      cards += '<div class="hp-card" style="--c:' + color + '" data-journey="' + escapeAttr(jt) + '">' +
         '<div class="hp-card-badge"><div class="hp-card-num">' + String(i + 1).padStart(2, '0') + '</div><div class="hp-card-emoji">' + emoji + '</div></div>' +
         '<div class="hp-card-body">' +
         '<div class="hp-card-top"><div class="hp-card-title">' + escapeAttr(title) + '</div><div class="hp-card-steps">' + steps + ' Steps</div></div>' +
@@ -1111,18 +1111,16 @@
       '  journeyHtmls[jt] = el.textContent;' +
       '}' +
       'var currentBlobUrl = null;' +
+      'var journeyDescs = ' + JSON.stringify(selectedDescs) + ';' +
       'window.loadJourney = function(jt) {' +
       '  var html = journeyHtmls[jt];' +
       '  if (!html) return;' +
-      '  // Revoke previous blob URL to free memory' +
       '  if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);' +
       '  var blob = new Blob([html], {type: "text/html;charset=utf-8"});' +
       '  currentBlobUrl = URL.createObjectURL(blob);' +
       '  document.getElementById("jv-frame").src = currentBlobUrl;' +
-      '  // Show title' +
-      '  var desc = ' + JSON.stringify(selectedDescs) + '[jt] || {};' +
+      '  var desc = journeyDescs[jt] || {};' +
       '  document.getElementById("jv-title").textContent = desc.title || jt;' +
-      '  // Hide cards, show journey view' +
       '  document.getElementById("hp-cards-container").style.display = "none";' +
       '  document.getElementById("jv").classList.add("active");' +
       '};' +
@@ -1131,8 +1129,12 @@
       '  document.getElementById("jv").classList.remove("active");' +
       '  document.getElementById("hp-cards-container").style.display = "";' +
       '};' +
+      'document.getElementById("hp-cards-container").addEventListener("click", function(e) {' +
+      '  var card = e.target.closest("[data-journey]");' +
+      '  if (card) window.loadJourney(card.getAttribute("data-journey"));' +
+      '});' +
       '})();' +
-      '<\\/script>' +
+      '</script>' +
       '</body></html>';
 
     return {
