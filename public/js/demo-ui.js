@@ -688,7 +688,6 @@
 
         // Store generated HTML for later use
         window._generatedHtml = result.html;
-        window._journeyResults = result.journeyResults || null;
         window._generatedBrand = result.brand ? result.brand.name || formData.brandName : formData.brandName;
         saveLastPreview(result, formData.brandName);
       })
@@ -747,8 +746,8 @@
     }
     setShareStatus('Creating secure share link...', false);
 
-    // v3: multi-blob share — each journey stored as separate blob (scales to any number)
-    // Falls back to v2 config-based share for single journey
+    // v2 config-based share — stores render config (~2 KB), re-renders client-side
+    // Works for any number of journeys, no size limit
     var formData = collectFormData();
     var config = {
       name: formData.brandName,
@@ -772,25 +771,13 @@
       config.acceptedLabels = acceptedLabels;
     }
 
-    // Build body: v3 multi-blob if multiple journeys with pre-rendered results
-    var bodyPayload;
-    if (window._journeyResults && window._journeyResults.length > 1) {
-      bodyPayload = {
-        journeys: window._journeyResults.map(function(r) {
-          return { type: r.type, html: r.html };
-        }),
-        config: config,
-        brandName: formData.brandName
-      };
-    } else {
-      bodyPayload = {
-        config: config,
-        brandName: formData.brandName,
-        journeyType: formData.journeyType
-      };
-      if (formData.journeyTypes.length > 1) {
-        bodyPayload.journeyTypes = formData.journeyTypes.slice();
-      }
+    var bodyPayload = {
+      config: config,
+      brandName: formData.brandName,
+      journeyType: formData.journeyType
+    };
+    if (formData.journeyTypes.length > 1) {
+      bodyPayload.journeyTypes = formData.journeyTypes.slice();
     }
 
     var bodyStr = JSON.stringify(bodyPayload);
