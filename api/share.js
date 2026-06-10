@@ -1,4 +1,4 @@
-const { createShare, getShare, readJourneyBlob } = require('../lib/share-store');
+const { createShare, initHub, addJourneyToHub, getShare, readJourneyBlob } = require('../lib/share-store');
 
 async function readJsonBody(req) {
   let body = '';
@@ -69,12 +69,26 @@ module.exports = async (req, res) => {
   if (req.method === 'POST') {
     try {
       const body = await readJsonBody(req);
+
+      // v3 step 2: upload a single journey to an existing hub
+      if (body.hubToken && body.journeyType && body.html) {
+        const result = await addJourneyToHub(body.hubToken, body.journeyType, body.html);
+        return sendJson(res, 200, result);
+      }
+
+      // v3 step 1: init hub (config + journeyTypes only, no HTML)
+      if (body.config && body.journeyTypes && !body.html && !body.journeys) {
+        const result = await initHub({ config: body.config, journeyTypes: body.journeyTypes, brandName: body.brandName }, { req });
+        return sendJson(res, 200, result);
+      }
+
+      // v1/v2: HTML or config-based share (single request)
       const result = await createShare({
         html: body.html,
         config: body.config,
-        journeys: body.journeys,
         brandName: body.brandName,
-        journeyType: body.journeyType
+        journeyType: body.journeyType,
+        journeyTypes: body.journeyTypes
       }, { req });
       return sendJson(res, 200, result);
     } catch (e) {
@@ -94,9 +108,7 @@ function serveMultiBlobHub(res, share) {
   var token = share.token || '';
   var brandName = escAttr(config.name || share.brandName || 'Demo');
   var brandColor = escAttr(config.brandColor || '#075e54');
-  var brandColorDark = escAttr(config.brandColorDark || brandColor);
 
-  // Build journey list JSON for the hub script
   var journeyList = journeys.map(function(j) {
     return { type: j.type, path: j.path };
   });
@@ -130,10 +142,7 @@ function serveMultiBlobHub(res, share) {
     '.hp-card-body{flex:1;padding:14px 52px 13px 18px;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 50%,calc(100% - 22px) 100%,0 100%);display:flex;flex-direction:column;justify-content:center;gap:5px}' +
     '.hp-card-top{display:flex;align-items:center;gap:10px}' +
     '.hp-card-title{font-size:14.5px;font-weight:700;color:#111;flex:1}' +
-    '.hp-card-steps{font-size:10px;font-weight:700;color:var(--c);background:rgba(0,0,0,.04);padding:3px 9px;border-radius:9px;white-space:nowrap;flex-shrink:0}' +
     '.hp-card-desc{font-size:12px;color:#666;line-height:1.45;max-width:480px}' +
-    '.hp-tags{display:flex;gap:5px;flex-wrap:wrap}' +
-    '.hp-tag{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:rgba(0,0,0,.05);color:#555}' +
     '.journey-view{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:#f7f7f8;z-index:10;flex-direction:column}' +
     '.journey-view.active{display:flex}' +
     '.jv-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border-bottom:1px solid #eee;flex-shrink:0}' +
@@ -141,15 +150,10 @@ function serveMultiBlobHub(res, share) {
     '.jv-back:hover{background:rgba(0,0,0,.07)}' +
     '.jv-title{font-size:14px;font-weight:700;color:#111}' +
     '.jv-frame{flex:1;width:100%;border:none}' +
-    '.loading-overlay{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(247,247,248,.9);z-index:5}' +
-    '.loading-overlay.hidden{display:none}' +
-    '.loading-spinner{width:32px;height:32px;border:3px solid #ddd;border-top-color:' + brandColor + ';border-radius:50%;animation:spin .7s linear infinite}' +
-    '@keyframes spin{to{transform:rotate(360deg)}}' +
     '@media(max-width:768px){.hp-wrap{flex-direction:column}.hp-left{width:100%;border-right:none;border-bottom:1px solid #f0f0f0;padding:32px 24px 28px}.hp-title{font-size:26px}.hp-right{padding:24px 16px 40px}.hp-card-badge{width:58px}.hp-card-emoji{font-size:22px}.hp-card-title{font-size:13.5px}.hp-card-desc{display:none}}' +
     '</style></head><body>' +
     '<div class="hp-strip"></div>' +
     '<div class="hp-wrap">' +
-    // Left panel — brand info
     '<div class="hp-left">' +
     '<div class="hp-label">' + brandName + '</div>' +
     '<h1 class="hp-title">WhatsApp<br><span>Commerce OS</span></h1>' +
@@ -157,7 +161,6 @@ function serveMultiBlobHub(res, share) {
     '<div class="hp-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#25D366"/><path d="M17.5 14.5c-.3-.1-1.7-.8-2-.9s-.5-.2-.7.2-.8.9-1 1.1-.4.2-.7.1a8.5 8.5 0 01-2.6-1.6 9.9 9.9 0 01-1.8-2.2c-.2-.3 0-.5.1-.6l.5-.6.3-.5a.4.4 0 000-.4l-.9-2.1c-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4A4.4 4.4 0 006 9.7a7.6 7.6 0 001.6 4c1.8 2.4 4.1 3.8 7.8 4.3.8.1 1.5-.1 2-.4a4 4 0 001.3-1.7c.1-.4.1-.7 0-.9z" fill="#fff"/></svg>' + brandName + '</div>' +
     '<div class="hp-stats"><div class="hp-stat-pill">● ' + journeys.length + ' Modules</div><div class="hp-stat-pill">● Live Demo</div></div>' +
     '</div>' +
-    // Right panel — journey cards + journey view
     '<div class="hp-right">' +
     '<div id="hp-cards-container">' +
     '<div class="hp-section-label">Select a Module to Explore</div>' +
@@ -172,76 +175,65 @@ function serveMultiBlobHub(res, share) {
     '</div>' +
     '</div>' +
     '</div>' +
-    '<script>window._hubConfig = ' + JSON.stringify(config) + ';</script>' +
     '<script>window._hubJourneys = ' + JSON.stringify(journeyList) + ';</script>' +
     '<script>' +
     '(function(){' +
     'var cache = {};' +
     'var loading = {};' +
     'var currentBlobUrl = null;' +
-    'var config = window._hubConfig || {};' +
     'var journeys = window._hubJourneys || [];' +
-    '' +
-    '// Journey metadata for titles/steps' +
     'var JOURNEY_META = {' +
-    '  order_to_cash: {title:"Order to Cash",emoji:"🛒",color:"#1565C0",desc:"End-to-end order flow with payment collection"},' +
-    '  field_ops_expense: {title:"Field Ops & Expense",emoji:"👔",color:"#00695C",desc:"Field team management and expense tracking"},' +
-    '  automated_collections: {title:"Automated Collections",emoji:"💰",color:"#2E7D32",desc:"Automated payment collection and follow-ups"},' +
-    '  dealer_engagement: {title:"Dealer Engagement",emoji:"🤝",color:"#E65100",desc:"Dealer communication and engagement"},' +
-    '  retailer_onboarding: {title:"Retailer Onboarding",emoji:"🏪",color:"#C62828",desc:"New retailer registration and setup"},' +
-    '  retailer_loyalty: {title:"Retailer Loyalty",emoji:"🏆",color:"#6A1B9A",desc:"Loyalty rewards and retention programs"},' +
-    '  campaigns_queries: {title:"Campaigns & Queries",emoji:"📢",color:"#AD1457",desc:"Marketing campaigns and customer queries"},' +
-    '  dt_fulfillment_payment: {title:"DT Fulfillment & Payment",emoji:"🚚",color:"#4527A0",desc:"Distributor fulfillment and payment processing"},' +
-    '  retailer_activation: {title:"Retailer Activation",emoji:"⚡",color:"#F57F17",desc:"Retailer activation and engagement campaigns"}' +
+    '  order_to_cash:{title:"Order to Cash",emoji:"\\u{1F6D2}",color:"#1565C0",desc:"End-to-end order flow"},' +
+    '  field_ops_expense:{title:"Field Ops & Expense",emoji:"\\u{1F454}",color:"#00695C",desc:"Field team management"},' +
+    '  automated_collections:{title:"Automated Collections",emoji:"\\u{1F4B0}",color:"#2E7D32",desc:"Payment collection"},' +
+    '  dealer_engagement:{title:"Dealer Engagement",emoji:"\\u{1F91D}",color:"#E65100",desc:"Dealer communication"},' +
+    '  retailer_onboarding:{title:"Retailer Onboarding",emoji:"\\u{1F3EA}",color:"#C62828",desc:"New retailer setup"},' +
+    '  retailer_loyalty:{title:"Retailer Loyalty",emoji:"\\u{1F3C6}",color:"#6A1B9A",desc:"Loyalty programs"},' +
+    '  campaigns_queries:{title:"Campaigns & Queries",emoji:"\\u{1F4E2}",color:"#AD1457",desc:"Marketing campaigns"},' +
+    '  dt_fulfillment_payment:{title:"DT Fulfillment",emoji:"\\u{1F69A}",color:"#4527A0",desc:"Fulfillment & payment"},' +
+    '  retailer_activation:{title:"Retailer Activation",emoji:"\\u{26A1}",color:"#F57F17",desc:"Activation campaigns"}' +
     '};' +
-    '' +
-    '// Build cards' +
-    'var cardsHtml = "";' +
-    'for (var i = 0; i < journeys.length; i++) {' +
-    '  var jt = journeys[i].type;' +
-    '  var meta = JOURNEY_META[jt] || {title:jt,emoji:"📱",color:"#666",desc:"WhatsApp Commerce journey"};' +
-    '  cardsHtml += \'<div class="hp-card" id="card-\' + jt + \'" style="--c:\' + meta.color + \'" onclick="loadJourney(\\\'\' + jt + \'\\\')">\' +' +
-    '    \'<div class="hp-card-badge"><div class="hp-card-num">\' + String(i+1).padStart(2,"0") + \'</div><div class="hp-card-emoji">\' + meta.emoji + \'</div></div>\' +' +
-    '    \'<div class="hp-card-body">\' +' +
-    '    \'<div class="hp-card-top"><div class="hp-card-title">\' + meta.title + \'</div></div>\' +' +
-    '    \'<div class="hp-card-desc">\' + meta.desc + \'</div>\' +' +
-    '    \'</div></div>\';' +
+    'var cardsHtml="";' +
+    'for(var i=0;i<journeys.length;i++){' +
+    '  var jt=journeys[i].type;' +
+    '  var m=JOURNEY_META[jt]||{title:jt,emoji:"\\u{1F4F1}",color:"#666",desc:"WhatsApp journey"};' +
+    '  cardsHtml+=\'<div class="hp-card" id="card-\'+jt+\'" style="--c:\'+m.color+\'" onclick="loadJourney(\\\'\'+jt+\'\\\')">\' +
+    '    \'<div class="hp-card-badge"><div class="hp-card-num">\'+String(i+1).padStart(2,"0")+\'</div><div class="hp-card-emoji">\'+m.emoji+\'</div></div>\' +
+    '    \'<div class="hp-card-body"><div class="hp-card-top"><div class="hp-card-title">\'+m.title+\'</div></div>\' +
+    '    \'<div class="hp-card-desc">\'+m.desc+\'</div></div></div>\';' +
     '}' +
-    'document.getElementById("hp-cards").innerHTML = cardsHtml;' +
-    '' +
-    'function fetchJourney(jt) {' +
-    '  if (cache[jt]) return Promise.resolve(cache[jt]);' +
-    '  if (loading[jt]) return loading[jt];' +
-    '  loading[jt] = fetch("/api/share?token=' + token + '&journey=" + jt)' +
-    '    .then(function(r) { if (!r.ok) throw new Error("Failed to load journey"); return r.text(); })' +
-    '    .then(function(html) { cache[jt] = html; loading[jt] = null; return html; })' +
-    '    .catch(function(err) { loading[jt] = null; throw err; });' +
+    'document.getElementById("hp-cards").innerHTML=cardsHtml;' +
+    'function fetchJourney(jt){' +
+    '  if(cache[jt])return Promise.resolve(cache[jt]);' +
+    '  if(loading[jt])return loading[jt];' +
+    '  loading[jt]=fetch("/api/share?token=' + token + '&journey="+jt)' +
+    '    .then(function(r){if(!r.ok)throw new Error("Failed to load");return r.text();})' +
+    '    .then(function(html){cache[jt]=html;loading[jt]=null;return html;})' +
+    '    .catch(function(e){loading[jt]=null;throw e;});' +
     '  return loading[jt];' +
     '}' +
-    '' +
-    'window.loadJourney = function(jt) {' +
-    '  var card = document.getElementById("card-" + jt);' +
-    '  if (card) card.classList.add("loading");' +
-    '  fetchJourney(jt).then(function(html) {' +
-    '    if (card) card.classList.remove("loading");' +
-    '    if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);' +
-    '    var blob = new Blob([html], {type: "text/html;charset=utf-8"});' +
-    '    currentBlobUrl = URL.createObjectURL(blob);' +
-    '    document.getElementById("jv-frame").src = currentBlobUrl;' +
-    '    var meta = JOURNEY_META[jt] || {};' +
-    '    document.getElementById("jv-title").textContent = meta.title || jt;' +
-    '    document.getElementById("hp-cards-container").style.display = "none";' +
+    'window.loadJourney=function(jt){' +
+    '  var card=document.getElementById("card-"+jt);' +
+    '  if(card)card.classList.add("loading");' +
+    '  fetchJourney(jt).then(function(html){' +
+    '    if(card)card.classList.remove("loading");' +
+    '    if(currentBlobUrl)URL.revokeObjectURL(currentBlobUrl);' +
+    '    var blob=new Blob([html],{type:"text/html;charset=utf-8"});' +
+    '    currentBlobUrl=URL.createObjectURL(blob);' +
+    '    document.getElementById("jv-frame").src=currentBlobUrl;' +
+    '    var m=JOURNEY_META[jt]||{};' +
+    '    document.getElementById("jv-title").textContent=m.title||jt;' +
+    '    document.getElementById("hp-cards-container").style.display="none";' +
     '    document.getElementById("jv").classList.add("active");' +
-    '  }).catch(function(err) {' +
-    '    if (card) card.classList.remove("loading");' +
-    '    alert("Failed to load journey: " + (err.message || "Unknown error"));' +
+    '  }).catch(function(e){' +
+    '    if(card)card.classList.remove("loading");' +
+    '    alert("Failed to load: "+(e.message||"Unknown error"));' +
     '  });' +
     '};' +
-    '' +
-    'window.backToCards = function() {' +
-    '  document.getElementById("jv-frame").src = "about:blank";' +
+    'window.backToCards=function(){' +
+    '  document.getElementById("jv-frame").src="about:blank";' +
     '  document.getElementById("jv").classList.remove("active");' +
-    '  document.getElementById("hp-cards-container").style.display = "";' +
+    '  document.getElementById("hp-cards-container").style.display="";' +
     '};' +
     '})();' +
     '</script>' +
@@ -289,7 +281,7 @@ function serveReRenderPage(res, share) {
     '  document.close();' +
     '}).catch(function(err) {' +
     '  container.className = "error";' +
-    '  container.innerHTML = "<h2>Failed to render demo</h2><p>" + (err.message || "Unknown error") + "</h2>";' +
+    '  container.innerHTML = "<h2>Failed to render demo</h2><p>" + (err.message || "Unknown error") + "</p>";' +
     '  console.error(err);' +
     '});' +
     '})();' +

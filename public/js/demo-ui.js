@@ -686,8 +686,9 @@
         // Show preview area
         if (previewArea) previewArea.style.display = 'block';
 
-        // Store generated HTML for later use
+        // Store generated HTML and journey results for share
         window._generatedHtml = result.html;
+        window._journeyResults = result.journeyResults || null;
         window._generatedBrand = result.brand ? result.brand.name || formData.brandName : formData.brandName;
         saveLastPreview(result, formData.brandName);
       })
@@ -746,8 +747,6 @@
     }
     setShareStatus('Creating secure share link...', false);
 
-    // v2 config-based share — stores render config (~2 KB), re-renders client-side
-    // Works for any number of journeys, no size limit
     var formData = collectFormData();
     var config = {
       name: formData.brandName,
@@ -771,6 +770,62 @@
       config.acceptedLabels = acceptedLabels;
     }
 
+    // v3 multi-blob: two-step upload (init hub → upload journeys one at a time)
+    // Each request stays under Vercel's ~4.1MB limit
+    var journeyResults = window._journeyResults;
+    if (journeyResults && journeyResults.length > 1) {
+      // Step 1: Init hub (tiny — just config + journey types)
+      setShareStatus('Initializing share hub...', false);
+      return fetch('/api/share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          config: config,
+          journeyTypes: formData.journeyTypes.slice(),
+          brandName: formData.brandName
+        })
+      })
+        .then(function(res) { return res.json(); })
+        .then(function(hubData) {
+          if (hubData.error) throw new Error(hubData.error);
+          var hubToken = hubData.token;
+          var shareUrl = hubData.url;
+
+          // Step 2: Upload each journey one at a time
+          var chain = Promise.resolve();
+          journeyResults.forEach(function(r, i) {
+            chain = chain.then(function() {
+              setShareStatus('Uploading journey ' + (i + 1) + ' of ' + journeyResults.length + '...', false);
+              return fetch('/api/share', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  hubToken: hubToken,
+                  journeyType: r.type,
+                  html: r.html
+                })
+              }).then(function(res) { return res.json(); });
+            });
+          });
+
+          return chain.then(function() {
+            window._generatedShareUrl = shareUrl;
+            window.open(shareUrl, '_blank');
+            return copyShareUrl(shareUrl).then(function(copied) {
+              setShareStatus('Share link ' + (copied ? 'copied and ' : '') + 'opened. Expires in 24 hours.', false);
+            });
+          });
+        })
+        .catch(function(err) {
+          showError(err.message || 'Could not create share link.');
+          setShareStatus(err.message || 'Could not create share link.', true);
+        })
+        .finally(function() {
+          if (btn) { btn.disabled = false; btn.textContent = 'Create Share Link'; }
+        });
+    }
+
+    // v2 config-based share: single request, ~2KB payload (single journey or fallback)
     var bodyPayload = {
       config: config,
       brandName: formData.brandName,
@@ -780,12 +835,10 @@
       bodyPayload.journeyTypes = formData.journeyTypes.slice();
     }
 
-    var bodyStr = JSON.stringify(bodyPayload);
-
     fetch('/api/share', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: bodyStr
+      body: JSON.stringify(bodyPayload)
     })
       .then(function(res) {
         var ct = res.headers.get('content-type') || '';
@@ -799,7 +852,6 @@
             return data;
           });
         }
-        // Non-JSON response (e.g. 413 from Vercel proxy)
         return res.text().then(function(text) {
           if (res.status === 413) {
             throw new Error('Server rejected the request — please try again.');
