@@ -732,6 +732,19 @@
       .catch(function() { return false; });
   }
 
+  // Safe JSON parser for fetch responses — handles non-JSON error pages
+  function safeJson(res) {
+    return res.text().then(function(text) {
+      try { return JSON.parse(text); }
+      catch (e) {
+        var msg = text.substring(0, 200) || ('Server error (HTTP ' + res.status + ')');
+        var err = new Error(msg);
+        err.status = res.status;
+        throw err;
+      }
+    });
+  }
+
   function createShareLink() {
     clearError();
     var html = getGeneratedHtml();
@@ -785,7 +798,7 @@
           brandName: formData.brandName
         })
       })
-        .then(function(res) { return res.json(); })
+        .then(safeJson)
         .then(function(hubData) {
           if (hubData.error) throw new Error(hubData.error);
           var hubToken = hubData.token;
@@ -804,7 +817,10 @@
                   journeyType: r.type,
                   html: r.html
                 })
-              }).then(function(res) { return res.json(); });
+              }).then(safeJson).then(function(data) {
+                if (data.error) throw new Error(data.error);
+                return data;
+              });
             });
           });
 
