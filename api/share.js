@@ -194,50 +194,19 @@ function serveMultiBlobHub(res, share) {
     '  retailer_activation:{title:"Retailer Activation",emoji:"\\u{26A1}",color:"#F57F17",desc:"Activation campaigns"}' +
     '};' +
     'var cardsHtml="";' +
-    'for(var i=0;i<journeys.length;i++){' +
-    '  var jt=journeys[i].type;' +
-    '  var m=JOURNEY_META[jt]||{title:jt,emoji:"\\u{1F4F1}",color:"#666",desc:"WhatsApp journey"};' +
-    '  cardsHtml+=\'<div class="hp-card" id="card-\'+jt+\'" style="--c:\'+m.color+\'" onclick="loadJourney(\\\'\'+jt+\'\\\')">\' +
-    '    \'<div class="hp-card-badge"><div class="hp-card-num">\'+String(i+1).padStart(2,"0")+\'</div><div class="hp-card-emoji">\'+m.emoji+\'</div></div>\' +
-    '    \'<div class="hp-card-body"><div class="hp-card-top"><div class="hp-card-title">\'+m.title+\'</div></div>\' +
-    '    \'<div class="hp-card-desc">\'+m.desc+\'</div></div></div>\';' +
-    '}' +
-    'document.getElementById("hp-cards").innerHTML=cardsHtml;' +
-    'function fetchJourney(jt){' +
-    '  if(cache[jt])return Promise.resolve(cache[jt]);' +
-    '  if(loading[jt])return loading[jt];' +
-    '  loading[jt]=fetch("/api/share?token=' + token + '&journey="+jt)' +
-    '    .then(function(r){if(!r.ok)throw new Error("Failed to load");return r.text();})' +
-    '    .then(function(html){cache[jt]=html;loading[jt]=null;return html;})' +
-    '    .catch(function(e){loading[jt]=null;throw e;});' +
-    '  return loading[jt];' +
-    '}' +
-    'window.loadJourney=function(jt){' +
-    '  var card=document.getElementById("card-"+jt);' +
-    '  if(card)card.classList.add("loading");' +
-    '  fetchJourney(jt).then(function(html){' +
-    '    if(card)card.classList.remove("loading");' +
-    '    if(currentBlobUrl)URL.revokeObjectURL(currentBlobUrl);' +
-    '    var blob=new Blob([html],{type:"text/html;charset=utf-8"});' +
-    '    currentBlobUrl=URL.createObjectURL(blob);' +
-    '    document.getElementById("jv-frame").src=currentBlobUrl;' +
-    '    var m=JOURNEY_META[jt]||{};' +
-    '    document.getElementById("jv-title").textContent=m.title||jt;' +
-    '    document.getElementById("hp-cards-container").style.display="none";' +
-    '    document.getElementById("jv").classList.add("active");' +
-    '  }).catch(function(e){' +
-    '    if(card)card.classList.remove("loading");' +
-    '    alert("Failed to load: "+(e.message||"Unknown error"));' +
-    '  });' +
-    '};' +
-    'window.backToCards=function(){' +
-    '  document.getElementById("jv-frame").src="about:blank";' +
-    '  document.getElementById("jv").classList.remove("active");' +
-    '  document.getElementById("hp-cards-container").style.display="";' +
-    '};' +
-    '})();' +
-    '</script>' +
-    '</body></html>';
+'for(var i=0;i<journeys.length;i++){' +
+'  var jt=journeys[i].type;' +
+'  var m=JOURNEY_META[jt]||{title:jt,emoji:"\\u{1F4F1}",color:"#666",desc:"WhatsApp journey"};' +
+'  cardsHtml+="<div class=\\"hp-card\\" id=\\"card-"+jt+"\\" data-journey=\\""+jt+"\\" style=\\"--c:"+m.color+"\\">" +' +
+'    "<div class=\\"hp-card-badge\\"><div class=\\"hp-card-num\\">"+String(i+1).padStart(2,"0")+"</div><div class=\\"hp-card-emoji\\">"+m.emoji+"</div></div>" +' +
+'    "<div class=\\"hp-card-body\\"><div class=\\"hp-card-top\\"><div class=\\"hp-card-title\\">"+m.title+"</div></div>" +' +
+'    "<div class=\\"hp-card-desc\\">"+m.desc+"</div></div></div>";' +
+'}' +
+'document.getElementById("hp-cards").innerHTML=cardsHtml;' +
+'document.getElementById("hp-cards").addEventListener("click",function(e){' +
+'  var card=e.target.closest("[data-journey]");' +
+'  if(card)window.loadJourney(card.getAttribute("data-journey"));' +
+'});' +
 
   sendHtml(res, 200, html);
 }
