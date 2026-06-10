@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "builtAt": "2026-06-09T19:46:04.073Z",
+  "builtAt": "2026-06-10T03:18:04.342Z",
   "partials": {
     "cart-item": "<div class=\"cart-item-row\">\r\n  <div class=\"cart-item-thumb\"><img\r\n      src=\"{{image}}\"\r\n      alt=\"{{name}}\"\r\n      style=\"width:100%;height:100%;object-fit:cover;display:block;\" /></div>\r\n  <div class=\"cart-item-info\">\r\n    <div class=\"cart-item-name\">{{name}}</div>\r\n    <div class=\"cart-item-price\">{{#if priceFormatted}}{{priceFormatted}}{{else}}₹{{price}}{{/if}}</div>\r\n    {{#if tag}}<div class=\"cart-item-tag\">{{tag}}</div><br>{{/if}}\r\n    <div class=\"cart-item-replace\">Replace</div>\r\n  </div>\r\n  <div class=\"cart-item-right\">\r\n    <div class=\"cart-trash-ico\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\">\r\n        <path d=\"M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6\" stroke=\"#e53935\" stroke-width=\"2\"\r\n          stroke-linecap=\"round\" stroke-linejoin=\"round\" />\r\n      </svg></div>\r\n    <div class=\"qty-ctl-blue\">\r\n      <div class=\"qty-btn-blue\">−</div>\r\n      <div class=\"qty-num-blue\">{{qty}}</div>\r\n      <div class=\"qty-btn-blue\">+</div>\r\n    </div>\r\n  </div>\r\n</div>\r\n",
     "date-pill": "{{!-- Date pill separator used in WhatsApp chat flows --}}\r\n<div class=\"date-pill\">{{text}}</div>",

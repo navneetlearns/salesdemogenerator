@@ -737,23 +737,41 @@
     }
     setShareStatus('Creating secure share link...', false);
 
-    // Pre-flight size check — Vercel serverless body limit is ~4.5 MB
-    var bodyPayload = {
-      html: html,
-      brandName: window._generatedBrand || 'Demo',
-      journeyType: primarySelectedJourney()
+    // Build render config for v2 config-based share (tiny, no HTML blob)
+    // This eliminates the 4 MB size limit — config is ~2 KB regardless of journey count
+    var formData = collectFormData();
+    var config = {
+      name: formData.brandName,
+      industry: formData.industry,
+      brandColor: formData.primaryColor,
+      brandColorDark: formData.secondaryColor,
+      logo: formData.logoDataUrl || null,
+      products: formData.products,
+      journeyType: formData.journeyType,
+      journeyTypes: formData.journeyTypes
     };
-    // When multiple journeys were generated, include journeyTypes for context
-    if (_selectedJourneys.length > 1) {
-      bodyPayload.journeyTypes = _selectedJourneys.slice();
+
+    // Add step selection if user has selected specific steps
+    if (window.selectedSteps) {
+      config.selectedSteps = window.selectedSteps;
     }
+
+    // Add accepted content labels if adaptation was applied
+    var acceptedLabels = getSelectedContentLabels();
+    if (acceptedLabels && Object.keys(acceptedLabels).length > 0) {
+      config.acceptedLabels = acceptedLabels;
+    }
+
+    var bodyPayload = {
+      config: config,
+      brandName: formData.brandName,
+      journeyType: formData.journeyType
+    };
+    if (formData.journeyTypes.length > 1) {
+      bodyPayload.journeyTypes = formData.journeyTypes.slice();
+    }
+
     var bodyStr = JSON.stringify(bodyPayload);
-    if (bodyStr.length > 4 * 1024 * 1024) {
-      showError('Demo HTML is too large to share (' + Math.round(bodyStr.length / 1024 / 1024 * 10) / 10 + ' MB). Try generating fewer journeys or removing large images.');
-      setShareStatus('Demo too large to share.', true);
-      if (btn) { btn.disabled = false; btn.textContent = 'Create Share Link'; }
-      return;
-    }
 
     fetch('/api/share', {
       method: 'POST',
@@ -775,7 +793,7 @@
         // Non-JSON response (e.g. 413 from Vercel proxy)
         return res.text().then(function(text) {
           if (res.status === 413) {
-            throw new Error('Demo HTML is too large to share. Try generating fewer journeys or removing large images.');
+            throw new Error('Server rejected the request — please try again.');
           }
           throw new Error('Server error (' + res.status + '): ' + (text.substring(0, 200) || res.statusText));
         });

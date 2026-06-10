@@ -974,107 +974,160 @@
 
   /* ═══════════════════════════════════════════════════════════
    *  buildMultiJourneyHtml(results, journeyTypes, pack, input)
-   *  Stacked iframe hub. Journey HTMLs in <script> tags → Blob URL
-   *  → iframe src. No srcdoc encoding overhead. Nav scrolls to sections.
-   *  Only SELECTED journeys are shown.
+   *  Haldiram-style two-panel hub. Left: brand info. Right: journey
+   *  cards. Click a card to load that journey in the right panel via
+   *  Blob URL iframe. Journey HTMLs in <script type="text/plain"> tags.
    * ═══════════════════════════════════════════════════════════ */
   function buildMultiJourneyHtml(results, journeyTypes, pack, input) {
     var brandName = (results[0].brand && results[0].brand.name) || input.name || 'Brand';
-    var brandColor = input.brandColor || '#075e54';
+    var brandShortName = (results[0].brand && results[0].brand.shortName) || brandName;
+    var brandColor = input.brandColor || (results[0].brand && results[0].brand.colors && results[0].brand.colors.brand) || '#075e54';
+    var brandRgb = hexToRgb(brandColor);
     var journeyDescs = pack.journeyDescriptions || {};
+    var journeyData = pack.defaultJourneyData || {};
+    var brandLogoUrl = input.logo || '';
 
     // Build data scripts — raw HTML, only escape </script>
     var dataScripts = '';
     for (var r = 0; r < results.length; r++) {
       var dt = journeyTypes[r];
       var safe = results[r].html.replace(/<\/script>/gi, '<\\/script>');
-      dataScripts += '<script type="text/plain" id="jd-' + dt + '">' + safe + '<\/script>\n';
+      dataScripts += '<script type="text/plain" id="jd-' + dt + '">' + safe + '<\\/script>\n';
     }
 
-    // Build nav items
-    var navItems = '';
-    var colorCache = {};
+    // Build journey cards (matching Haldiram hub design)
+    var cards = '';
     for (var i = 0; i < journeyTypes.length; i++) {
       var jt = journeyTypes[i];
       var desc = journeyDescs[jt] || {};
       var title = results[i].journeyTitle || desc.title || jt;
-      var meta = getJourneyMeta(jt);
+      var meta = (journeyData[jt] && journeyData[jt].hubMeta) || {};
       var emoji = meta.emoji || '\u{1F4F1}';
+      var color = meta.color || brandColor;
       var steps = desc.steps || '?';
-      var jColor = meta.color || brandColor;
-      colorCache[jt] = jColor;
-      navItems += '<a class="mj-btn" href="#s-' + jt + '" style="--c:' + jColor + '" onclick="scrollToSection(\'' + jt + '\')">' +
-        '<span class="mj-e">' + emoji + '</span>' +
-        '<span class="mj-t">' + escapeAttr(title) + '</span>' +
-        '<span class="mj-s">' + steps + ' steps</span></a>';
+      var tags = meta.tags || [];
+      var tagHtml = '';
+      for (var ti = 0; ti < tags.length; ti++) {
+        tagHtml += '<span class="hp-tag">' + escapeAttr(tags[ti]) + '</span>';
+      }
+      cards += '<div class="hp-card" style="--c:' + color + '" onclick="loadJourney(\'' + jt + '\')">' +
+        '<div class="hp-card-badge"><div class="hp-card-num">' + String(i + 1).padStart(2, '0') + '</div><div class="hp-card-emoji">' + emoji + '</div></div>' +
+        '<div class="hp-card-body">' +
+        '<div class="hp-card-top"><div class="hp-card-title">' + escapeAttr(title) + '</div><div class="hp-card-steps">' + steps + ' Steps</div></div>' +
+        '<div class="hp-card-desc">' + escapeAttr(desc.desc || '') + '</div>' +
+        '<div class="hp-tags">' + tagHtml + '</div>' +
+        '</div></div>';
     }
 
-    // Build iframe sections
-    var sections = '';
-    for (var j = 0; j < results.length; j++) {
-      var jt2 = journeyTypes[j];
-      var desc2 = journeyDescs[jt2] || {};
-      var title2 = results[j].journeyTitle || desc2.title || jt2;
-      var jColor2 = colorCache[jt2] || brandColor;
-      var meta2 = getJourneyMeta(jt2);
-      var emoji2 = meta2.emoji || '\u{1F4F1}';
-      var steps2 = desc2.steps || '?';
-      sections += '<div id="s-' + jt2 + '" class="mj-block">' +
-        '<div class="mj-block-bar" style="background:' + jColor2 + '">' +
-        '<span class="mj-block-emoji">' + emoji2 + '</span>' +
-        '<span class="mj-block-title">' + escapeAttr(title2) + '</span>' +
-        '<span class="mj-block-steps">' + steps2 + ' steps</span>' +
-        '</div>' +
-        '<iframe class="mj-frame" id="mjf-' + jt2 + '" src="about:blank"></iframe>' +
-        '</div>';
+    // Build selected journeys object for inline script (title lookup on card click)
+    var selectedDescs = {};
+    for (var sdi = 0; sdi < journeyTypes.length; sdi++) {
+      var sdk = journeyTypes[sdi];
+      if (journeyDescs[sdk]) selectedDescs[sdk] = journeyDescs[sdk];
     }
 
-    // Build complete hub HTML
     var hubHtml = '<!DOCTYPE html><html lang="en"><head>' +
       '<meta charset="UTF-8">' +
-      '<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1.0">' +
       '<title>' + escapeAttr(brandName) + ' \u2014 WhatsApp Commerce OS | ZoTok</title>' +
       '<style>' +
       '*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}' +
-      'html{scroll-behavior:smooth}' +
-      'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f5f5f5}' +
-      '.mj-bar{position:sticky;top:0;z-index:999;background:' + brandColor + ';padding:8px 14px;display:flex;align-items:center;gap:8px;overflow-x:auto;box-shadow:0 2px 10px rgba(0,0,0,.15);min-height:52px}' +
-      '.mj-bar-brand{color:rgba(255,255,255,.9);font-size:12.5px;font-weight:700;white-space:nowrap;margin-right:6px;flex-shrink:0;letter-spacing:.3px}' +
-      '.mj-btn{display:inline-flex;align-items:center;gap:5px;color:#fff;text-decoration:none;padding:5px 12px;border-radius:8px;font-size:11.5px;font-weight:600;white-space:nowrap;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.06);flex-shrink:0;transition:background .15s}' +
-      '.mj-btn:hover{background:rgba(255,255,255,.25)}' +
-      '.mj-e{font-size:16px;line-height:1}' +
-      '.mj-s{font-size:9.5px;color:rgba(255,255,255,.55);font-weight:500;margin-left:2px}' +
-      '.mj-block{scroll-margin-top:56px}' +
-      '.mj-block-bar{display:flex;align-items:center;gap:8px;padding:8px 16px;color:#fff;font-size:13px;font-weight:600}' +
-      '.mj-block-emoji{font-size:18px}' +
-      '.mj-block-steps{font-size:10px;color:rgba(255,255,255,.6);font-weight:500}' +
-      '.mj-frame{width:100%;height:100vh;border:none;display:block}' +
-      '@media(max-width:640px){.mj-bar{padding:6px 10px;gap:5px}.mj-btn{padding:4px 9px;font-size:10.5px}.mj-t{display:none}.mj-block-bar{padding:6px 12px;font-size:12px}}' +
+      'html,body{height:100%}' +
+      'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#fff;display:flex;flex-direction:column}' +
+      '.hp-strip{height:6px;background:' + brandColor + ';flex-shrink:0}' +
+      '.hp-wrap{flex:1;display:flex;min-height:0}' +
+      '.hp-left{width:42%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 40px;border-right:1px solid #f0f0f0}' +
+      '.hp-logo{width:96px;height:96px;border-radius:50%;border:3px solid rgba(' + brandRgb + ',.25);object-fit:cover;margin-bottom:20px}' +
+      '.hp-label{font-size:11px;font-weight:700;color:' + brandColor + ';text-transform:uppercase;letter-spacing:2.5px;margin-bottom:10px}' +
+      '.hp-title{font-size:32px;font-weight:800;color:#111;line-height:1.15;margin-bottom:16px;text-align:center}' +
+      '.hp-title span{color:' + brandColor + '}' +
+      '.hp-desc{font-size:13px;color:#555;line-height:1.65;text-align:center;max-width:320px;margin-bottom:28px}' +
+      '.hp-badge{display:inline-flex;align-items:center;gap:8px;background:#f5f5f5;border:1px solid #e0e0e0;border-radius:24px;padding:9px 18px;font-size:12.5px;color:#222;font-weight:600}' +
+      '.hp-stats{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;justify-content:center}' +
+      '.hp-stat-pill{font-size:11px;font-weight:700;color:' + brandColor + ';background:rgba(' + brandRgb + ',.07);border:1px solid rgba(' + brandRgb + ',.2);border-radius:14px;padding:5px 13px}' +
+      '.hp-right{flex:1;background:#f7f7f8;overflow-y:auto;padding:36px 32px 48px;position:relative}' +
+      '.hp-section-label{font-size:10.5px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:2px;margin-bottom:20px}' +
+      '.hp-card{display:flex;align-items:stretch;text-decoration:none;color:inherit;margin-bottom:10px;background:#fff;border-radius:14px;border:1px solid #e8e8e8;overflow:hidden;transition:box-shadow .15s,transform .15s;cursor:pointer}' +
+      '.hp-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.1);transform:translateX(4px)}' +
+      '.hp-card-badge{background:var(--c);width:68px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:14px 0}' +
+      '.hp-card-num{font-size:10.5px;font-weight:900;color:rgba(255,255,255,.45);letter-spacing:.5px}' +
+      '.hp-card-emoji{font-size:26px;line-height:1.1}' +
+      '.hp-card-body{flex:1;padding:14px 52px 13px 18px;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 50%,calc(100% - 22px) 100%,0 100%);display:flex;flex-direction:column;justify-content:center;gap:5px}' +
+      '.hp-card-top{display:flex;align-items:center;gap:10px}' +
+      '.hp-card-title{font-size:14.5px;font-weight:700;color:#111;flex:1}' +
+      '.hp-card-steps{font-size:10px;font-weight:700;color:var(--c);background:rgba(0,0,0,.04);padding:3px 9px;border-radius:9px;white-space:nowrap;flex-shrink:0}' +
+      '.hp-card-desc{font-size:12px;color:#666;line-height:1.45;max-width:480px}' +
+      '.hp-tags{display:flex;gap:5px;flex-wrap:wrap}' +
+      '.hp-tag{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:rgba(0,0,0,.05);color:#555}' +
+      // Journey view (when a card is clicked)
+      '.journey-view{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:#f7f7f8;z-index:10;flex-direction:column}' +
+      '.journey-view.active{display:flex}' +
+      '.jv-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border-bottom:1px solid #eee;flex-shrink:0}' +
+      '.jv-back{font-size:12px;font-weight:600;color:' + brandColor + ';cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid rgba(' + brandRgb + ',.3);background:rgba(' + brandRgb + ',.05);transition:background .15s}' +
+      '.jv-back:hover{background:rgba(' + brandRgb + ',.12)}' +
+      '.jv-title{font-size:14px;font-weight:700;color:#111}' +
+      '.jv-frame{flex:1;width:100%;border:none}' +
+      '@media(max-width:768px){.hp-wrap{flex-direction:column}.hp-left{width:100%;border-right:none;border-bottom:1px solid #f0f0f0;padding:32px 24px 28px}.hp-title{font-size:26px}.hp-right{padding:24px 16px 40px}.hp-card-badge{width:58px}.hp-card-emoji{font-size:22px}.hp-card-title{font-size:13.5px}.hp-card-desc{display:none}}' +
       '</style></head><body>' +
-      '<div class="mj-bar"><span class="mj-bar-brand">' + escapeAttr(brandName) + '</span>' + navItems + '</div>' +
-      sections +
+      '<div class="hp-strip"></div>' +
+      '<div class="hp-wrap">' +
+      // Left panel — brand info
+      '<div class="hp-left">' +
+      (brandLogoUrl ? '<img class="hp-logo" src="' + escapeAttr(brandLogoUrl) + '" alt="' + escapeAttr(brandName) + '">' : '') +
+      '<div class="hp-label">' + escapeAttr(brandShortName) + '</div>' +
+      '<h1 class="hp-title">WhatsApp<br><span>Commerce OS</span></h1>' +
+      '<p class="hp-desc">A unified WhatsApp operating system for ' + escapeAttr(brandName) + ' retail ecosystem \u2014 retailer, field executive, and distributor journeys on a single number. Powered by ZoTok.</p>' +
+      '<div class="hp-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#25D366"/><path d="M17.5 14.5c-.3-.1-1.7-.8-2-.9s-.5-.2-.7.2-.8.9-1 1.1-.4.2-.7.1a8.5 8.5 0 01-2.6-1.6 9.9 9.9 0 01-1.8-2.2c-.2-.3 0-.5.1-.6l.5-.6.3-.5a.4.4 0 000-.4l-.9-2.1c-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4A4.4 4.4 0 006 9.7a7.6 7.6 0 001.6 4c1.8 2.4 4.1 3.8 7.8 4.3.8.1 1.5-.1 2-.4a4 4 0 001.3-1.7c.1-.4.1-.7 0-.9z" fill="#fff"/></svg>' + escapeAttr(brandName) + '</div>' +
+      '<div class="hp-stats"><div class="hp-stat-pill">\u25CF ' + journeyTypes.length + ' Modules</div><div class="hp-stat-pill">\u25CF Live Demo</div></div>' +
+      '</div>' +
+      // Right panel — journey cards + journey view
+      '<div class="hp-right">' +
+      '<div id="hp-cards-container">' +
+      '<div class="hp-section-label">Select a Module to Explore</div>' +
+      cards +
+      '</div>' +
+      '<div class="journey-view" id="jv">' +
+      '<div class="jv-bar">' +
+      '<div class="jv-back" onclick="backToCards()">\u2190 Back to Modules</div>' +
+      '<div class="jv-title" id="jv-title"></div>' +
+      '</div>' +
+      '<iframe class="jv-frame" id="jv-frame" src="about:blank"></iframe>' +
+      '</div>' +
+      '</div>' +
+      '</div>' +
       dataScripts +
       '<script>' +
       '(function(){' +
-      // Create Blob URLs from script data and set iframe src
-      'var scripts=document.querySelectorAll("script[id^=\'jd-\']");' +
-      'for(var i=0;i<scripts.length;i++){' +
-      'var el=scripts[i];' +
-      'var jt=el.id.replace("jd-","");' +
-      'var html=el.textContent;' +
-      'var blob=new Blob([html],{type:"text/html;charset=utf-8"});' +
-      'var url=URL.createObjectURL(blob);' +
-      'var iframe=document.getElementById("mjf-"+jt);' +
-      'if(iframe)iframe.src=url;' +
+      'var journeyHtmls = {};' +
+      'var scripts = document.querySelectorAll("script[id^=\'jd-\']");' +
+      'for (var i = 0; i < scripts.length; i++) {' +
+      '  var el = scripts[i];' +
+      '  var jt = el.id.replace("jd-", "");' +
+      '  journeyHtmls[jt] = el.textContent;' +
       '}' +
-      // Scroll to section on nav click
-      'window.scrollToSection=function(jt){' +
-      'var section=document.getElementById("s-"+jt);' +
-      'if(section)section.scrollIntoView({behavior:"smooth"});' +
-      'return false;' +
+      'var currentBlobUrl = null;' +
+      'window.loadJourney = function(jt) {' +
+      '  var html = journeyHtmls[jt];' +
+      '  if (!html) return;' +
+      '  // Revoke previous blob URL to free memory' +
+      '  if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);' +
+      '  var blob = new Blob([html], {type: "text/html;charset=utf-8"});' +
+      '  currentBlobUrl = URL.createObjectURL(blob);' +
+      '  document.getElementById("jv-frame").src = currentBlobUrl;' +
+      '  // Show title' +
+      '  var desc = ' + JSON.stringify(selectedDescs) + '[jt] || {};' +
+      '  document.getElementById("jv-title").textContent = desc.title || jt;' +
+      '  // Hide cards, show journey view' +
+      '  document.getElementById("hp-cards-container").style.display = "none";' +
+      '  document.getElementById("jv").classList.add("active");' +
+      '};' +
+      'window.backToCards = function() {' +
+      '  document.getElementById("jv-frame").src = "about:blank";' +
+      '  document.getElementById("jv").classList.remove("active");' +
+      '  document.getElementById("hp-cards-container").style.display = "";' +
       '};' +
       '})();' +
-      '<\/script>' +
+      '<\\/script>' +
       '</body></html>';
 
     return {

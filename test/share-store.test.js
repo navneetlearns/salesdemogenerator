@@ -175,3 +175,84 @@ test('cleanupExpiredShares deletes only expired share blobs', async function() {
   assert.deepEqual(blob.deleted, ['shares/expired.json']);
   assert.equal(blob.blobs.has('shares/live.json'), true);
 });
+
+// ═══════════════════════════════════════════════════════════
+//  v2: Config-based share (tiny JSON, no HTML)
+// ═══════════════════════════════════════════════════════════
+
+test('createShare with config stores v2 payload (no html, has config)', async function() {
+  var currentTime = Date.UTC(2026, 5, 10, 12, 0, 0);
+  var blob = createBlobMock(function() { return currentTime; });
+
+  var config = {
+    name: 'Acme Pharma',
+    industry: 'Pharma',
+    journeyTypes: ['order_to_cash', 'dealer_engagement'],
+    products: [{ name: 'Paracetamol', price: 50, unit: 'strip' }],
+    brandColor: '#1565C0',
+    dealerName: 'Sharma Pharma Store'
+  };
+
+  var result = await createShare({ config: config }, {
+    blob: blob.client,
+    now: function() { return currentTime; },
+    origin: 'https://demo.example'
+  });
+
+  assert.match(result.token, /^[a-f0-9]{32}$/);
+  assert.equal(result.url, 'https://demo.example/api/share?token=' + result.token);
+
+  var pathname = 'shares/' + result.token + '.json';
+  var stored = JSON.parse(blob.blobs.get(pathname).body);
+  assert.equal(stored.version, 2);
+  assert.equal(stored.html, undefined);
+  assert.equal(stored.config.name, 'Acme Pharma');
+  assert.equal(stored.config.industry, 'Pharma');
+  assert.deepEqual(stored.config.journeyTypes, ['order_to_cash', 'dealer_engagement']);
+  assert.deepEqual(stored.journeyTypes, ['order_to_cash', 'dealer_engagement']);
+});
+
+test('createShare with config bypasses HTML size limit', async function() {
+  var currentTime = Date.UTC(2026, 5, 10, 12, 0, 0);
+  var blob = createBlobMock(function() { return currentTime; });
+
+  // Config is tiny — should work even though no html provided
+  var result = await createShare({ config: { name: 'Test', journeyTypes: ['order_to_cash'] } }, {
+    blob: blob.client,
+    now: function() { return currentTime; },
+    origin: 'https://demo.example'
+  });
+
+  assert.ok(result.token);
+  var pathname = 'shares/' + result.token + '.json';
+  var stored = JSON.parse(blob.blobs.get(pathname).body);
+  assert.equal(stored.version, 2);
+});
+
+test('getShare returns v2 payload with config (not html)', async function() {
+  var currentTime = Date.UTC(2026, 5, 10, 12, 0, 0);
+  var blob = createBlobMock(function() { return currentTime; });
+
+  var created = await createShare({
+    config: { name: 'Test Brand', journeyTypes: ['order_to_cash', 'field_ops_expense'] }
+  }, {
+    blob: blob.client,
+    now: function() { return currentTime; },
+    origin: 'https://demo.example'
+  });
+
+  var share = await getShare(created.token, {
+    blob: blob.client,
+    fetchBlob: async function(url) {
+      var pathname = url.replace('https://blob.example/', '');
+      return { ok: true, text: async function() { return blob.blobs.get(pathname).body; } };
+    },
+    now: function() { return currentTime + SHARE_TTL_MS - 1; }
+  });
+
+  assert.equal(share.version, 2);
+  assert.equal(share.config.name, 'Test Brand');
+  assert.deepEqual(share.config.journeyTypes, ['order_to_cash', 'field_ops_expense']);
+  // v2 shares have no html — caller (api/share.js) handles re-rendering
+  assert.equal(share.html, undefined);
+});

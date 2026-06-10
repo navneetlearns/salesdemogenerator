@@ -19,7 +19,7 @@
       "memory": 512,
       "maxDuration": 10
     },
-    "api/share/cleanup.js": {
+    "api/share-cleanup.js": {
       "memory": 512,
       "maxDuration": 10
     }

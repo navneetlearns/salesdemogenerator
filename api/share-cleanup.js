@@ -1,4 +1,4 @@
-const { cleanupExpiredShares } = require('../../lib/share-store');
+const { cleanupExpiredShares } = require('../lib/share-store');
 
 module.exports = async function cleanupSharesHandler(req, res) {
   if (req.method !== 'POST') {

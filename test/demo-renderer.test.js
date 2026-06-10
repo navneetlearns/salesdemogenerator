@@ -379,9 +379,9 @@ test('renderMultiJourney with single journey wraps output in hub HTML', async fu
     journeyTypes: ['order_to_cash']
   });
   assert.ok(result.html);
-  // Hub contains sticky nav bar, iframe, and data script
-  assert.match(result.html, /mj-bar/);
-  assert.match(result.html, /mj-frame/);
+  // Hub contains two-panel layout, journey cards, journey view iframe, and data script
+  assert.match(result.html, /hp-card/);
+  assert.match(result.html, /jv-frame/);
   assert.match(result.html, /jd-order_to_cash/);
   assert.equal(result.journeyTypes.length, 1);
   assert.equal(result.journeyTypes[0], 'order_to_cash');
