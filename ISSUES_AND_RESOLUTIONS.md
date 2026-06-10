@@ -2,11 +2,65 @@
 
 > Computed from live analysis of the codebase and generated output.
 > Branch: `main`
-> Last updated: June 2026
+> Last updated: June 10, 2026
 
 ---
 
 ## RESOLVED (June 2026)
+
+### FIX-10: Hub page clicks broken — srcdoc/document.write don't execute scripts (June 10)
+
+**Issues:**
+1. Preview iframe used `srcdoc` — hub HTML with inline `<script>` (loadJourney, backToCards) didn't execute
+2. v2 config share used `document.write()` — same problem on the share page
+3. Journey cards on hub page were unclickable (onclick handlers never defined)
+
+**Root cause:** Both `srcdoc` and `document.write()` fail to execute inline `<script>` blocks in large HTML documents. The hub HTML embeds journey data in `<script type="text/plain">` tags and defines click handlers in a regular `<script>` — neither approach runs the JavaScript reliably.
+
+**Resolution:**
+- Preview iframe: `srcdoc` → Blob URL (`URL.createObjectURL` + `iframe.src`)
+- v2 config share: `document.write()` → Blob URL in iframe (loading spinner → iframe appears on load)
+- Both paths now use `Blob([html], {type: "text/html"})` → `URL.createObjectURL(blob)` → `iframe.src = url`
+- Scripts execute reliably in the isolated Blob URL context
+
+### FIX-11: v3 multi-blob share — two-step upload architecture (June 10)
+
+**Problem:** Sharing a multi-journey demo (9 journeys) sent all HTML in a single POST body (~1.8MB), hitting Vercel's ~4.1MB serverless limit (HTTP 413).
+
+**Resolution:** Two-step upload that keeps each request small:
+- **Step 1:** `POST /api/share { config, journeyTypes }` → creates hub metadata blob (~2KB), returns hub token
+- **Step 2:** `POST /api/share { hubToken, journeyType, html }` → stores one journey blob (~200KB each), called N times sequentially
+- **Hub page:** `GET /api/share?token=xxx` → serves Haldiram-style two-panel HTML that fetches journeys dynamically via `fetch("/api/share?token=xxx&journey=otc")` + Blob URL iframes
+- Client shows upload progress ("Uploading journey 3 of 9...")
+- Each request stays well under the 4.1MB limit
+- Backward compatible: v1 (HTML blob) and v2 (config re-render) still work
+
+**Files changed:** `lib/share-store.js` (initHub, addJourneyToHub), `api/share.js` (serveMultiBlobHub, route logic), `public/js/demo-ui.js` (two-step upload flow)
+
+### FIX-12: Hub card generation syntax error — FUNCTION_INVOCATION_FAILED (June 10)
+
+**Issue:** `serveMultiBlobHub` in `api/share.js` had a JavaScript syntax error — the `onclick` handler escaping was broken. `\\'` in a single-quoted string terminates the string, causing `SyntaxError: Invalid or unexpected token`. This crashed the entire module, making ALL POST requests to `/api/share` fail with `FUNCTION_INVOCATION_FAILED`.
+
+**Root cause:** Building HTML with inline `onclick="loadJourney('...')"` inside a JavaScript string literal requires complex backslash escaping that doesn't work in single-quoted strings.
+
+**Resolution:** Replaced `onclick` with `data-journey` attribute + event delegation:
+```javascript
+// Before (broken):
+cardsHtml += '<div onclick="loadJourney(\'' + jt + '\')">'
+// After (works):
+cardsHtml += '<div data-journey="' + jt + '">'
+// + event listener:
+document.getElementById("hp-cards").addEventListener("click", function(e) {
+  var card = e.target.closest("[data-journey]");
+  if (card) window.loadJourney(card.getAttribute("data-journey"));
+});
+```
+
+### FIX-13: Safe JSON parsing for API responses (June 10)
+
+**Issue:** Client called `res.json()` on API responses without checking Content-Type. When server returned non-JSON error pages (Vercel 502/503, infrastructure errors), client threw cryptic `Unexpected token 'A', "A server e"... is not valid JSON`.
+
+**Resolution:** Added `safeJson()` helper that reads response as text first, then tries `JSON.parse`. On parse failure, throws a readable error with the first 200 chars of the response body. Applied to both init hub and per-journey upload POST requests.
 
 ### FIX-5: Hub page redesign — 4 issues resolved (June 10)
 
@@ -248,11 +302,16 @@ Client-side wizard currently supports all 9 journeys (verified via `build-templa
 - Verify step selection works for each journey type in the wizard
 - Test with all 3 brands
 
-### PEND-3: Shareable Hub Links (Multi-Journey Share) — RESOLVED (June 9)
-**Resolution:** `renderMultiJourney()` always produces a single hub HTML blob. The existing `/api/share` endpoint stores this blob and serves it. `share-store.js` now stores `journeyTypes` array alongside `journeyType` for multi-journey context. No API changes needed — the hub HTML is self-contained with iframes.
+### PEND-3: Shareable Hub Links (Multi-Journey Share) — RESOLVED (June 10)
+**Resolution:** Implemented three-tier share architecture:
+- **v1:** HTML blob (legacy, limited to ~4MB)
+- **v2:** Config-based (~2KB, re-renders client-side via Blob URL iframe)
+- **v3:** Multi-blob two-step upload (each journey stored separately, hub fetches on demand)
 
-### PEND-4: Deploy Uncommitted Work — RESOLVED (June 9)
-All work committed and deployed. Hub pages, template-pack changes, content-type safety, layout fixes, and hub-wrapping changes are live at https://demo-generator-one.vercel.app.
+Client automatically selects v3 for multi-journey shares (2+ journeys). Hub page uses Haldiram-style two-panel layout with `data-journey` attribute + event delegation for card clicks. All rendering paths use Blob URLs instead of srcdoc/document.write.
+
+### PEND-4: Deploy Uncommitted Work — RESOLVED (June 10)
+All work committed and deployed. Live at https://demo-generator-one.vercel.app. Recent commits: v3 multi-blob share, Blob URL preview/share, safe JSON parsing, hub card syntax fix.
 
 ---
 
@@ -261,7 +320,9 @@ All work committed and deployed. Hub pages, template-pack changes, content-type 
 | Priority | Issue | Type | Effort | Impact |
 |---|---|---|---|---|
 | **P0** | PEND-1: Content adaptation for all journeys | Feature | High | Content adaptation limited to 1/9 journeys |
-| **P0** | FIX-5: Hub page file size, 404, UX | Bug | High | RESOLVED June 10 |
+| **P0** | FIX-10: Hub clicks broken (srcdoc/document.write) | Bug | Medium | RESOLVED June 10 |
+| **P0** | FIX-11: v3 multi-blob share architecture | Feature | High | RESOLVED June 10 |
+| **P0** | FIX-12: Hub card syntax error (FUNCTION_INVOCATION_FAILED) | Bug | Medium | RESOLVED June 10 |
 | **P1** | PEND-2: Custom demo for all 9 journeys | Feature | Medium | Step selection may miss some journey types |
 | **P1** | BUG-1: Prices never replaced | Bug | Medium | Every brand shows wrong prices |
 | **P1** | BUG-2: Secondary dealers unreplaced | Bug | Low | Admin portal shows wrong names |

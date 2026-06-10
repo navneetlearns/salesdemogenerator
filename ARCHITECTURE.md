@@ -42,12 +42,30 @@ DemoRenderer.downloadHtml(html, filename)  // Trigger browser download
 
 When the user selects 2+ journey types in the wizard, `renderMultiJourney()` renders each journey independently via `render()` and assembles the results into a single hub-style HTML document:
 
-- Each journey is wrapped in an `<iframe srcdoc="...">` to avoid DOM ID collisions
-- A sticky navigation bar provides journey cards with emoji, title, and step count
-- The entire hub is stored as a single blob for sharing (same `/api/share` endpoint)
-- Size constraint: 4 MB limit (9 client-rendered journeys ≈ 2-2.5 MB, well within limit)
+- Each journey is wrapped in an `<iframe>` via Blob URL (`URL.createObjectURL`) to avoid DOM ID collisions
+- A Haldiram-style two-panel layout: left panel shows brand info, right panel shows journey cards
+- Clicking a card fetches the journey HTML on demand, creates a Blob URL, and loads it in an iframe
+- Journey HTML data embedded in `<script type="text/plain">` tags, parsed by inline script at load time
+- `renderMultiJourney()` returns both the hub HTML and `journeyResults` array (individual journey HTMLs) for multi-blob share
 
 `renderMultiJourney()` and `buildMultiJourneyHtml()` are in `demo-renderer.js` and exposed on the `DemoRenderer` public API.
+
+## Share Architecture (3 versions, backward compatible)
+
+### v1: HTML Blob Share (legacy)
+Single POST with `{ html: "..." }` → stores full hub HTML as one blob. Works for small demos but fails when HTML exceeds Vercel's ~4.1MB body limit.
+
+### v2: Config-Based Share
+Single POST with `{ config: {...} }` → stores render config (~2KB). Share page loads Handlebars + demo-renderer.js, re-renders client-side via `renderMultiJourney(config)`. Hub HTML loaded in iframe via Blob URL. Works for any number of journeys with no size limit.
+
+### v3: Multi-Blob Share (new)
+Two-step upload for pre-rendered multi-journey demos:
+1. `POST { config, journeyTypes }` → creates hub metadata blob (~2KB), returns hub token
+2. `POST { hubToken, journeyType, html }` → stores one journey blob (~200KB each), called N times sequentially
+
+Hub page (`GET /api/share?token=xxx`) serves Haldiram-style two-panel HTML that fetches individual journeys via `fetch("/api/share?token=xxx&journey=otc")` + Blob URL iframes. Each request stays under the 4.1MB limit. Client shows upload progress.
+
+**Key insight:** `srcdoc` and `document.write()` don't execute inline `<script>` blocks reliably in large HTML. All rendering paths now use Blob URLs (`URL.createObjectURL` + `iframe.src`).
 
 ## Home Page (WhatsApp Commerce OS)
 
