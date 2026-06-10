@@ -75,6 +75,13 @@ test('GET v3 share serves a complete hub page with journey loader script', async
   assert.match(res.body, /window\._hubToken="0123456789abcdef0123456789abcdef"/);
   assert.match(res.body, /field_ops_expense/);
   assert.match(res.body, /journey-active/);
+  assert.match(res.body, /hp-card-steps/);
+  assert.match(res.body, /steps:11/);
+  assert.match(res.body, /m\.steps/);
+  assert.match(res.body, / Steps/);
+  assert.match(res.body, /hp-tag/);
+  assert.match(res.body, /tags:\["Ordering","SAP","Billing"\]/);
+  assert.match(res.body, /End-to-end order flow/);
   assert.match(res.body, /<\/script><\/body><\/html>$/);
   assert.doesNotMatch(res.body, /undefined$/);
 });

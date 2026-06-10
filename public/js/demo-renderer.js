@@ -831,10 +831,13 @@
       // Filter by selectedTypes if provided — only show selected journeys
       if (selectedSet && !selectedSet[jt]) continue;
       cardNum++;
-      var meta = (journeyData[jt] && journeyData[jt].hubMeta) || {};
+      var journey = journeyData[jt] || {};
+      var meta = journey.hubMeta || {};
+      var title = desc.title || journey.title || humanizeJourneyType(jt);
+      var cardMeta = getHubCardMeta(jt, desc, journey, title);
       var emoji = meta.emoji || '\u{1F4F1}';
       var color = meta.color || brandColor;
-      var tags = meta.tags || [];
+      var tags = cardMeta.tags;
       var tagHtml = '';
       for (var ti = 0; ti < tags.length; ti++) {
         tagHtml += '<span class="hp-tag">' + escapeAttr(tags[ti]) + '</span>';
@@ -842,8 +845,8 @@
       cards += '<a class="hp-card" href="#section-' + jt + '" style="--c:' + color + '">' +
         '<div class="hp-card-badge"><div class="hp-card-num">' + String(cardNum).padStart(2, '0') + '</div><div class="hp-card-emoji">' + emoji + '</div></div>' +
         '<div class="hp-card-body">' +
-        '<div class="hp-card-top"><div class="hp-card-title">' + escapeAttr(desc.title) + '</div><div class="hp-card-steps">' + (desc.steps || '?') + ' Steps</div></div>' +
-        '<div class="hp-card-desc">' + escapeAttr(desc.desc || '') + '</div>' +
+        '<div class="hp-card-top"><div class="hp-card-title">' + escapeAttr(title) + '</div><div class="hp-card-steps">' + cardMeta.steps + ' Steps</div></div>' +
+        '<div class="hp-card-desc">' + escapeAttr(cardMeta.desc) + '</div>' +
         '<div class="hp-card-tags">' + tagHtml + '</div>' +
         '</div></a>';
     }
@@ -925,6 +928,41 @@
    * ═══════════════════════════════════════════════════════════ */
 
   /* ── Helper: journey metadata icon/color from hubMeta ──── */
+  function humanizeJourneyType(type) {
+    return String(type || 'Journey')
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, function(ch) { return ch.toUpperCase(); });
+  }
+
+  function getHubCardMeta(journeyType, desc, journey, title) {
+    var safeDesc = desc || {};
+    var safeJourney = journey || {};
+    var hubMeta = safeJourney.hubMeta || {};
+    var steps = safeDesc.steps ||
+      (Array.isArray(safeJourney.steps) ? safeJourney.steps.length : null) ||
+      '?';
+    var cardDesc = safeDesc.desc ||
+      hubMeta.desc ||
+      (Array.isArray(safeJourney.steps) && safeJourney.steps[0] && safeJourney.steps[0].meta) ||
+      ('Guided WhatsApp workflow for ' + (title || humanizeJourneyType(journeyType)) + '.');
+    var tags = Array.isArray(hubMeta.tags) ? hubMeta.tags.slice(0, 3) : [];
+
+    if (!tags.length && Array.isArray(safeJourney.steps) && safeJourney.steps[0] && safeJourney.steps[0].meta) {
+      tags = String(safeJourney.steps[0].meta)
+        .split(/[|,\u2022\u00b7]/)
+        .map(function(tag) { return tag.trim(); })
+        .filter(Boolean)
+        .slice(0, 3);
+    }
+    if (!tags.length) {
+      tags = journeyType === 'order_to_cash'
+        ? ['Ordering', 'SAP', 'Billing']
+        : ['WhatsApp', 'Workflow'];
+    }
+
+    return { steps: steps, desc: cardDesc, tags: tags };
+  }
+
   function getJourneyMeta(journeyType) {
     if (!_pack || !_pack.defaultJourneyData) return {};
     var data = _pack.defaultJourneyData[journeyType];
@@ -1005,12 +1043,14 @@
     for (var i = 0; i < journeyTypes.length; i++) {
       var jt = journeyTypes[i];
       var desc = journeyDescs[jt] || {};
-      var title = results[i].journeyTitle || desc.title || jt;
-      var meta = (journeyData[jt] && journeyData[jt].hubMeta) || {};
+      var journey = journeyData[jt] || {};
+      var title = results[i].journeyTitle || desc.title || journey.title || humanizeJourneyType(jt);
+      var meta = journey.hubMeta || {};
+      var cardMeta = getHubCardMeta(jt, desc, journey, title);
       var emoji = meta.emoji || '\u{1F4F1}';
       var color = meta.color || brandColor;
-      var steps = desc.steps || '?';
-      var tags = meta.tags || [];
+      var steps = cardMeta.steps;
+      var tags = cardMeta.tags;
       var tagHtml = '';
       for (var ti = 0; ti < tags.length; ti++) {
         tagHtml += '<span class="hp-tag">' + escapeAttr(tags[ti]) + '</span>';
@@ -1019,7 +1059,7 @@
         '<div class="hp-card-badge"><div class="hp-card-num">' + String(i + 1).padStart(2, '0') + '</div><div class="hp-card-emoji">' + emoji + '</div></div>' +
         '<div class="hp-card-body">' +
         '<div class="hp-card-top"><div class="hp-card-title">' + escapeAttr(title) + '</div><div class="hp-card-steps">' + steps + ' Steps</div></div>' +
-        '<div class="hp-card-desc">' + escapeAttr(desc.desc || '') + '</div>' +
+        '<div class="hp-card-desc">' + escapeAttr(cardMeta.desc) + '</div>' +
         '<div class="hp-tags">' + tagHtml + '</div>' +
         '</div></div>';
     }

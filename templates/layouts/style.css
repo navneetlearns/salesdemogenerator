@@ -289,6 +289,28 @@
       flex-shrink: 0;
     }
 
+    #step-6 .sap-architecture-card {
+      width: min(920px, calc(100vw - 340px));
+      max-width: 920px;
+      max-height: 560px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 28px rgba(0, 0, 0, 0.13);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #step-6 .sap-architecture-img {
+      display: block;
+      width: 100%;
+      max-width: 920px;
+      max-height: 560px;
+      height: auto;
+      object-fit: contain;
+    }
+
     #step-2.active {
       flex-wrap: nowrap;
       align-items: flex-start;
@@ -1387,6 +1409,16 @@
         overflow-x: hidden;
         gap: 10px;
         box-sizing: border-box;
+      }
+
+      #step-6 .sap-architecture-card {
+        width: calc(100vw - 24px);
+        max-width: 920px;
+        max-height: calc(100vh - 190px);
+      }
+
+      #step-6 .sap-architecture-img {
+        max-height: calc(100vh - 190px);
       }
 
       .screen-lbl {

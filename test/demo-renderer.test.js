@@ -399,6 +399,41 @@ test('renderMultiJourney with single journey wraps output in hub HTML', async fu
   assert.equal(result.journeyTypes[0], 'order_to_cash');
 });
 
+test('renderMultiJourney hub cards keep fallback description, steps, and tags', async function() {
+  var pack = createPack();
+  pack.journeyDescriptions.order_to_cash = { title: 'Order to Cash', scaffold: false };
+  delete pack.defaultJourneyData.order_to_cash.hubMeta;
+  const renderer = loadRendererWithPack(pack);
+  await renderer.loadPack();
+
+  var result = await renderer.renderMultiJourney({
+    name: 'Acme Corp',
+    products: [
+      { name: 'Acme Widget', price: 100, unit: 'piece', imageDataUrl: 'data:img' }
+    ],
+    industry: 'General',
+    journeyTypes: ['order_to_cash']
+  });
+
+  assert.match(result.html, /<div class="hp-card-steps">1 Steps<\/div>/);
+  assert.match(result.html, /<span class="hp-tag">Ordering<\/span>/);
+  assert.match(result.html, /<span class="hp-tag">SAP<\/span>/);
+  assert.match(result.html, /<div class="hp-card-desc">Guided WhatsApp workflow for Order to Cash\.<\/div>/);
+  assert.doesNotMatch(result.html, /<div class="hp-card-desc"><\/div>/);
+});
+
+test('SAP architecture partial uses bounded image classes', function() {
+  var partial = fs.readFileSync(path.join(__dirname, '..', 'templates', 'partials', 'step6-sap-architecture.hbs'), 'utf8');
+  var style = fs.readFileSync(path.join(__dirname, '..', 'templates', 'layouts', 'style.css'), 'utf8');
+
+  assert.match(partial, /class="sap-architecture-card"/);
+  assert.match(partial, /class="sap-architecture-img"/);
+  assert.doesNotMatch(partial, /style="width:100%;height:auto;display:block;"/);
+  assert.match(style, /#step-6 \.sap-architecture-card/);
+  assert.match(style, /max-width: 920px/);
+  assert.match(style, /max-height: 560px/);
+});
+
 test('buildHomePage filters cards by selectedTypes', async function() {
   var pack = createPack();
   // Add more journey descriptions to test filtering

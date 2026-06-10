@@ -1,15 +1,14 @@
-{{!-- Step 6: SAP Integration Architecture — 1 screen
---}}
+{{!-- Step 6: SAP Integration Architecture - 1 screen --}}
 <div id="step-6" class="step-section">
   <div class="screen-wrap">
-    <div class="screen-lbl">ZoTok × SAP Integration Architecture</div>
-    <div class="screen-type-lbl">Architecture Diagram — WhatsApp Order → SAP Billing Cycle</div>
-    <div style="width:100%;background:#fff;border-radius:16px;box-shadow:0 4px 28px rgba(0,0,0,0.13);overflow:hidden;">
-      <img src="{{sapArchitectureImage}}" style="width:100%;height:auto;display:block;" alt="ZoTok × SAP Integration Architecture" />
+    <div class="screen-lbl">ZoTok x SAP Integration Architecture</div>
+    <div class="screen-type-lbl">Architecture Diagram - WhatsApp Order to SAP Billing Cycle</div>
+    <div class="sap-architecture-card">
+      <img class="sap-architecture-img" src="{{sapArchitectureImage}}" alt="ZoTok x SAP Integration Architecture" />
     </div>
     <div class="screen-desc" style="background:#E8F4FD;width:100%;">
-      <strong>ZoTok × SAP Integration</strong><br>
-      Once the dealer's order is confirmed on WhatsApp and approved in the ZoTok PWA, it is pushed to SAP via ZoTok's integration layer. The JSON payload flows through the API Gateway → Payload Transformation → SAP Adapter, triggering the full order-to-bill cycle in SAP SD/FI — from sales order creation and credit check through delivery, picking, and billing document generation. OData callbacks flow back to ZoTok to update the dealer via WhatsApp.
+      <strong>ZoTok x SAP Integration</strong><br>
+      Once the dealer's order is confirmed on WhatsApp and approved in the ZoTok PWA, it is pushed to SAP via ZoTok's integration layer. The JSON payload flows through the API Gateway to Payload Transformation to SAP Adapter, triggering the full order-to-bill cycle in SAP SD/FI - from sales order creation and credit check through delivery, picking, and billing document generation. OData callbacks flow back to ZoTok to update the dealer via WhatsApp.
     </div>
   </div>
 </div>

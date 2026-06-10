@@ -146,7 +146,10 @@ function serveMultiBlobHub(res, share) {
     '.hp-card-body{flex:1;padding:14px 52px 13px 18px;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 50%,calc(100% - 22px) 100%,0 100%);display:flex;flex-direction:column;justify-content:center;gap:5px}' +
     '.hp-card-top{display:flex;align-items:center;gap:10px}' +
     '.hp-card-title{font-size:14.5px;font-weight:700;color:#111;flex:1}' +
+    '.hp-card-steps{font-size:10px;font-weight:700;color:var(--c);background:rgba(0,0,0,.04);padding:3px 9px;border-radius:9px;white-space:nowrap;flex-shrink:0}' +
     '.hp-card-desc{font-size:12px;color:#666;line-height:1.45;max-width:480px}' +
+    '.hp-tags{display:flex;gap:5px;flex-wrap:wrap}' +
+    '.hp-tag{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:rgba(0,0,0,.05);color:#555}' +
     '.journey-view{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:#f7f7f8;z-index:10;flex-direction:column}' +
     '.journey-view.active{display:flex}' +
     '.jv-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border-bottom:1px solid #eee;flex-shrink:0}' +
@@ -191,24 +194,25 @@ function serveMultiBlobHub(res, share) {
     'var currentBlobUrl = null;' +
     'var journeys = window._hubJourneys || [];' +
     'var JOURNEY_META = {' +
-    '  order_to_cash:{title:"Order to Cash",emoji:"\\u{1F6D2}",color:"#1565C0",desc:"End-to-end order flow"},' +
-    '  field_ops_expense:{title:"Field Ops & Expense",emoji:"\\u{1F454}",color:"#00695C",desc:"Field team management"},' +
-    '  automated_collections:{title:"Automated Collections",emoji:"\\u{1F4B0}",color:"#2E7D32",desc:"Payment collection"},' +
-    '  dealer_engagement:{title:"Dealer Engagement",emoji:"\\u{1F91D}",color:"#E65100",desc:"Dealer communication"},' +
-    '  retailer_onboarding:{title:"Retailer Onboarding",emoji:"\\u{1F3EA}",color:"#C62828",desc:"New retailer setup"},' +
-    '  retailer_loyalty:{title:"Retailer Loyalty",emoji:"\\u{1F3C6}",color:"#6A1B9A",desc:"Loyalty programs"},' +
-    '  campaigns_queries:{title:"Campaigns & Queries",emoji:"\\u{1F4E2}",color:"#AD1457",desc:"Marketing campaigns"},' +
-    '  dt_fulfillment_payment:{title:"DT Fulfillment",emoji:"\\u{1F69A}",color:"#4527A0",desc:"Fulfillment & payment"},' +
-    '  retailer_activation:{title:"Retailer Activation",emoji:"\\u{26A1}",color:"#F57F17",desc:"Activation campaigns"}' +
+    '  order_to_cash:{title:"Order to Cash",emoji:"\\u{1F6D2}",color:"#1565C0",steps:11,desc:"End-to-end order flow",tags:["Ordering","SAP","Billing"]},' +
+    '  field_ops_expense:{title:"Field Ops & Expense",emoji:"\\u{1F454}",color:"#00695C",steps:15,desc:"Field team management",tags:["Field Team","Expense","Visits"]},' +
+    '  automated_collections:{title:"Automated Collections",emoji:"\\u{1F4B0}",color:"#2E7D32",steps:11,desc:"Payment collection",tags:["Payments","Reminders","Ledger"]},' +
+    '  dealer_engagement:{title:"Dealer Engagement",emoji:"\\u{1F91D}",color:"#E65100",steps:3,desc:"Dealer communication",tags:["Broadcasts","Queries","CRM"]},' +
+    '  retailer_onboarding:{title:"Retailer Onboarding",emoji:"\\u{1F3EA}",color:"#C62828",steps:12,desc:"New retailer setup",tags:["KYC","Approval","Setup"]},' +
+    '  retailer_loyalty:{title:"Retailer Loyalty",emoji:"\\u{1F3C6}",color:"#6A1B9A",steps:8,desc:"Loyalty programs",tags:["Points","Rewards","Tier"]},' +
+    '  campaigns_queries:{title:"Campaigns & Queries",emoji:"\\u{1F4E2}",color:"#AD1457",steps:4,desc:"Marketing campaigns",tags:["Campaigns","Queries"]},' +
+    '  dt_fulfillment_payment:{title:"DT Fulfillment",emoji:"\\u{1F69A}",color:"#4527A0",steps:5,desc:"Fulfillment & payment",tags:["Fulfillment","Payment"]},' +
+    '  retailer_activation:{title:"Retailer Activation",emoji:"\\u{26A1}",color:"#F57F17",steps:4,desc:"Activation campaigns",tags:["Activation","Engagement"]}' +
     '};' +
     'var cardsHtml="";' +
 'for(var i=0;i<journeys.length;i++){' +
 '  var jt=journeys[i].type;' +
-'  var m=JOURNEY_META[jt]||{title:jt,emoji:"\\u{1F4F1}",color:"#666",desc:"WhatsApp journey"};' +
+'  var m=JOURNEY_META[jt]||{title:jt.replace(/_/g," "),emoji:"\\u{1F4F1}",color:"#666",steps:"?",desc:"WhatsApp journey",tags:["WhatsApp","Workflow"]};' +
+'  var tags=(m.tags&&m.tags.length?m.tags:["WhatsApp","Workflow"]).map(function(t){return "<span class=\\"hp-tag\\">"+t+"</span>";}).join("");' +
 '  cardsHtml+="<div class=\\"hp-card\\" id=\\"card-"+jt+"\\" data-journey=\\""+jt+"\\" style=\\"--c:"+m.color+"\\">" +' +
 '    "<div class=\\"hp-card-badge\\"><div class=\\"hp-card-num\\">"+String(i+1).padStart(2,"0")+"</div><div class=\\"hp-card-emoji\\">"+m.emoji+"</div></div>" +' +
-'    "<div class=\\"hp-card-body\\"><div class=\\"hp-card-top\\"><div class=\\"hp-card-title\\">"+m.title+"</div></div>" +' +
-'    "<div class=\\"hp-card-desc\\">"+m.desc+"</div></div></div>";' +
+'    "<div class=\\"hp-card-body\\"><div class=\\"hp-card-top\\"><div class=\\"hp-card-title\\">"+m.title+"</div><div class=\\"hp-card-steps\\">"+m.steps+" Steps</div></div>" +' +
+'    "<div class=\\"hp-card-desc\\">"+(m.desc||"WhatsApp journey")+"</div><div class=\\"hp-tags\\">"+tags+"</div></div></div>";' +
 '}' +
 'document.getElementById("hp-cards").innerHTML=cardsHtml;' +
 'document.getElementById("hp-cards").addEventListener("click",function(e){' +
