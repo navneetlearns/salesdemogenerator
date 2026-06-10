@@ -23,6 +23,14 @@ test('wizard restores the last generated preview after refresh', () => {
   assert.match(js, /saveLastPreview/);
 });
 
+test('share link uses v3 hub upload for single generated journeys too', () => {
+  const js = fs.readFileSync(path.join(ROOT, 'public', 'js', 'demo-ui.js'), 'utf8');
+
+  assert.match(js, /var journeyResults = window\._journeyResults/);
+  assert.match(js, /journeyResults && journeyResults\.length > 0/);
+  assert.doesNotMatch(js, /journeyResults && journeyResults\.length > 1/);
+});
+
 test('journey selection UI shows explicit selected checkmarks', () => {
   const html = fs.readFileSync(path.join(ROOT, 'public', 'index.html'), 'utf8');
   const css = fs.readFileSync(path.join(ROOT, 'public', 'style.css'), 'utf8');

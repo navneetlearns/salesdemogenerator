@@ -229,6 +229,29 @@ test('createShare with config bypasses HTML size limit', async function() {
   assert.equal(stored.version, 2);
 });
 
+test('createShare with config ignores oversized legacy html payload', async function() {
+  var currentTime = Date.UTC(2026, 5, 10, 12, 0, 0);
+  var blob = createBlobMock(function() { return currentTime; });
+
+  var result = await createShare({
+    html: '<html>' + 'x'.repeat(MAX_SHARE_HTML_BYTES + 1) + '</html>',
+    config: { name: 'Legacy Client', journeyTypes: ['field_ops_expense'] },
+    brandName: 'Legacy Client',
+    journeyType: 'field_ops_expense'
+  }, {
+    blob: blob.client,
+    now: function() { return currentTime; },
+    origin: 'https://demo.example'
+  });
+
+  var pathname = 'shares/' + result.token + '.json';
+  var stored = JSON.parse(blob.blobs.get(pathname).body);
+  assert.equal(stored.version, 2);
+  assert.equal(stored.html, undefined);
+  assert.equal(stored.config.name, 'Legacy Client');
+  assert.deepEqual(stored.journeyTypes, ['field_ops_expense']);
+});
+
 test('getShare returns v2 payload with config (not html)', async function() {
   var currentTime = Date.UTC(2026, 5, 10, 12, 0, 0);
   var blob = createBlobMock(function() { return currentTime; });

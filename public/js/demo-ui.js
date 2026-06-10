@@ -786,7 +786,7 @@
     // v3 multi-blob: two-step upload (init hub → upload journeys one at a time)
     // Each request stays under Vercel's ~4.1MB limit
     var journeyResults = window._journeyResults;
-    if (journeyResults && journeyResults.length > 1) {
+    if (journeyResults && journeyResults.length > 0) {
       // Step 1: Init hub (tiny — just config + journey types)
       setShareStatus('Initializing share hub...', false);
       return fetch('/api/share', {
