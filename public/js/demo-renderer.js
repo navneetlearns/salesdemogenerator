@@ -967,7 +967,12 @@
       }
 
       return Promise.all(promises).then(function(results) {
-        return buildMultiJourneyHtml(results, journeyTypes, pack, input);
+        var hubResult = buildMultiJourneyHtml(results, journeyTypes, pack, input);
+        // Attach individual journey results for v3 multi-blob share
+        hubResult.journeyResults = results.map(function(r, i) {
+          return { type: journeyTypes[i], html: r.html, title: r.journeyTitle || journeyTypes[i] };
+        });
+        return hubResult;
       });
     });
   }

@@ -603,7 +603,12 @@
       ? payload.journeyTypes
       : [payload.journeyType || primarySelectedJourney()];
 
-    if (iframe) iframe.srcdoc = payload.html;
+    if (iframe) {
+      if (window._previewBlobUrl) URL.revokeObjectURL(window._previewBlobUrl);
+      var blob = new Blob([payload.html], {type: 'text/html;charset=utf-8'});
+      window._previewBlobUrl = URL.createObjectURL(blob);
+      iframe.src = window._previewBlobUrl;
+    }
     if (previewArea) previewArea.style.display = 'block';
     if (previewTitle) {
       previewTitle.textContent = payload.journeyTitle ? 'Preview - ' + payload.journeyTitle : 'Preview';
@@ -669,11 +674,13 @@
           if (progressEl) progressEl.style.display = 'none';
         }, 500);
 
-        // Write to iframe
+        // Write to iframe via Blob URL (srcdoc fails with large multi-journey HTML)
         var iframe = document.getElementById('previewIframe');
         if (iframe) {
-          // Use srcdoc for better script isolation and execution
-          iframe.srcdoc = result.html;
+          if (window._previewBlobUrl) URL.revokeObjectURL(window._previewBlobUrl);
+          var blob = new Blob([result.html], {type: 'text/html;charset=utf-8'});
+          window._previewBlobUrl = URL.createObjectURL(blob);
+          iframe.src = window._previewBlobUrl;
         }
 
         // Show preview area
@@ -681,6 +688,7 @@
 
         // Store generated HTML for later use
         window._generatedHtml = result.html;
+        window._journeyResults = result.journeyResults || null;
         window._generatedBrand = result.brand ? result.brand.name || formData.brandName : formData.brandName;
         saveLastPreview(result, formData.brandName);
       })
@@ -695,14 +703,16 @@
 
   function getGeneratedHtml() {
     var html = window._generatedHtml || '';
+    if (html) return html;
+    // Fallback: read from iframe (Blob URL or srcdoc)
     var iframe = document.getElementById('previewIframe');
-    if (!html && iframe && iframe.srcdoc) {
-      html = iframe.srcdoc;
-    } else if (!html && iframe) {
-      var doc = iframe.contentDocument || iframe.contentWindow.document;
-      html = doc.documentElement.outerHTML;
+    if (iframe) {
+      try {
+        var doc = iframe.contentDocument || iframe.contentWindow.document;
+        html = doc.documentElement.outerHTML;
+      } catch (e) { /* cross-origin or not loaded */ }
     }
-    return html;
+    return html || '';
   }
 
   function setShareStatus(message, isError) {
@@ -737,8 +747,8 @@
     }
     setShareStatus('Creating secure share link...', false);
 
-    // Build render config for v2 config-based share (tiny, no HTML blob)
-    // This eliminates the 4 MB size limit — config is ~2 KB regardless of journey count
+    // v3: multi-blob share — each journey stored as separate blob (scales to any number)
+    // Falls back to v2 config-based share for single journey
     var formData = collectFormData();
     var config = {
       name: formData.brandName,
@@ -762,13 +772,25 @@
       config.acceptedLabels = acceptedLabels;
     }
 
-    var bodyPayload = {
-      config: config,
-      brandName: formData.brandName,
-      journeyType: formData.journeyType
-    };
-    if (formData.journeyTypes.length > 1) {
-      bodyPayload.journeyTypes = formData.journeyTypes.slice();
+    // Build body: v3 multi-blob if multiple journeys with pre-rendered results
+    var bodyPayload;
+    if (window._journeyResults && window._journeyResults.length > 1) {
+      bodyPayload = {
+        journeys: window._journeyResults.map(function(r) {
+          return { type: r.type, html: r.html };
+        }),
+        config: config,
+        brandName: formData.brandName
+      };
+    } else {
+      bodyPayload = {
+        config: config,
+        brandName: formData.brandName,
+        journeyType: formData.journeyType
+      };
+      if (formData.journeyTypes.length > 1) {
+        bodyPayload.journeyTypes = formData.journeyTypes.slice();
+      }
     }
 
     var bodyStr = JSON.stringify(bodyPayload);
