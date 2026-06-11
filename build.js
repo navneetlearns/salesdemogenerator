@@ -98,6 +98,10 @@ Handlebars.registerHelper('multiply', (a, b) => Number(a) * Number(b));
 Handlebars.registerHelper('subtract', (a, b) => Number(a) - Number(b));
 Handlebars.registerHelper('add', (a, b) => Number(a) + Number(b));
 Handlebars.registerHelper('divide', (a, b) => Number(a) / Number(b));
+Handlebars.registerHelper('fieldOpsImage', (filename) => {
+  if (!filename) return '';
+  return '../../assets/field_ops/' + filename;
+});
 
 async function loadScripts(navSteps) {
   const parts = [`const steps = ${JSON.stringify(navSteps)};\n\n`];
@@ -197,6 +201,11 @@ async function copyDevAssets(brandId) {
   const productSrc = path.join(ROOT, 'assets', 'products', brandId);
   if (await fs.pathExists(productSrc)) {
     await fs.copy(productSrc, path.join(genBrandDir, 'assets', 'products', brandId));
+  }
+  // Copy field ops illustration images — needed for both static and Vercel public serving
+  const fieldOpsSrc = path.join(ROOT, 'assets', 'field_ops');
+  if (await fs.pathExists(fieldOpsSrc)) {
+    await fs.copy(fieldOpsSrc, path.join(genBrandDir, 'assets', 'field_ops'));
   }
 }
 
@@ -711,6 +720,16 @@ async function build() {
 
     await clearDir(PUBLIC_DIST_DIR);
     await fs.copy(DIST_DIR, PUBLIC_DIST_DIR);
+    // Copy field_ops illustration images to dist/ and public/ for serving
+    const fieldOpsDist = path.join(DIST_DIR, 'assets', 'field_ops');
+    const publicFieldOps = path.join(ROOT, 'public', 'assets', 'field_ops');
+    const fieldOpsSrc = path.join(ROOT, 'assets', 'field_ops');
+    if (await fs.pathExists(fieldOpsSrc)) {
+      await fs.ensureDir(fieldOpsDist);
+      await fs.copy(fieldOpsSrc, fieldOpsDist);
+      await fs.ensureDir(publicFieldOps);
+      await fs.copy(fieldOpsSrc, publicFieldOps);
+    }
     console.log('  Mirrored dist/ to public/dist/ for static APIs');
   }
 }

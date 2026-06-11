@@ -208,6 +208,11 @@ function _add(a, b) { return Number(a) + Number(b); }
 function _divide(a, b) { return Number(a) / Number(b); }
 function _lookupPartial(type) { return 'screen-' + type; }
 
+function _fieldOpsImage(filename) {
+  if (!filename) return '';
+  return '/assets/field_ops/' + filename;
+}
+
 function buildHelpers() {
   return {
     formatCurrency: _formatCurrency.toString(),
@@ -217,6 +222,7 @@ function buildHelpers() {
     add: _add.toString(),
     divide: _divide.toString(),
     lookupPartial: _lookupPartial.toString(),
+    fieldOpsImage: _fieldOpsImage.toString(),
   };
 }
 

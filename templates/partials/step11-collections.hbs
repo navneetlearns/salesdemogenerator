@@ -109,39 +109,10 @@
           received on committed date — ZoAi re-engages with a fresh date request or escalates to the field salesman.
         </div>
       </div>
-
-    </div><!-- /screens-area -->
-
-    <!-- ── Nav bar ── -->
-    <div class="nav-bar">
-      <div style="display:flex;gap:8px;align-items:center;">
-        <button class="nav-btn" id="prev-btn" onclick="goTo(currentStep-1)" disabled>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-            <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
-          Previous
-        </button>
-        <a class="nav-btn" href="index.html" style="text-decoration:none;">&#8592; Main Menu</a>
-      </div>
-      <span class="step-counter">Step <strong id="counter-cur">1</strong> of <strong>11</strong></span>
-      <button class="nav-btn primary" id="next-btn" onclick="goTo(currentStep+1)">
-        Next
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-          <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
-      </button>
+    </div>
     </div>
 
-  </div><!-- /main -->
-
-  <script>
-    var currentStep = 1;
-    var totalSteps = 11;
-
-    var stepData = [
-      null,
+    </div><!-- /step-11 -->
       { title: 'Step 1 — Automated Payment Reminder', desc: '<span style="color:#555;font-size:12px;">ZoAi sends personalised outstanding reminders with dynamic UPI QR — zero salesman effort for routine collections</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span><span class="tag tag-pay">Payments</span>' },
       { title: 'Step 2 — Invoice Breakdown', desc: '<span style="color:#555;font-size:12px;">Retailer queries pending bills — AI instantly shares invoice-wise breakdown within WhatsApp</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span>' },
       { title: 'Step 3 — AI Initiates PTP + Scheme Hook', desc: '<span style="color:#555;font-size:12px;">ZoAi presents a time-sensitive scheme incentive to nudge the retailer towards committing a payment date</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span><span class="tag tag-sch">Scheme</span>' },

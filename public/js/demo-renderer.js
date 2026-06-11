@@ -1279,6 +1279,10 @@
       var source = partials[partialName];
       if (source) {
         parts.push(source);
+      } else {
+        console.warn('[DemoRenderer] Missing partial: ' + partialName + ' for journey: ' + journeyType);
+        // Emit a placeholder so step layout is preserved instead of showing "undefined"
+        parts.push('<div class="step-section" id="step-' + stepNum + '"><div class="screen-wrap"><div class="screen-lbl">Step ' + stepNum + '</div><div class="phone-frame"><div class="chat-area" style="padding:40px;text-align:center;color:#999;">Step content not available for this selection</div></div></div></div>');
       }
     }
     return parts.join('\n');
