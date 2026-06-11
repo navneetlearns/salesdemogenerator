@@ -13,12 +13,32 @@
   var MAX_GUIDELINE_IMAGE_SIZE = 1024 * 1024;
   var LAST_PREVIEW_KEY = 'zotok.demoGenerator.lastPreview';
 
+  var GROUP_D_JOURNEYS = ['retailer_activation', 'dt_fulfillment_payment'];
+  var GROUP_B_C_JOURNEYS = ['retailer_loyalty', 'automated_collections', 'field_ops_expense', 'campaigns_queries'];
+
   function isJourneySelected(journeyKey) {
     return _selectedJourneys.indexOf(journeyKey) !== -1;
   }
 
   function primarySelectedJourney() {
     return _selectedJourneys[0] || 'order_to_cash';
+  }
+
+  function updateAdaptButtonVisibility() {
+    var btn = document.getElementById('adaptContentBtn');
+    if (!btn) return;
+    var journey = primarySelectedJourney();
+    if (GROUP_D_JOURNEYS.indexOf(journey) !== -1) {
+      btn.style.display = 'none';
+    } else {
+      btn.style.display = '';
+    }
+  }
+
+  function getJourneyAdaptGroup(journeyKey) {
+    if (GROUP_D_JOURNEYS.indexOf(journeyKey) !== -1) return 'D';
+    if (GROUP_B_C_JOURNEYS.indexOf(journeyKey) !== -1) return 'BC';
+    return 'A';
   }
 
   function getIndustryValue() {
@@ -423,6 +443,7 @@
             cardEl.setAttribute('aria-checked', 'false');
           }
           updateStepSelection();
+          updateAdaptButtonVisibility();
         });
       })(key, card);
 
@@ -1080,6 +1101,7 @@
     renderContentDiff();
     renderJourneyCards();
     updateStepSelection();
+    updateAdaptButtonVisibility();
     showStep(1);
   }
 

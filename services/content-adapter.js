@@ -20,11 +20,26 @@ const DISALLOWED_MARKETING = [
   'limited offer',
 ];
 
+// Journeys with 0-1 hardcoded labels — no adaptation needed
+const GROUP_D_JOURNEYS = ['retailer_activation', 'dt_fulfillment_payment'];
+
 function loadDefaultLabels() {
   return fs.readJsonSync(DEFAULT_LABELS_PATH);
 }
 
 const DEFAULT_LABELS = loadDefaultLabels();
+
+function getLabelsForJourney(journeyType) {
+  if (!journeyType) return DEFAULT_LABELS;
+  if (GROUP_D_JOURNEYS.includes(journeyType)) return {};
+  try {
+    const labelPath = path.join(ROOT, 'data', 'content', journeyType + '_labels.json');
+    const labels = fs.readJsonSync(labelPath);
+    return labels || {};
+  } catch {
+    return {};
+  }
+}
 
 function escapeRegExp(value) {
   return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -233,7 +248,8 @@ async function adaptJourneyContent({
   apiKey,
   timeoutMs,
 } = {}) {
-  const defaultLabels = { ...DEFAULT_LABELS, ...(labels || {}) };
+  const journeyLabels = getLabelsForJourney(journeyType);
+  const defaultLabels = { ...journeyLabels, ...(labels || {}) };
   const payload = buildPromptPayload({
     industry,
     brandName,
@@ -298,6 +314,7 @@ module.exports = {
   DEFAULT_LABELS,
   DEFAULT_SESSION_OVERRIDE_PATH,
   DEFAULT_MODEL_CONFIG,
+  GROUP_D_JOURNEYS,
   buildPromptPayload,
   buildSystemPrompt,
   validateAdaptationResponse,
@@ -305,6 +322,7 @@ module.exports = {
   buildJourneyContent,
   callOpenCodeApi,
   adaptJourneyContent,
+  getLabelsForJourney,
   saveContentOverrides,
   loadContentOverrides,
 };

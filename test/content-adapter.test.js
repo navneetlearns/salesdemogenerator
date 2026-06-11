@@ -63,3 +63,35 @@ test('content adapter falls back to original labels when the response is invalid
   assert.equal(result.adaptationDiff.browseProducts.changed, false);
   assert.equal(result.adaptationDiff.placeOrder.changed, false);
 });
+
+test('getLabelsForJourney loads per-journey labels for known journey types', () => {
+  const adapter = require('../services/content-adapter');
+
+  const labels = adapter.getLabelsForJourney('retailer_onboarding');
+  assert.ok(labels);
+  assert.equal(typeof labels, 'object');
+  assert.ok(Object.keys(labels).length > 10);
+  assert.equal(labels.storeName, 'Store Name');
+});
+
+test('getLabelsForJourney returns empty object for Group D journeys', () => {
+  const adapter = require('../services/content-adapter');
+
+  const labels = adapter.getLabelsForJourney('retailer_activation');
+  assert.deepEqual(labels, {});
+});
+
+test('getLabelsForJourney returns empty object for unknown journey types', () => {
+  const adapter = require('../services/content-adapter');
+
+  const labels = adapter.getLabelsForJourney('nonexistent_journey');
+  assert.deepEqual(labels, {});
+});
+
+test('GROUP_D_JOURNEYS lists journeys that skip adaptation', () => {
+  const adapter = require('../services/content-adapter');
+
+  assert.ok(adapter.GROUP_D_JOURNEYS.includes('retailer_activation'));
+  assert.ok(adapter.GROUP_D_JOURNEYS.includes('dt_fulfillment_payment'));
+  assert.equal(adapter.GROUP_D_JOURNEYS.length, 2);
+});

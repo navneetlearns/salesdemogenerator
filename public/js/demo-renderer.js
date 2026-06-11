@@ -24,6 +24,11 @@
     'General': ['Products', 'Specialty', 'Bulk & Trade']
   };
 
+  /* ── Content Adaptation Groups ─────────────────────────── */
+  var ADAPT_GROUP_A = ['order_to_cash', 'retailer_onboarding', 'dealer_engagement'];
+  var ADAPT_GROUP_BC = ['retailer_loyalty', 'automated_collections', 'field_ops_expense', 'campaigns_queries'];
+  var ADAPT_GROUP_D = ['retailer_activation', 'dt_fulfillment_payment'];
+
   function getCategoriesForIndustry(industry) {
     return INDUSTRY_CATEGORIES[industry] || INDUSTRY_CATEGORIES['General'];
   }
@@ -842,11 +847,16 @@
       for (var ti = 0; ti < tags.length; ti++) {
         tagHtml += '<span class="hp-tag">' + escapeAttr(tags[ti]) + '</span>';
       }
+      var noticeHtml = '';
+      if (ADAPT_GROUP_BC.indexOf(jt) !== -1) {
+        noticeHtml = '<div class="hp-adapt-notice">Demo content \u2014 may not reflect your industry</div>';
+      }
       cards += '<a class="hp-card" href="#section-' + jt + '" style="--c:' + color + '">' +
         '<div class="hp-card-badge"><div class="hp-card-num">' + String(cardNum).padStart(2, '0') + '</div><div class="hp-card-emoji">' + emoji + '</div></div>' +
         '<div class="hp-card-body">' +
         '<div class="hp-card-top"><div class="hp-card-title">' + escapeAttr(title) + '</div><div class="hp-card-steps">' + cardMeta.steps + ' Steps</div></div>' +
         '<div class="hp-card-desc">' + escapeAttr(cardMeta.desc) + '</div>' +
+        noticeHtml +
         '<div class="hp-card-tags">' + tagHtml + '</div>' +
         '</div></a>';
     }
@@ -882,7 +892,8 @@
       '.hp-card-title{font-size:14.5px;font-weight:700;color:#111;flex:1}' +
       '.hp-card-steps{font-size:10px;font-weight:700;color:var(--c);background:rgba(0,0,0,.04);padding:3px 9px;border-radius:9px;white-space:nowrap;flex-shrink:0}' +
       '.hp-card-desc{font-size:12px;color:#666;line-height:1.45;max-width:480px}' +
-      '.hp-tags{display:flex;gap:5px;flex-wrap:wrap}' +
+      '.hp-adapt-notice{font-size:10.5px;color:#999;font-style:italic;margin:2px 0 4px}' +
+      '.hp-card-tags{display:flex;gap:5px;flex-wrap:wrap}' +
       '.hp-tag{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:rgba(0,0,0,.05);color:#555}' +
       '.hp-footer{background:' + brandColor + ';padding:10px 24px;display:flex;align-items:center;justify-content:center;flex-shrink:0}' +
       '.hp-footer-text{font-size:11.5px;color:rgba(255,255,255,.85);font-weight:500;text-align:center}' +
@@ -1055,11 +1066,16 @@
       for (var ti = 0; ti < tags.length; ti++) {
         tagHtml += '<span class="hp-tag">' + escapeAttr(tags[ti]) + '</span>';
       }
+      var noticeHtml = '';
+      if (ADAPT_GROUP_BC.indexOf(jt) !== -1) {
+        noticeHtml = '<div class="hp-adapt-notice">Demo content \u2014 may not reflect your industry</div>';
+      }
       cards += '<div class="hp-card" style="--c:' + color + '" data-journey="' + escapeAttr(jt) + '">' +
         '<div class="hp-card-badge"><div class="hp-card-num">' + String(i + 1).padStart(2, '0') + '</div><div class="hp-card-emoji">' + emoji + '</div></div>' +
         '<div class="hp-card-body">' +
         '<div class="hp-card-top"><div class="hp-card-title">' + escapeAttr(title) + '</div><div class="hp-card-steps">' + steps + ' Steps</div></div>' +
         '<div class="hp-card-desc">' + escapeAttr(cardMeta.desc) + '</div>' +
+        noticeHtml +
         '<div class="hp-tags">' + tagHtml + '</div>' +
         '</div></div>';
     }
@@ -1102,7 +1118,8 @@
       '.hp-card-title{font-size:14.5px;font-weight:700;color:#111;flex:1}' +
       '.hp-card-steps{font-size:10px;font-weight:700;color:var(--c);background:rgba(0,0,0,.04);padding:3px 9px;border-radius:9px;white-space:nowrap;flex-shrink:0}' +
       '.hp-card-desc{font-size:12px;color:#666;line-height:1.45;max-width:480px}' +
-      '.hp-tags{display:flex;gap:5px;flex-wrap:wrap}' +
+      '.hp-adapt-notice{font-size:10.5px;color:#999;font-style:italic;margin:2px 0 4px}' +
+      '.hp-card-tags{display:flex;gap:5px;flex-wrap:wrap}' +
       '.hp-tag{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:rgba(0,0,0,.05);color:#555}' +
       // Journey view (when a card is clicked)
       '.journey-view{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:#f7f7f8;z-index:10;flex-direction:column}' +
