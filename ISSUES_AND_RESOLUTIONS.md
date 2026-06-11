@@ -2,7 +2,7 @@
 
 > Computed from live analysis of the codebase and generated output.
 > Branch: `main`
-> Last updated: June 10, 2026
+> Last updated: June 10, 2026 (HEAD: e3e84dc). Tests: 43/43 pass.
 
 ---
 
@@ -357,6 +357,51 @@ All work committed and deployed. Live at https://demo-generator-one.vercel.app. 
 | **P2** | STR-1: 200K monolith | Architecture | High | Root cause of all issues |
 | **P2** | STR-2: 411 inline styles | Architecture | High | Brand theming impossible |
 | **P2** | STR-3: 252 inline SVGs | Architecture | Medium | Icon changes painful |
+
+### FIX-16: Field ops illustration images missing in custom demos (June 10)
+
+**Issue:** Field Ops & Expense journey steps 3, 5, 6, 8, 9 had large illustration images (`assets/field_ops/fo_*.png`) that appeared in static builds but were missing in client-side custom demos. Images used hardcoded relative paths (`../../assets/field_ops/`) that don't resolve inside Blob URL iframes. Additionally, step 6 had three references to the same order-note photo (`fo_02b8234f14bc.png`) — the ZoAi draft-order image header — that was also missing.
+
+**Root cause:** The 8 field_ops PNG/JPEG images (totaling ~4.5MB) only existed at `assets/field_ops/` and were never copied to `dist/` or `public/` by the build pipeline. Templates used hardcoded relative paths that work in static builds (file system resolution) but fail in client-side custom demos (Blob URL context — no file system).
+
+**Resolution:**
+- Created `{{fieldOpsImage "filename"}}` Handlebars helper registered in both `build.js` (server-side, returns `../../assets/field_ops/`) and `build-template-pack.js` (client-side, returns `/assets/field_ops/`)
+- Added field_ops asset copy to `build.js`: copies `assets/field_ops/` to `dist/assets/field_ops/` (static) and `public/assets/field_ops/` (Vercel serving)
+- Updated all 6 template partials to use `{{fieldOpsImage "fo_xxx.png"}}` instead of hardcoded relative paths
+
+**Files changed:** `build.js`, `scripts/build-template-pack.js`, `templates/partials/step{3,5,6,8,9}-field-ops.hbs`
+
+### FIX-17: Step 12 layout gap and "undefined" text (June 10)
+
+**Issue:** Field Ops step 12 had excessive gap between WhatsApp screens and literal "undefined" text appearing above screens.
+
+**Root cause:** Step 12 used `class="step-section phone-layout"` which applies `flex-wrap: nowrap; overflow-x: auto` — a horizontal scrolling layout. Other steps use the standard `step-section` class (vertical stacking). The horizontal layout forced screens side-by-side creating gaps. "undefined" text was from missing Handlebars partial references in the `buildDynamicOrchestrator` client-side renderer.
+
+**Resolution:**
+- Changed step 12 to `class="step-section"` (standard vertical layout)
+- Added graceful placeholder in `buildDynamicOrchestrator` for missing step partials: emits a placeholder div instead of silently skipping steps
+
+**Files changed:** `templates/partials/step12-field-ops.hbs`, `public/js/demo-renderer.js`
+
+### FIX-18: Duplicate navigation buttons in automated_collections journey (June 10)
+
+**Issue:** The automated_collections journey showed two sets of Previous/Next navigation buttons at the bottom.
+
+**Root cause:** The `step11-collections.hbs` partial contained a complete page wrapper (`screens-area` + `nav-bar` + `<script>` block with step data and `goTo()` handler). When included inside the standard `base.hbs` layout (which already has a `{{> nav-bar}}`), the nav bar appeared twice.
+
+**Resolution:** Removed the nav-bar, page wrapper divs, and standalone script block from `step11-collections.hbs`. Navigation is now handled exclusively by the base layout's nav-bar + mobile-nav.
+
+**Files changed:** `templates/partials/step11-collections.hbs`
+
+### FIX-19: "undefined" text from client-side step renderer (June 10)
+
+**Issue:** Custom demos with step selection showed literal "undefined" text when some selected steps couldn't find their template partials.
+
+**Root cause:** `buildDynamicOrchestrator()` in `demo-renderer.js` silently skipped steps when `partials[partialName]` was falsy. The resulting `parts.join('\n')` produced a string with missing content that Handlebars rendered as "undefined".
+
+**Resolution:** Added `console.warn` for missing partials and a placeholder div with "Step content not available for this selection" message instead of silently skipping.
+
+**Files changed:** `public/js/demo-renderer.js`
 | **P2** | ARCH-1: Replacement system | Architecture | High | Must be eliminated |
 | **P2** | ARCH-2: Post-HBS replacement | Architecture | Medium | Gone when ARCH-1 resolved |
 | **P3** | STR-4: Empty block partials | Architecture | Medium | Needed for composition |

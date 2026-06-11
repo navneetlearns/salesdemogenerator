@@ -24,6 +24,19 @@ At build time, `scripts/build-template-pack.js` packs all Handlebars partials, h
 | `public/preview.html` | Wizard landing page (entry point for client-side generation) |
 | `scripts/build-template-pack.js` | Builds template-pack.json from source data and templates |
 
+## Field Ops Images (`fieldOpsImage` Helper)
+
+The Field Ops & Expense journey uses 8 illustration images (`assets/field_ops/fo_*.png`) positioned beside WhatsApp screens in steps 3, 5, 6, 8, and 9. These must work in both rendering paths:
+
+**Static build (`build.js`):** The `fieldOpsImage` helper returns `../../assets/field_ops/{filename}` relative to the per-brand dist directory. The build copies `assets/field_ops/` to `dist/assets/field_ops/` and `public/assets/field_ops/` at the end of the build.
+
+**Client-side wizard (`demo-renderer.js`):** The `fieldOpsImage` helper is registered from `template-pack.json` and returns `/assets/field_ops/{filename}` (absolute path from the Vercel deployment root). The images are served from `public/assets/field_ops/` on Vercel.
+
+**Update checklist when adding new field_ops images:**
+1. Add the image to `assets/field_ops/`
+2. Use `{{fieldOpsImage "fo_newfile.png"}}` in the template partial
+3. Ensure the helper is registered in both `build.js` and `scripts/build-template-pack.js` (already done for existing images)
+
 ### Client-Side Public API (`DemoRenderer`)
 
 ```javascript
