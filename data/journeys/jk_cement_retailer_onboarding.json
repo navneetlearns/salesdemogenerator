@@ -367,5 +367,17 @@
       "Registration",
       "Order to Cash"
     ]
-  }
+  },
+  "nudgeRetailers": [
+    {
+      "name": "Ganesh General Stores",
+      "lastOrderDate": "18 April 2026",
+      "lastOrderValue": 7840
+    },
+    {
+      "name": "Patel Sweet Mart",
+      "lastOrderDate": "10/04/2026",
+      "lastOrderValue": 12500
+    }
+  ]
 }

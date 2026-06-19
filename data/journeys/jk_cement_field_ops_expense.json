@@ -252,7 +252,8 @@
       "totalCustomers": 21,
       "totalOrders": 12,
       "totalOrderValue": 19720,
-      "totalPayments": 147052
+      "totalPayments": 147052,
+      "totalCashPayments": 0
     },
     "teamMembers": [
       {
@@ -327,6 +328,52 @@
       "Field Ops",
       "Attendance",
       "Expenses"
+    ]
+  },
+  "step13": {
+    "claims": [
+      {
+        "id": "JKC-CL-4821",
+        "name": "Rajesh Kumar",
+        "type": "Event Expense",
+        "amount": 3400,
+        "date": "28 Mar 2026",
+        "status": "Under Review",
+        "approvedAmount": 3200,
+        "disbursedAmount": 3200
+      },
+      {
+        "id": "JKC-CL-4819",
+        "name": "Meena Bai",
+        "type": "Meeting Expense",
+        "amount": 1850,
+        "date": "27 Mar 2026",
+        "status": "Under Review"
+      },
+      {
+        "id": "JKC-CL-4816",
+        "name": "Suresh Patil",
+        "type": "Travel Expense",
+        "amount": 2100,
+        "date": "26 Mar 2026",
+        "status": "Under Review"
+      },
+      {
+        "id": "JKC-CL-4812",
+        "name": "Priya Sharma",
+        "type": "Event Expense",
+        "amount": 5750,
+        "date": "25 Mar 2026",
+        "status": "Under Review"
+      },
+      {
+        "id": "JKC-CL-4809",
+        "name": "Karan Joshi",
+        "type": "Meeting Expense",
+        "amount": 980,
+        "date": "24 Mar 2026",
+        "status": "Under Review"
+      }
     ]
   }
 }

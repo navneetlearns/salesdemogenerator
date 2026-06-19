@@ -56,7 +56,7 @@
                       Claim Type: Event Expense
                       Event Date: 28 Mar 2026
                       Location: Nagpur
-                      Amount Claimed: ₹3,400
+                      Amount Claimed: {{formatCurrency journey.step13.claims.0.amount}}
                       Status: Under Review
 
                       Team, {{brand.name}} Field Force</div>
@@ -142,8 +142,8 @@
                       Your expense claim has been reviewed and approved by your Area Manager.
 
                       Claim ID: JKC-CL-4821
-                      Amount Claimed: ₹3,400
-                      Approved Amount: ₹3,200
+                      Amount Claimed: {{formatCurrency journey.step13.claims.0.amount}}
+                      Approved Amount: {{formatCurrency journey.step13.claims.0.approvedAmount}}
                       Approved by: Sunil Mehta (AM)
                       Approval Date: 02 Apr 2026
 
@@ -231,7 +231,7 @@
                       Your approved expense claim amount has been disbursed to your registered bank account.
 
                       Claim ID: JKC-CL-4821
-                      Disbursed Amount: ₹3,200
+                      Disbursed Amount: {{formatCurrency journey.step13.claims.0.disbursedAmount}}
                       Payment Mode: NEFT
                       Bank Reference: HDFC202604031847
                       Disbursement Date: 03 Apr 2026

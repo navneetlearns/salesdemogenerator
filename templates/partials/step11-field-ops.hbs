@@ -437,7 +437,7 @@
                       <td>5</td>
                       <td>{{formatCurrency journey.step11.teamMembers.0.orderValue}}</td>
                       <td>{{formatCurrency journey.step11.teamMembers.0.upiPayment}}</td>
-                      <td>₹0</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.0.cashPayment}}</td>
                     </tr>
                     <tr>
                       <td style="color:#888;">2</td>
@@ -446,9 +446,9 @@
                       <td>1</td>
                       <td>0</td>
                       <td>0</td>
-                      <td>₹0</td>
-                      <td>₹0</td>
-                      <td>₹0</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.1.orderValue}}</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.1.upiPayment}}</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.1.cashPayment}}</td>
                     </tr>
                     <tr>
                       <td style="color:#888;">3</td>
@@ -457,9 +457,9 @@
                       <td>3</td>
                       <td>0</td>
                       <td>0</td>
-                      <td>₹0</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.2.orderValue}}</td>
                       <td>{{formatCurrency journey.step11.teamMembers.2.upiPayment}}</td>
-                      <td>₹0</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.2.cashPayment}}</td>
                     </tr>
                     <tr>
                       <td style="color:#888;">4</td>
@@ -468,9 +468,9 @@
                       <td>1</td>
                       <td>0</td>
                       <td>0</td>
-                      <td>₹0</td>
-                      <td>₹0</td>
-                      <td>₹0</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.3.orderValue}}</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.3.upiPayment}}</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.3.cashPayment}}</td>
                     </tr>
                     <tr>
                       <td style="color:#888;">5</td>
@@ -479,9 +479,9 @@
                       <td>16</td>
                       <td>8</td>
                       <td>17</td>
-                      <td>₹0</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.4.orderValue}}</td>
                       <td>{{formatCurrency journey.step11.teamMembers.4.upiPayment}}</td>
-                      <td>₹0</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.4.cashPayment}}</td>
                     </tr>
                     <tr>
                       <td style="color:#888;">6</td>
@@ -492,7 +492,7 @@
                       <td>5</td>
                       <td>{{formatCurrency journey.step11.teamMembers.5.orderValue}}</td>
                       <td>{{formatCurrency journey.step11.teamMembers.5.upiPayment}}</td>
-                      <td>₹0</td>
+                      <td>{{formatCurrency journey.step11.teamMembers.5.cashPayment}}</td>
                     </tr>
                   </tbody>
                   <tfoot>
@@ -506,7 +506,7 @@
                           Value</span></td>
                       <td>{{formatCurrency journey.step11.kpis.totalPayments}}<br><span style="font-size:10px;color:#888;font-weight:400;">Total Pmts by UPI</span>
                       </td>
-                      <td>₹0<br><span style="font-size:10px;color:#888;font-weight:400;">Total Pmts by Cash</span></td>
+                      <td>{{formatCurrency journey.step11.kpis.totalCashPayments}}<br><span style="font-size:10px;color:#888;font-weight:400;">Total Pmts by Cash</span></td>
                     </tr>
                   </tfoot>
                 </table>
