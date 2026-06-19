@@ -174,11 +174,28 @@ dist/               Packaged output for deployment
 
 Deployed at `https://demo-generator-one.vercel.app` (static mode on Vercel).
 
-Latest production deploy notes:
+QA preview deployments at `https://demo-generator-*.vercel.app` (created by `vercel deploy`).
 
-- `119e5e2 Fix hub card metadata and SAP diagram sizing`
-- Hub cards now retain visible descriptions, step counts, and tags for custom demos and v3 share links.
-- Order to Cash SAP architecture diagram sizing is bounded in CSS instead of expanding full-width.
+### Production Deployments
+
+| Date | Commit | Changes |
+|------|--------|---------|
+| June 17 | HEAD (73934bc + uncommitted) | Navigation fix: Blob URL iframe rendering for hub preview + journey cards. Production now matches local HEAD. Content adaptation for all 9 journeys. |
+| ~June 12 | `119e5e2` | Hub card metadata and SAP diagram sizing |
+| ~June 10 | `dcd1f60` | v3 multi-blob share architecture |
+
+### Deployment Commands
+
+```bash
+# QA deploy (creates new preview URL)
+vercel deploy
+
+# Production deploy (aliases to production domain)
+vercel --prod --yes
+
+# View all deployments
+vercel list
+```
 
 ## Documentation
 

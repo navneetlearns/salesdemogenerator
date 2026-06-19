@@ -143,22 +143,11 @@
         <div class="preview-toolbar">
           <span id="previewTitle" class="preview-title">Preview</span>
           <div class="preview-actions">
-            <button type="button" id="adaptContentBtn" class="btn btn-sm btn-outline" onclick="demoUI.adaptContent()">Adapt Content</button>
             <button type="button" id="createShareLinkBtn" class="btn btn-sm btn-outline" onclick="demoUI.createShareLink()">Create Share Link</button>
             <button type="button" class="btn btn-sm primary" onclick="demoUI.download()">Download HTML</button>
           </div>
         </div>
         <div id="shareStatus" class="share-status" style="display:none"></div>
-        <div id="contentReviewPanel" class="card" style="display:none; margin-top:12px">
-          <h3>Content Review</h3>
-          <p class="muted">Review suggested label updates before saving them to the session override.</p>
-          <div id="contentDiffList"></div>
-          <div id="contentDiffActions" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px">
-            <button type="button" class="btn btn-outline" onclick="demoUI.acceptContent()">Accept</button>
-            <button type="button" class="btn btn-outline" onclick="demoUI.resetContent()">Reset</button>
-            <button type="button" class="btn primary" onclick="demoUI.saveContent()">Save</button>
-          </div>
-        </div>
         <iframe id="previewIframe" class="preview-iframe"></iframe>
       </div>
     </section>

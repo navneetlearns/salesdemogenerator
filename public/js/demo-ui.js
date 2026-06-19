@@ -24,17 +24,6 @@
     return _selectedJourneys[0] || 'order_to_cash';
   }
 
-  function updateAdaptButtonVisibility() {
-    var btn = document.getElementById('adaptContentBtn');
-    if (!btn) return;
-    var journey = primarySelectedJourney();
-    if (GROUP_D_JOURNEYS.indexOf(journey) !== -1) {
-      btn.style.display = 'none';
-    } else {
-      btn.style.display = '';
-    }
-  }
-
   function getJourneyAdaptGroup(journeyKey) {
     if (GROUP_D_JOURNEYS.indexOf(journeyKey) !== -1) return 'D';
     if (GROUP_B_C_JOURNEYS.indexOf(journeyKey) !== -1) return 'BC';
@@ -64,62 +53,11 @@
     return getDefaultContentLabels();
   }
 
-  function setContentPanelVisible(visible) {
-    var panel = document.getElementById('contentReviewPanel');
-    if (panel) panel.style.display = visible ? 'block' : 'none';
-  }
-
-  function collapseContentDiff(message) {
-    var list = document.getElementById('contentDiffList');
-    if (list) {
-      var count = _contentAdaptation ? Object.keys(_contentAdaptation.adaptationDiff || {}).length : 0;
-      var changed = 0;
-      if (_contentAdaptation && _contentAdaptation.adaptationDiff) {
-        Object.keys(_contentAdaptation.adaptationDiff).forEach(function(key) {
-          if (_contentAdaptation.adaptationDiff[key].changed) changed++;
-        });
-      }
-      list.innerHTML = '<div style="padding:12px 0;color:#16a34a;font-weight:600">' +
-        (message || ('\u2713 ' + changed + ' labels adapted and applied')) +
-        '</div>';
+  function getSelectedContentLabels() {
+    if (_contentAdaptation && _contentAdaptation.acceptedLabels) {
+      return _contentAdaptation.acceptedLabels;
     }
-    // Hide the action buttons
-    var btnRow = document.getElementById('contentDiffActions');
-    if (btnRow) btnRow.style.display = 'none';
-  }
-
-  function renderContentDiff() {
-    var list = document.getElementById('contentDiffList');
-    if (!list) return;
-
-    var adaptation = _contentAdaptation;
-    if (!adaptation) {
-      list.innerHTML = '<p class="muted">Click Adapt Content to generate label suggestions.</p>';
-      setContentPanelVisible(false);
-      return;
-    }
-
-    var diff = adaptation.adaptationDiff || {};
-    var html = '';
-    Object.keys(diff).forEach(function(key) {
-      var row = diff[key];
-      html += '<div class="content-diff-row" style="border-top:1px solid rgba(0,0,0,.08);padding:10px 0">';
-      html += '<div><strong>' + key + '</strong></div>';
-      html += '<div class="muted" style="font-size:12px">Original: ' + (row.original || '') + '</div>';
-      html += '<div style="font-weight:600">Suggested: ' + (row.proposed || '') + '</div>';
-      html += '<div class="muted" style="font-size:12px">' + (row.changed ? 'Changed' : 'No change') + '</div>';
-      html += '</div>';
-    });
-
-    list.innerHTML = html || '<p class="muted">No labels were returned.</p>';
-    setContentPanelVisible(true);
-  }
-
-  function updateAdaptButtonState(isBusy) {
-    var btn = document.getElementById('adaptContentBtn');
-    if (!btn) return;
-    btn.disabled = !!isBusy;
-    btn.textContent = isBusy ? 'Adapting...' : 'Adapt Content';
+    return getDefaultContentLabels();
   }
 
   /* ── Step Navigation ──────────────────────────────────── */
@@ -443,7 +381,6 @@
             cardEl.setAttribute('aria-checked', 'false');
           }
           updateStepSelection();
-          updateAdaptButtonVisibility();
         });
       })(key, card);
 
@@ -665,30 +602,38 @@
 
     // Show progress
     if (progressEl) progressEl.style.display = 'block';
-    if (progressFill) progressFill.style.width = '30%';
+    if (progressFill) progressFill.style.width = '20%';
 
-    // Map form data to DemoRenderer.render() input format
-    var userInput = {
-      name: formData.brandName,
-      industry: formData.industry,
-      brandColor: formData.primaryColor,
-      brandColorDark: formData.secondaryColor,
-      logo: formData.logoDataUrl || null,
-      products: formData.products,
-      journeyType: formData.journeyType,
-      journeyTypes: formData.journeyTypes.length > 1 ? formData.journeyTypes : undefined,
-      acceptedLabels: getSelectedContentLabels()
-    };
+    // Auto-adapt content to selected industry before rendering
+    adaptContent()
+      .then(function() {
+        // Adaptation complete (or failed — we render either way)
+        if (progressFill) progressFill.style.width = '50%';
 
-    // Add step selection if user has selected specific steps
-    if (window.selectedSteps) {
-      userInput.selectedSteps = window.selectedSteps;
-    }
+        // Map form data to DemoRenderer.render() input format
+        var formData = collectFormData();
+        var userInput = {
+          name: formData.brandName,
+          industry: formData.industry,
+          brandColor: formData.primaryColor,
+          brandColorDark: formData.secondaryColor,
+          logo: formData.logoDataUrl || null,
+          products: formData.products,
+          journeyType: formData.journeyType,
+          journeyTypes: formData.journeyTypes.length > 1 ? formData.journeyTypes : undefined,
+          acceptedLabels: getSelectedContentLabels()
+        };
 
-    if (progressFill) progressFill.style.width = '60%';
+        // Add step selection if user has selected specific steps
+        if (window.selectedSteps) {
+          userInput.selectedSteps = window.selectedSteps;
+        }
 
-    // Always use renderMultiJourney — it wraps output in a hub page regardless of count
-    DemoRenderer.renderMultiJourney(userInput)
+        if (progressFill) progressFill.style.width = '60%';
+
+        // Always use renderMultiJourney — it wraps output in a hub page regardless of count
+        return DemoRenderer.renderMultiJourney(userInput);
+      })
       .then(function(result) {
         if (progressFill) progressFill.style.width = '100%';
         setTimeout(function() {
@@ -920,7 +865,6 @@
   function adaptContent() {
     clearError();
     if (!window.DemoRenderer) {
-      showError('DemoRenderer not loaded. Please refresh the page.');
       return Promise.resolve(null);
     }
 
@@ -933,8 +877,6 @@
       products: formData.products.map(function(p) { return p.name; }),
       labels: labels
     };
-
-    updateAdaptButtonState(true);
 
     return fetch('/api/experiments/adapt-content', {
       method: 'POST',
@@ -967,7 +909,6 @@
           provider: data.provider || 'OpenCode',
           model: data.model || 'deepseek-v4-flash'
         };
-        renderContentDiff();
         return _contentAdaptation;
       })
       .catch(function(err) {
@@ -980,87 +921,7 @@
           provider: 'fallback',
           model: 'original'
         };
-        renderContentDiff();
-        showError(err.message || 'Could not adapt content.');
         return _contentAdaptation;
-      })
-      .finally(function() {
-        updateAdaptButtonState(false);
-      });
-  }
-
-  // Accept / Reset / Save content review actions
-  function acceptContent() {
-    if (!_contentAdaptation) {
-      adaptContent();
-      return;
-    }
-    _contentAdaptation.acceptedLabels = {};
-    for (var key in _contentAdaptation.adaptationDiff) {
-      if (_contentAdaptation.adaptationDiff.hasOwnProperty(key)) {
-        _contentAdaptation.acceptedLabels[key] = _contentAdaptation.adaptationDiff[key].proposed || _contentAdaptation.originalLabels[key];
-      }
-    }
-    collapseContentDiff('\u2713 ' + Object.keys(_contentAdaptation.acceptedLabels).length + ' labels accepted and applied');
-    generate();
-  }
-
-  function resetContent() {
-    if (!_contentAdaptation) return;
-    _contentAdaptation.acceptedLabels = Object.assign({}, _contentAdaptation.originalLabels);
-    // Re-show action buttons
-    var btnRow = document.getElementById('contentDiffActions');
-    if (btnRow) btnRow.style.display = 'flex';
-    renderContentDiff();
-    generate();
-  }
-
-  function saveContent() {
-    clearError();
-    if (!_contentAdaptation) {
-      showError('Adapt content first.');
-      return Promise.resolve(null);
-    }
-    var sessionId = global._activeSessionId || window._activeSessionId || '';
-    if (!sessionId) {
-      showError('No active session is available yet. Save requires a runtime session.');
-      return Promise.resolve(null);
-    }
-
-    return fetch('/api/experiments/save-content', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sessionId: sessionId,
-        industry: _contentAdaptation.industry,
-        acceptedLabels: _contentAdaptation.acceptedLabels,
-        adaptationDiff: _contentAdaptation.adaptationDiff
-      })
-    })
-      .then(function(res) {
-        var ct = res.headers.get('content-type') || '';
-        if (ct.indexOf('application/json') !== -1) {
-          return res.json().then(function(data) {
-            if (!res.ok) {
-              var err = new Error(data.error || 'Could not save content.');
-              err.status = res.status;
-              throw err;
-            }
-            return data;
-          });
-        }
-        return res.text().then(function(text) {
-          throw new Error('Server error (' + res.status + '): ' + (text.substring(0, 200) || res.statusText));
-        });
-      })
-      .then(function(data) {
-        setShareStatus('Content saved to ' + (data.savedAs || 'session override'), false);
-        collapseContentDiff('\u2713 Content saved and applied to demo');
-        return data;
-      })
-      .catch(function(err) {
-        showError(err.message || 'Could not save content.');
-        return null;
       });
   }
 
@@ -1098,10 +959,8 @@
     addProductRow();
     renderJourneyCards();
     restoreLastPreview();
-    renderContentDiff();
     renderJourneyCards();
     updateStepSelection();
-    updateAdaptButtonVisibility();
     showStep(1);
   }
 
@@ -1117,9 +976,6 @@
     renderJourneyCards: renderJourneyCards,
     generate: generate,
     adaptContent: adaptContent,
-    acceptContent: acceptContent,
-    resetContent: resetContent,
-    saveContent: saveContent,
     restoreLastPreview: restoreLastPreview,
     createShareLink: createShareLink,
     openInNewTab: createShareLink,

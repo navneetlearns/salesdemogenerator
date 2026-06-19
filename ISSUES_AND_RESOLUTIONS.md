@@ -2,7 +2,7 @@
 
 > Computed from live analysis of the codebase and generated output.
 > Branch: `main`
-> Last updated: June 10, 2026 (HEAD: e3e84dc). Tests: 43/43 pass.
+> Last updated: June 17, 2026 (HEAD: 73934bc + uncommitted). Tests: 43/43 pass. Production deployed: June 17, 2026.
 
 ---
 
@@ -305,8 +305,9 @@ The following stale files and directories were removed:
 
 ## PENDING WORK (June 2026)
 
-### PEND-1: Content Adaptation for All Journeys
-Currently the content adapter only works for `order_to_cash` (21 labels in `data/content/order_to_cash_labels.json`). The other 8 journeys have no equivalent label files.
+### PEND-1: Content Adaptation for All Journeys — RESOLVED (June 12)
+
+All 7 label JSON files exist in `data/content/`. The API endpoint now reads `req.body.journeyType` per journey type instead of hardcoding `order_to_cash`. Adaptation runs automatically when the user clicks Generate — no separate button needed. Group D journeys skip adaptation; Group B/C show hub notices. Server-side tests pass for all 9 journey types.
 
 **Adaptation Difficulty Ranking (June 10 analysis):**
 
@@ -315,9 +316,7 @@ Currently the content adapter only works for `order_to_cash` (21 labels in `data
 | **A — Critical** | order_to_cash (37), retailer_onboarding (48), dealer_engagement (28) | Heavily brand-specific: "JK Cement", product names, "bags", schemes | First |
 | **B — Moderate** | retailer_loyalty (14), automated_collections (12) | "bags", "cement", "Scheme" terms | Second |
 | **C — Low** | field_ops_expense (6), campaigns_queries (7) | Hardcoded customer names, generic terms | Third |
-| **D — Clean** | retailer_activation (1), dt_fulfillment_payment (0) | Almost no brand text — "Adapt Content" button should be hidden | Skip |
-
-**UX Change planned:** Hide "Adapt Content" button for Group D journeys. For unadapted journeys in hub, show notice: "Demo content — may not reflect your industry."
+|| **D — Clean** | retailer_activation (1), dt_fulfillment_payment (0) | Almost no brand text — adaptation skipped | Skip |
 
 ### PEND-2: Custom Demo for All 9 Journeys
 Client-side wizard currently supports all 9 journeys (verified via `build-template-pack.js` JOURNEY_IDS). But `buildDynamicOrchestrator()` has `knownMismatches` only for `field_ops_expense→field-ops` and `automated_collections→collections`. Need to:
@@ -334,8 +333,25 @@ Client-side wizard currently supports all 9 journeys (verified via `build-templa
 
 Client automatically selects v3 for multi-journey shares (2+ journeys). Hub page uses Haldiram-style two-panel layout with `data-journey` attribute + event delegation for card clicks. All rendering paths use Blob URLs instead of srcdoc/document.write.
 
-### PEND-4: Deploy Uncommitted Work — RESOLVED (June 10)
-All work committed and deployed. Live at https://demo-generator-one.vercel.app. Recent commits: v3 multi-blob share, Blob URL preview/share, safe JSON parsing, hub card syntax fix, single-journey hub controls, hub card metadata fallback, and SAP diagram sizing fix. Latest noted production commit: `119e5e2 Fix hub card metadata and SAP diagram sizing`.
+### PEND-4: Deploy Uncommitted Work — RESOLVED (June 17)
+All work committed and deployed. Live at https://demo-generator-one.vercel.app.
+
+Recent deploys:
+- **June 17**: Production deployed to HEAD (73934bc) — includes Blob URL navigation fix, content adaptation for all 9 journeys, hub card fixes. Production now matches local.
+- **QA preview**: https://demo-generator-b4vjix47a-navneetsiwan-9595s-projects.vercel.app (aliased to latest preview)
+
+Files verified on production:
+- `demo-ui.js`: 34,816 bytes (was 39,259 — removed Adapt Content button, added Blob URL rendering)
+- `demo-renderer.js`: 67,450 bytes (was 65,912 — added `renderMultiJourney`, `buildMultiJourneyHtml`)
+
+**Share-link verification (production-verified, June 17):**
+- v2 config-based share: 200 OK at 800KB payload
+- v3 init hub: 200 OK at 427B payload
+- v3 journey upload: 200 OK at 1.41 MB
+- v1 HTML blob: 200 OK at 2MB, 413 at 4.5MB (expected — Vercel serverless body limit)
+- Hub page: 10.3 KB with loadJourney, setFrame, fetch — all script tags matched
+- Journey blob: 1.41 MB with scrollToStep, const steps, hub bridge — 0 escaped script tags
+- No current failures caused by payload size. Logo data URLs dominate config payloads (96% of config size).
 
 ---
 
@@ -343,8 +359,8 @@ All work committed and deployed. Live at https://demo-generator-one.vercel.app. 
 
 | Priority | Issue | Type | Effort | Impact |
 |---|---|---|---|---|
-| **P0** | PEND-1: Content adaptation for all journeys | Feature | High | Content adaptation limited to 1/9 journeys |
-| **P0** | FIX-10: Hub clicks broken (srcdoc/document.write) | Bug | Medium | RESOLVED June 10 |
+| **P0** | PEND-1: Content adaptation for all journeys | Feature | High | RESOLVED June 12 |
+| **P0** | FIX-10: Hub clicks broken (srcdoc/document.write) | Bug | Medium | RESOLVED June 10, deployed June 17 |
 | **P0** | FIX-11: v3 multi-blob share architecture | Feature | High | RESOLVED June 10 |
 | **P0** | FIX-12: Hub card syntax error (FUNCTION_INVOCATION_FAILED) | Bug | Medium | RESOLVED June 10 |
 | **P1** | FIX-14: Hub card descriptions/metadata blank | Bug | Low | RESOLVED June 10 |
@@ -402,6 +418,50 @@ All work committed and deployed. Live at https://demo-generator-one.vercel.app. 
 **Resolution:** Added `console.warn` for missing partials and a placeholder div with "Step content not available for this selection" message instead of silently skipping.
 
 **Files changed:** `public/js/demo-renderer.js`
+
+### FIX-20: Content adaptation API hardcoded to order_to_cash (June 12)
+
+**Issue:** The `/api/experiments/adapt-content` endpoint always called `getLabelsForJourney('order_to_cash')` regardless of which journey type the client sent. Label files for retailer_onboarding (78 labels), dealer_engagement (25), retailer_loyalty (35), automated_collections (45), field_ops_expense (42), and campaigns_queries (29) were never loaded server-side — only the 21 OTC labels were used.
+
+**Root cause:** Line 50 of `api/experiments/adapt-content.js` had hardcoded `journeyType: 'order_to_cash'` instead of reading `req.body.journeyType`.
+
+**Resolution:** Changed to `journeyType: req.body.journeyType || 'order_to_cash'`. Now the correct per-journey label file feeds into the AI adaptation prompt.
+
+**Files changed:** `api/experiments/adapt-content.js`
+
+### FIX-21: Adapt Content button removed — automatic adaptation on generate (June 12)
+
+**Issue:** Users had to click a separate "Adapt Content" button after generating a demo, then Accept/Reset/Save the results. This was a multi-step friction point.
+
+**Resolution:** 
+- Removed Adapt Content button and content review panel from `public/index.html`
+- `generate()` now automatically calls `adaptContent()` silently before rendering
+- Adaptation runs in the background during the progress bar — if it succeeds, adapted labels are used; if it fails, original labels are used silently
+- Removed all content review UI functions: `updateAdaptButtonVisibility`, `updateAdaptButtonState`, `setContentPanelVisible`, `collapseContentDiff`, `renderContentDiff`, `acceptContent`, `resetContent`, `saveContent`
+- The button hiding (Group D journeys) and hub notices (Group B/C) are preserved
+
+**Files changed:** `public/index.html`, `public/js/demo-ui.js`, `test/experiment-ui.test.js`
+
+### FIX-22: Stale function references broke all wizard buttons (June 12)
+
+**Issue:** The Next, Prev, Generate, and all other wizard buttons stopped working. Clicking any button did nothing.
+
+**Root cause:** When `acceptContent`, `resetContent`, and `saveContent` functions were removed in FIX-21, their references in the `demoUI` public API object (lines 979-981) were left behind:
+```javascript
+var demoUI = {
+    ...
+    acceptContent: acceptContent,  // ReferenceError — undefined
+    resetContent: resetContent,    // ReferenceError — undefined
+    saveContent: saveContent,      // ReferenceError — undefined
+    ...
+};
+```
+This caused a ReferenceError when the IIFE executed, preventing `global.demoUI = demoUI;` from ever running. Since `window.demoUI` was never created, all `onclick="demoUI.xxx()"` handlers failed silently.
+
+**Resolution:** Removed the three stale references from the `demoUI` object.
+
+**Files changed:** `public/js/demo-ui.js`
+
 | **P2** | ARCH-1: Replacement system | Architecture | High | Must be eliminated |
 | **P2** | ARCH-2: Post-HBS replacement | Architecture | Medium | Gone when ARCH-1 resolved |
 | **P3** | STR-4: Empty block partials | Architecture | Medium | Needed for composition |

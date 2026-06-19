@@ -73,10 +73,18 @@ Single POST with `{ html: "..." }` → stores full hub HTML as one blob. Works f
 ### v2: Config-Based Share
 Single POST with `{ config: {...} }` → stores render config (~2KB). Share page loads Handlebars + demo-renderer.js, re-renders client-side via `renderMultiJourney(config)`. Hub HTML loaded in iframe via Blob URL. Works for any number of journeys with no size limit.
 
-### v3: Multi-Blob Share (new)
+### v3: Multi-Blob Share (preferred)
 Two-step upload for pre-rendered multi-journey demos:
-1. `POST { config, journeyTypes }` → creates hub metadata blob (~2KB), returns hub token
-2. `POST { hubToken, journeyType, html }` → stores one journey blob (~200KB each), called N times sequentially
+1. `POST { config, journeyTypes }` → creates hub metadata blob (~2KB, or up to ~300KB if large logo), returns hub token
+2. `POST { hubToken, journeyType, html }` → stores one journey blob (~200KB-1.4MB each), called N times sequentially
+
+**Key sizing findings (verified against production, June 2026):**
+- Config without logo: ~500 bytes. Config with logo: up to 800KB (logo base64 = 96% of payload).
+- Per-journey HTML: 290KB–1.41MB (order_to_cash is largest at 1.41MB).
+- All journey HTMLs fit within the 2.5MB per-journey app-enforced limit.
+- Vercel serverless body limit is ~4.1MB (confirmed: 4.5MB → 413 FUNCTION_PAYLOAD_TOO_LARGE).
+- v3 two-step upload keeps each request well under the limit.
+- Logo data URLs in config are the only payload bloat concern — they work but waste storage.
 
 Hub page (`GET /api/share?token=xxx`) serves Haldiram-style two-panel HTML that fetches individual journeys via `fetch("/api/share?token=xxx&journey=otc")` + Blob URL iframes. Each request stays under the 4.1MB limit. Client shows upload progress.
 

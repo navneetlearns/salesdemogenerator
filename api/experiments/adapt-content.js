@@ -47,7 +47,7 @@ module.exports = async function adaptContentHandler(req, res) {
     const result = await adaptJourneyContent({
       industry: industryId,
       brandName: brandName || session?.metadata?.brandName || brandId,
-      journeyType: 'order_to_cash',
+      journeyType: req.body.journeyType || 'order_to_cash',
       products: catalog.map(p => (typeof p === 'string' ? p : p && p.name)).filter(Boolean),
       labels: labels || DEFAULT_LABELS,
       industryContext,
