@@ -1272,10 +1272,21 @@
       partialPrefix = knownMismatches[partialPrefix];
     }
 
+    // OTC uses unique partial names per step (not a single prefix)
+    var stepPartialOverrides = {
+      'order_to_cash': {
+        1: 'self-service', 2: 'catalog', 3: 'ai-capture', 4: 'back-office',
+        5: 'order-confirmed', 6: 'sap-architecture', 7: 'invoice',
+        8: 'cash-discount', 9: 'payment', 10: 'credit-note', 11: 'nav-menu'
+      }
+    };
+
     var parts = [];
     for (var i = 0; i < selectedSteps.length; i++) {
       var stepNum = selectedSteps[i];
-      var partialName = 'step' + stepNum + '-' + partialPrefix;
+      var override = (stepPartialOverrides[journeyType] || {})[stepNum];
+      var suffix = override || partialPrefix;
+      var partialName = 'step' + stepNum + '-' + suffix;
       var source = partials[partialName];
       if (source) {
         parts.push(source);
