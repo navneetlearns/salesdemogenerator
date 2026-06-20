@@ -1,18 +1,40 @@
 # Architecture
 
-This project has **two independent rendering paths** that must be updated together for any change affecting demo output.
+This project has **three independent rendering paths** that must be understood when
+adding journeys, changing templates, or previewing output.
 
-## Dual Rendering Architecture
+## Three Rendering Paths
 
 ### Path A: Server-Side Static Build (`build.js`)
 
-`build.js` reads `data/`, `assets/`, and `templates/`, renders Handlebars server-side, applies post-render patches (brand replacements, asset injection), and writes `generated/` and `dist/`. This produces pre-built, self-contained HTML files for known brands.
+`build.js` reads `data/`, `assets/`, and `templates/`, renders Handlebars server-side,
+applies post-render patches (brand replacements, asset injection), and writes `generated/`
+and `dist/`. This produces pre-built, self-contained HTML files for known brands.
 
 ### Path B: Client-Side Dynamic Wizard (`demo-renderer.js` + `demo-ui.js`)
 
-At build time, `scripts/build-template-pack.js` packs all Handlebars partials, helpers, journey data, brand defaults, and layout templates into `public/template-pack.json`. At runtime, the browser loads this pack, the user fills a wizard form, and `DemoRenderer.render()` compiles and renders the demo entirely client-side. No server calls after initial page load.
+At build time, `scripts/build-template-pack.js` packs all Handlebars partials, helpers,
+journey data, brand defaults, and layout templates into `public/template-pack.json`. At
+runtime, the browser loads this pack, the user fills a wizard form, and
+`DemoRenderer.render()` compiles and renders the demo entirely client-side. No server
+calls after initial page load.
 
-**Critical:** Any change to rendering logic (partials, helpers, brand building, product name mapping, journey templates) must be verified against BOTH paths. The `demo-renderer.js` renderer is a self-contained re-implementation of the build pipeline for the browser.
+### Path C: AI Premium Demos (`scripts/generate-premium.js`)
+
+At build time, `scripts/generate-premium.js` generates standalone, self-contained HTML
+files with inline CSS, base64-embedded brand logos, multi-turn WhatsApp conversations,
+sidebar navigation, and keyboard shortcuts. Output goes to `dist/{brand}/premium/`.
+These are reference-quality client demos that coexist with Path A output.
+
+The generator reads conversation templates from its own data (embedded in the script)
+and injects brand-specific colors (#003D7A for JK Cement), order IDs (JKC-2026-XXXX),
+realistic ₹ amounts, and IST timestamps. Each file is fully self-contained — no external
+dependencies.
+
+**Critical:** Any change to rendering logic (partials, helpers, brand building,
+product name mapping, journey templates) must be verified against Path A and B.
+Path C is independent — it generates from its own conversation corpus and is not
+affected by partial/template changes.
 
 ### Key Client-Side Files
 
