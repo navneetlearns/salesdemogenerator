@@ -218,10 +218,20 @@ function _renderSchemaScreen(screen) {
   if (!screen || !screen.type) {
     return '<div class="screen-wrap"><div class="screen-lbl">Unknown screen</div></div>';
   }
-  var partialName = 'screen-' + screen.type;
-  if (typeof Handlebars !== 'undefined' && Handlebars.partials && Handlebars.partials[partialName]) {
-    var template = Handlebars.compile(Handlebars.partials[partialName]);
-    return template(screen.data || {});
+  // step-partial: bridge to existing step partials — render with full context
+  if (screen.type === 'step-partial') {
+    var spName = screen.data && screen.data.partialName;
+    if (spName && typeof Handlebars !== 'undefined' && Handlebars.partials && Handlebars.partials[spName]) {
+      var spTemplate = Handlebars.compile(Handlebars.partials[spName]);
+      return spTemplate(this);
+    }
+    return '<div class="screen-wrap"><div class="screen-desc" style="background:#ffd9b0;padding:16px;border-radius:8px;"><strong>Step Partial</strong><br>Missing: ' + (spName || '(no name)') + '</div></div>';
+  }
+  // Schema screen types: look up screen-{type} partial and render with data
+  var scrPartialName = 'screen-' + screen.type;
+  if (typeof Handlebars !== 'undefined' && Handlebars.partials && Handlebars.partials[scrPartialName]) {
+    var scrTemplate = Handlebars.compile(Handlebars.partials[scrPartialName]);
+    return scrTemplate(screen.data || {});
   }
   if (screen.description) {
     return '<div class="screen-wrap"><div class="screen-desc" style="background:#E8F5E9;padding:16px;border-radius:8px;"><strong>' + screen.type + '</strong><br>' + screen.description + '</div></div>';

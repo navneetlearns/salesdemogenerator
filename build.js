@@ -116,10 +116,22 @@ Handlebars.registerHelper('renderSchemaScreen', function(screen) {
   if (!screen || !screen.type) {
     return '<div class="screen-wrap"><div class="screen-lbl">Unknown screen</div></div>';
   }
-  const partialName = 'screen-' + screen.type;
-  const partial = Handlebars.partials[partialName];
-  if (partial) {
-    const template = Handlebars.compile(partial);
+
+  // step-partial: bridge to existing step partials — render with full context
+  if (screen.type === 'step-partial') {
+    var partialName = screen.data && screen.data.partialName;
+    if (partialName && Handlebars.partials[partialName]) {
+      var template = Handlebars.compile(Handlebars.partials[partialName]);
+      return template(this);
+    }
+    return '<div class="screen-wrap"><div class="screen-desc" style="background:#ffd9b0;padding:16px;border-radius:8px;"><strong>Step Partial</strong><br>Missing: ' + (partialName || '(no name)') + '</div></div>';
+  }
+
+  // Schema screen types: look up screen-{type} partial and render with data
+  var screenPartialName = 'screen-' + screen.type;
+  var screenPartial = Handlebars.partials[screenPartialName];
+  if (screenPartial) {
+    var template = Handlebars.compile(screenPartial);
     return template(screen.data || {});
   }
   // Fallback: render description card if available
