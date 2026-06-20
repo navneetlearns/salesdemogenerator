@@ -212,6 +212,7 @@ QA preview deployments at `https://demo-generator-*.vercel.app` (created by `ver
 
 | Date | Commit | Changes |
 |------|--------|---------|
+| June 20 | `82ed398` | Phase 4+5: AI premium demos (Path C), cleanup — prod-demo-renderer.js removed, premium generator auto-runs on build, docs updated |
 | June 17 | HEAD (73934bc + uncommitted) | Navigation fix: Blob URL iframe rendering for hub preview + journey cards. Production now matches local HEAD. Content adaptation for all 9 journeys. |
 | ~June 12 | `119e5e2` | Hub card metadata and SAP diagram sizing |
 | ~June 10 | `dcd1f60` | v3 multi-blob share architecture |
