@@ -2,7 +2,7 @@
 
 > Computed from live analysis of the codebase and generated output.
 > Branch: `main`
-> Last updated: June 17, 2026 (HEAD: 73934bc + uncommitted). Tests: 43/43 pass. Production deployed: June 17, 2026.
+> Last updated: June 20, 2026 (HEAD: 29285b0). Tests: 70/70 pass. Production deployed: June 20, 2026.
 
 ---
 
@@ -125,17 +125,18 @@ document.getElementById("hp-cards").addEventListener("click", function(e) {
 
 ---
 
-## CRITICAL BUGS (Busted Now)
+## CRITICAL BUGS (Busted Now → Mostly Resolved)
 
-### BUG-1: Prices Are Never Replaced — Sundaram Store Shows Cement Prices
+### BUG-1: Prices Are Never Replaced — Sundaram Store Shows Cement Prices (RESOLVED)
 
 **Evidence:** Sundaram Store (a stationery shop) outputs 34 unique prices that are ALL JK Cement values. The catalog says different prices but the HTML shows JK Cement values.
 
 **Root cause:** The `replacements` dict in brand JSON only replaces text strings. Prices are hardcoded in the template HTML as literal text — there are no `{{price}}` Handlebars expressions for them. The `split().join()` replacement system cannot know that one price should become another for a different brand because it doesn't understand currency/math.
 
-**Resolution:** 
-- Short-term: Add price replacements to each brand's `replacements` dict. But this is order-dependent and breaks if line totals change per quantity.
-- Proper: Move ALL prices into journey/financial data in the JSON. Use `{{formatCurrency cart.summary.orderValue}}`, `{{formatCurrency product.lineTotal}}`, etc. Pre-compute at build time.
+**Resolution (June 17, 7adfc7f):**
+- All prices moved into `{{formatCurrency journey.step3.cartItems.N.unitPrice}}` and `{{#each journey.step3.cartItems}}` iteration in step3-ai-capture.hbs
+- Shared-brand partials now use data-driven pricing — zero hardcoded ₹ amounts remain
+- Catalogs are single source of truth for prices per brand
 
 ---
 
@@ -161,14 +162,14 @@ document.getElementById("hp-cards").addEventListener("click", function(e) {
 
 ---
 
-### BUG-4: Product Names Mismatch Between Catalog and Template
+### BUG-4: Product Names Mismatch Between Catalog and Template (RESOLVED)
 
 **Evidence:** Catalog product names and template product names are COMPLETELY DIFFERENT. Neither ever became the single source of truth.
 
-**Resolution:**
-- Decide which naming convention is correct.
-- Create a single `products` array in the journey JSON that is THE authority for product names, SKUs, and prices.
-- Use `{{#each products}}` to render product lines, not hardcoded text.
+**Resolution (June 17, data-driven catalog):**
+- Catalog is now the single source of truth for product names, SKUs, and prices
+- Templates use `{{#each catalog.products}}` to render product lines
+- Brand onboarding uses `data/catalogs/<brand>_products.json` exclusively
 
 ---
 
@@ -355,24 +356,7 @@ Files verified on production:
 
 ---
 
-## RESOLUTION PRIORITY
-
-| Priority | Issue | Type | Effort | Impact |
-|---|---|---|---|---|
-| **P0** | PEND-1: Content adaptation for all journeys | Feature | High | RESOLVED June 12 |
-| **P0** | FIX-10: Hub clicks broken (srcdoc/document.write) | Bug | Medium | RESOLVED June 10, deployed June 17 |
-| **P0** | FIX-11: v3 multi-blob share architecture | Feature | High | RESOLVED June 10 |
-| **P0** | FIX-12: Hub card syntax error (FUNCTION_INVOCATION_FAILED) | Bug | Medium | RESOLVED June 10 |
-| **P1** | FIX-14: Hub card descriptions/metadata blank | Bug | Low | RESOLVED June 10 |
-| **P1** | FIX-15: SAP architecture diagram oversized | Bug | Low | RESOLVED June 10 |
-| **P1** | PEND-2: Custom demo for all 9 journeys | Feature | Medium | Step selection may miss some journey types |
-| **P1** | BUG-1: Prices never replaced | Bug | Medium | Every brand shows wrong prices |
-| **P1** | BUG-2: Secondary dealers unreplaced | Bug | Low | Admin portal shows wrong names |
-| **P1** | BUG-4: Product name mismatch | Bug | Low | Catalog data = single source of truth |
-| **P2** | BUG-3: Replacement overlaps | Bug | Medium | Silent HTML corruption risk |
-| **P2** | STR-1: 200K monolith | Architecture | High | Root cause of all issues |
-| **P2** | STR-2: 411 inline styles | Architecture | High | Brand theming impossible |
-| **P2** | STR-3: 252 inline SVGs | Architecture | Medium | Icon changes painful |
+---
 
 ### FIX-16: Field ops illustration images missing in custom demos (June 10)
 
@@ -462,6 +446,116 @@ This caused a ReferenceError when the IIFE executed, preventing `global.demoUI =
 
 **Files changed:** `public/js/demo-ui.js`
 
-| **P2** | ARCH-1: Replacement system | Architecture | High | Must be eliminated |
-| **P2** | ARCH-2: Post-HBS replacement | Architecture | Medium | Gone when ARCH-1 resolved |
-| **P3** | STR-4: Empty block partials | Architecture | Medium | Needed for composition |
+### FIX-23: Step-partial bridge for schema renderer — Path B wiring (June 20)
+
+**Issue:** The schema-driven renderer (`renderSchemaScreen`) in `build.js` and
+`build-template-pack.js` only knew about `screen-{type}` partials. It couldn't
+render existing step partials (e.g., `step1-self-service`, `step3-ai-capture`)
+which contain full WhatsApp screens with layout, messages, and phone frames.
+
+**Resolution:** Added a `step-partial` screen type to `renderSchemaScreen`:
+- When `screen.type === 'step-partial'`, it reads `screen.data.partialName`,
+  looks up the named partial (e.g., `step3-ai-capture`), and renders it with
+  the full journey context (`this`) instead of just `screen.data`.
+- Non-step schema screens continue to use `screen-{type}` partials with
+  `screen.data` context as before.
+- Applied to both `build.js` (server-side) and `scripts/build-template-pack.js`
+  (client-side, packed into `template-pack.json`).
+
+**Files changed:** `build.js`, `scripts/build-template-pack.js`, `public/template-pack.json`
+
+### FIX-24: Premium generation — Path C (June 20)
+
+**Issue:** The project had two rendering paths (static build and client wizard)
+but lacked standalone reference-quality demos for client presentations. The
+Haldirams reference files (3.8MB each, rich WhatsApp conversations, base64
+images) showed the target quality but were hand-crafted for one brand only.
+
+**Resolution:** Created `scripts/generate-premium.js` — a Node.js generator
+that produces standalone premium HTML files with:
+- Multi-turn WhatsApp conversations (2-4 messages per screen)
+- Realistic business data (order IDs like JKC-2026-0417, ₹ amounts, IST dates)
+- Sidebar step navigation with keyboard shortcuts (ArrowRight/ArrowLeft)
+- Base64-embedded brand logo (SVG)
+- Inline CSS (no external dependencies), screen description cards
+- 2-3 phone frames per step, 3-15 steps per journey
+
+Generated 6 JK Cement premium journeys in `dist/jk_cement/premium/`.
+
+**Files created:** `scripts/generate-premium.js`, `docs/premium-generation-spec.md`,
+`assets/brands/jk_cement/logo.svg`
+
+### FIX-25: prod-demo-renderer.js removed — dead file (June 20)
+
+**Issue:** `prod-demo-renderer.js` was a stale copy unreferenced by any HTML,
+JS, or JSON file in the project. It was dead code that could confuse future
+developers.
+
+**Resolution:** Confirmed zero references via grep across all `.js`, `.html`,
+`.json` files, then deleted the file.
+
+**Files changed:** deleted `prod-demo-renderer.js`
+
+### FIX-26: Premium generation auto-runs on dist build (June 20)
+
+**Issue:** `build.js --dist` wipes `dist/` via `clearDir()`, which deletes any
+premium files generated before the build. This required a separate manual step
+after each build.
+
+**Resolution:** Added a post-build hook in `build.js` that runs
+`node scripts/generate-premium.js all` after the dist build completes. The hook
+gracefully skips if the generator script is missing, making it safe for CI/CD.
+
+**Files changed:** `build.js`
+
+### FIX-27: PEND-2 — Custom demo for all 9 journey types verified complete (June 20)
+
+**Issue:** `buildDynamicOrchestrator()` in `demo-renderer.js` had
+`knownMismatches` only for `field_ops_expense→field-ops` and
+`automated_collections→collections`. While partials existed for all 9
+journeys, the mapping was not audited.
+
+**Verification:** Inspected template-pack.json's 92 partials against all 9
+journey types:
+- `order_to_cash`: 11 stepPartialOverrides — all OK
+- `field_ops_expense`: 15 partials (via knownMismatches → field-ops)
+- `automated_collections`: 11 partials (via knownMismatches → collections)
+- 6 underscore-named journeys: dealer_engagement (3), retailer_onboarding (12),
+  retailer_loyalty (6), campaigns_queries (3), dt_fulfillment_payment (5),
+  retailer_activation (2) — all match directly via journeyType ID.
+- No additional knownMismatches needed.
+
+**Status:** All 9 journey types render correctly in the client-side wizard.
+
+## Status Table (June 20)
+
+| Priority | Issue | Type | Effort | Status |
+|----------|-------|------|--------|--------|
+| **P0** | PEND-1: Content adaptation for all journeys | Feature | High | RESOLVED June 12 |
+| **P0** | FIX-10: Hub clicks broken | Bug | Medium | RESOLVED June 10 |
+| **P0** | FIX-11: v3 multi-blob share | Feature | High | RESOLVED June 10 |
+| **P0** | FIX-12: Hub card syntax error | Bug | Medium | RESOLVED June 10 |
+| **P0** | FIX-21: Auto content adaptation on Generate | Feature | Medium | RESOLVED June 12 |
+| **P1** | FIX-14: Hub card descriptions/metadata blank | Bug | Low | RESOLVED June 10 |
+| **P1** | FIX-15: SAP architecture diagram oversized | Bug | Low | RESOLVED June 10 |
+| **P1** | FIX-22: Stale function refs broke wizard buttons | Bug | Low | RESOLVED June 12 |
+| **P1** | FIX-23: Step-partial bridge for schema renderer | Bug | Low | RESOLVED June 20 |
+| **P1** | FIX-27: PEND-2 — All 9 journeys verified in wizard | Feature | Medium | RESOLVED June 20 |
+| **P1** | BUG-1: Prices never replaced | Bug | Medium | RESOLVED June 17 (data-driven prices) |
+| **P1** | BUG-4: Product name mismatch | Bug | Low | RESOLVED June 17 (data-driven catalog) |
+| **P2** | FIX-16: Field ops images missing | Bug | Medium | RESOLVED June 10 |
+| **P2** | FIX-17: Step 12 layout gap + "undefined" text | Bug | Low | RESOLVED June 10 |
+| **P2** | FIX-18: Duplicate nav buttons | Bug | Low | RESOLVED June 10 |
+| **P2** | FIX-19: "undefined" from client renderer | Bug | Low | RESOLVED June 10 |
+| **P2** | FIX-20: Content adaptation hardcoded to OTC | Bug | Low | RESOLVED June 12 |
+| **P2** | FIX-24: Premium generation Path C | Feature | High | RESOLVED June 20 |
+| **P2** | FIX-25: prod-demo-renderer.js dead file | Cleanup | Low | RESOLVED June 20 |
+| **P2** | FIX-26: Premium auto-run on dist build | Feature | Medium | RESOLVED June 20 |
+| **P2** | BUG-2: Secondary dealers unreplaced | Bug | Low | PARTIALLY RESOLVED |
+| **P2** | BUG-3: Replacement overlaps | Bug | Medium | PARTIALLY RESOLVED (data-driven reduced risk) |
+| **P2** | ARCH-1: Replacement system | Architecture | High | PARTIALLY RESOLVED (data-driven eliminated need for most) |
+| **P2** | ARCH-2: Post-HBS replacement | Architecture | Medium | PARTIALLY RESOLVED |
+| **P3** | STR-1: 200K monolith | Architecture | High | Still open |
+| **P3** | STR-2: 411 inline styles | Architecture | High | Still open |
+| **P3** | STR-3: 252 inline SVGs | Architecture | Medium | Still open |
+| **P3** | STR-4: Empty block partials | Architecture | Medium | Still open |
