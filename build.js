@@ -701,6 +701,19 @@ async function build() {
 
   console.log(`\nBuild complete.${BUILD_DIST ? ' → dist/' : ''}`);
 
+  // ── Generate premium demos (Path C) after dist build ──
+  if (BUILD_DIST) {
+    try {
+      const premiumGen = path.join(__dirname, 'scripts', 'generate-premium.js');
+      if (await fs.pathExists(premiumGen)) {
+        const { execSync } = require('child_process');
+        execSync(`node "${premiumGen}" all`, { stdio: 'inherit', cwd: __dirname });
+      }
+    } catch (err) {
+      console.warn(`  ⚠ Premium generation skipped: ${err.message}`);
+    }
+  }
+
   // Copy additional journey HTML files into dist for static serving
   if (BUILD_DIST) {
     for (const brandId of builtBrandIds) {
