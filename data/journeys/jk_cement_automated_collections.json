@@ -1,51 +1,174 @@
 {
   "id": "automated_collections",
   "title": "Automated Payment Collection",
-  "brand": "jk_cement",
-  "screens": [
+  "description": "",
+  "industry": [],
+  "brands": [],
+  "steps": [
     {
-      "id": "step1-collections",
-      "type": "step1-collections"
+      "num": 1,
+      "title": "Automated Payment Reminder",
+      "description": "AI reminder · Outstanding QR",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step1-collections",
+          "data": {
+            "partialName": "step1-collections"
+          }
+        }
+      ]
     },
     {
-      "id": "step2-collections",
-      "type": "step2-collections"
+      "num": 2,
+      "title": "Retailer Checks Invoices",
+      "description": "AI · Invoice breakdown",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step2-collections",
+          "data": {
+            "partialName": "step2-collections"
+          }
+        }
+      ]
     },
     {
-      "id": "step3-collections",
-      "type": "step3-collections"
+      "num": 3,
+      "title": "AI Initiates PTP + Scheme",
+      "description": "AI PTP · Scheme hook",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step3-collections",
+          "data": {
+            "partialName": "step3-collections"
+          }
+        }
+      ]
     },
     {
-      "id": "step4-collections",
-      "type": "step4-collections"
+      "num": 4,
+      "title": "Retailer Declines Initial Date",
+      "description": "Retailer response · Decline",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step4-collections",
+          "data": {
+            "partialName": "step4-collections"
+          }
+        }
+      ]
     },
     {
-      "id": "step5-collections",
-      "type": "step5-collections"
+      "num": 5,
+      "title": "AI Asks Alternate Date",
+      "description": "AI · Alternate date options",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step5-collections",
+          "data": {
+            "partialName": "step5-collections"
+          }
+        }
+      ]
     },
     {
-      "id": "step6-collections",
-      "type": "step6-collections"
+      "num": 6,
+      "title": "Retailer Selects Friday",
+      "description": "Retailer · Date commitment",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step6-collections",
+          "data": {
+            "partialName": "step6-collections"
+          }
+        }
+      ]
     },
     {
-      "id": "step7-collections",
-      "type": "step7-collections"
+      "num": 7,
+      "title": "Scheme Unlocked for Friday",
+      "description": "Scheme unlock · Incentive",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step7-collections",
+          "data": {
+            "partialName": "step7-collections"
+          }
+        }
+      ]
     },
     {
-      "id": "step8-collections",
-      "type": "step8-collections"
+      "num": 8,
+      "title": "PTP Confirmed",
+      "description": "PTP logged · Confirmation",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step8-collections",
+          "data": {
+            "partialName": "step8-collections"
+          }
+        }
+      ]
     },
     {
-      "id": "step9-collections",
-      "type": "step9-collections"
+      "num": 9,
+      "title": "Pre-Due Reminder (Thursday)",
+      "description": "Pre-due reminder · Pay Now",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step9-collections",
+          "data": {
+            "partialName": "step9-collections"
+          }
+        }
+      ]
     },
     {
-      "id": "step10-collections",
-      "type": "step10-collections"
+      "num": 10,
+      "title": "Payment Received ✅",
+      "description": "Payment closed · Scheme active",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step10-collections",
+          "data": {
+            "partialName": "step10-collections"
+          }
+        }
+      ]
     },
     {
-      "id": "step11-collections",
-      "type": "step11-collections"
+      "num": 11,
+      "title": "Payment Not Received ❌",
+      "description": "Missed PTP · Re-engage",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step11-collections",
+          "data": {
+            "partialName": "step11-collections"
+          }
+        }
+      ]
     }
   ],
   "dealer": {
@@ -53,96 +176,6 @@
     "contactName": "Vikram Singh",
     "phone": "+91 98110 00000"
   },
-  "steps": [
-    {
-      "num": 1,
-      "displayNum": 1,
-      "title": "Automated Payment Reminder",
-      "meta": "AI reminder · Outstanding QR",
-      "navTitle": "Step 1 — Automated Payment Reminder",
-      "navDesc": "AI reminder · Outstanding QR"
-    },
-    {
-      "num": 2,
-      "displayNum": 2,
-      "title": "Retailer Checks Invoices",
-      "meta": "AI · Invoice breakdown",
-      "navTitle": "Step 2 — Retailer Checks Invoices",
-      "navDesc": "AI · Invoice breakdown"
-    },
-    {
-      "num": 3,
-      "displayNum": 3,
-      "title": "AI Initiates PTP + Scheme",
-      "meta": "AI PTP · Scheme hook",
-      "navTitle": "Step 3 — AI Initiates PTP + Scheme",
-      "navDesc": "AI PTP · Scheme hook"
-    },
-    {
-      "num": 4,
-      "displayNum": 4,
-      "title": "Retailer Declines Initial Date",
-      "meta": "Retailer response · Decline",
-      "navTitle": "Step 4 — Retailer Declines Initial Date",
-      "navDesc": "Retailer response · Decline"
-    },
-    {
-      "num": 5,
-      "displayNum": 5,
-      "title": "AI Asks Alternate Date",
-      "meta": "AI · Alternate date options",
-      "navTitle": "Step 5 — AI Asks Alternate Date",
-      "navDesc": "AI · Alternate date options"
-    },
-    {
-      "num": 6,
-      "displayNum": 6,
-      "title": "Retailer Selects Friday",
-      "meta": "Retailer · Date commitment",
-      "navTitle": "Step 6 — Retailer Selects Friday",
-      "navDesc": "Retailer · Date commitment"
-    },
-    {
-      "num": 7,
-      "displayNum": 7,
-      "title": "Scheme Unlocked for Friday",
-      "meta": "Scheme unlock · Incentive",
-      "navTitle": "Step 7 — Scheme Unlocked for Friday",
-      "navDesc": "Scheme unlock · Incentive"
-    },
-    {
-      "num": 8,
-      "displayNum": 8,
-      "title": "PTP Confirmed",
-      "meta": "PTP logged · Confirmation",
-      "navTitle": "Step 8 — PTP Confirmed",
-      "navDesc": "PTP logged · Confirmation"
-    },
-    {
-      "num": 9,
-      "displayNum": 9,
-      "title": "Pre-Due Reminder (Thursday)",
-      "meta": "Pre-due reminder · Pay Now",
-      "navTitle": "Step 9 — Pre-Due Reminder (Thursday)",
-      "navDesc": "Pre-due reminder · Pay Now"
-    },
-    {
-      "num": 10,
-      "displayNum": 10,
-      "title": "Payment Received ✅",
-      "meta": "Payment closed · Scheme active",
-      "navTitle": "Step 10 — Payment Received ✅",
-      "navDesc": "Payment closed · Scheme active"
-    },
-    {
-      "num": 11,
-      "displayNum": 11,
-      "title": "Payment Not Received ❌",
-      "meta": "Missed PTP · Re-engage",
-      "navTitle": "Step 11 — Payment Not Received ❌",
-      "navDesc": "Missed PTP · Re-engage"
-    }
-  ],
   "hubMeta": {
     "emoji": "💰",
     "color": "#2E7D32",

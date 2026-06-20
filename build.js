@@ -11,6 +11,9 @@ const { runAssetPipeline } = require('./lib/asset-pipeline');
 const { packageDist } = require('./lib/dist-packager');
 const { buildJourneyContent } = require('./services/content-adapter');
 
+// New schema-driven renderer (Phase 2)
+const screenRenderer = require('./lib/screen-renderer');
+
 const ROOT = __dirname;
 const DATA_DIR = path.join(ROOT, 'data');
 const TEMPLATES_DIR = path.join(ROOT, 'templates');
@@ -596,6 +599,69 @@ async function build() {
       fs.writeFileSync(path.join(genDir, 'retailer_activation.html'), raHtml, 'utf8');
       console.log('  Generated: generated/' + brandId + '/retailer_activation.html');
     }
+
+    // ── Schema-driven journeys (new system) ──
+    // Process any journey JSON files that use the new schema (steps[].screens)
+    const allJourneyFiles = (await fs.readdir(path.join(DATA_DIR, 'journeys')))
+      .filter(f => f.startsWith(brandId + '_') && f.endsWith('.json'));
+    
+    const knownJourneyTypes = new Set([
+      'order_to_cash', 'field_ops_expense', 'dealer_engagement', 
+      'retailer_onboarding', 'retailer_loyalty', 'automated_collections',
+      'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation'
+    ]);
+
+    for (const journeyFile of allJourneyFiles) {
+      const journeyType = journeyFile.replace(brandId + '_', '').replace('.json', '');
+      
+      // Skip if already processed above
+      if (knownJourneyTypes.has(journeyType)) continue;
+
+      const journeyPath = path.join(DATA_DIR, 'journeys', journeyFile);
+      try {
+        const journeyData = await fs.readJson(journeyPath);
+        
+        // Check if this journey uses the new schema (has steps[].screens)
+        if (!journeyData.steps || !journeyData.steps[0] || !journeyData.steps[0].screens) {
+          continue; // Skip old-format journeys
+        }
+
+        console.log(`  Processing schema-driven journey: ${journeyType}`);
+        
+        // Build context for schema-driven journey
+        const schemaJourney = normalizeJourney(journeyData, pipeline.products);
+        schemaJourney.content = buildJourneyContent({});
+        const schemaScripts = await loadScripts(schemaJourney.navSteps);
+        
+        const schemaContext = {
+          brand,
+          brandLogo: pipeline.brandLogo,
+          industry,
+          journey: schemaJourney,
+          catalog,
+          cart: schemaJourney.cart,
+          style: styleContent,
+          scripts: schemaScripts,
+          showComposableMarkers: false,
+        };
+
+        // Render using the new schema-driven renderer
+        const journeyHtml = screenRenderer.renderJourney(journeyData, schemaContext);
+        
+        // Wrap in layout
+        const finalSchemaHtml = layoutTemplate({ 
+          ...schemaContext, 
+          body: journeyHtml 
+        });
+
+        const outputPath = path.join(genDir, `${journeyType}.html`);
+        fs.writeFileSync(outputPath, finalSchemaHtml, 'utf8');
+        console.log(`  Generated: generated/${brandId}/${journeyType}.html (schema-driven)`);
+
+      } catch (err) {
+        console.error(`  Error processing ${journeyFile}:`, err.message);
+      }
+    }
   }
 
   console.log(`\nBuild complete.${BUILD_DIST ? ' → dist/' : ''}`);
@@ -630,6 +696,12 @@ async function build() {
       try { templatePack = await fs.readJson(templatePackPath); } catch (e) {}
       const journeyDescs = templatePack.journeyDescriptions || {};
 
+      // Load brand data (brand var from rendering loop is out of scope here)
+      const brandJsonPath = path.join(DATA_DIR, 'brands', brandId + '.json');
+      let brandData = {};
+      try { brandData = await fs.readJson(brandJsonPath); } catch (e) {}
+      const brandDefaultColor = (brandData.colors && brandData.colors.brand) || '#333';
+
       // Build hub journey list from available HTML files + journey data
       const hubJourneys = [];
       const journeyFiles = (await fs.readdir(distBrandDir)).filter(f => f.endsWith('.html') && f !== 'index.html');
@@ -650,14 +722,14 @@ async function build() {
           steps: jDesc.steps || '?',
           desc: jDesc.desc || '',
           emoji: hubMeta.emoji || '\u{1F4F1}',
-          color: hubMeta.color || (brand.colors && brand.colors.brand) || '#333',
+          color: hubMeta.color || brandDefaultColor,
           tags: hubMeta.tags || [],
           url: jf
         });
       }
 
       // Sort journeys by a defined order
-      const journeyOrder = ['order_to_cash', 'field_ops_expense', 'automated_collections', 'dealer_engagement', 'retailer_onboarding', 'retailer_loyalty', 'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation'];
+      const journeyOrder = ['order_to_cash', 'field_ops_expense', 'automated_collections', 'dealer_engagement', 'retailer_onboarding', 'retailer_loyalty', 'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation', 'post_order_communication'];
       hubJourneys.sort((a, b) => {
         const ai = journeyOrder.indexOf(a.key);
         const bi = journeyOrder.indexOf(b.key);
@@ -681,10 +753,6 @@ async function build() {
         }
 
         // Load brand data from JSON (brand var is out of scope here)
-        const brandJsonPath = path.join(DATA_DIR, 'brands', brandId + '.json');
-        let brandData = {};
-        try { brandData = await fs.readJson(brandJsonPath); } catch (e) {}
-        const brandColor = (brandData.colors && brandData.colors.brand) || '#333';
         const dealerStoreName = brandData.dealerStoreName || brandData.shortName || brandData.name || brandId;
 
         // Try to get brand logo from the dist assets
@@ -705,8 +773,8 @@ async function build() {
 
         const hubContext = {
           brand: { name: brandData.name || brandId },
-          brandColor: brandColor,
-          brandRgb: hexToRgb(brandColor),
+          brandColor: brandDefaultColor,
+          brandRgb: hexToRgb(brandDefaultColor),
           brandLogo: brandLogoDataUri,
           dealerStoreName: dealerStoreName,
           journeys: hubJourneys

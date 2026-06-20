@@ -1,46 +1,101 @@
 {
   "id": "retailer_loyalty",
   "title": "Turnover-Based Loyalty Scheme",
-  "brand": "haldirams",
-  "screens": [
+  "description": "",
+  "industry": [],
+  "brands": [],
+  "steps": [
     {
-      "id": "step1-retailer_loyalty",
-      "type": "step1-retailer_loyalty"
+      "num": 1,
+      "title": "Loyalty Program Overview",
+      "description": "<span style=\"color:#555;font-size:12px;\">Overview of loyalty tiers and benefits</span><span class=\"tag tag-ai\">Loyalty</span><span class=\"tag tag-ord\">Program</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step1-retailer_loyalty",
+          "data": {
+            "partialName": "step1-retailer_loyalty"
+          }
+        }
+      ]
     },
     {
-      "id": "step2-retailer_loyalty",
-      "type": "step2-retailer_loyalty"
+      "num": 2,
+      "title": "Points & Rewards",
+      "description": "<span style=\"color:#555;font-size:12px;\">Points earning and reward redemption</span><span class=\"tag tag-ord\">Points</span><span class=\"tag tag-ai\">Rewards</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step2-retailer_loyalty",
+          "data": {
+            "partialName": "step2-retailer_loyalty"
+          }
+        }
+      ]
     },
     {
-      "id": "step3-retailer_loyalty",
-      "type": "step3-retailer_loyalty"
+      "num": 3,
+      "title": "Tier Progress",
+      "description": "<span style=\"color:#555;font-size:12px;\">Track tier progress and milestones</span><span class=\"tag tag-ord\">Tiers</span><span class=\"tag tag-ai\">Progress</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step3-retailer_loyalty",
+          "data": {
+            "partialName": "step3-retailer_loyalty"
+          }
+        }
+      ]
     },
     {
-      "id": "step4-retailer_loyalty",
-      "type": "step4-retailer_loyalty"
+      "num": 4,
+      "title": "Exclusive Offers",
+      "description": "<span style=\"color:#555;font-size:12px;\">Exclusive offers for loyalty members</span><span class=\"tag tag-ord\">Offers</span><span class=\"tag tag-ai\">Exclusive</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step4-retailer_loyalty",
+          "data": {
+            "partialName": "step4-retailer_loyalty"
+          }
+        }
+      ]
     },
     {
-      "id": "step5-retailer_loyalty",
-      "type": "step5-retailer_loyalty"
+      "num": 5,
+      "title": "Redemption History",
+      "description": "<span style=\"color:#555;font-size:12px;\">View redemption and transaction history</span><span class=\"tag tag-ord\">History</span><span class=\"tag tag-ai\">Redemption</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step5-retailer_loyalty",
+          "data": {
+            "partialName": "step5-retailer_loyalty"
+          }
+        }
+      ]
     },
     {
-      "id": "step6-retailer_loyalty",
-      "type": "step6-retailer_loyalty"
+      "num": 6,
+      "title": "Program Summary",
+      "description": "<span style=\"color:#555;font-size:12px;\">Program summary and next steps</span><span class=\"tag tag-ord\">Summary</span><span class=\"tag tag-ai\">Next Steps</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step6-retailer_loyalty",
+          "data": {
+            "partialName": "step6-retailer_loyalty"
+          }
+        }
+      ]
     }
   ],
-  "navSteps": [
-    "step-1",
-    "step-2",
-    "step-3",
-    "step-4",
-    "step-5",
-    "step-6"
-  ],
-  "dealer": {
-    "name": "Gupta Snacks Distributors",
-    "contactName": "Amit Gupta",
-    "phone": "+91 98123 45678"
-  },
   "messages": {
     "step1": {
       "greeting": "🎉 Welcome to Haldiram's Turnover-Based Loyalty Scheme! Earn exciting rewards on every purchase."
@@ -84,163 +139,11 @@
       "body": "Your loyalty program overview — points, tier, and next steps."
     }
   },
-  "loyalty": {
-    "points": {
-      "balance": 28450,
-      "lifetime": 125000,
-      "currency": "Reward Points",
-      "rate": "₹1 = 10 Points"
-    },
-    "earningRates": [
-      {
-        "activity": "Product Purchase",
-        "rate": "10 pts/₹100",
-        "bonus": ""
-      },
-      {
-        "activity": "Early Payment (within 7 days)",
-        "rate": "5 pts/₹100",
-        "bonus": "Extra 2 pts/₹100"
-      },
-      {
-        "activity": "Bulk Order (50+ bags)",
-        "rate": "15 pts/₹100",
-        "bonus": "Double points"
-      },
-      {
-        "activity": "Refer a Dealer",
-        "rate": "500 pts",
-        "bonus": "Per successful referral"
-      }
-    ],
-    "tier": {
-      "current": "Gold",
-      "next": "Platinum",
-      "currentMin": 500000,
-      "currentMax": 1000000,
-      "progressAmount": 725000,
-      "nextMin": 1000000,
-      "benefits": {
-        "Gold": [
-          "5% extra discount",
-          "Free delivery",
-          "Dedicated relationship manager",
-          "Quarterly business review"
-        ],
-        "Platinum": [
-          "10% extra discount",
-          "Free express delivery",
-          "Priority support",
-          "Monthly business review",
-          "Exclusive event access"
-        ],
-        "Diamond": [
-          "15% extra discount",
-          "Free express delivery",
-          "Dedicated account executive",
-          "Weekly review",
-          "VIP event access",
-          "Revenue share bonus"
-        ]
-      }
-    },
-    "offers": [
-      {
-        "title": "Monsoon Bulk Discount",
-        "desc": "Extra 3% off on orders above 100 bags",
-        "validUntil": "31 Aug 2026",
-        "code": "MONSOON3"
-      },
-      {
-        "title": "Gold Member Special",
-        "desc": "Free 1 bag on every 50 bags purchased",
-        "validUntil": "31 Dec 2026",
-        "code": "GOLD50"
-      },
-      {
-        "title": "Referral Bonus",
-        "desc": "Earn 500 points per new dealer referral",
-        "validUntil": "Ongoing",
-        "code": "REFER500"
-      }
-    ],
-    "redemptions": [
-      {
-        "date": "15 Apr 2026",
-        "item": "Hardware Voucher ₹5,000",
-        "points": 45000,
-        "status": "Completed"
-      },
-      {
-        "date": "22 Feb 2026",
-        "item": "E-Gift Card Amazon ₹2,500",
-        "points": 22500,
-        "status": "Completed"
-      },
-      {
-        "date": "03 Jan 2026",
-        "item": "Free Cement 5 Bags",
-        "points": 35000,
-        "status": "Completed"
-      },
-      {
-        "date": "12 Nov 2025",
-        "item": "Merchandise Kit",
-        "points": 12000,
-        "status": "Completed"
-      }
-    ]
+  "dealer": {
+    "name": "Gupta Snacks Distributors",
+    "contactName": "Amit Gupta",
+    "phone": "+91 98123 45678"
   },
-  "steps": [
-    {
-      "num": 1,
-      "displayNum": 1,
-      "title": "Loyalty Program Overview",
-      "meta": "Retailer · Loyalty program",
-      "navTitle": "Step 1 — Loyalty Program Overview",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Overview of loyalty tiers and benefits</span><span class=\"tag tag-ai\">Loyalty</span><span class=\"tag tag-ord\">Program</span>"
-    },
-    {
-      "num": 2,
-      "displayNum": 2,
-      "title": "Points & Rewards",
-      "meta": "Retailer · Earn & redeem",
-      "navTitle": "Step 2 — Points & Rewards",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Points earning and reward redemption</span><span class=\"tag tag-ord\">Points</span><span class=\"tag tag-ai\">Rewards</span>"
-    },
-    {
-      "num": 3,
-      "displayNum": 3,
-      "title": "Tier Progress",
-      "meta": "Retailer · Tier advancement",
-      "navTitle": "Step 3 — Tier Progress",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Track tier progress and milestones</span><span class=\"tag tag-ord\">Tiers</span><span class=\"tag tag-ai\">Progress</span>"
-    },
-    {
-      "num": 4,
-      "displayNum": 4,
-      "title": "Exclusive Offers",
-      "meta": "Retailer · Exclusive deals",
-      "navTitle": "Step 4 — Exclusive Offers",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Exclusive offers for loyalty members</span><span class=\"tag tag-ord\">Offers</span><span class=\"tag tag-ai\">Exclusive</span>"
-    },
-    {
-      "num": 5,
-      "displayNum": 5,
-      "title": "Redemption History",
-      "meta": "Retailer · Past redemptions",
-      "navTitle": "Step 5 — Redemption History",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">View redemption and transaction history</span><span class=\"tag tag-ord\">History</span><span class=\"tag tag-ai\">Redemption</span>"
-    },
-    {
-      "num": 6,
-      "displayNum": 6,
-      "title": "Program Summary",
-      "meta": "Retailer · Summary",
-      "navTitle": "Step 6 — Program Summary",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Program summary and next steps</span><span class=\"tag tag-ord\">Summary</span><span class=\"tag tag-ai\">Next Steps</span>"
-    }
-  ],
   "hubMeta": {
     "emoji": "🏆",
     "color": "#6A1B9A",

@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Journey Schema",
+  "description": "Schema for a customer journey with steps and screens",
+  "type": "object",
+  "required": ["id", "title", "steps"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique journey identifier (e.g., 'order_to_cash', 'post_order_communication')"
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable journey title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Journey description for documentation"
+    },
+    "industry": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Industries this journey applies to"
+    },
+    "brands": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Brands that use this journey"
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["num", "title", "screens"],
+        "properties": {
+          "num": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Step number (1-indexed)"
+          },
+          "title": {
+            "type": "string",
+            "description": "Step title for navigation"
+          },
+          "description": {
+            "type": "string",
+            "description": "Step description with tags (HTML allowed)"
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Tags for categorization (e.g., 'utility', 'pwa', 'ai')"
+          },
+          "screens": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["type", "data"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Screen type identifier (e.g., 'whatsapp-message', 'pwa-webview')"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Screen description for documentation"
+                },
+                "data": {
+                  "type": "object",
+                  "description": "Screen-specific data (structure varies by type)"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

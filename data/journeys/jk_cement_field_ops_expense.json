@@ -1,201 +1,246 @@
 {
   "id": "field_ops_expense",
   "title": "Field Ops & Expense Management",
-  "brand": "jk_cement",
-  "screens": [
+  "description": "",
+  "industry": [],
+  "brands": [],
+  "steps": [
     {
-      "id": "step1-field-ops",
-      "type": "step1-field-ops"
+      "num": 1,
+      "title": "Admin Creates Group",
+      "description": "Admin · Group setup &amp; activation<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-group\">Group</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step1-field-ops",
+          "data": {
+            "partialName": "step1-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step2-field-ops",
-      "type": "step2-field-ops"
+      "num": 2,
+      "title": "ZoAi Capability Panel",
+      "description": "Overview · AI capabilities<span class=\"tag tag-ai\">AI</span><span class=\"tag tag-cap\">Capabilities</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step2-field-ops",
+          "data": {
+            "partialName": "step2-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step3-field-ops",
-      "type": "step3-field-ops"
+      "num": 3,
+      "title": "Start Day & Clock-In",
+      "description": "Sales Exec · Clock-in &amp; attendance<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-session\">Attendance</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step3-field-ops",
+          "data": {
+            "partialName": "step3-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step4-field-ops",
-      "type": "step4-field-ops"
+      "num": 4,
+      "title": "Request Plan",
+      "description": "Sales Exec · Beat plan &amp; routing<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-dist\">Routing</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step4-field-ops",
+          "data": {
+            "partialName": "step4-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step5-field-ops",
-      "type": "step5-field-ops"
+      "num": 5,
+      "title": "Travel & Check-In",
+      "description": "Sales Exec · Check-in &amp; location<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-dist\">Location</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step5-field-ops",
+          "data": {
+            "partialName": "step5-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step6-field-ops",
-      "type": "step6-field-ops"
+      "num": 6,
+      "title": "Order Capture & Review",
+      "description": "Sales Exec · Order capture &amp; review<span class=\"tag tag-ord\">Order</span><span class=\"tag tag-ops\">Field Ops</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step6-field-ops",
+          "data": {
+            "partialName": "step6-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step7-field-ops",
-      "type": "step7-field-ops"
+      "num": 7,
+      "title": "Order Submit & Notify",
+      "description": "Sales Exec · Order submit &amp; notify<span class=\"tag tag-ord\">Order</span><span class=\"tag tag-ops\">Field Ops</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step7-field-ops",
+          "data": {
+            "partialName": "step7-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step8-field-ops",
-      "type": "step8-field-ops"
+      "num": 8,
+      "title": "Competitor Insights",
+      "description": "Sales Exec · Market intelligence<span class=\"tag tag-ai\">AI</span><span class=\"tag tag-ops\">Field Ops</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step8-field-ops",
+          "data": {
+            "partialName": "step8-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step9-field-ops",
-      "type": "step9-field-ops"
+      "num": 9,
+      "title": "Realtime ASM Communication",
+      "description": "ASM · Real-time field comms<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-session\">Comms</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step9-field-ops",
+          "data": {
+            "partialName": "step9-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step10-field-ops",
-      "type": "step10-field-ops"
+      "num": 10,
+      "title": "PWA App Installation",
+      "description": "Sales Exec · PWA offline app<span class=\"tag tag-cap\">PWA</span><span class=\"tag tag-ops\">Field Ops</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step10-field-ops",
+          "data": {
+            "partialName": "step10-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step11-field-ops",
-      "type": "step11-field-ops"
+      "num": 11,
+      "title": "Field Ops Command Center",
+      "description": "Head Office · Activity &amp; reports<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-ops\">Field Ops</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step11-field-ops",
+          "data": {
+            "partialName": "step11-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step12-field-ops",
-      "type": "step12-field-ops"
+      "num": 12,
+      "title": "DSR Files Expense Claim",
+      "description": "Sales Exec · Expense claims<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-act\">Expense</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step12-field-ops",
+          "data": {
+            "partialName": "step12-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step13-field-ops",
-      "type": "step13-field-ops"
+      "num": 13,
+      "title": "Manager Approval Queue",
+      "description": "Manager · Approval queue<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-act\">Approval</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step13-field-ops",
+          "data": {
+            "partialName": "step13-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step14-field-ops",
-      "type": "step14-field-ops"
+      "num": 14,
+      "title": "Manager Reviews & Approves",
+      "description": "Manager · Review &amp; approve<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-act\">Approval</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step14-field-ops",
+          "data": {
+            "partialName": "step14-field-ops"
+          }
+        }
+      ]
     },
     {
-      "id": "step15-field-ops",
-      "type": "step15-field-ops"
+      "num": 15,
+      "title": "DSR Receives Notifications",
+      "description": "Sales Exec · Status notifications<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-act\">Notification</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step15-field-ops",
+          "data": {
+            "partialName": "step15-field-ops"
+          }
+        }
+      ]
     }
   ],
-  "dealer": {
-    "name": "JK Cement Field Team",
-    "contactName": "Rakesh Kumar",
-    "phone": "+91 98110 00000"
-  },
   "messages": {
     "step1": {
       "greeting": "Welcome to Field Operations"
     }
   },
-  "steps": [
-    {
-      "num": 1,
-      "displayNum": 1,
-      "title": "Admin Creates Group",
-      "meta": "Admin · Group setup & activation",
-      "navTitle": "Step 1 — Admin Creates Group",
-      "navDesc": "Admin · Group setup &amp; activation<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-group\">Group</span>"
-    },
-    {
-      "num": 2,
-      "displayNum": 2,
-      "title": "ZoAi Capability Panel",
-      "meta": "Overview · AI capabilities",
-      "navTitle": "Step 2 — ZoAi Capability Panel",
-      "navDesc": "Overview · AI capabilities<span class=\"tag tag-ai\">AI</span><span class=\"tag tag-cap\">Capabilities</span>"
-    },
-    {
-      "num": 3,
-      "displayNum": 3,
-      "title": "Start Day & Clock-In",
-      "meta": "Sales Exec · Clock-in & attendance",
-      "navTitle": "Step 3 — Start Day & Clock-In",
-      "navDesc": "Sales Exec · Clock-in &amp; attendance<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-session\">Attendance</span>"
-    },
-    {
-      "num": 4,
-      "displayNum": 4,
-      "title": "Request Plan",
-      "meta": "Sales Exec · Beat plan & routing",
-      "navTitle": "Step 4 — Request Plan",
-      "navDesc": "Sales Exec · Beat plan &amp; routing<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-dist\">Routing</span>"
-    },
-    {
-      "num": 5,
-      "displayNum": 5,
-      "title": "Travel & Check-In",
-      "meta": "Sales Exec · Check-in & location",
-      "navTitle": "Step 5 — Travel & Check-In",
-      "navDesc": "Sales Exec · Check-in &amp; location<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-dist\">Location</span>"
-    },
-    {
-      "num": 6,
-      "displayNum": 6,
-      "title": "Order Capture & Review",
-      "meta": "Sales Exec · Order capture & review",
-      "navTitle": "Step 6 — Order Capture & Review",
-      "navDesc": "Sales Exec · Order capture &amp; review<span class=\"tag tag-ord\">Order</span><span class=\"tag tag-ops\">Field Ops</span>"
-    },
-    {
-      "num": 7,
-      "displayNum": 7,
-      "title": "Order Submit & Notify",
-      "meta": "Sales Exec · Order submit & notify",
-      "navTitle": "Step 7 — Order Submit & Notify",
-      "navDesc": "Sales Exec · Order submit &amp; notify<span class=\"tag tag-ord\">Order</span><span class=\"tag tag-ops\">Field Ops</span>"
-    },
-    {
-      "num": 8,
-      "displayNum": 8,
-      "title": "Competitor Insights",
-      "meta": "Sales Exec · Market intelligence",
-      "navTitle": "Step 8 — Competitor Insights",
-      "navDesc": "Sales Exec · Market intelligence<span class=\"tag tag-ai\">AI</span><span class=\"tag tag-ops\">Field Ops</span>"
-    },
-    {
-      "num": 9,
-      "displayNum": 9,
-      "title": "Realtime ASM Communication",
-      "meta": "ASM · Real-time field comms",
-      "navTitle": "Step 9 — Realtime ASM Communication",
-      "navDesc": "ASM · Real-time field comms<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-session\">Comms</span>"
-    },
-    {
-      "num": 10,
-      "displayNum": 10,
-      "title": "PWA App Installation",
-      "meta": "Sales Exec · PWA offline app",
-      "navTitle": "Step 10 — PWA App Installation",
-      "navDesc": "Sales Exec · PWA offline app<span class=\"tag tag-cap\">PWA</span><span class=\"tag tag-ops\">Field Ops</span>"
-    },
-    {
-      "num": 11,
-      "displayNum": 11,
-      "title": "Field Ops Command Center",
-      "meta": "Head Office · Activity & reports",
-      "navTitle": "Step 11 — Field Ops Command Center",
-      "navDesc": "Head Office · Activity &amp; reports<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-ops\">Field Ops</span>"
-    },
-    {
-      "num": 12,
-      "displayNum": 12,
-      "title": "DSR Files Expense Claim",
-      "meta": "Sales Exec · Expense claims",
-      "navTitle": "Step 12 — DSR Files Expense Claim",
-      "navDesc": "Sales Exec · Expense claims<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-act\">Expense</span>"
-    },
-    {
-      "num": 13,
-      "displayNum": 13,
-      "title": "Manager Approval Queue",
-      "meta": "Manager · Approval queue",
-      "navTitle": "Step 13 — Manager Approval Queue",
-      "navDesc": "Manager · Approval queue<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-act\">Approval</span>"
-    },
-    {
-      "num": 14,
-      "displayNum": 14,
-      "title": "Manager Reviews & Approves",
-      "meta": "Manager · Review & approve",
-      "navTitle": "Step 14 — Manager Reviews & Approves",
-      "navDesc": "Manager · Review &amp; approve<span class=\"tag tag-admin\">Admin</span><span class=\"tag tag-act\">Approval</span>"
-    },
-    {
-      "num": 15,
-      "displayNum": 15,
-      "title": "DSR Receives Notifications",
-      "meta": "Sales Exec · Status notifications",
-      "navTitle": "Step 15 — DSR Receives Notifications",
-      "navDesc": "Sales Exec · Status notifications<span class=\"tag tag-ops\">Field Ops</span><span class=\"tag tag-act\">Notification</span>"
-    }
-  ],
+  "dealer": {
+    "name": "JK Cement Field Team",
+    "contactName": "Rakesh Kumar",
+    "phone": "+91 98110 00000"
+  },
   "step10": {
     "orderAmount": 7850,
     "paidAmount": 2000,
@@ -318,9 +363,6 @@
       }
     ]
   },
-  "step1": {
-    "outstandingAmount": 48500
-  },
   "hubMeta": {
     "emoji": "👔",
     "color": "#00695C",
@@ -328,52 +370,6 @@
       "Field Ops",
       "Attendance",
       "Expenses"
-    ]
-  },
-  "step13": {
-    "claims": [
-      {
-        "id": "JKC-CL-4821",
-        "name": "Rajesh Kumar",
-        "type": "Event Expense",
-        "amount": 3400,
-        "date": "28 Mar 2026",
-        "status": "Under Review",
-        "approvedAmount": 3200,
-        "disbursedAmount": 3200
-      },
-      {
-        "id": "JKC-CL-4819",
-        "name": "Meena Bai",
-        "type": "Meeting Expense",
-        "amount": 1850,
-        "date": "27 Mar 2026",
-        "status": "Under Review"
-      },
-      {
-        "id": "JKC-CL-4816",
-        "name": "Suresh Patil",
-        "type": "Travel Expense",
-        "amount": 2100,
-        "date": "26 Mar 2026",
-        "status": "Under Review"
-      },
-      {
-        "id": "JKC-CL-4812",
-        "name": "Priya Sharma",
-        "type": "Event Expense",
-        "amount": 5750,
-        "date": "25 Mar 2026",
-        "status": "Under Review"
-      },
-      {
-        "id": "JKC-CL-4809",
-        "name": "Karan Joshi",
-        "type": "Meeting Expense",
-        "amount": 980,
-        "date": "24 Mar 2026",
-        "status": "Under Review"
-      }
     ]
   }
 }

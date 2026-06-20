@@ -1,0 +1,33 @@
+{{!--
+  PWA WebView screen type
+  Renders a Progressive Web App screen inside a phone frame
+  
+  Data fields:
+  - title: string (required) - Screen title
+  - subtitle: string (optional) - Subtitle text
+  - brandColor: string (optional, default #075E54) - Brand color for header
+  - content: string (required) - HTML content for the PWA body
+  - status: string (optional) - Status badge text
+--}}
+<div class="phone-wrap">
+  <div class="screen-lbl">{{title}}</div>
+  <div class="screen-type-lbl">PWA WebView</div>
+  <div class="phone-frame">
+    <div class="status-bar-web">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <div class="battery-box">100</div>
+      </div>
+    </div>
+    <div class="brand-strip" style="background:{{#if brandColor}}{{brandColor}}{{else}}#075E54{{/if}};">
+      <div class="bs-info">
+        <div class="bs-title">{{title}}</div>
+        {{#if subtitle}}<div class="bs-sub">{{subtitle}}</div>{{/if}}
+      </div>
+      {{#if status}}<div class="bs-status">{{status}}</div>{{/if}}
+    </div>
+    <div class="pwa-content">
+      {{{content}}}
+    </div>
+  </div>
+</div>

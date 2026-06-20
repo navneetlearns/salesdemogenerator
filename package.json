@@ -14,6 +14,8 @@
     "build:all": "node bin/demo-generator build-all --dist",
     "test": "node --test test/*.test.js",
     "validate": "node scripts/validate.js",
+    "new-journey": "node scripts/new-journey.js",
+    "migrate-journeys": "node scripts/migrate-journeys.js",
     "visual:baseline": "node scripts/visual-baseline.js",
     "visual:test": "node scripts/visual-test.js",
     "visual:haldirams-source": "node scripts/visual-compare-haldirams-source.js",

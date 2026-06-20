@@ -1,129 +1,209 @@
 {
   "id": "retailer_onboarding",
   "title": "Retailer Onboarding to Cash",
-  "subtitle": "Activation, Onboarding & First Order Cycle",
-  "brandId": "jk_cement",
+  "description": "Activation, Onboarding & First Order Cycle",
+  "industry": [],
+  "brands": [],
   "steps": [
     {
       "num": 1,
-      "displayNum": 1,
       "title": "Activation & Registration",
-      "meta": "Retailer · Activation campaign & signup",
-      "navTitle": "Step 1 — Activation & Registration",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Prospective retailer receives activation campaign, registers via WebView, and gets application confirmation</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-web\">WebView</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Prospective retailer receives activation campaign, registers via WebView, and gets application confirmation</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-web\">WebView</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step1-retailer_onboarding",
+          "data": {
+            "partialName": "step1-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 2,
-      "displayNum": 2,
       "title": "Welcome & Self Service",
-      "meta": "Retailer · Welcome & menu discovery",
-      "navTitle": "Step 2 — Welcome & Self Service",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer is approved, welcomed with partner message, and given access to the full self-service menu</span><span class=\"tag tag-session\">Interactive</span><span class=\"tag tag-util\">Utility</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Retailer is approved, welcomed with partner message, and given access to the full self-service menu</span><span class=\"tag tag-session\">Interactive</span><span class=\"tag tag-util\">Utility</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step2-retailer_onboarding",
+          "data": {
+            "partialName": "step2-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 3,
-      "displayNum": 3,
       "title": "Campaigns & Queries",
-      "meta": "Retailer · Campaigns & AI support",
-      "navTitle": "Step 3 — Campaigns & Queries",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer receives festive campaign, raises product query, and gets instant AI-generated price list</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-ai\">AI Agents</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Retailer receives festive campaign, raises product query, and gets instant AI-generated price list</span><span class=\"tag tag-mktg\">Marketing</span><span class=\"tag tag-ai\">AI Agents</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step3-retailer_onboarding",
+          "data": {
+            "partialName": "step3-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 4,
-      "displayNum": 4,
       "title": "Scheme & Product Queries",
-      "meta": "Retailer · Schemes & AI agents",
-      "navTitle": "Step 4 — Scheme & Product Queries",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Latest scheme notification sent; retailer asks ZoAi for details and gets explanation in Hinglish</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Latest scheme notification sent; retailer asks ZoAi for details and gets explanation in Hinglish</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step4-retailer_onboarding",
+          "data": {
+            "partialName": "step4-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 5,
-      "displayNum": 5,
       "title": "Self Service Ordering",
-      "meta": "Retailer · Menu-driven ordering",
-      "navTitle": "Step 5 — Self Service Ordering",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer navigates self-service menu to browse categories and select products for ordering</span><span class=\"tag tag-ord\">Ordering</span><span class=\"tag tag-session\">Interactive</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Retailer navigates self-service menu to browse categories and select products for ordering</span><span class=\"tag tag-ord\">Ordering</span><span class=\"tag tag-session\">Interactive</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step5-retailer_onboarding",
+          "data": {
+            "partialName": "step5-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 6,
-      "displayNum": 6,
       "title": "Catalog Browse & Order",
-      "meta": "Retailer · Catalog & cart checkout",
-      "navTitle": "Step 6 — Catalog Browse & Order",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer browses product catalog, reviews cart, and receives order confirmation in WhatsApp</span><span class=\"tag tag-web\">WebView</span><span class=\"tag tag-ord\">Cart & Checkout</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Retailer browses product catalog, reviews cart, and receives order confirmation in WhatsApp</span><span class=\"tag tag-web\">WebView</span><span class=\"tag tag-ord\">Cart & Checkout</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step6-retailer_onboarding",
+          "data": {
+            "partialName": "step6-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 7,
-      "displayNum": 7,
       "title": "AI Order Capture",
-      "meta": "Retailer · AI reads handwritten orders",
-      "navTitle": "Step 7 — AI Order Capture",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer sends handwritten order note; ZoAi extracts items and generates draft order for review</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-ord\">Order Capture</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Retailer sends handwritten order note; ZoAi extracts items and generates draft order for review</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-ord\">Order Capture</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step7-retailer_onboarding",
+          "data": {
+            "partialName": "step7-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 8,
-      "displayNum": 8,
       "title": "Distributor Confirmation",
-      "meta": "Distributor · Order review & approval",
-      "navTitle": "Step 8 — Distributor Confirmation",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor receives order alert, reviews in portal, and accepts — triggering confirmation to retailer</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-web\">Portal</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Distributor receives order alert, reviews in portal, and accepts — triggering confirmation to retailer</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-web\">Portal</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step8-retailer_onboarding",
+          "data": {
+            "partialName": "step8-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 9,
-      "displayNum": 9,
       "title": "Order to Invoice",
-      "meta": "Distributor · Fulfilment & invoicing",
-      "navTitle": "Step 9 — Order to Invoice",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor processes order in fulfilment portal and uploads invoice with AI-assisted data entry</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-inv\">Invoice</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Distributor processes order in fulfilment portal and uploads invoice with AI-assisted data entry</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-inv\">Invoice</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step9-retailer_onboarding",
+          "data": {
+            "partialName": "step9-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 10,
-      "displayNum": 10,
       "title": "Invoice & Payment",
-      "meta": "Retailer · UPI payment & receipt",
-      "navTitle": "Step 10 — Invoice & Payment",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer receives invoice on WhatsApp with UPI QR, pays directly, and gets instant confirmation</span><span class=\"tag tag-inv\">Invoice</span><span class=\"tag tag-pay\">Payment</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Retailer receives invoice on WhatsApp with UPI QR, pays directly, and gets instant confirmation</span><span class=\"tag tag-inv\">Invoice</span><span class=\"tag tag-pay\">Payment</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step10-retailer_onboarding",
+          "data": {
+            "partialName": "step10-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 11,
-      "displayNum": 11,
       "title": "Collect Digital Orders",
-      "meta": "Distributor · Order nudges to retailers",
-      "navTitle": "Step 11 — Collect Digital Orders",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor selects retailers and sends bulk order nudges via WhatsApp campaign</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-mktg\">Campaign</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Distributor selects retailers and sends bulk order nudges via WhatsApp campaign</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-mktg\">Campaign</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step11-retailer_onboarding",
+          "data": {
+            "partialName": "step11-retailer_onboarding"
+          }
+        }
+      ]
     },
     {
       "num": 12,
-      "displayNum": 12,
       "title": "Collect Payments",
-      "meta": "Distributor + Retailer · Payment reminders",
-      "navTitle": "Step 12 — Collect Payments",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor views pending invoices and sends payment reminders to retailers with UPI links</span><span class=\"tag tag-pay\">Payment</span><span class=\"tag tag-dist\">Distributor</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Distributor views pending invoices and sends payment reminders to retailers with UPI links</span><span class=\"tag tag-pay\">Payment</span><span class=\"tag tag-dist\">Distributor</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step12-retailer_onboarding",
+          "data": {
+            "partialName": "step12-retailer_onboarding"
+          }
+        }
+      ]
     }
   ],
-  "screens": [
-    {
-      "type": "retailer_onboarding"
+  "cart": {
+    "items": [
+      {
+        "productId": "p1",
+        "qty": 20,
+        "tag": "OPC"
+      },
+      {
+        "productId": "p2",
+        "qty": 15,
+        "tag": "PPC"
+      }
+    ],
+    "summary": {
+      "totalItems": 4,
+      "totalQuantity": "35 bags",
+      "orderValue": "₹7,840"
     }
-  ],
-  "dealer": {
-    "name": "Sharma Cement Stores",
-    "contactName": "Ramesh",
-    "phone": "+91 98765 43210",
-    "address": "12, Industrial Area, Jaipur, Rajasthan"
-  },
-  "retailer": {
-    "name": "Ramesh Patel",
-    "storeName": "Ganesh General Stores",
-    "phone": "+91 98765 43210",
-    "gst": "08AABCU9603R1ZM",
-    "territory": "Jaipur East"
-  },
-  "distributor": {
-    "name": "Shyam Distributors",
-    "contact": "Shyam Verma",
-    "phone": "+91 98765 43211",
-    "territory": "Jaipur Division"
   },
   "messages": {
     "step1": {
@@ -300,24 +380,11 @@
       }
     }
   },
-  "cart": {
-    "items": [
-      {
-        "productId": "p1",
-        "qty": 20,
-        "tag": "OPC"
-      },
-      {
-        "productId": "p2",
-        "qty": 15,
-        "tag": "PPC"
-      }
-    ],
-    "summary": {
-      "totalItems": 4,
-      "totalQuantity": "35 bags",
-      "orderValue": "₹7,840"
-    }
+  "dealer": {
+    "name": "Sharma Cement Stores",
+    "contactName": "Ramesh",
+    "phone": "+91 98765 43210",
+    "address": "12, Industrial Area, Jaipur, Rajasthan"
   },
   "order": {
     "primaryOrderId": "JKO-3892",
@@ -367,6 +434,19 @@
       "Registration",
       "Order to Cash"
     ]
+  },
+  "retailer": {
+    "name": "Ramesh Patel",
+    "storeName": "Ganesh General Stores",
+    "phone": "+91 98765 43210",
+    "gst": "08AABCU9603R1ZM",
+    "territory": "Jaipur East"
+  },
+  "distributor": {
+    "name": "Shyam Distributors",
+    "contact": "Shyam Verma",
+    "phone": "+91 98765 43211",
+    "territory": "Jaipur Division"
   },
   "nudgeRetailers": [
     {

@@ -1,107 +1,174 @@
 {
   "id": "order_to_cash",
   "title": "Order to Cash",
-  "subtitle": "Self-service Ordering & AI Order Capture",
-  "brandId": "haldirams",
-  "screens": [
-    {
-      "type": "catalog"
-    },
-    {
-      "type": "cart"
-    },
-    {
-      "type": "receipt"
-    }
-  ],
+  "description": "Self-service Ordering & AI Order Capture",
+  "industry": [],
+  "brands": [],
   "steps": [
     {
       "num": 1,
-      "displayNum": 1,
       "title": "Self Service Ordering",
-      "meta": "Distributor · Menu-driven ordering",
-      "navTitle": "Step 1 — Self Service Ordering",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor browses product categories and places orders directly through the self-service menu</span><span class=\"tag tag-ord\">Self-service</span><span class=\"tag tag-ord\">Ordering</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Distributor browses product categories and places orders directly through the self-service menu</span><span class=\"tag tag-ord\">Self-service</span><span class=\"tag tag-ord\">Ordering</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step1-self-service",
+          "data": {
+            "partialName": "step1-self-service"
+          }
+        }
+      ]
     },
     {
       "num": 2,
-      "displayNum": 2,
       "title": "Catalog Browse & Order",
-      "meta": "Distributor · Catalog & cart checkout",
-      "navTitle": "Step 2 — Catalog Browse & Order",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor browses Haldiram rich product catalog with real images and pricing</span><span class=\"tag tag-ord\">Catalog</span><span class=\"tag tag-ord\">Cart</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Distributor browses Haldiram rich product catalog with real images and pricing</span><span class=\"tag tag-ord\">Catalog</span><span class=\"tag tag-ord\">Cart</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step2-catalog",
+          "data": {
+            "partialName": "step2-catalog"
+          }
+        }
+      ]
     },
     {
       "num": 3,
-      "displayNum": 3,
       "title": "AI Order Capture",
-      "meta": "Distributor · AI reads handwritten orders",
-      "navTitle": "Step 3 — AI Order Capture",
-      "navDesc": "<span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-ord\">Order Capture</span><span>Distributor sends handwritten order note; ZoAi converts to structured digital order</span>"
+      "description": "<span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-ord\">Order Capture</span><span>Distributor sends handwritten order note; ZoAi converts to structured digital order</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step3-ai-capture",
+          "data": {
+            "partialName": "step3-ai-capture"
+          }
+        }
+      ]
     },
     {
       "num": 4,
-      "displayNum": 4,
       "title": "Back Office Order Fulfilment",
-      "meta": "Back Office · Admin Portal",
-      "navTitle": "Step 4 — Back Office Order Fulfilment",
-      "navDesc": "<span class=\"tag tag-web\">Admin Portal</span><span>Back-office reviews pending distributor orders and triggers ERP billing</span>"
+      "description": "<span class=\"tag tag-web\">Admin Portal</span><span>Back-office reviews pending distributor orders and triggers ERP billing</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step4-back-office",
+          "data": {
+            "partialName": "step4-back-office"
+          }
+        }
+      ]
     },
     {
       "num": 5,
-      "displayNum": 5,
       "title": "Order Confirmed Notification",
-      "meta": "Distributor · Utility Template + PWA",
-      "navTitle": "Step 5 — Order Confirmed Notification",
-      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>Distributor receives WhatsApp order confirmation with details</span>"
+      "description": "<span class=\"tag tag-util\">Utility Template</span><span>Distributor receives WhatsApp order confirmation with details</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step5-order-confirmed",
+          "data": {
+            "partialName": "step5-order-confirmed"
+          }
+        }
+      ]
     },
     {
       "num": 6,
-      "displayNum": 6,
       "title": "SAP Integration Architecture",
-      "meta": "Architecture · ZoTok × SAP",
-      "navTitle": "Step 6 — SAP Integration Architecture",
-      "navDesc": "<span class=\"tag tag-web\">Architecture</span><span>Orders pushed from ZoTok to SAP via integration layer</span>"
+      "description": "<span class=\"tag tag-web\">Architecture</span><span>Orders pushed from ZoTok to SAP via integration layer</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step6-sap-architecture",
+          "data": {
+            "partialName": "step6-sap-architecture"
+          }
+        }
+      ]
     },
     {
       "num": 7,
-      "displayNum": 7,
       "title": "Invoice & Dispatch",
-      "meta": "Distributor · Utility Template",
-      "navTitle": "Step 7 — Invoice & Dispatch",
-      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>ZoTok sends invoice PDF and dispatch note with transporter details</span>"
+      "description": "<span class=\"tag tag-util\">Utility Template</span><span>ZoTok sends invoice PDF and dispatch note with transporter details</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step7-invoice",
+          "data": {
+            "partialName": "step7-invoice"
+          }
+        }
+      ]
     },
     {
       "num": 8,
-      "displayNum": 8,
       "title": "Cash Discount & Payment Reminder",
-      "meta": "Distributor · Utility Template",
-      "navTitle": "Step 8 — Cash Discount & Payment Reminder",
-      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>Auto-sends cash discount reminder to prompt early payment</span>"
+      "description": "<span class=\"tag tag-util\">Utility Template</span><span>Auto-sends cash discount reminder to prompt early payment</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step8-cash-discount",
+          "data": {
+            "partialName": "step8-cash-discount"
+          }
+        }
+      ]
     },
     {
       "num": 9,
-      "displayNum": 9,
       "title": "Payment Received",
-      "meta": "Distributor · Utility + Interactive",
-      "navTitle": "Step 9 — Payment Received",
-      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>Distributor receives payment receipt and settlement confirmation</span>"
+      "description": "<span class=\"tag tag-util\">Utility Template</span><span>Distributor receives payment receipt and settlement confirmation</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step9-payment",
+          "data": {
+            "partialName": "step9-payment"
+          }
+        }
+      ]
     },
     {
       "num": 10,
-      "displayNum": 10,
       "title": "Credit Note & Ledger",
-      "meta": "Distributor · Utility + WebView",
-      "navTitle": "Step 10 — Credit Note & Ledger",
-      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>Credit note raised via webhook; distributor notified on WhatsApp</span>"
+      "description": "<span class=\"tag tag-util\">Utility Template</span><span>Credit note raised via webhook; distributor notified on WhatsApp</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step10-credit-note",
+          "data": {
+            "partialName": "step10-credit-note"
+          }
+        }
+      ]
     },
     {
       "num": 11,
-      "displayNum": 11,
       "title": "Self Service Navigation Menu",
-      "meta": "Distributor · Embedded WhatsApp Web App",
-      "navTitle": "Step 11 — Self Service Navigation Menu",
-      "navDesc": "<span class=\"tag tag-web\">Embedded Web App</span><span>Distributor accesses full self-service portal via navigation drawer</span>"
+      "description": "<span class=\"tag tag-web\">Embedded Web App</span><span>Distributor accesses full self-service portal via navigation drawer</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step11-nav-menu",
+          "data": {
+            "partialName": "step11-nav-menu"
+          }
+        }
+      ]
     }
   ],
   "cart": {
@@ -131,6 +198,63 @@
       "totalItems": 4,
       "totalQuantity": "84 packs",
       "orderValue": "₹25,800"
+    }
+  },
+  "messages": {
+    "welcome": {
+      "title": "Welcome to Haldiram's Distributor Program! 🎉",
+      "body": "Your store <strong>Haldiram's Distributors</strong> is now an active Haldiram's Partner.<br><br>Tap <strong>Open Menu</strong> below to access your self-service dashboard — browse products, check schemes, pay dues, and more.",
+      "time": "9:22 AM",
+      "cta": "Open Menu"
+    },
+    "step1": {
+      "greeting": "Namaste Rajesh! 🙏<br>How can I help you today?",
+      "categoryQuestion": "Which category would you like to explore? 🔍<br><br>Select from {{brand.name}} full range below.",
+      "sections": [
+        {
+          "label": "Namkeen & Savouries",
+          "items": [
+            {
+              "title": "Aloo Bhujia",
+              "desc": "Classic crispy gram flour noodles · Best seller"
+            },
+            {
+              "title": "Khatta Meetha",
+              "desc": "Sweet & tangy mixed snacks · All-time favorite"
+            },
+            {
+              "title": "Navratan Mixture",
+              "desc": "Premium 9-ingredient blend · Festive special"
+            }
+          ]
+        },
+        {
+          "label": "Sweets & Desserts",
+          "items": [
+            {
+              "title": "Soan Papdi",
+              "desc": "Flaky sweet squares · Traditional recipe"
+            },
+            {
+              "title": "Rasgulla",
+              "desc": "Soft spongy cottage cheese balls · Syrup dipped"
+            }
+          ]
+        },
+        {
+          "label": "Bulk & Trade",
+          "items": [
+            {
+              "title": "Festival Combos",
+              "desc": "Curated gift boxes · Seasonal offers"
+            },
+            {
+              "title": "Wholesale Packs",
+              "desc": "Bulk pricing · Distributor specials"
+            }
+          ]
+        }
+      ]
     }
   },
   "dealer": {
@@ -251,63 +375,6 @@
         "balance": 3110680
       }
     ]
-  },
-  "messages": {
-    "welcome": {
-      "title": "Welcome to Haldiram's Distributor Program! 🎉",
-      "body": "Your store <strong>Haldiram's Distributors</strong> is now an active Haldiram's Partner.<br><br>Tap <strong>Open Menu</strong> below to access your self-service dashboard — browse products, check schemes, pay dues, and more.",
-      "time": "9:22 AM",
-      "cta": "Open Menu"
-    },
-    "step1": {
-      "greeting": "Namaste Rajesh! 🙏<br>How can I help you today?",
-      "categoryQuestion": "Which category would you like to explore? 🔍<br><br>Select from {{brand.name}} full range below.",
-      "sections": [
-        {
-          "label": "Namkeen & Savouries",
-          "items": [
-            {
-              "title": "Aloo Bhujia",
-              "desc": "Classic crispy gram flour noodles · Best seller"
-            },
-            {
-              "title": "Khatta Meetha",
-              "desc": "Sweet & tangy mixed snacks · All-time favorite"
-            },
-            {
-              "title": "Navratan Mixture",
-              "desc": "Premium 9-ingredient blend · Festive special"
-            }
-          ]
-        },
-        {
-          "label": "Sweets & Desserts",
-          "items": [
-            {
-              "title": "Soan Papdi",
-              "desc": "Flaky sweet squares · Traditional recipe"
-            },
-            {
-              "title": "Rasgulla",
-              "desc": "Soft spongy cottage cheese balls · Syrup dipped"
-            }
-          ]
-        },
-        {
-          "label": "Bulk & Trade",
-          "items": [
-            {
-              "title": "Festival Combos",
-              "desc": "Curated gift boxes · Seasonal offers"
-            },
-            {
-              "title": "Wholesale Packs",
-              "desc": "Bulk pricing · Distributor specials"
-            }
-          ]
-        }
-      ]
-    }
   },
   "step3": {
     "draftOrder": {

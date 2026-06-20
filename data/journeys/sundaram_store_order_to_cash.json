@@ -1,107 +1,174 @@
 {
   "id": "order_to_cash",
   "title": "Order to Cash",
-  "subtitle": "Self-service Ordering & AI Order Capture",
-  "brandId": "sundaram_store",
+  "description": "Self-service Ordering & AI Order Capture",
+  "industry": [],
+  "brands": [],
   "steps": [
     {
       "num": 1,
-      "displayNum": 1,
       "title": "Self Service Ordering",
-      "meta": "Dealer · Menu-driven ordering",
-      "navTitle": "Step 1 — Self Service Ordering",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer browses product categories and places orders directly through the self-service menu — end-to-end without a salesperson</span><span class=\"tag tag-ord\">Self-service</span><span class=\"tag tag-ord\">Ordering</span><span class=\"tag tag-ord\">Catalog</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Dealer browses product categories and places orders directly through the self-service menu — end-to-end without a salesperson</span><span class=\"tag tag-ord\">Self-service</span><span class=\"tag tag-ord\">Ordering</span><span class=\"tag tag-ord\">Catalog</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step1-self-service",
+          "data": {
+            "partialName": "step1-self-service"
+          }
+        }
+      ]
     },
     {
       "num": 2,
-      "displayNum": 2,
       "title": "Catalog Browse & Order",
-      "meta": "Dealer · Catalog & cart checkout",
-      "navTitle": "Step 2 — Catalog Browse & Order",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer browses a rich product catalog with real images and pricing, adds to cart, and checks out in one seamless flow</span><span class=\"tag tag-ord\">Catalog</span><span class=\"tag tag-ord\">Cart &amp; Checkout</span><span class=\"tag tag-ord\">Ordering</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Dealer browses a rich product catalog with real images and pricing, adds to cart, and checks out in one seamless flow</span><span class=\"tag tag-ord\">Catalog</span><span class=\"tag tag-ord\">Cart &amp; Checkout</span><span class=\"tag tag-ord\">Ordering</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step2-catalog",
+          "data": {
+            "partialName": "step2-catalog"
+          }
+        }
+      ]
     },
     {
       "num": 3,
-      "displayNum": 3,
       "title": "AI Order Capture",
-      "meta": "Dealer · AI reads handwritten orders",
-      "navTitle": "Step 3 — AI Order Capture",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer sends a handwritten order note on WhatsApp; ZoAi reads it and converts it into a structured digital order automatically</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-ord\">Order Capture</span><span class=\"tag tag-ai\">Automation</span>"
+      "description": "<span style=\"color:#555;font-size:12px;\">Dealer sends a handwritten order note on WhatsApp; ZoAi reads it and converts it into a structured digital order automatically</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-ord\">Order Capture</span><span class=\"tag tag-ai\">Automation</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step3-ai-capture",
+          "data": {
+            "partialName": "step3-ai-capture"
+          }
+        }
+      ]
     },
     {
       "num": 4,
-      "displayNum": 4,
       "title": "Back Office Order Fulfilment",
-      "meta": "Back Office · 2 screens · Admin Portal",
-      "navTitle": "Step 4 — Back Office Order Fulfilment",
-      "navDesc": "<span class=\"tag tag-web\">Admin Portal</span><span>Back-office team reviews all pending dealer orders in the ZoTok portal and accepts the order — triggering ERP billing and WhatsApp confirmation</span>"
+      "description": "<span class=\"tag tag-web\">Admin Portal</span><span>Back-office team reviews all pending dealer orders in the ZoTok portal and accepts the order — triggering ERP billing and WhatsApp confirmation</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step4-back-office",
+          "data": {
+            "partialName": "step4-back-office"
+          }
+        }
+      ]
     },
     {
       "num": 5,
-      "displayNum": 5,
       "title": "Order Confirmed Notification",
-      "meta": "Dealer · 2 screens · Utility Template + PWA",
-      "navTitle": "Step 5 — Order Confirmed Notification",
-      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span class=\"tag tag-web\">PWA WebView</span><span>Dealer receives WhatsApp confirmation once order is approved — views read-only order details on mobile PWA</span>"
+      "description": "<span class=\"tag tag-util\">Utility Template</span><span class=\"tag tag-web\">PWA WebView</span><span>Dealer receives WhatsApp confirmation once order is approved — views read-only order details on mobile PWA</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step5-order-confirmed",
+          "data": {
+            "partialName": "step5-order-confirmed"
+          }
+        }
+      ]
     },
     {
       "num": 6,
-      "displayNum": 6,
       "title": "SAP Integration Architecture",
-      "meta": "Architecture · 1 screen · ZoTok × SAP",
-      "navTitle": "Step 6 — SAP Integration Architecture",
-      "navDesc": "<span class=\"tag tag-web\">Architecture</span><span>Confirmed orders are pushed from ZoTok to SAP via the integration layer — triggering the full order-to-bill cycle in SAP SD/FI</span>"
+      "description": "<span class=\"tag tag-web\">Architecture</span><span>Confirmed orders are pushed from ZoTok to SAP via the integration layer — triggering the full order-to-bill cycle in SAP SD/FI</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step6-sap-architecture",
+          "data": {
+            "partialName": "step6-sap-architecture"
+          }
+        }
+      ]
     },
     {
       "num": 7,
-      "displayNum": 7,
       "title": "Invoice & Dispatch",
-      "meta": "Dealer · 2 screens · Utility Template",
-      "navTitle": "Step 7 — Invoice & Dispatch",
-      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>ZoTok sends the invoice PDF and dispatch note with transporter details as soon as the order is billed and shipped</span>"
+      "description": "<span class=\"tag tag-util\">Utility Template</span><span>ZoTok sends the invoice PDF and dispatch note with transporter details as soon as the order is billed and shipped</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step7-invoice",
+          "data": {
+            "partialName": "step7-invoice"
+          }
+        }
+      ]
     },
     {
       "num": 8,
-      "displayNum": 8,
       "title": "Cash Discount & Payment Reminder",
-      "meta": "Dealer · 2 screens · Utility Template",
-      "navTitle": "Step 8 — Cash Discount & Payment Reminder",
-      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span>ZoTok auto-sends cash discount reminder (T-1) and due date reminder to prompt early payment</span>"
+      "description": "<span class=\"tag tag-util\">Utility Template</span><span>ZoTok auto-sends cash discount reminder (T-1) and due date reminder to prompt early payment</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step8-cash-discount",
+          "data": {
+            "partialName": "step8-cash-discount"
+          }
+        }
+      ]
     },
     {
       "num": 9,
-      "displayNum": 9,
       "title": "Payment Received",
-      "meta": "Dealer · 3 screens · Utility Template + Interactive",
-      "navTitle": "Step 9 — Payment Received",
-      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span class=\"tag tag-web\">Interactive List</span><span>Dealer receives payment receipt and gets settlement confirmation on WhatsApp</span>"
+      "description": "<span class=\"tag tag-util\">Utility Template</span><span class=\"tag tag-web\">Interactive List</span><span>Dealer receives payment receipt and gets settlement confirmation on WhatsApp</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step9-payment",
+          "data": {
+            "partialName": "step9-payment"
+          }
+        }
+      ]
     },
     {
       "num": 10,
-      "displayNum": 10,
       "title": "Credit Note & Ledger",
-      "meta": "Dealer · 3 screens · Utility Template + WebView",
-      "navTitle": "Step 10 — Credit Note & Ledger",
-      "navDesc": "<span class=\"tag tag-util\">Utility Template</span><span class=\"tag tag-web\">WebView</span><span>SAP FI raises credit note via webhook; ZoTok notifies dealer on WhatsApp with PDF and ledger statement</span>"
+      "description": "<span class=\"tag tag-util\">Utility Template</span><span class=\"tag tag-web\">WebView</span><span>SAP FI raises credit note via webhook; ZoTok notifies dealer on WhatsApp with PDF and ledger statement</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step10-credit-note",
+          "data": {
+            "partialName": "step10-credit-note"
+          }
+        }
+      ]
     },
     {
       "num": 11,
-      "displayNum": 11,
       "title": "Self Service Navigation Menu",
-      "meta": "Dealer · 2 screens · Embedded WhatsApp Web App",
-      "navTitle": "Step 11 — Self Service Navigation Menu",
-      "navDesc": "<span class=\"tag tag-web\">Embedded Web App</span><span>Dealer accesses the full self-service portal — order history, schemes, ledger and more — via the navigation drawer inside WhatsApp</span>"
-    }
-  ],
-  "screens": [
-    {
-      "type": "catalog"
-    },
-    {
-      "type": "cart"
-    },
-    {
-      "type": "receipt"
+      "description": "<span class=\"tag tag-web\">Embedded Web App</span><span>Dealer accesses the full self-service portal — order history, schemes, ledger and more — via the navigation drawer inside WhatsApp</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step11-nav-menu",
+          "data": {
+            "partialName": "step11-nav-menu"
+          }
+        }
+      ]
     }
   ],
   "cart": {
@@ -263,6 +330,24 @@
     "discount": 2500,
     "docId": "DOC-4823"
   },
+  "payment": {
+    "amount": 120000,
+    "date": "25/04/2026",
+    "method": "NEFT",
+    "reference": "NEFT-20260425-003",
+    "divisions": [
+      {
+        "name": "Stationery Division",
+        "amount": 20000,
+        "outstanding": 55000
+      },
+      {
+        "name": "Notebooks & Paper",
+        "amount": 35000,
+        "outstanding": 88000
+      }
+    ]
+  },
   "ledger": {
     "creditNoteId": "SS-CN-2147",
     "creditNoteAmount": 12000,
@@ -288,24 +373,6 @@
         "debit": 0,
         "credit": 12000,
         "balance": 4948000
-      }
-    ]
-  },
-  "payment": {
-    "amount": 120000,
-    "date": "25/04/2026",
-    "method": "NEFT",
-    "reference": "NEFT-20260425-003",
-    "divisions": [
-      {
-        "name": "Stationery Division",
-        "amount": 20000,
-        "outstanding": 55000
-      },
-      {
-        "name": "Notebooks & Paper",
-        "amount": 35000,
-        "outstanding": 88000
       }
     ]
   },

@@ -1,0 +1,21 @@
+{{!--
+  Notification screen type
+  Renders a push notification or system notification
+  
+  Data fields:
+  - title: string (required) - Notification title
+  - body: string (required) - Notification body text
+  - icon: string (optional) - Icon HTML/SVG
+  - time: string (optional) - Timestamp
+  - type: string (optional, default 'push') - Notification type
+--}}
+<div class="notification-wrap">
+  <div class="notification {{#if type}}{{type}}{{else}}push{{/if}}">
+    {{#if icon}}<div class="notif-icon">{{{icon}}}</div>{{/if}}
+    <div class="notif-content">
+      <div class="notif-title">{{title}}</div>
+      <div class="notif-body">{{{body}}}</div>
+    </div>
+    {{#if time}}<div class="notif-time">{{time}}</div>{{/if}}
+  </div>
+</div>

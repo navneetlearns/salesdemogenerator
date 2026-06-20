@@ -1,28 +1,84 @@
 {
   "id": "dt_fulfillment_payment",
   "title": "DT Fulfillment & Payment",
-  "subtitle": "Distributor Fulfilment, Invoicing & Collections",
-  "brand": "haldirams",
-  "screens": [
+  "description": "Distributor Fulfilment, Invoicing & Collections",
+  "industry": [],
+  "brands": [],
+  "steps": [
     {
-      "id": "step1-dt_fulfillment_payment",
-      "type": "step1-dt_fulfillment_payment"
+      "num": 1,
+      "title": "Distributor Confirmation",
+      "description": "<span style=\"color:#555;font-size:12px;\">Distributor receives the retailer order, reviews item details and quantity, and confirms before processing for fulfilment</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-ord\">Order Management</span><span class=\"tag tag-act\">Confirmation</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step1-dt_fulfillment_payment",
+          "data": {
+            "partialName": "step1-dt_fulfillment_payment"
+          }
+        }
+      ]
     },
     {
-      "id": "step2-dt_fulfillment_payment",
-      "type": "step2-dt_fulfillment_payment"
+      "num": 2,
+      "title": "Order to Invoice",
+      "description": "<span style=\"color:#555;font-size:12px;\">Distributor fulfils the confirmed order and generates an invoice &mdash; ZoAi pre-fills invoice fields from the order to save time</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-inv\">Invoicing</span><span class=\"tag tag-ai\">Automation</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step2-dt_fulfillment_payment",
+          "data": {
+            "partialName": "step2-dt_fulfillment_payment"
+          }
+        }
+      ]
     },
     {
-      "id": "step3-dt_fulfillment_payment",
-      "type": "step3-dt_fulfillment_payment"
+      "num": 3,
+      "title": "Invoice & Payment",
+      "description": "<span style=\"color:#555;font-size:12px;\">Retailer receives the invoice on WhatsApp and pays instantly via UPI &mdash; the entire order-to-payment cycle on one channel</span><span class=\"tag tag-inv\">Invoice</span><span class=\"tag tag-pay\">UPI Payment</span><span class=\"tag tag-pay\">Collections</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step3-dt_fulfillment_payment",
+          "data": {
+            "partialName": "step3-dt_fulfillment_payment"
+          }
+        }
+      ]
     },
     {
-      "id": "step4-dt_fulfillment_payment",
-      "type": "step4-dt_fulfillment_payment"
+      "num": 4,
+      "title": "Collect Digital Orders",
+      "description": "<span style=\"color:#555;font-size:12px;\">Distributor proactively pushes order collection campaigns to nudge retailers to place their pending orders digitally</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-cmp\">Order Campaigns</span><span class=\"tag tag-ord\">Nudges</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step4-dt_fulfillment_payment",
+          "data": {
+            "partialName": "step4-dt_fulfillment_payment"
+          }
+        }
+      ]
     },
     {
-      "id": "step5-dt_fulfillment_payment",
-      "type": "step5-dt_fulfillment_payment"
+      "num": 5,
+      "title": "Collect Payments",
+      "description": "<span style=\"color:#555;font-size:12px;\">Distributor identifies retailers with outstanding invoices and sends payment reminders to multiple retailers in a single action</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-pay\">Payment Reminders</span><span class=\"tag tag-pay\">Collections</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step5-dt_fulfillment_payment",
+          "data": {
+            "partialName": "step5-dt_fulfillment_payment"
+          }
+        }
+      ]
     }
   ],
   "dealer": {
@@ -30,48 +86,6 @@
     "contactName": "Vikram Singh",
     "phone": "+91 98110 00000"
   },
-  "steps": [
-    {
-      "num": 1,
-      "displayNum": 1,
-      "title": "Distributor Confirmation",
-      "meta": "Distributor · Order review & approval",
-      "navTitle": "Step 1 &mdash; Distributor Confirmation",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor receives the retailer order, reviews item details and quantity, and confirms before processing for fulfilment</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-ord\">Order Management</span><span class=\"tag tag-act\">Confirmation</span>"
-    },
-    {
-      "num": 2,
-      "displayNum": 2,
-      "title": "Order to Invoice",
-      "meta": "Distributor · Fulfilment & invoicing",
-      "navTitle": "Step 2 &mdash; Order to Invoice",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor fulfils the confirmed order and generates an invoice &mdash; ZoAi pre-fills invoice fields from the order to save time</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-inv\">Invoicing</span><span class=\"tag tag-ai\">Automation</span>"
-    },
-    {
-      "num": 3,
-      "displayNum": 3,
-      "title": "Invoice & Payment",
-      "meta": "Retailer · UPI payment & receipt",
-      "navTitle": "Step 3 &mdash; Invoice &amp; Payment",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Retailer receives the invoice on WhatsApp and pays instantly via UPI &mdash; the entire order-to-payment cycle on one channel</span><span class=\"tag tag-inv\">Invoice</span><span class=\"tag tag-pay\">UPI Payment</span><span class=\"tag tag-pay\">Collections</span>"
-    },
-    {
-      "num": 4,
-      "displayNum": 4,
-      "title": "Collect Digital Orders",
-      "meta": "Distributor · Order nudges to retailers",
-      "navTitle": "Step 4 &mdash; Collect Digital Orders",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor proactively pushes order collection campaigns to nudge retailers to place their pending orders digitally</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-cmp\">Order Campaigns</span><span class=\"tag tag-ord\">Nudges</span>"
-    },
-    {
-      "num": 5,
-      "displayNum": 5,
-      "title": "Collect Payments",
-      "meta": "Distributor + Retailer · Payment reminders",
-      "navTitle": "Step 5 &mdash; Collect Payments",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Distributor identifies retailers with outstanding invoices and sends payment reminders to multiple retailers in a single action</span><span class=\"tag tag-dist\">Distributor</span><span class=\"tag tag-pay\">Payment Reminders</span><span class=\"tag tag-pay\">Collections</span>"
-    }
-  ],
   "hubMeta": {
     "emoji": "🚚",
     "color": "#4527A0",

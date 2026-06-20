@@ -1,33 +1,56 @@
 {
   "id": "dealer_engagement",
   "title": "Dealer Engagement",
-  "subtitle": "Campaigns, Schemes & AI Support for Dealers",
-  "brand": "haldirams",
-  "screens": [
+  "description": "Campaigns, Schemes & AI Support for Dealers",
+  "industry": [],
+  "brands": [],
+  "steps": [
     {
-      "id": "step1-dealer_engagement",
-      "type": "step1-dealer_engagement"
+      "num": 1,
+      "title": "Campaign & Promotions",
+      "description": "<span style=\"color:#555;font-size:12px;\">Dealer receives festive campaign, browses product categories, and gets instant price list</span><span class=\"tag tag-mktg\">Marketing</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step1-dealer_engagement",
+          "data": {
+            "partialName": "step1-dealer_engagement"
+          }
+        }
+      ]
     },
     {
-      "id": "step2-dealer_engagement",
-      "type": "step2-dealer_engagement"
+      "num": 2,
+      "title": "Scheme & Product Queries",
+      "description": "<span style=\"color:#555;font-size:12px;\">Festive scheme sent; dealer asks ZoAi for details and gets Hinglish explanation</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step2-dealer_engagement",
+          "data": {
+            "partialName": "step2-dealer_engagement"
+          }
+        }
+      ]
     },
     {
-      "id": "step3-dealer_engagement",
-      "type": "step3-dealer_engagement"
+      "num": 3,
+      "title": "Loyalty & Credit Queries",
+      "description": "<span style=\"color:#555;font-size:12px;\">Dealer checks loyalty points, queries credit, and gets escalated to SE</span><span class=\"tag tag-ai\">AI Agents</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step3-dealer_engagement",
+          "data": {
+            "partialName": "step3-dealer_engagement"
+          }
+        }
+      ]
     }
   ],
-  "navSteps": [
-    "step-1",
-    "step-2",
-    "step-3"
-  ],
-  "dealer": {
-    "name": "Haldiram's Distributors",
-    "contactName": "Shyam",
-    "phone": "+91 98765 43210",
-    "address": "45, Industrial Area, Nagpur, Maharashtra"
-  },
   "messages": {
     "step1": {
       "campaign": {
@@ -114,32 +137,12 @@
       }
     }
   },
-  "steps": [
-    {
-      "num": 1,
-      "displayNum": 1,
-      "title": "Campaign & Promotions",
-      "meta": "Dealer · Campaigns & product queries",
-      "navTitle": "Step 1 — Campaign & Promotions",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer receives festive campaign, browses product categories, and gets instant price list</span><span class=\"tag tag-mktg\">Marketing</span>"
-    },
-    {
-      "num": 2,
-      "displayNum": 2,
-      "title": "Scheme & Product Queries",
-      "meta": "Dealer · Schemes & AI support",
-      "navTitle": "Step 2 — Scheme & Product Queries",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Festive scheme sent; dealer asks ZoAi for details and gets Hinglish explanation</span><span class=\"tag tag-mktg\">Scheme</span><span class=\"tag tag-ai\">AI Agents</span>"
-    },
-    {
-      "num": 3,
-      "displayNum": 3,
-      "title": "Loyalty & Credit Queries",
-      "meta": "Dealer · AI-powered query resolution",
-      "navTitle": "Step 3 — Loyalty & Credit Queries",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Dealer checks loyalty points, queries credit, and gets escalated to SE</span><span class=\"tag tag-ai\">AI Agents</span>"
-    }
-  ],
+  "dealer": {
+    "name": "Haldiram's Distributors",
+    "contactName": "Shyam",
+    "phone": "+91 98765 43210",
+    "address": "45, Industrial Area, Nagpur, Maharashtra"
+  },
   "hubMeta": {
     "emoji": "🤝",
     "color": "#E65100",

@@ -1,0 +1,32 @@
+{{!--
+  Interactive List screen type
+  Renders a WhatsApp interactive list message with bottom sheet
+  
+  Data fields:
+  - body: string (required) - Message body text
+  - buttonText: string (optional, default 'Select') - Button label
+  - items: array (required) - List items [{title, description, icon}]
+  - time: string (optional) - Timestamp
+  - senderName: string (optional) - Sender name
+--}}
+<div class="msg-receiver-wrap">
+  <div class="wa-tmpl">
+    <div class="wa-tmpl-body">{{{body}}}</div>
+    <div class="wa-tmpl-list-btn">
+      <span>{{#if buttonText}}{{buttonText}}{{else}}Select{{/if}}</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="wa-tmpl-time">{{time}}{{#if senderName}} · {{senderName}}{{/if}}</div>
+  </div>
+  <div class="wa-list-sheet" style="display:none;">
+    {{#each items}}
+    <div class="wa-list-item">
+      {{#if icon}}<div class="wa-list-icon">{{{icon}}}</div>{{/if}}
+      <div class="wa-list-content">
+        <div class="wa-list-title">{{title}}</div>
+        {{#if description}}<div class="wa-list-desc">{{description}}</div>{{/if}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>

@@ -1,16 +1,39 @@
 {
   "id": "retailer_activation",
   "title": "Retailer Activation",
-  "subtitle": "Retailer Activation & Onboarding",
-  "brand": "haldirams",
-  "screens": [
+  "description": "Retailer Activation & Onboarding",
+  "industry": [],
+  "brands": [],
+  "steps": [
     {
-      "id": "step1-retailer_activation",
-      "type": "step1-retailer_activation"
+      "num": 1,
+      "title": "Retailer Onboarding",
+      "description": "<span style=\"color:#555;font-size:12px;\">Run targeted campaigns to identify and activate new retail partners &mdash; from first touchpoint to verified registration</span><span class=\"tag tag-act\">Activation</span><span class=\"tag tag-cmp\">Campaigns</span><span class=\"tag tag-act\">Onboarding</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step1-retailer_activation",
+          "data": {
+            "partialName": "step1-retailer_activation"
+          }
+        }
+      ]
     },
     {
-      "id": "step2-retailer_activation",
-      "type": "step2-retailer_activation"
+      "num": 2,
+      "title": "Welcome & Self Service",
+      "description": "<span style=\"color:#555;font-size:12px;\">Approved retailers access a self-service menu covering ordering, product queries, schemes, invoices, and instant support</span><span class=\"tag tag-ord\">Self-service</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-ord\">Orders</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step2-retailer_activation",
+          "data": {
+            "partialName": "step2-retailer_activation"
+          }
+        }
+      ]
     }
   ],
   "dealer": {
@@ -18,24 +41,6 @@
     "contactName": "Vikram Singh",
     "phone": "+91 98110 00000"
   },
-  "steps": [
-    {
-      "num": 1,
-      "displayNum": 1,
-      "title": "Retailer Onboarding",
-      "meta": "Retailer · Activation & Registration",
-      "navTitle": "Step 1 &mdash; Retailer Onboarding",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Run targeted campaigns to identify and activate new retail partners &mdash; from first touchpoint to verified registration</span><span class=\"tag tag-act\">Activation</span><span class=\"tag tag-cmp\">Campaigns</span><span class=\"tag tag-act\">Onboarding</span>"
-    },
-    {
-      "num": 2,
-      "displayNum": 2,
-      "title": "Welcome & Self Service",
-      "meta": "Retailer · Self-service discovery",
-      "navTitle": "Step 2 &mdash; Welcome &amp; Self Service",
-      "navDesc": "<span style=\"color:#555;font-size:12px;\">Approved retailers access a self-service menu covering ordering, product queries, schemes, invoices, and instant support</span><span class=\"tag tag-ord\">Self-service</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-ord\">Orders</span>"
-    }
-  ],
   "hubMeta": {
     "emoji": "⚡",
     "color": "#F57F17",
