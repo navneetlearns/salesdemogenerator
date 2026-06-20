@@ -1,0 +1,8 @@
+{{!-- post_order_communication — Schema-driven journey --}}
+{{#each journey.steps}}
+<section class="step-section" id="step-{{num}}" data-step="{{num}}">
+  {{#each screens}}
+    {{renderSchemaScreen this}}
+  {{/each}}
+</section>
+{{/each}}

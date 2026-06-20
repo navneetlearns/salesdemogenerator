@@ -59,7 +59,7 @@
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
             <input type="checkbox"> <span style="font-size:13px;font-weight:600;">Patel Sweet Mart</span>
           </label>
-          <div style="font-size:11px;color:#888;margin-top:4px;">Last order: {{nudgeRetailers.1.lastOrderDate}} · ₹{{nudgeRetailers.1.lastOrderValue}}</div>
+          <div style="font-size:11px;color:#888;margin-top:4px;">Last order: {{nudgeRetailers.1.lastOrderDate}} · {{formatCurrency nudgeRetailers.1.lastOrderValue}}</div>
         </div>
         <div style="margin-top:12px;padding:10px;background:#075E54;color:#fff;border-radius:8px;text-align:center;font-weight:600;font-size:14px;">📣 Send Nudge to 1 Retailer</div>
       </div>

@@ -28,6 +28,7 @@ const JOURNEY_IDS = [
   'campaigns_queries',
   'dt_fulfillment_payment',
   'retailer_activation',
+  'post_order_communication',
 ];
 
 // Step 1: Partials
@@ -213,6 +214,21 @@ function _fieldOpsImage(filename) {
   return '/assets/field_ops/' + filename;
 }
 
+function _renderSchemaScreen(screen) {
+  if (!screen || !screen.type) {
+    return '<div class="screen-wrap"><div class="screen-lbl">Unknown screen</div></div>';
+  }
+  var partialName = 'screen-' + screen.type;
+  if (typeof Handlebars !== 'undefined' && Handlebars.partials && Handlebars.partials[partialName]) {
+    var template = Handlebars.compile(Handlebars.partials[partialName]);
+    return template(screen.data || {});
+  }
+  if (screen.description) {
+    return '<div class="screen-wrap"><div class="screen-desc" style="background:#E8F5E9;padding:16px;border-radius:8px;"><strong>' + screen.type + '</strong><br>' + screen.description + '</div></div>';
+  }
+  return '<div class="screen-wrap"><div class="screen-lbl" style="color:#999;">' + screen.type + '</div></div>';
+}
+
 function buildHelpers() {
   return {
     formatCurrency: _formatCurrency.toString(),
@@ -223,6 +239,7 @@ function buildHelpers() {
     divide: _divide.toString(),
     lookupPartial: _lookupPartial.toString(),
     fieldOpsImage: _fieldOpsImage.toString(),
+    renderSchemaScreen: _renderSchemaScreen.toString(),
   };
 }
 
@@ -297,6 +314,12 @@ function buildJourneyDescriptions() {
       title: 'Retailer Activation',
       steps: 2,
       desc: 'Activate new retailers with welcome campaigns, scheme enrollment, and first-order incentives',
+      scaffold: false,
+    },
+    post_order_communication: {
+      title: 'Post-Order Communication',
+      steps: 3,
+      desc: 'Dealer receives order confirmations, invoices, and payment reminders via WhatsApp and PWA',
       scaffold: false,
     },
   };

@@ -1261,6 +1261,32 @@
     var p = pack || _pack;
     var partials = p.partials || {};
 
+    // ── Schema-driven journeys (steps[].screens format) ──
+    // These don't have individual step partials; use the journey screen template
+    // with only selected steps.
+    var journeyData = (p.defaultJourneyData || {})[journeyType];
+    if (journeyData && journeyData.steps && journeyData.steps.length > 0 &&
+        journeyData.steps[0].screens) {
+      // Use the journey screen template (post_order_communication.hbs) but emit
+      // only the selected steps using a filtered data approach
+      var parts = [];
+      for (var si = 0; si < selectedSteps.length; si++) {
+        var sn = selectedSteps[si];
+        var step = journeyData.steps[sn - 1];
+        if (step && step.screens) {
+          parts.push('<section class="step-section" id="step-' + sn + '" data-step="' + sn + '">');
+          for (var ci = 0; ci < step.screens.length; ci++) {
+            var screen = step.screens[ci];
+            if (screen) {
+              parts.push('{{renderSchemaScreen ' + JSON.stringify(screen) + '}}');
+            }
+          }
+          parts.push('</section>');
+        }
+      }
+      return parts.join('\n');
+    }
+
     // Some journey types use a different naming prefix in their partials
     // than the journeyType key itself. Map known mismatches here.
     var partialPrefix = journeyType;

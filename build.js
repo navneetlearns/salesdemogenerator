@@ -106,6 +106,29 @@ Handlebars.registerHelper('fieldOpsImage', (filename) => {
   return '../../assets/field_ops/' + filename;
 });
 
+/**
+ * renderSchemaScreen — Render a schema screen by its { type, data } object.
+ * Looks up the screen-{type} partial in Handlebars partials registry,
+ * compiles it with the screen's data, and renders it.
+ * Falls back to a simple description card if the partial is missing.
+ */
+Handlebars.registerHelper('renderSchemaScreen', function(screen) {
+  if (!screen || !screen.type) {
+    return '<div class="screen-wrap"><div class="screen-lbl">Unknown screen</div></div>';
+  }
+  const partialName = 'screen-' + screen.type;
+  const partial = Handlebars.partials[partialName];
+  if (partial) {
+    const template = Handlebars.compile(partial);
+    return template(screen.data || {});
+  }
+  // Fallback: render description card if available
+  if (screen.description) {
+    return '<div class="screen-wrap"><div class="screen-desc" style="background:#E8F5E9;padding:16px;border-radius:8px;"><strong>' + screen.type + '</strong><br>' + screen.description + '</div></div>';
+  }
+  return '<div class="screen-wrap"><div class="screen-lbl" style="color:#999;">' + screen.type + '</div></div>';
+});
+
 async function loadScripts(navSteps) {
   const parts = [`const steps = ${JSON.stringify(navSteps)};\n\n`];
   for (const file of SCRIPT_CORE_FILES) {
