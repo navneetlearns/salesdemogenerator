@@ -847,6 +847,54 @@ async function build() {
       await fs.copy(fieldOpsSrc, publicFieldOps);
     }
     console.log('  Mirrored dist/ to public/dist/ for static APIs');
+
+    // ── Generate static API JSON files for Cloudflare Pages ──
+    const apiDir = path.join(DIST_DIR, 'api');
+    await fs.ensureDir(apiDir);
+
+    // Load all brand data for API response
+    const allBrands = [];
+    const allJourneys = {};
+    const brandsDir = path.join(DATA_DIR, 'brands');
+    if (await fs.pathExists(brandsDir)) {
+      const brandFiles = (await fs.readdir(brandsDir)).filter(f => f.endsWith('.json') && !f.includes('schema'));
+      for (const bf of brandFiles) {
+        try {
+          const bd = await fs.readJson(path.join(brandsDir, bf));
+          if (bd.id) {
+            const brandJourneys = [];
+            const journeysDir = path.join(DATA_DIR, 'journeys');
+            if (await fs.pathExists(journeysDir)) {
+              const jFiles = (await fs.readdir(journeysDir)).filter(jf => jf.startsWith(bd.id + '_'));
+              for (const jf of jFiles) {
+                try {
+                  const jd = await fs.readJson(path.join(journeysDir, jf));
+                  brandJourneys.push({
+                    id: jd.id,
+                    title: jd.title || jd.id,
+                    brandId: bd.id,
+                    stepCount: jd.steps ? jd.steps.length : 0,
+                  });
+                } catch (e) {}
+              }
+            }
+            allBrands.push({
+              id: bd.id,
+              name: bd.name,
+              shortName: bd.shortName || bd.name,
+              industry: bd.industry || 'general',
+              journeyCount: brandJourneys.length,
+            });
+            allJourneys[bd.id] = brandJourneys;
+          }
+        } catch (e) {}
+      }
+    }
+
+    await fs.writeJson(path.join(apiDir, 'brands.json'), allBrands, { spaces: 2 });
+    await fs.writeJson(path.join(apiDir, 'journeys.json'), allJourneys, { spaces: 2 });
+    console.log('  API: dist/api/brands.json (' + allBrands.length + ' brands)');
+    console.log('  API: dist/api/journeys.json');
   }
 }
 

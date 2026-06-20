@@ -204,14 +204,15 @@ details. Each file is self-contained (no external CSS/JS dependencies).
 
 ## Production
 
-Deployed at `https://demo-generator-one.vercel.app` (static mode on Vercel).
+Deployed at `https://demo-generator-482.pages.dev` (Cloudflare Pages).
 
-QA preview deployments at `https://demo-generator-*.vercel.app` (created by `vercel deploy`).
+QA preview deployments at `https://<hash>.demo-generator-482.pages.dev` (created by `wrangler pages deploy`).
 
 ### Production Deployments
 
 | Date | Commit | Changes |
 |------|--------|---------|
+| June 20 | `25d94cc` | Cloudflare Pages migration — branded URLs, stealth 404, robots.txt, KV share storage |
 | June 20 | `82ed398` | Phase 4+5: AI premium demos (Path C), cleanup — prod-demo-renderer.js removed, premium generator auto-runs on build, docs updated |
 | June 17 | HEAD (73934bc + uncommitted) | Navigation fix: Blob URL iframe rendering for hub preview + journey cards. Production now matches local HEAD. Content adaptation for all 9 journeys. |
 | ~June 12 | `119e5e2` | Hub card metadata and SAP diagram sizing |
@@ -220,15 +221,46 @@ QA preview deployments at `https://demo-generator-*.vercel.app` (created by `ver
 ### Deployment Commands
 
 ```bash
-# QA deploy (creates new preview URL)
-vercel deploy
+# Build for production
+npm run build:dist
 
-# Production deploy (aliases to production domain)
-vercel --prod --yes
+# Deploy to Cloudflare Pages (preview)
+npx wrangler pages deploy dist/ --project-name demo-generator
 
-# View all deployments
-vercel list
+# Deploy to Cloudflare Pages (production)
+npx wrangler pages deploy dist/ --project-name demo-generator --branch main
+
+# Or using npm scripts
+npm run deploy:cf          # preview
+npm run deploy:cf:prod     # production
 ```
+
+### Cloudflare Pages Setup
+
+- Pages project: `demo-generator`
+- KV namespace: `SHARES` (id: `69cfff0c6dbd45299d9fefb059fee0e9`)
+- Credentials: `.env` file with `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`
+
+### Branded Share URLs
+
+Share links use branded paths that hide the generator site:
+
+```
+https://demo-generator-482.pages.dev/p/{brand}/{slug}/
+```
+
+Example: `https://demo-generator-482.pages.dev/p/jk-cement/abc123/`
+
+- Root URL returns stealth 404 (hides site purpose)
+- `robots.txt` blocks all crawlers
+- `404.html` shows generic "Page not found"
+
+### Security
+
+- Root `/` returns 404 — no indication of demo generator
+- `robots.txt: User-agent: * Disallow: /` — blocks all crawlers
+- Share links expire after 24 hours
+- No public listing of available demos
 
 ## Documentation
 

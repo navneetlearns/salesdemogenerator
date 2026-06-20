@@ -1,0 +1,7 @@
+name = "demo-generator"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "dist"
+
+[[kv_namespaces]]
+binding = "SHARES"
+id = "69cfff0c6dbd45299d9fefb059fee0e9"

@@ -24,7 +24,10 @@
     "runtime": "node runtime/index.js",
     "runtime:server": "node runtime/preview-server.js",
     "validate:runtime": "node runtime/validate-runtime.js",
-    "cleanup": "node -e \"require('./runtime/cleanup').cleanup().then(()=>process.exit(0))\""
+    "cleanup": "node -e \"require('./runtime/cleanup').cleanup().then(()=>process.exit(0))\"",
+    "deploy:cf": "npx wrangler pages deploy dist/ --project-name demo-generator",
+    "deploy:cf:prod": "npx wrangler pages deploy dist/ --project-name demo-generator --branch main",
+    "preview:cf": "npx wrangler pages dev dist/ --kv SHARES"
   },
   "dependencies": {
     "@vercel/blob": "^2.4.0",

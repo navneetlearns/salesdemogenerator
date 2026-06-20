@@ -2,18 +2,20 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Migrate the demo-generator from Vercel (static + serverless) to Cloudflare Pages (static + Workers), using pagecast as the deployment tool.
+**Goal:** Migrate the demo-generator from Vercel (static + serverless) to Cloudflare Pages (static + Workers). Use branded URLs that hide the generator site.
 
-**Architecture:** Static frontend stays unchanged (build.js → dist/). Vercel serverless functions become Cloudflare Pages Functions (file-based routing in `functions/`). Vercel Blob storage becomes Cloudflare KV for share links. Deployment via `npx pagecast pages deploy`.
+**Architecture:** Static frontend stays unchanged (build.js → dist/). Vercel serverless functions become Cloudflare Pages Functions (file-based routing in `functions/`). Vercel Blob storage becomes Cloudflare KV for share links. Deployment via `wrangler pages deploy`.
 
-**Tech Stack:** Node.js 18+, Handlebars, Cloudflare Pages, Cloudflare Workers (Pages Functions), Cloudflare KV, pagecast CLI
+**Tech Stack:** Node.js 18+, Handlebars, Cloudflare Pages, Cloudflare Workers (Pages Functions), Cloudflare KV
 
 **Current State (June 20, 2026):**
-- HEAD: f0d1234, clean working tree (0 uncommitted files)
+- HEAD: uncommitted changes (migration in progress)
 - 70/70 tests pass
 - 3 brands, 22 journeys, 3 rendering paths
-- Deployed at https://demo-generator-one.vercel.app
-- pagecast available at `/mnt/d/agentworks/pagecast`
+- Deployed at https://*.demo-generator-482.pages.dev
+- Cloudflare Pages project: demo-generator
+- KV namespace: SHARES (id: 69cfff0c6dbd45299d9fefb059fee0e9)
+- Known issue: share Worker routing intercepts /api/health
 
 ---
 

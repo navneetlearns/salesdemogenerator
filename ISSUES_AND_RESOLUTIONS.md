@@ -2,7 +2,63 @@
 
 > Computed from live analysis of the codebase and generated output.
 > Branch: `main`
-> Last updated: June 20, 2026 (HEAD: 29285b0). Tests: 70/70 pass. Production deployed: June 20, 2026.
+> Last updated: June 20, 2026. Tests: 70/70 pass. Deployed on Cloudflare Pages.
+
+---
+
+## CLOUDFLARE PAGES MIGRATION (June 20, 2026)
+
+### MIGRATION-1: Vercel to Cloudflare Pages
+
+**Why:** Vercel serverless body limit (4.1MB) breaks when sharing custom demos with 29+ journeys. KV storage limited to 25MB per key. Need to scale for 20+ additional journeys.
+
+**What changed:**
+- Deployment target: Vercel → Cloudflare Pages
+- API endpoints: Vercel serverless → Cloudflare Workers (Pages Functions)
+- Share storage: Vercel Blob → Cloudflare KV
+- Share URLs: `/api/share?token=abc` → `/p/{brand}/{slug}/` (branded, hides generator)
+
+**Files created:**
+- `functions/_middleware.js` — CORS middleware
+- `functions/api/health.js` — Health check endpoint
+- `functions/api/share.js` — Share create/retrieve with branded URLs
+- `functions/api/experiments/adapt-content.js` — LLM content adaptation
+- `functions/api/experiments/save-content.js` — Save adapted content
+- `wrangler.toml` — Cloudflare Pages + KV config
+- `dist/robots.txt` — Blocks all crawlers
+- `dist/404.html` — Stealth 404 page
+
+**Files modified:**
+- `build.js` — Generates `dist/api/brands.json` and `dist/api/journeys.json`
+- `package.json` — Added `deploy:cf`, `deploy:cf:prod`, `preview:cf` scripts
+
+**Cloudflare Resources:**
+- Pages project: `demo-generator`
+- KV namespace: `SHARES` (id: `69cfff0c6dbd45299d9fefb059fee0e9`)
+- Live at: `https://demo-generator-482.pages.dev`
+
+**Security features:**
+- Root URL returns stealth 404 (no site purpose revealed)
+- `robots.txt: User-agent: * Disallow: /` (blocks all crawlers)
+- Share links use branded paths: `/p/{brand}/{slug}/`
+- No public listing of available demos
+
+### MIGRATION-2: Known Issue — Share Worker Routing (In Progress)
+
+**Issue:** `functions/api/share.js` catch-all returns 404 for `/api/health` and other routes.
+
+**Root cause:** Cloudflare Pages Functions routes ALL `/api/*` requests through Workers in `functions/api/`. The share Worker's `handleGet()` has a catch-all that returns a 404 for any route not matching `/p/*` or `/api/share`. This intercepts `/api/health` before the health Worker can respond.
+
+**Current behavior:**
+- `/api/health` → returns stealth 404 (should return JSON)
+- `/api/brands.json` → works (static file, not a Worker)
+- `/p/{brand}/{slug}/` → works (branded share URLs)
+- `/robots.txt` → works (static file)
+- `/` → stealth 404 (correct — hides site)
+
+**Fix needed:** Remove the catch-all from `handleGet()` so it only responds to `/p/*` and `/api/share` routes. For other routes, return `null` or `undefined` to let Cloudflare's default handling take over.
+
+**Status:** In progress — fix available next session
 
 ---
 

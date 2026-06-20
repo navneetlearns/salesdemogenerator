@@ -8,6 +8,14 @@ dist/
 # Logs
 *.log
 
+# Environment
+.env
+.env.local
+.env*.local
+
+# Wrangler cache
+.wrangler/
+
 # Extracted base64 data (regenerable from source HTML)
 data/extracted/
 
