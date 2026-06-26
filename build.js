@@ -834,6 +834,26 @@ async function build() {
       }
     }
 
+    // Copy root generator files to dist/ (index.html, style.css, app.js)
+    const rootFiles = ['index.html', 'style.css', 'app.js', 'preview.html'];
+    for (const rf of rootFiles) {
+      const src = path.join(ROOT, 'public', rf);
+      if (await fs.pathExists(src)) {
+        await fs.copy(src, path.join(DIST_DIR, rf));
+      }
+    }
+    // Copy JS directory to dist/
+    const jsSrc = path.join(ROOT, 'public', 'js');
+    if (await fs.pathExists(jsSrc)) {
+      await fs.copy(jsSrc, path.join(DIST_DIR, 'js'));
+    }
+    // Copy template-pack.json to dist/
+    const tpSrc = path.join(ROOT, 'public', 'template-pack.json');
+    if (await fs.pathExists(tpSrc)) {
+      await fs.copy(tpSrc, path.join(DIST_DIR, 'template-pack.json'));
+    }
+    console.log('  Copied root files (index.html, style.css, app.js, js/, template-pack.json)');
+
     await clearDir(PUBLIC_DIST_DIR);
     await fs.copy(DIST_DIR, PUBLIC_DIST_DIR);
     // Copy field_ops illustration images to dist/ and public/ for serving
