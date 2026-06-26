@@ -893,8 +893,10 @@ async function build() {
 
     await fs.writeJson(path.join(apiDir, 'brands.json'), allBrands, { spaces: 2 });
     await fs.writeJson(path.join(apiDir, 'journeys.json'), allJourneys, { spaces: 2 });
+    await fs.writeJson(path.join(apiDir, 'health.json'), { status: 'ok', version: '1.0.0', mode: 'static' });
     console.log('  API: dist/api/brands.json (' + allBrands.length + ' brands)');
     console.log('  API: dist/api/journeys.json');
+    console.log('  API: dist/api/health.json');
   }
 }
 

@@ -5,3 +5,4 @@ pages_build_output_dir = "dist"
 [[kv_namespaces]]
 binding = "SHARES"
 id = "69cfff0c6dbd45299d9fefb059fee0e9"
+preview_id = "015f4722379940d89e69e166b15b4848"
