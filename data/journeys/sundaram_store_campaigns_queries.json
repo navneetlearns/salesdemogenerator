@@ -1,0 +1,70 @@
+{
+  "id": "campaigns_queries",
+  "title": "Campaigns & Queries",
+  "description": "Campaigns & Product Queries",
+  "industry": [],
+  "brands": [
+    "sundaram_store"
+  ],
+  "steps": [
+    {
+      "num": 1,
+      "title": "Campaigns & Queries",
+      "description": "<span style=\"color:#555;font-size:12px;\">Push festive and product campaigns to retailers and resolve product or pricing queries instantly &mdash; no sales rep needed</span><span class=\"tag tag-cmp\">Campaigns</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-sch\">Product Queries</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step1-campaigns_queries",
+          "data": {
+            "partialName": "step1-campaigns_queries"
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Scheme & Product Queries",
+      "description": "<span style=\"color:#555;font-size:12px;\">Notify retailers about active trade schemes and let ZoAi answer scheme and product questions in real time, in Hinglish</span><span class=\"tag tag-sch\">Schemes</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-cmp\">Campaigns</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step2-campaigns_queries",
+          "data": {
+            "partialName": "step2-campaigns_queries"
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Scheme & Loyalty Queries",
+      "description": "<span style=\"color:#555;font-size:12px;\">Retailer queries points wallet, credit notes, and payment credits &mdash; ZoAi resolves in Hinglish and escalates to sales exec when needed</span><span class=\"tag tag-ai\">AI Agents</span><span class=\"tag tag-sch\">Schemes</span><span class=\"tag tag-act\">SE Escalation</span>",
+      "tags": [],
+      "screens": [
+        {
+          "type": "step-partial",
+          "description": "Existing step partial: step3-campaigns_queries",
+          "data": {
+            "partialName": "step3-campaigns_queries"
+          }
+        }
+      ]
+    }
+  ],
+  "dealer": {
+    "name": "Haldiram's Distributors",
+    "contactName": "Vikram Singh",
+    "phone": "+91 98110 00000"
+  },
+  "hubMeta": {
+    "emoji": "📢",
+    "color": "#AD1457",
+    "tags": [
+      "Campaigns",
+      "Queries",
+      "Support"
+    ]
+  }
+}

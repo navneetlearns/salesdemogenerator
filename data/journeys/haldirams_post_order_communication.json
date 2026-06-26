@@ -1,0 +1,336 @@
+{
+  "id": "post_order_communication",
+  "title": "Post-Order Communication",
+  "description": "Dealer receives order confirmations, invoices, and payment reminders via WhatsApp and PWA",
+  "industry": [
+    "FMCG",
+    "Building Materials",
+    "Electrical"
+  ],
+  "brands": [
+    "haldirams"
+  ],
+  "steps": [
+    {
+      "num": 1,
+      "title": "Order Submitted Notification",
+      "description": "Dealer receives WhatsApp notification with order details and views them in PWA",
+      "tags": [
+        "utility",
+        "pwa"
+      ],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Order received notification with PDF attachment",
+          "data": {
+            "documentName": "Order_{{order.id}}.pdf",
+            "documentSize": "0.6 MB",
+            "documentPages": "1 page",
+            "body": "<strong>Order Received</strong><br><br>Thanks for your order, {{dealer.name}}! Here are the received order details:<br><br>🪪 Order ID: <strong>{{order.id}}</strong><br>🏪 Dealer: <strong>{{dealer.name}}, {{dealer.location}}</strong><br>📦 Total SKUs: <strong>{{order.totalSKUs}}</strong><br>💰 Order Value: <strong>₹{{order.orderValue}}</strong><br>📅 Date: <strong>{{order.orderDate}}</strong>",
+            "buttons": [
+              {
+                "label": "View Order Details",
+                "url": "/order/{{order.id}}",
+                "type": "url"
+              }
+            ],
+            "time": "10:28 AM",
+            "senderName": "{{brand.name}}"
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "PWA showing order details",
+          "data": {
+            "title": "Order {{order.id}}",
+            "subtitle": "{{dealer.name}} · {{order.orderDate}}",
+            "brandColor": "{{brand.primaryColor}}",
+            "status": "Submitted",
+            "content": "<div class='order-items'>{{#each order.items}}<div class='item'><span>{{this.name}}</span><span>₹{{this.price}}</span></div>{{/each}}</div>"
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Order History & Navigation",
+      "description": "Dealer views order history and accesses navigation menu",
+      "tags": [
+        "pwa"
+      ],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "PWA order dashboard showing order history",
+          "data": {
+            "title": "Order History",
+            "subtitle": "{{dealer.name}}",
+            "brandColor": "{{brand.primaryColor}}",
+            "content": "<div class='order-list'>{{#each order.history}}<div class='order-card'><div class='order-id'>{{this.id}}</div><div class='order-value'>₹{{this.value}}</div><div class='order-status'>{{this.status}}</div></div>{{/each}}</div>"
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "PWA side navigation drawer",
+          "data": {
+            "title": "Menu",
+            "brandColor": "{{brand.primaryColor}}",
+            "content": "<nav class='side-nav'><a href='/'>Home</a><a href='/orders'>Orders</a><a href='/catalog'>Catalog</a><a href='/payments'>Payments</a><a href='/profile'>Profile</a></nav>"
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Order Confirmed Notification",
+      "description": "Dealer receives order confirmation via WhatsApp",
+      "tags": [
+        "utility",
+        "pwa"
+      ],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Order confirmed notification",
+          "data": {
+            "documentName": "Confirmation_{{order.id}}.pdf",
+            "documentSize": "0.8 MB",
+            "documentPages": "1 page",
+            "body": "<strong>Order Confirmed ✔</strong><br><br>Your order has been confirmed and is being processed.<br><br>🪪 Order ID: <strong>{{order.id}}</strong><br>🏪 Dealer: <strong>{{dealer.name}}, {{dealer.location}}</strong><br>📦 Total SKUs: <strong>{{order.totalSKUs}}</strong><br>💰 Order Value: <strong>₹{{order.orderValue}}</strong><br>📅 Expected Delivery: <strong>{{order.expectedDelivery}}</strong>",
+            "buttons": [
+              {
+                "label": "Track Order",
+                "url": "/track/{{order.id}}",
+                "type": "url"
+              }
+            ],
+            "time": "11:15 AM",
+            "senderName": "{{brand.name}}"
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "PWA showing confirmed order details (read-only)",
+          "data": {
+            "title": "Order {{order.id}}",
+            "subtitle": "Confirmed",
+            "brandColor": "{{brand.primaryColor}}",
+            "status": "Confirmed",
+            "content": "<div class='order-details-readonly'><div class='status-badge'>Confirmed</div><div class='order-items'>{{#each order.items}}<div class='item'><span>{{this.name}}</span><span>₹{{this.price}}</span></div>{{/each}}</div></div>"
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Invoice & Payment Reminders",
+      "description": "Dealer receives invoice and automated payment reminders",
+      "tags": [
+        "utility"
+      ],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Invoice notification",
+          "data": {
+            "documentName": "Invoice_{{invoice.id}}.pdf",
+            "documentSize": "1.2 MB",
+            "documentPages": "2 pages",
+            "body": "<strong>Invoice Generated</strong><br><br>Your invoice is ready for download.<br><br>📄 Invoice No: <strong>{{invoice.id}}</strong><br>💰 Amount: <strong>₹{{invoice.amount}}</strong><br>📅 Due Date: <strong>{{invoice.dueDate}}</strong><br><br>Please ensure payment is made before the due date to avail early payment discounts.",
+            "buttons": [
+              {
+                "label": "Download Invoice",
+                "url": "/invoice/{{invoice.id}}",
+                "type": "url"
+              },
+              {
+                "label": "Pay Now",
+                "url": "/pay/{{invoice.id}}",
+                "type": "url"
+              }
+            ],
+            "time": "2:30 PM",
+            "senderName": "{{brand.name}}"
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Cash discount reminder (T-1 day)",
+          "data": {
+            "documentName": "Reminder_Discount.pdf",
+            "documentSize": "0.4 MB",
+            "documentPages": "1 page",
+            "body": "<strong>Cash Discount Expiring Tomorrow!</strong><br><br>Dear {{dealer.name}},<br><br>You have an outstanding invoice of <strong>₹{{invoice.amount}}</strong> (Due: {{invoice.dueDate}}).<br><br>Pay by tomorrow to avail <strong>{{invoice.cashDiscountPercent}}% cash discount</strong> (₹{{invoice.cashDiscountAmount}}).<br><br>Don't miss this opportunity!",
+            "buttons": [
+              {
+                "label": "Pay Now",
+                "url": "/pay/{{invoice.id}}",
+                "type": "url"
+              }
+            ],
+            "time": "9:00 AM",
+            "senderName": "{{brand.name}}"
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Payment due reminder (T-3 days)",
+          "data": {
+            "documentName": "Reminder_Payment.pdf",
+            "documentSize": "0.3 MB",
+            "documentPages": "1 page",
+            "body": "<strong>Payment Due in 3 Days</strong><br><br>Dear {{dealer.name}},<br><br>This is a gentle reminder that your invoice <strong>{{invoice.id}}</strong> of <strong>₹{{invoice.amount}}</strong> is due on <strong>{{invoice.dueDate}}</strong>.<br><br>Please arrange payment to avoid any late payment charges.",
+            "buttons": [
+              {
+                "label": "View Invoice",
+                "url": "/invoice/{{invoice.id}}",
+                "type": "url"
+              }
+            ],
+            "time": "10:00 AM",
+            "senderName": "{{brand.name}}"
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Payment Received & Settlement",
+      "description": "Dealer receives payment confirmation and settlement details",
+      "tags": [
+        "utility",
+        "interactive"
+      ],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Payment received notification",
+          "data": {
+            "documentName": "Receipt_{{payment.reference}}.pdf",
+            "documentSize": "0.5 MB",
+            "documentPages": "1 page",
+            "body": "<strong>Payment Received ✔</strong><br><br>Thank you for your payment!<br><br>💰 Amount: <strong>₹{{payment.amount}}</strong><br>📅 Date: <strong>{{payment.date}}</strong><br>🔖 Reference: <strong>{{payment.reference}}</strong><br>💳 Mode: <strong>{{payment.method}}</strong><br><br>Your account has been updated.",
+            "buttons": [
+              {
+                "label": "View Statement",
+                "url": "/statement",
+                "type": "url"
+              }
+            ],
+            "time": "3:45 PM",
+            "senderName": "{{brand.name}}"
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Division selection for payment settlement",
+          "data": {
+            "body": "Please select the division for payment settlement:",
+            "buttonText": "Select Division",
+            "items": [
+              {
+                "title": "Grey Cement",
+                "description": "OPC, PPC, PSC grades"
+              },
+              {
+                "title": "White Cement",
+                "description": "White cement & specialty products"
+              },
+              {
+                "title": "Building Solutions",
+                "description": "Ready-mix concrete, wall putty"
+              }
+            ],
+            "time": "3:46 PM",
+            "senderName": "{{brand.name}}"
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Settlement confirmation",
+          "data": {
+            "documentName": "Settlement_{{payment.settlement.id}}.pdf",
+            "documentSize": "0.4 MB",
+            "documentPages": "1 page",
+            "body": "<strong>Settlement Confirmed ✔</strong><br><br>Your payment has been settled against the following division:<br><br>🏢 Division: <strong>{{payment.settlement.division}}</strong><br>💰 Amount Settled: <strong>₹{{payment.settlement.amount}}</strong><br>📅 Settlement Date: <strong>{{payment.settlement.date}}</strong><br><br>Thank you for your business!",
+            "buttons": [
+              {
+                "label": "Download Receipt",
+                "url": "/receipt/{{payment.settlement.id}}",
+                "type": "url"
+              }
+            ],
+            "time": "4:00 PM",
+            "senderName": "{{brand.name}}"
+          }
+        }
+      ]
+    }
+  ],
+  "dealer": {
+    "name": "{{dealer.name}}",
+    "location": "{{dealer.location}}"
+  },
+  "order": {
+    "id": "BND-48291",
+    "orderDate": "22 April 2026",
+    "expectedDelivery": "28 April 2026",
+    "totalSKUs": 4,
+    "orderValue": "78,840",
+    "items": [
+      {
+        "name": "Product 1",
+        "price": "19,710"
+      },
+      {
+        "name": "Product 2",
+        "price": "19,710"
+      },
+      {
+        "name": "Product 3",
+        "price": "19,710"
+      },
+      {
+        "name": "Product 4",
+        "price": "19,710"
+      }
+    ],
+    "history": [
+      {
+        "id": "BND-48290",
+        "value": "65,000",
+        "status": "Delivered"
+      },
+      {
+        "id": "BND-48285",
+        "value": "82,500",
+        "status": "Delivered"
+      },
+      {
+        "id": "BND-48280",
+        "value": "71,200",
+        "status": "Delivered"
+      }
+    ]
+  },
+  "invoice": {
+    "id": "INV-2026-0482",
+    "amount": "78,840",
+    "dueDate": "30 April 2026",
+    "cashDiscountPercent": "2",
+    "cashDiscountAmount": "1,577"
+  },
+  "payment": {
+    "amount": "78,840",
+    "date": "28 April 2026",
+    "reference": "PAY-2026-0482",
+    "method": "UPI",
+    "settlement": {
+      "id": "STL-2026-0482",
+      "division": "Grey Cement",
+      "amount": "78,840",
+      "date": "28 April 2026"
+    }
+  }
+}
