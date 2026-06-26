@@ -43,6 +43,13 @@ export async function onRequest(context) {
       });
     }
 
+    // v2: config-based share — serve re-render page (client-side regeneration)
+    if (share.config && !share.html) {
+      return new Response(buildReRenderPage(share), {
+        headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'private, no-store' },
+      });
+    }
+
     // v1: direct HTML blob
     if (share.html) {
       return new Response(share.html, {
@@ -121,4 +128,58 @@ function buildHubHtml(share, token, brand) {
     'frame.src="";frame.style.display="none";this.style.display="none";' +
     'document.querySelector(".hub").style.display="block";' +
     '});</script></body></html>';
+}
+
+function buildReRenderPage(share) {
+  var config = share.config || {};
+  var configJson = JSON.stringify(config);
+  var brandLabel = (config.name || 'Demo').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return '<!DOCTYPE html><html lang="en"><head>' +
+    '<meta charset="UTF-8">' +
+    '<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">' +
+    '<title>' + brandLabel + ' - WhatsApp Commerce OS | ZoTok</title>' +
+    '<style>' +
+    '*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}' +
+    'body{font-family:Arial,sans-serif;background:#111;color:#eee;min-height:100vh}' +
+    '.loading{display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px}' +
+    '.spinner{width:40px;height:40px;border:4px solid #333;border-top-color:#25D366;border-radius:50%;animation:spin .8s linear infinite}' +
+    '@keyframes spin{to{transform:rotate(360deg)}}' +
+    '.error{color:#f44;text-align:center;padding:40px}' +
+    '#hub-frame{width:100%;height:100vh;border:none;display:none}' +
+    '</style>' +
+    '</head><body>' +
+    '<div id="hub-loading" class="loading">' +
+    '<div class="spinner"></div>' +
+    '<div>Loading demo...</div>' +
+    '</div>' +
+    '<iframe id="hub-frame"></iframe>' +
+    '<script>window._shareConfig = ' + configJson + ';</script>' +
+    '<script src="/js/handlebars.min.js"></script>' +
+    '<script src="/js/demo-renderer.js"></script>' +
+    '<script>' +
+    '(function(){' +
+    'var config = window._shareConfig;' +
+    'var loading = document.getElementById("hub-loading");' +
+    'var frame = document.getElementById("hub-frame");' +
+    'if (!window.DemoRenderer) {' +
+    '  loading.className = "error";' +
+    '  loading.innerHTML = "<h2>Renderer not loaded</h2><p>Please try refreshing the page.</p>";' +
+    '  return;' +
+    '}' +
+    'DemoRenderer.renderMultiJourney(config).then(function(result) {' +
+    '  var blob = new Blob([result.html], {type: "text/html;charset=utf-8"});' +
+    '  var url = URL.createObjectURL(blob);' +
+    '  frame.onload = function() {' +
+    '    loading.style.display = "none";' +
+    '    frame.style.display = "block";' +
+    '  };' +
+    '  frame.src = url;' +
+    '}).catch(function(err) {' +
+    '  loading.className = "error";' +
+    '  loading.innerHTML = "<h2>Failed to render demo</h2><p>" + (err.message || "Unknown error") + "</p>";' +
+    '  console.error(err);' +
+    '});' +
+    '})();' +
+    '</script>' +
+    '</body></html>';
 }
