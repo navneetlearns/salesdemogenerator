@@ -5,7 +5,7 @@ const API_BASE = window.location.origin;
 
 async function detectMode() {
   try {
-    const res = await fetch(API_BASE + '/api/health');
+    const res = await fetch(API_BASE + '/api/health.json');
     const data = await res.json();
     return data.mode || 'static';
   } catch (e) {
@@ -15,10 +15,10 @@ async function detectMode() {
 
 async function loadBrands() {
   try {
-    const res = await fetch(API_BASE + '/api/brands');
+    const res = await fetch(API_BASE + '/api/brands.json');
     if (!res.ok) throw new Error('Brands API returned ' + res.status);
     const data = await res.json();
-    return data.brands || [];
+    return Array.isArray(data) ? data : (data.brands || []);
   } catch (e) {
     console.error('Failed to load brands:', e);
     return [];
@@ -27,7 +27,7 @@ async function loadBrands() {
 
 async function loadJourneys(brand) {
   try {
-    const res = await fetch(API_BASE + '/api/journeys?brand=' + brand);
+    const res = await fetch(API_BASE + '/api/journeys.json?brand=' + brand);
     return await res.json();
   } catch (e) {
     console.error('Failed to load journeys:', e);
