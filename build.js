@@ -866,6 +866,20 @@ async function build() {
       await fs.ensureDir(publicFieldOps);
       await fs.copy(fieldOpsSrc, publicFieldOps);
     }
+    // Copy brand assets (logos, SAP diagrams) and product assets to dist/
+    const assetsBrandsSrc = path.join(ROOT, 'assets', 'brands');
+    const assetsProductsSrc = path.join(ROOT, 'assets', 'products');
+    const assetsFallbacksSrc = path.join(ROOT, 'assets', 'fallbacks');
+    if (await fs.pathExists(assetsBrandsSrc)) {
+      await fs.copy(assetsBrandsSrc, path.join(DIST_DIR, 'assets', 'brands'));
+    }
+    if (await fs.pathExists(assetsProductsSrc)) {
+      await fs.copy(assetsProductsSrc, path.join(DIST_DIR, 'assets', 'products'));
+    }
+    if (await fs.pathExists(assetsFallbacksSrc)) {
+      await fs.copy(assetsFallbacksSrc, path.join(DIST_DIR, 'assets', 'fallbacks'));
+    }
+    console.log('  Copied brand + product + fallback assets to dist/');
     console.log('  Mirrored dist/ to public/dist/ for static APIs');
 
     // ── Generate static API JSON files for Cloudflare Pages ──
