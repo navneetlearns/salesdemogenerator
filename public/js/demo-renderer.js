@@ -7,6 +7,48 @@
 (function(global) {
   'use strict';
 
+  /* base64 encode/decode — works in both browser and Node.js */
+  function _b64Encode(str) {
+    if (typeof btoa === 'function') return btoa(unescape(encodeURIComponent(str)));
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+    var result = '';
+    var i = 0;
+    while (i < str.length) {
+      var a = str.charCodeAt(i++);
+      var b = i < str.length ? str.charCodeAt(i++) : 0;
+      var c = i < str.length ? str.charCodeAt(i++) : 0;
+      var idx1 = a >> 2;
+      var idx2 = ((a & 3) << 4) | (b >> 4);
+      var idx3 = ((b & 15) << 2) | (c >> 6);
+      var idx4 = c & 63;
+      if (i - 2 > str.length) { idx3 = 64; idx4 = 64; }
+      else if (i - 1 > str.length) { idx4 = 64; }
+      result += chars.charAt(idx1) + chars.charAt(idx2) +
+        (idx3 === 64 ? '=' : chars.charAt(idx3)) +
+        (idx4 === 64 ? '=' : chars.charAt(idx4));
+    }
+    return result;
+  }
+  function _b64Decode(str) {
+    if (typeof atob === 'function') return decodeURIComponent(escape(atob(str)));
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+    var result = '';
+    str = str.replace(/[^A-Za-z0-9+/=]/g, '');
+    for (var i = 0; i < str.length; i += 4) {
+      var a = chars.indexOf(str.charAt(i));
+      var b = chars.indexOf(str.charAt(i+1));
+      var c = chars.indexOf(str.charAt(i+2));
+      var d = chars.indexOf(str.charAt(i+3));
+      var idx1 = (a << 2) | (b >> 4);
+      var idx2 = ((b & 15) << 4) | (c >> 2);
+      var idx3 = ((c & 3) << 6) | d;
+      result += String.fromCharCode(idx1);
+      if (c !== 64) result += String.fromCharCode(idx2);
+      if (d !== 64) result += String.fromCharCode(idx3);
+    }
+    return result;
+  }
+
   /* ── State ──────────────────────────────────────────────── */
   var _pack = null;            // cached template-pack singleton
   var _packPromise = null;     // prevents duplicate fetches
@@ -1045,7 +1087,7 @@
     var dataScripts = '';
     for (var r = 0; r < results.length; r++) {
       var dt = journeyTypes[r];
-      var safe = results[r].html.replace(/<\/script>/gi, '<\\/script>');
+      var safe = _b64Encode(results[r].html);
       dataScripts += '<script type="text/plain" id="jd-' + dt + '">' + safe + '</script>\n';
     }
 
@@ -1176,7 +1218,7 @@
       'window.loadJourney = function(jt) {' +
       '  var html = journeyHtmls[jt];' +
       '  if (!html) return;' +
-      '  html = html.replace(/<\\\\\\/script>/g, "<" + "/script>");' +
+      '  html = decodeURIComponent(escape(atob(html)));' +
       '  if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);' +
       '  var blob = new Blob([html], {type: "text/html;charset=utf-8"});' +
       '  currentBlobUrl = URL.createObjectURL(blob);' +

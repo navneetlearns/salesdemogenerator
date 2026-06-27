@@ -1,0 +1,134 @@
+[
+  {
+    "journey": "order_to_cash",
+    "issues": [
+      "Card selection failed"
+    ]
+  },
+  {
+    "journey": "field_ops_expense",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "field_ops_expense",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "automated_collections",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "automated_collections",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "dealer_engagement",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "dealer_engagement",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "retailer_onboarding",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "retailer_onboarding",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "retailer_loyalty",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "retailer_loyalty",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "campaigns_queries",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "campaigns_queries",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "dt_fulfillment_payment",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "dt_fulfillment_payment",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "retailer_activation",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "retailer_activation",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "post_order_communication",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "post_order_communication",
+    "issues": [
+      "UNDEFINED: ${screenName}`\n    : baseTitle;\n  document.querySelectorAll('.step-item').forEac"
+    ]
+  },
+  {
+    "journey": "post_order_communication",
+    "issues": [
+      "HANDLEBARS: {{order.id}}"
+    ]
+  },
+  {
+    "journey": "post_order_communication",
+    "issues": [
+      "HANDLEBARS: {{dealer.name}}"
+    ]
+  },
+  {
+    "journey": "post_order_communication",
+    "issues": [
+      "HANDLEBARS: {{order.id}}"
+    ]
+  }
+]

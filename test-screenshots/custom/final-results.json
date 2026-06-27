@@ -1,0 +1,92 @@
+[
+  {
+    "journey": "order_to_cash",
+    "status": "PASS",
+    "issues": [],
+    "sections": 11,
+    "has_steps": true,
+    "title": "Self Service Ordering<span style=\"color:#aaa;font-",
+    "body_len": 1082084
+  },
+  {
+    "journey": "field_ops_expense",
+    "status": "PASS",
+    "issues": [],
+    "sections": 15,
+    "has_steps": true,
+    "title": "Admin Creates Group<span style=\"color:#aaa;font-we",
+    "body_len": 312486
+  },
+  {
+    "journey": "automated_collections",
+    "status": "PASS",
+    "issues": [],
+    "sections": 11,
+    "has_steps": true,
+    "title": "Automated Payment Reminder",
+    "body_len": 111377
+  },
+  {
+    "journey": "dealer_engagement",
+    "status": "PASS",
+    "issues": [],
+    "sections": 3,
+    "has_steps": true,
+    "title": "Campaign &amp; Promotions<span style=\"color:#aaa;f",
+    "body_len": 76785
+  },
+  {
+    "journey": "retailer_onboarding",
+    "status": "PASS",
+    "issues": [],
+    "sections": 12,
+    "has_steps": true,
+    "title": "Activation &amp; Registration<span style=\"color:#a",
+    "body_len": 244680
+  },
+  {
+    "journey": "retailer_loyalty",
+    "status": "PASS",
+    "issues": [],
+    "sections": 6,
+    "has_steps": true,
+    "title": "Loyalty Program Overview<span style=\"color:#aaa;fo",
+    "body_len": 76871
+  },
+  {
+    "journey": "campaigns_queries",
+    "status": "PASS",
+    "issues": [],
+    "sections": 3,
+    "has_steps": true,
+    "title": "Campaigns &amp; Queries<span style=\"color:#aaa;fon",
+    "body_len": 556555
+  },
+  {
+    "journey": "dt_fulfillment_payment",
+    "status": "PASS",
+    "issues": [],
+    "sections": 5,
+    "has_steps": true,
+    "title": "Distributor Confirmation<span style=\"color:#aaa;fo",
+    "body_len": 656593
+  },
+  {
+    "journey": "retailer_activation",
+    "status": "PASS",
+    "issues": [],
+    "sections": 2,
+    "has_steps": true,
+    "title": "Retailer Onboarding<span style=\"color:#aaa;font-we",
+    "body_len": 796567
+  },
+  {
+    "journey": "post_order_communication",
+    "status": "PASS",
+    "issues": [],
+    "sections": 5,
+    "has_steps": true,
+    "title": "Order Submitted Notification",
+    "body_len": 31705
+  }
+]

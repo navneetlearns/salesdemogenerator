@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "builtAt": "2026-06-20T07:28:26.193Z",
+  "builtAt": "2026-06-27T02:04:11.022Z",
   "partials": {
     "cart-item": "<div class=\"cart-item-row\">\r\n  <div class=\"cart-item-thumb\"><img\r\n      src=\"{{image}}\"\r\n      alt=\"{{name}}\"\r\n      style=\"width:100%;height:100%;object-fit:cover;display:block;\" /></div>\r\n  <div class=\"cart-item-info\">\r\n    <div class=\"cart-item-name\">{{name}}</div>\r\n    <div class=\"cart-item-price\">{{#if priceFormatted}}{{priceFormatted}}{{else}}₹{{price}}{{/if}}</div>\r\n    {{#if tag}}<div class=\"cart-item-tag\">{{tag}}</div><br>{{/if}}\r\n    <div class=\"cart-item-replace\">Replace</div>\r\n  </div>\r\n  <div class=\"cart-item-right\">\r\n    <div class=\"cart-trash-ico\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\">\r\n        <path d=\"M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6\" stroke=\"#e53935\" stroke-width=\"2\"\r\n          stroke-linecap=\"round\" stroke-linejoin=\"round\" />\r\n      </svg></div>\r\n    <div class=\"qty-ctl-blue\">\r\n      <div class=\"qty-btn-blue\">−</div>\r\n      <div class=\"qty-num-blue\">{{qty}}</div>\r\n      <div class=\"qty-btn-blue\">+</div>\r\n    </div>\r\n  </div>\r\n</div>\r\n",
     "date-pill": "{{!-- Date pill separator used in WhatsApp chat flows --}}\r\n<div class=\"date-pill\">{{text}}</div>",
@@ -1916,7 +1916,9 @@
       "title": "Campaigns & Queries",
       "description": "Campaigns & Product Queries",
       "industry": [],
-      "brands": [],
+      "brands": [
+        "jk_cement"
+      ],
       "steps": [
         {
           "num": 1,
@@ -1984,7 +1986,9 @@
       "title": "DT Fulfillment & Payment",
       "description": "Distributor Fulfilment, Invoicing & Collections",
       "industry": [],
-      "brands": [],
+      "brands": [
+        "jk_cement"
+      ],
       "steps": [
         {
           "num": 1,
@@ -2082,7 +2086,9 @@
       "title": "Retailer Activation",
       "description": "Retailer Activation & Onboarding",
       "industry": [],
-      "brands": [],
+      "brands": [
+        "jk_cement"
+      ],
       "steps": [
         {
           "num": 1,
@@ -2140,9 +2146,7 @@
         "Electrical"
       ],
       "brands": [
-        "jk_cement",
-        "haldirams",
-        "sundaram_store"
+        "jk_cement"
       ],
       "steps": [
         {
@@ -2158,30 +2162,30 @@
               "type": "whatsapp-document",
               "description": "Order received notification with PDF attachment",
               "data": {
-                "documentName": "Order_{{order.id}}.pdf",
+                "documentName": "Order_ORD-2026-4821.pdf",
                 "documentSize": "0.6 MB",
                 "documentPages": "1 page",
-                "body": "<strong>Order Received</strong><br><br>Thanks for your order, {{dealer.name}}! Here are the received order details:<br><br>🪪 Order ID: <strong>{{order.id}}</strong><br>🏪 Dealer: <strong>{{dealer.name}}, {{dealer.location}}</strong><br>📦 Total SKUs: <strong>{{order.totalSKUs}}</strong><br>💰 Order Value: <strong>₹{{order.orderValue}}</strong><br>📅 Date: <strong>{{order.orderDate}}</strong>",
+                "body": "<strong>Order Received</strong><br><br>Thanks for your order, Sharma Traders! Here are the received order details:<br><br>🪪 Order ID: <strong>ORD-2026-4821</strong><br>🏪 Dealer: <strong>Sharma Traders, Mumbai, MH</strong><br>📦 Total SKUs: <strong>12</strong><br>💰 Order Value: <strong>₹1,45,600</strong><br>📅 Date: <strong>26 Jun 2026</strong>",
                 "buttons": [
                   {
                     "label": "View Order Details",
-                    "url": "/order/{{order.id}}",
+                    "url": "/order/ORD-2026-4821",
                     "type": "url"
                   }
                 ],
                 "time": "10:28 AM",
-                "senderName": "{{brand.name}}"
+                "senderName": "JK Cement"
               }
             },
             {
               "type": "pwa-webview",
               "description": "PWA showing order details",
               "data": {
-                "title": "Order {{order.id}}",
-                "subtitle": "{{dealer.name}} · {{order.orderDate}}",
-                "brandColor": "{{brand.primaryColor}}",
+                "title": "Order ORD-2026-4821",
+                "subtitle": "Sharma Traders · 26 Jun 2026",
+                "brandColor": "#003D7A",
                 "status": "Submitted",
-                "content": "<div class='order-items'>{{#each order.items}}<div class='item'><span>{{this.name}}</span><span>₹{{this.price}}</span></div>{{/each}}</div>"
+                "content": "<div class='order-items'><div class='item'><span>JK Super OPC 53 (50kg)</span><span>₹420</span></div><div class='item'><span>JK Cement PPC (50kg)</span><span>₹385</span></div><div class='item'><span>JK Wall Putty (20kg)</span><span>₹850</span></div></div>"
               }
             }
           ]
@@ -2199,9 +2203,9 @@
               "description": "PWA order dashboard showing order history",
               "data": {
                 "title": "Order History",
-                "subtitle": "{{dealer.name}}",
-                "brandColor": "{{brand.primaryColor}}",
-                "content": "<div class='order-list'>{{#each order.history}}<div class='order-card'><div class='order-id'>{{this.id}}</div><div class='order-value'>₹{{this.value}}</div><div class='order-status'>{{this.status}}</div></div>{{/each}}</div>"
+                "subtitle": "Sharma Traders",
+                "brandColor": "#003D7A",
+                "content": "<div class='order-list'><div class='order-card'><div class='order-id'>ORD-2026-4821</div><div class='order-value'>₹1,45,600</div><div class='order-status'>Confirmed</div></div><div class='order-card'><div class='order-id'>ORD-2026-4800</div><div class='order-value'>₹98,500</div><div class='order-status'>Delivered</div></div></div>"
               }
             },
             {
@@ -2209,7 +2213,7 @@
               "description": "PWA side navigation drawer",
               "data": {
                 "title": "Menu",
-                "brandColor": "{{brand.primaryColor}}",
+                "brandColor": "#003D7A",
                 "content": "<nav class='side-nav'><a href='/'>Home</a><a href='/orders'>Orders</a><a href='/catalog'>Catalog</a><a href='/payments'>Payments</a><a href='/profile'>Profile</a></nav>"
               }
             }
@@ -2228,30 +2232,30 @@
               "type": "whatsapp-document",
               "description": "Order confirmed notification",
               "data": {
-                "documentName": "Confirmation_{{order.id}}.pdf",
+                "documentName": "Confirmation_ORD-2026-4821.pdf",
                 "documentSize": "0.8 MB",
                 "documentPages": "1 page",
-                "body": "<strong>Order Confirmed ✔</strong><br><br>Your order has been confirmed and is being processed.<br><br>🪪 Order ID: <strong>{{order.id}}</strong><br>🏪 Dealer: <strong>{{dealer.name}}, {{dealer.location}}</strong><br>📦 Total SKUs: <strong>{{order.totalSKUs}}</strong><br>💰 Order Value: <strong>₹{{order.orderValue}}</strong><br>📅 Expected Delivery: <strong>{{order.expectedDelivery}}</strong>",
+                "body": "<strong>Order Confirmed ✔</strong><br><br>Your order has been confirmed and is being processed.<br><br>🪪 Order ID: <strong>ORD-2026-4821</strong><br>🏪 Dealer: <strong>Sharma Traders, Mumbai, MH</strong><br>📦 Total SKUs: <strong>12</strong><br>💰 Order Value: <strong>₹1,45,600</strong><br>📅 Expected Delivery: <strong>28 Jun 2026</strong>",
                 "buttons": [
                   {
                     "label": "Track Order",
-                    "url": "/track/{{order.id}}",
+                    "url": "/track/ORD-2026-4821",
                     "type": "url"
                   }
                 ],
                 "time": "11:15 AM",
-                "senderName": "{{brand.name}}"
+                "senderName": "JK Cement"
               }
             },
             {
               "type": "pwa-webview",
               "description": "PWA showing confirmed order details (read-only)",
               "data": {
-                "title": "Order {{order.id}}",
+                "title": "Order ORD-2026-4821",
                 "subtitle": "Confirmed",
-                "brandColor": "{{brand.primaryColor}}",
+                "brandColor": "#003D7A",
                 "status": "Confirmed",
-                "content": "<div class='order-details-readonly'><div class='status-badge'>Confirmed</div><div class='order-items'>{{#each order.items}}<div class='item'><span>{{this.name}}</span><span>₹{{this.price}}</span></div>{{/each}}</div></div>"
+                "content": "<div class='order-details-readonly'><div class='status-badge'>Confirmed</div><div class='order-items'><div class='item'><span>JK Super OPC 53 (50kg)</span><span>₹420</span></div><div class='item'><span>JK Cement PPC (50kg)</span><span>₹385</span></div><div class='item'><span>JK Wall Putty (20kg)</span><span>₹850</span></div></div></div>"
               }
             }
           ]
@@ -2268,24 +2272,24 @@
               "type": "whatsapp-document",
               "description": "Invoice notification",
               "data": {
-                "documentName": "Invoice_{{invoice.id}}.pdf",
+                "documentName": "Invoice_INV-2026-7821.pdf",
                 "documentSize": "1.2 MB",
                 "documentPages": "2 pages",
-                "body": "<strong>Invoice Generated</strong><br><br>Your invoice is ready for download.<br><br>📄 Invoice No: <strong>{{invoice.id}}</strong><br>💰 Amount: <strong>₹{{invoice.amount}}</strong><br>📅 Due Date: <strong>{{invoice.dueDate}}</strong><br><br>Please ensure payment is made before the due date to avail early payment discounts.",
+                "body": "<strong>Invoice Generated</strong><br><br>Your invoice is ready for download.<br><br>📄 Invoice No: <strong>INV-2026-7821</strong><br>💰 Amount: <strong>₹1,45,600</strong><br>📅 Due Date: <strong>10 Jul 2026</strong><br><br>Please ensure payment is made before the due date to avail early payment discounts.",
                 "buttons": [
                   {
                     "label": "Download Invoice",
-                    "url": "/invoice/{{invoice.id}}",
+                    "url": "/invoice/INV-2026-7821",
                     "type": "url"
                   },
                   {
                     "label": "Pay Now",
-                    "url": "/pay/{{invoice.id}}",
+                    "url": "/pay/INV-2026-7821",
                     "type": "url"
                   }
                 ],
                 "time": "2:30 PM",
-                "senderName": "{{brand.name}}"
+                "senderName": "JK Cement"
               }
             },
             {
@@ -2295,16 +2299,16 @@
                 "documentName": "Reminder_Discount.pdf",
                 "documentSize": "0.4 MB",
                 "documentPages": "1 page",
-                "body": "<strong>Cash Discount Expiring Tomorrow!</strong><br><br>Dear {{dealer.name}},<br><br>You have an outstanding invoice of <strong>₹{{invoice.amount}}</strong> (Due: {{invoice.dueDate}}).<br><br>Pay by tomorrow to avail <strong>{{invoice.cashDiscountPercent}}% cash discount</strong> (₹{{invoice.cashDiscountAmount}}).<br><br>Don't miss this opportunity!",
+                "body": "<strong>Cash Discount Expiring Tomorrow!</strong><br><br>Dear Sharma Traders,<br><br>You have an outstanding invoice of <strong>₹1,45,600</strong> (Due: 10 Jul 2026).<br><br>Pay by tomorrow to avail <strong>2% cash discount</strong> (₹2,912).<br><br>Don't miss this opportunity!",
                 "buttons": [
                   {
                     "label": "Pay Now",
-                    "url": "/pay/{{invoice.id}}",
+                    "url": "/pay/INV-2026-7821",
                     "type": "url"
                   }
                 ],
                 "time": "9:00 AM",
-                "senderName": "{{brand.name}}"
+                "senderName": "JK Cement"
               }
             },
             {
@@ -2314,16 +2318,16 @@
                 "documentName": "Reminder_Payment.pdf",
                 "documentSize": "0.3 MB",
                 "documentPages": "1 page",
-                "body": "<strong>Payment Due in 3 Days</strong><br><br>Dear {{dealer.name}},<br><br>This is a gentle reminder that your invoice <strong>{{invoice.id}}</strong> of <strong>₹{{invoice.amount}}</strong> is due on <strong>{{invoice.dueDate}}</strong>.<br><br>Please arrange payment to avoid any late payment charges.",
+                "body": "<strong>Payment Due in 3 Days</strong><br><br>Dear Sharma Traders,<br><br>This is a gentle reminder that your invoice <strong>INV-2026-7821</strong> of <strong>₹1,45,600</strong> is due on <strong>10 Jul 2026</strong>.<br><br>Please arrange payment to avoid any late payment charges.",
                 "buttons": [
                   {
                     "label": "View Invoice",
-                    "url": "/invoice/{{invoice.id}}",
+                    "url": "/invoice/INV-2026-7821",
                     "type": "url"
                   }
                 ],
                 "time": "10:00 AM",
-                "senderName": "{{brand.name}}"
+                "senderName": "JK Cement"
               }
             }
           ]
@@ -2341,10 +2345,10 @@
               "type": "whatsapp-document",
               "description": "Payment received notification",
               "data": {
-                "documentName": "Receipt_{{payment.reference}}.pdf",
+                "documentName": "Receipt_NEFT-982736451.pdf",
                 "documentSize": "0.5 MB",
                 "documentPages": "1 page",
-                "body": "<strong>Payment Received ✔</strong><br><br>Thank you for your payment!<br><br>💰 Amount: <strong>₹{{payment.amount}}</strong><br>📅 Date: <strong>{{payment.date}}</strong><br>🔖 Reference: <strong>{{payment.reference}}</strong><br>💳 Mode: <strong>{{payment.method}}</strong><br><br>Your account has been updated.",
+                "body": "<strong>Payment Received ✔</strong><br><br>Thank you for your payment!<br><br>💰 Amount: <strong>₹1,42,688</strong><br>📅 Date: <strong>27 Jun 2026</strong><br>🔖 Reference: <strong>NEFT-982736451</strong><br>💳 Mode: <strong>NEFT</strong><br><br>Your account has been updated.",
                 "buttons": [
                   {
                     "label": "View Statement",
@@ -2353,7 +2357,7 @@
                   }
                 ],
                 "time": "3:45 PM",
-                "senderName": "{{brand.name}}"
+                "senderName": "JK Cement"
               }
             },
             {
@@ -2377,34 +2381,34 @@
                   }
                 ],
                 "time": "3:46 PM",
-                "senderName": "{{brand.name}}"
+                "senderName": "JK Cement"
               }
             },
             {
               "type": "whatsapp-document",
               "description": "Settlement confirmation",
               "data": {
-                "documentName": "Settlement_{{payment.settlement.id}}.pdf",
+                "documentName": "Settlement_STL-2026-3312.pdf",
                 "documentSize": "0.4 MB",
                 "documentPages": "1 page",
-                "body": "<strong>Settlement Confirmed ✔</strong><br><br>Your payment has been settled against the following division:<br><br>🏢 Division: <strong>{{payment.settlement.division}}</strong><br>💰 Amount Settled: <strong>₹{{payment.settlement.amount}}</strong><br>📅 Settlement Date: <strong>{{payment.settlement.date}}</strong><br><br>Thank you for your business!",
+                "body": "<strong>Settlement Confirmed ✔</strong><br><br>Your payment has been settled against the following division:<br><br>🏢 Division: <strong>North Division</strong><br>💰 Amount Settled: <strong>₹1,42,688</strong><br>📅 Settlement Date: <strong>27 Jun 2026</strong><br><br>Thank you for your business!",
                 "buttons": [
                   {
                     "label": "Download Receipt",
-                    "url": "/receipt/{{payment.settlement.id}}",
+                    "url": "/receipt/STL-2026-3312",
                     "type": "url"
                   }
                 ],
                 "time": "4:00 PM",
-                "senderName": "{{brand.name}}"
+                "senderName": "JK Cement"
               }
             }
           ]
         }
       ],
       "dealer": {
-        "name": "{{dealer.name}}",
-        "location": "{{dealer.location}}"
+        "name": "Sharma Traders",
+        "location": "Mumbai, MH"
       },
       "order": {
         "id": "BND-48291",

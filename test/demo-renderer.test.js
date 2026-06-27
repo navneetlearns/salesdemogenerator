@@ -386,7 +386,7 @@ test('renderMultiJourney with single journey wraps output in hub HTML', async fu
   assert.match(result.html, /data-journey="order_to_cash"/);
   assert.match(result.html, /addEventListener\("click"/);
   assert.match(result.html, /journey-active/);
-  assert.match(result.html, /html = html\.replace/);
+  assert.match(result.html, /atob/);
   assert.match(result.html, /<\/script><\/body><\/html>$/);
   assert.doesNotMatch(result.html, /onclick="loadJourney/);
   assert.doesNotMatch(result.html, /<\\\/script><\/body><\/html>$/);

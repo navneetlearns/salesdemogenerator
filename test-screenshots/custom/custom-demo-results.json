@@ -1,0 +1,93 @@
+[
+  {
+    "journey": "order_to_cash",
+    "status": "FAIL",
+    "issues": [
+      "Preview not visible"
+    ]
+  },
+  {
+    "journey": "field_ops_expense",
+    "status": "PASS",
+    "issues": [],
+    "step_sections": 15,
+    "has_steps": true,
+    "step_title": "Admin Creates Group<span style=\"color:#aaa;font-we",
+    "step_items": 15
+  },
+  {
+    "journey": "automated_collections",
+    "status": "FAIL",
+    "issues": [
+      "No step-sections",
+      "No step-items"
+    ],
+    "step_sections": 0,
+    "has_steps": true,
+    "step_title": "Automated Payment Reminder",
+    "step_items": 0
+  },
+  {
+    "journey": "dealer_engagement",
+    "status": "PASS",
+    "issues": [],
+    "step_sections": 3,
+    "has_steps": true,
+    "step_title": "Campaign &amp; Promotions<span style=\"color:#aaa;f",
+    "step_items": 3
+  },
+  {
+    "journey": "retailer_onboarding",
+    "status": "PASS",
+    "issues": [],
+    "step_sections": 12,
+    "has_steps": true,
+    "step_title": "Activation &amp; Registration<span style=\"color:#a",
+    "step_items": 12
+  },
+  {
+    "journey": "retailer_loyalty",
+    "status": "PASS",
+    "issues": [],
+    "step_sections": 6,
+    "has_steps": true,
+    "step_title": "Loyalty Program Overview<span style=\"color:#aaa;fo",
+    "step_items": 6
+  },
+  {
+    "journey": "campaigns_queries",
+    "status": "PASS",
+    "issues": [],
+    "step_sections": 3,
+    "has_steps": true,
+    "step_title": "Campaigns &amp; Queries<span style=\"color:#aaa;fon",
+    "step_items": 3
+  },
+  {
+    "journey": "dt_fulfillment_payment",
+    "status": "PASS",
+    "issues": [],
+    "step_sections": 5,
+    "has_steps": true,
+    "step_title": "Distributor Confirmation<span style=\"color:#aaa;fo",
+    "step_items": 5
+  },
+  {
+    "journey": "retailer_activation",
+    "status": "PASS",
+    "issues": [],
+    "step_sections": 2,
+    "has_steps": true,
+    "step_title": "Retailer Onboarding<span style=\"color:#aaa;font-we",
+    "step_items": 2
+  },
+  {
+    "journey": "post_order_communication",
+    "status": "PASS",
+    "issues": [],
+    "step_sections": 5,
+    "has_steps": true,
+    "step_title": "Order Submitted Notification",
+    "step_items": 5
+  }
+]

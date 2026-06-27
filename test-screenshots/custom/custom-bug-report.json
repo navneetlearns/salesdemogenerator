@@ -1,0 +1,77 @@
+{
+  "total": 11,
+  "passed": 0,
+  "failed": 11,
+  "bugs": [
+    {
+      "journey": "order_to_cash",
+      "issues": [
+        "WIZARD: Generate button not found"
+      ]
+    },
+    {
+      "journey": "field_ops_expense",
+      "issues": [
+        "EXCEPTION: Locator.check: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"input[value='field_ops_expense']\")\n    - locator resolved to <input type=\"checkbox\" value=\"field_ops_expense\"/>\n  - attempti"
+      ]
+    },
+    {
+      "journey": "automated_collections",
+      "issues": [
+        "EXCEPTION: Locator.check: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"input[value='automated_collections']\")\n    - locator resolved to <input type=\"checkbox\" value=\"automated_collections\"/>\n  - "
+      ]
+    },
+    {
+      "journey": "dealer_engagement",
+      "issues": [
+        "EXCEPTION: Locator.check: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"input[value='dealer_engagement']\")\n    - locator resolved to <input type=\"checkbox\" value=\"dealer_engagement\"/>\n  - attempti"
+      ]
+    },
+    {
+      "journey": "retailer_onboarding",
+      "issues": [
+        "EXCEPTION: Locator.check: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"input[value='retailer_onboarding']\")\n    - locator resolved to <input type=\"checkbox\" value=\"retailer_onboarding\"/>\n  - atte"
+      ]
+    },
+    {
+      "journey": "retailer_loyalty",
+      "issues": [
+        "EXCEPTION: Locator.check: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"input[value='retailer_loyalty']\")\n    - locator resolved to <input type=\"checkbox\" value=\"retailer_loyalty\"/>\n  - attempting"
+      ]
+    },
+    {
+      "journey": "campaigns_queries",
+      "issues": [
+        "WIZARD: journey checkbox for campaigns_queries not found",
+        "WIZARD: Generate button not found"
+      ]
+    },
+    {
+      "journey": "dt_fulfillment_payment",
+      "issues": [
+        "WIZARD: journey checkbox for dt_fulfillment_payment not found",
+        "WIZARD: Generate button not found"
+      ]
+    },
+    {
+      "journey": "retailer_activation",
+      "issues": [
+        "WIZARD: journey checkbox for retailer_activation not found",
+        "WIZARD: Generate button not found"
+      ]
+    },
+    {
+      "journey": "post_order_communication",
+      "issues": [
+        "WIZARD: journey checkbox for post_order_communication not found",
+        "WIZARD: Generate button not found"
+      ]
+    },
+    {
+      "journey": "multi-journey",
+      "issues": [
+        "Preview not visible: Please fill in all product names."
+      ]
+    }
+  ]
+}

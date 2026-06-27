@@ -952,7 +952,6 @@
     addProductRow();
     renderJourneyCards();
     restoreLastPreview();
-    renderJourneyCards();
     updateStepSelection();
     showStep(1);
   }
