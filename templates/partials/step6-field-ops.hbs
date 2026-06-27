@@ -24,8 +24,8 @@
             </div>
             <div class="g-topbar">
               <div class="g-back">{{> icons/back color="#007AFF"}}</div>
-              <div class="g-ava" style="background:none;overflow:hidden;padding:0;"><img src="{{brandLogo}}"
-                  style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+              <div class="g-ava u-avatar-circle-bg"><img src="{{brandLogo}}"
+                  class="u-avatar-circle"></div>
               <div class="g-info">
                 <div class="g-name">{{brand.name}} x Manish Nagar</div>
                 <div class="g-sub">Ravi Singh, Deepak Sharma, ZoAi</div>
@@ -40,7 +40,7 @@
               <!-- Continuity: check-in confirmation from Step 5 -->
               <div class="msw">
                 <div class="mr">
-                  <div class="sname" style="color:#00897B;">ZoAi 🤖</div>
+                  <div class="sname u-text-teal">ZoAi 🤖</div>
                   <div class="mbody">Checked In ✅<br><br>📍 <strong>Store:</strong> Sharma Supermart, Manish Nagar<br>⏰
                     <strong>Time:</strong> 10:15 AM<br>📅 <strong>Date:</strong> 08 Apr 2026<br>👤 <strong>SE:</strong>
                     Ravi Singh
@@ -50,7 +50,7 @@
               </div>
               <!-- Ravi sends handwritten order image -->
               <div class="mrw">
-                <div class="you-lbl" style="color:#2E7D32;">You (Ravi Singh)</div>
+                <div class="you-lbl u-text-green">You (Ravi Singh)</div>
                 <div class="ms" style="padding:3px 3px 4px;max-width:218px;">
                   <!-- Paper note image -->
                   <img
@@ -68,7 +68,7 @@
               {{> icons/microphone color="#54656f"}}
             </div>
           </div>
-          <div class="screen-desc" style="background:#B0D4F0;">
+          <div class="screen-desc u-bg-blue">
             <strong>Order Capture</strong>
             Ravi photos the handwritten order note and sends @zoai order — AI reads and structures it
           </div>
@@ -88,8 +88,8 @@
             </div>
             <div class="g-topbar">
               <div class="g-back">{{> icons/back color="#007AFF"}}</div>
-              <div class="g-ava" style="background:none;overflow:hidden;padding:0;"><img src="{{brandLogo}}"
-                  style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+              <div class="g-ava u-avatar-circle-bg"><img src="{{brandLogo}}"
+                  class="u-avatar-circle"></div>
               <div class="g-info">
                 <div class="g-name">{{brand.name}} x Manish Nagar</div>
                 <div class="g-sub">Ravi Singh, Deepak Sharma, ZoAi</div>
@@ -103,7 +103,7 @@
               <div class="dpill">Today</div>
               <!-- Order image echoed -->
               <div class="mrw">
-                <div class="you-lbl" style="color:#2E7D32;">You (Ravi Singh)</div>
+                <div class="you-lbl u-text-green">You (Ravi Singh)</div>
                 <div class="ms" style="padding:3px 3px 4px;max-width:218px;">
                   <img
                     src="{{fieldOpsImage "fo_02b8234f14bc.png"}}"
@@ -115,7 +115,7 @@
               <!-- ZoAi Draft Order (group session message — extracted from image, one CTA short URL) -->
               <div class="msw">
                 <div class="mr" style="max-width:240px;padding:0 0 4px;">
-                  <div class="sname" style="color:#00897B;">ZoAi 🤖</div>
+                  <div class="sname u-text-teal">ZoAi 🤖</div>
                   <!-- Image header: the notepad photo used to create the order -->
                   <img
                     src="{{fieldOpsImage "fo_02b8234f14bc.png"}}"
@@ -143,7 +143,7 @@
               {{> icons/microphone color="#54656f"}}
             </div>
           </div>
-          <div class="screen-desc" style="background:#A8EAD6;">
+          <div class="screen-desc u-bg-green">
             <strong>Draft Order Created</strong>
             ZoAi reads the order note image, extracts items and value, and posts a draft order with a "Review and edit"
             link for Ravi to confirm

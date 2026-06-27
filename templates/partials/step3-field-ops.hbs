@@ -24,8 +24,8 @@
               <div class="g-back">
                 {{> icons/back color="#007AFF"}}
               </div>
-              <div class="g-ava" style="background:none;overflow:hidden;padding:0;"><img src="{{brandLogo}}"
-                  style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+              <div class="g-ava u-avatar-circle-bg"><img src="{{brandLogo}}"
+                  class="u-avatar-circle"></div>
               <div class="g-info">
                 <div class="g-name">{{brand.name}} x Manish Nagar</div>
                 <div class="g-sub">Ravi Singh, Deepak Sharma, ZoAi</div>
@@ -39,7 +39,7 @@
               <div class="dpill">Today</div>
               <!-- Ravi Singh shares live location -->
               <div class="mrw">
-                <div class="you-lbl" style="color:#2E7D32;">You (Ravi Singh)</div>
+                <div class="you-lbl u-text-green">You (Ravi Singh)</div>
                 <div class="ms" style="padding:5px 5px 4px;max-width:215px;">
                   <div style="border-radius:6px;overflow:hidden;margin-bottom:4px;">
                     <!-- Map thumbnail -->
@@ -81,10 +81,10 @@
               </div>
               <!-- Sales exec replies to location with @zoai clock-in -->
               <div class="mrw">
-                <div class="you-lbl" style="color:#2E7D32;">You (Ravi Singh)</div>
+                <div class="you-lbl u-text-green">You (Ravi Singh)</div>
                 <div class="ms">
                   <div class="rq" style="border-color:#2E7D32;">
-                    <div class="rq-snd" style="color:#2E7D32;">You (Ravi Singh)</div>
+                    <div class="rq-snd u-text-green">You (Ravi Singh)</div>
                     <div class="rq-txt">📍 {{brand.name}} Office, Nagpur</div>
                   </div>
                   <div class="mbody">@zoai clock-in</div>
@@ -120,8 +120,8 @@
               <div class="g-back">
                 {{> icons/back color="#007AFF"}}
               </div>
-              <div class="g-ava" style="background:none;overflow:hidden;padding:0;"><img src="{{brandLogo}}"
-                  style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+              <div class="g-ava u-avatar-circle-bg"><img src="{{brandLogo}}"
+                  class="u-avatar-circle"></div>
               <div class="g-info">
                 <div class="g-name">{{brand.name}} x Manish Nagar</div>
                 <div class="g-sub">Ravi Singh, Deepak Sharma, ZoAi</div>
@@ -135,10 +135,10 @@
               <div class="dpill">Today</div>
               <!-- Sender bubble (from screen 1) -->
               <div class="mrw">
-                <div class="you-lbl" style="color:#2E7D32;">You (Ravi Singh)</div>
+                <div class="you-lbl u-text-green">You (Ravi Singh)</div>
                 <div class="ms">
                   <div class="rq" style="border-color:#2E7D32;">
-                    <div class="rq-snd" style="color:#2E7D32;">You (Ravi Singh)</div>
+                    <div class="rq-snd u-text-green">You (Ravi Singh)</div>
                     <div class="rq-txt">📍 {{brand.name}} Office, Nagpur</div>
                   </div>
                   <div class="mbody">@zoai clock-in</div>
@@ -148,7 +148,7 @@
               <!-- ZoAi clock-in success -->
               <div class="msw">
                 <div class="mr">
-                  <div class="sname" style="color:#00897B;">ZoAi 🤖</div>
+                  <div class="sname u-text-teal">ZoAi 🤖</div>
                   <div class="mbody">Clocked In ✅<br><br>⏰ <strong>Time:</strong> 9:14 AM<br>📍
                     <strong>Location:</strong> {{brand.name}} Office, Nagpur<br>📅 <strong>Date:</strong> 08 Apr 2026<br>👤
                     <strong>Name:</strong> Ravi Singh (SE)
@@ -163,7 +163,7 @@
               {{> icons/microphone color="#54656f"}}
             </div>
           </div>
-          <div class="screen-desc" style="background:#A8EAD6;">
+          <div class="screen-desc u-bg-green">
             <strong>Clock-In Confirmed</strong>
             ZoAi confirms instantly — time, location and date logged automatically in the group
           </div>

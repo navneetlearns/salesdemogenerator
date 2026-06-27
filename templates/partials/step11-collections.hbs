@@ -12,9 +12,9 @@
             </div>
             <div class="wa-bar">
               <div class="wa-back">{{> icons/back color="#fff"}}</div>
-              <div class="wa-av" style="background:none;overflow:hidden;padding:0;"><img
+              <div class="wa-av u-avatar-circle-bg"><img
                   src="{{brandLogo}}"
-                  style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+                  class="u-avatar-circle"></div>
               <div class="wa-info">
                 <div class="wa-name">{{brand.name}} Payment Assist</div>
                 <div class="wa-sub">Business Account</div>
@@ -77,17 +77,17 @@
     </div>
 
     </div><!-- /step-11 -->
-      { title: 'Step 1 — Automated Payment Reminder', desc: '<span style="color:#555;font-size:12px;">ZoAi sends personalised outstanding reminders with dynamic UPI QR — zero salesman effort for routine collections</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span><span class="tag tag-pay">Payments</span>' },
-      { title: 'Step 2 — Invoice Breakdown', desc: '<span style="color:#555;font-size:12px;">Retailer queries pending bills — AI instantly shares invoice-wise breakdown within WhatsApp</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span>' },
-      { title: 'Step 3 — AI Initiates PTP + Scheme Hook', desc: '<span style="color:#555;font-size:12px;">ZoAi presents a time-sensitive scheme incentive to nudge the retailer towards committing a payment date</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span><span class="tag tag-sch">Scheme</span>' },
-      { title: 'Step 4 — Retailer Declines Initial Date', desc: '<span style="color:#555;font-size:12px;">Retailer says "not possible" — AI handles the decline gracefully and pivots to flexible negotiation</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span>' },
-      { title: 'Step 5 — AI Offers Alternate Dates', desc: '<span style="color:#555;font-size:12px;">ZoAi proposes multiple payment dates with scheme previews — retailer picks what suits their cashflow</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span><span class="tag tag-sch">Scheme</span>' },
-      { title: 'Step 6 — Retailer Commits to Friday', desc: '<span style="color:#555;font-size:12px;">Retailer selects a date — ZoAi captures the promise-to-pay and confirms the commitment</span><span class="tag tag-col">Collections</span>' },
-      { title: 'Step 7 — Scheme Unlocked', desc: '<span style="color:#555;font-size:12px;">ZoAi automatically unlocks the applicable scheme benefit tied to the committed PTP date</span><span class="tag tag-col">Collections</span><span class="tag tag-sch">Scheme</span>' },
-      { title: 'Step 8 — PTP Confirmed', desc: '<span style="color:#555;font-size:12px;">Promise-to-pay logged in ZoTok — distributor and sales team notified automatically</span><span class="tag tag-col">Collections</span>' },
-      { title: 'Step 9 — Pre-Due Reminder', desc: '<span style="color:#555;font-size:12px;">ZoAi sends a timely reminder a day before PTP date, reinforcing scheme incentive to maximise collection</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span>' },
-      { title: 'Step 10 — Payment Received', desc: '<span style="color:#555;font-size:12px;">Payment confirmed — scheme activated, collection cycle closed, retailer notified automatically</span><span class="tag tag-col">Collections</span><span class="tag tag-pay">Payments</span><span class="tag tag-sch">Scheme</span>' },
-      { title: 'Step 11 — Missed PTP (Alternate Path)', desc: '<span style="color:#555;font-size:12px;">Payment not received — ZoAi re-engages with a fresh date or escalates to field salesman for intervention</span><span class="tag tag-col">Collections</span><span class="tag tag-esc">Escalation</span>' },
+      { title: 'Step 1 — Automated Payment Reminder', desc: '<span class="u-text-base">ZoAi sends personalised outstanding reminders with dynamic UPI QR — zero salesman effort for routine collections</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span><span class="tag tag-pay">Payments</span>' },
+      { title: 'Step 2 — Invoice Breakdown', desc: '<span class="u-text-base">Retailer queries pending bills — AI instantly shares invoice-wise breakdown within WhatsApp</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span>' },
+      { title: 'Step 3 — AI Initiates PTP + Scheme Hook', desc: '<span class="u-text-base">ZoAi presents a time-sensitive scheme incentive to nudge the retailer towards committing a payment date</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span><span class="tag tag-sch">Scheme</span>' },
+      { title: 'Step 4 — Retailer Declines Initial Date', desc: '<span class="u-text-base">Retailer says "not possible" — AI handles the decline gracefully and pivots to flexible negotiation</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span>' },
+      { title: 'Step 5 — AI Offers Alternate Dates', desc: '<span class="u-text-base">ZoAi proposes multiple payment dates with scheme previews — retailer picks what suits their cashflow</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span><span class="tag tag-sch">Scheme</span>' },
+      { title: 'Step 6 — Retailer Commits to Friday', desc: '<span class="u-text-base">Retailer selects a date — ZoAi captures the promise-to-pay and confirms the commitment</span><span class="tag tag-col">Collections</span>' },
+      { title: 'Step 7 — Scheme Unlocked', desc: '<span class="u-text-base">ZoAi automatically unlocks the applicable scheme benefit tied to the committed PTP date</span><span class="tag tag-col">Collections</span><span class="tag tag-sch">Scheme</span>' },
+      { title: 'Step 8 — PTP Confirmed', desc: '<span class="u-text-base">Promise-to-pay logged in ZoTok — distributor and sales team notified automatically</span><span class="tag tag-col">Collections</span>' },
+      { title: 'Step 9 — Pre-Due Reminder', desc: '<span class="u-text-base">ZoAi sends a timely reminder a day before PTP date, reinforcing scheme incentive to maximise collection</span><span class="tag tag-col">Collections</span><span class="tag tag-ai">AI Agents</span>' },
+      { title: 'Step 10 — Payment Received', desc: '<span class="u-text-base">Payment confirmed — scheme activated, collection cycle closed, retailer notified automatically</span><span class="tag tag-col">Collections</span><span class="tag tag-pay">Payments</span><span class="tag tag-sch">Scheme</span>' },
+      { title: 'Step 11 — Missed PTP (Alternate Path)', desc: '<span class="u-text-base">Payment not received — ZoAi re-engages with a fresh date or escalates to field salesman for intervention</span><span class="tag tag-col">Collections</span><span class="tag tag-esc">Escalation</span>' },
     ];
 
     var descTimer = null;

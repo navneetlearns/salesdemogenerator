@@ -126,7 +126,7 @@
                         <rect x="3" y="2" width="14" height="16" rx="2" stroke="#fff" stroke-width="1.4" />
                         <path d="M7 7h6M7 10h6M7 13h4" stroke="#fff" stroke-width="1.3" stroke-linecap="round" />
                       </svg>
-                      <span style="flex:1;">Daybook</span>
+                      <span class="u-flex1">Daybook</span>
                       <svg width="10" height="6" viewBox="0 0 12 8" fill="none">
                         <path d="M1 7L6 2L11 7" stroke="#888" stroke-width="1.5" stroke-linecap="round"
                           stroke-linejoin="round" />
@@ -331,7 +331,7 @@
               <div
                 style="flex:1;overflow:hidden;padding:8px 12px;display:flex;flex-direction:column;gap:6px;background:#fafafa;">
                 <!-- Check-in -->
-                <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div class="u-flex-between">
                   <div style="display:flex;align-items:center;gap:5px;">
                     <svg width="11" height="13" viewBox="0 0 14 16" fill="none">
                       <path
@@ -354,9 +354,9 @@
                       <circle cx="15" cy="16" r="1.5" fill="#333" />
                     </svg>
                   </div>
-                  <div style="flex:1;min-width:0;">
+                  <div class="u-flex1-min">
                     <div style="font-size:11.5px;font-weight:700;color:#1B2A4A;">Order #JKC-1042</div>
-                    <div style="font-size:10px;color:#888;margin-top:1px;">3 SKUs &nbsp;•&nbsp; Order Amount {{formatCurrency journey.step10.orderAmount}}
+                    <div class="u-text-sm-sub">3 SKUs &nbsp;•&nbsp; Order Amount {{formatCurrency journey.step10.orderAmount}}
                     </div>
                   </div>
                   {{> icons/chevron-right color="#ccc"}}
@@ -378,15 +378,15 @@
                       </svg>
                     </div>
                   </div>
-                  <div style="flex:1;min-width:0;">
+                  <div class="u-flex1-min">
                     <div style="font-size:11.5px;font-weight:700;color:#1B2A4A;">PAY-20260408</div>
-                    <div style="font-size:10px;color:#888;margin-top:1px;">Type: <strong
+                    <div class="u-text-sm-sub">Type: <strong
                         style="color:#E65100;">OFLN</strong> &nbsp;•&nbsp; Amt. Paid: {{formatCurrency journey.step10.paidAmount}}</div>
                   </div>
                   {{> icons/chevron-right color="#ccc"}}
                 </div>
                 <!-- Check-out -->
-                <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div class="u-flex-between">
                   <div style="display:flex;align-items:center;gap:5px;">
                     <svg width="11" height="13" viewBox="0 0 14 16" fill="none">
                       <path
@@ -452,7 +452,7 @@
             <!-- Dark app header -->
             <div style="background:#000;padding:10px 10px 9px;display:flex;align-items:center;gap:8px;flex-shrink:0;">
               <div style="color:#fff;font-size:17px;line-height:1;font-weight:300;flex-shrink:0;">≡</div>
-              <div style="flex:1;">
+              <div class="u-flex1">
                 <div style="color:#fff;font-size:13px;font-weight:700;line-height:1.2;">Beat Plan</div>
                 <div style="color:#555;font-size:9.5px;">Today</div>
               </div>
@@ -504,8 +504,8 @@
                     <div
                       style="width:34px;height:34px;border-radius:50%;background:#9C27B0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">
                       SP</div>
-                    <div style="flex:1;min-width:0;">
-                      <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div class="u-flex1-min">
+                      <div class="u-flex-between">
                         <div style="font-size:13px;font-weight:700;color:#111;">Sharma Supermart</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.0.toPay}} &nbsp;•&nbsp; Last
@@ -528,8 +528,8 @@
                     <div
                       style="width:34px;height:34px;border-radius:50%;background:#E65100;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">
                       OS</div>
-                    <div style="flex:1;min-width:0;">
-                      <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div class="u-flex1-min">
+                      <div class="u-flex-between">
                         <div style="font-size:13px;font-weight:700;color:#111;">Om Sai Enterprises</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.1.toPay}} &nbsp;•&nbsp; Last
@@ -555,8 +555,8 @@
                     <div
                       style="width:34px;height:34px;border-radius:50%;background:#1565C0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">
                       RH</div>
-                    <div style="flex:1;min-width:0;">
-                      <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div class="u-flex1-min">
+                      <div class="u-flex-between">
                         <div style="font-size:13px;font-weight:700;color:#111;">Rathi Corner House</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.2.toPay}} &nbsp;•&nbsp; Not yet invoiced
@@ -579,8 +579,8 @@
                     <div
                       style="width:34px;height:34px;border-radius:50%;background:#00695C;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">
                       GW</div>
-                    <div style="flex:1;min-width:0;">
-                      <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div class="u-flex1-min">
+                      <div class="u-flex-between">
                         <div style="font-size:13px;font-weight:700;color:#111;">Friends Kirana</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.3.toPay}} &nbsp;•&nbsp; Last
@@ -603,8 +603,8 @@
                     <div
                       style="width:34px;height:34px;border-radius:50%;background:#10A7E1;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">
                       BT</div>
-                    <div style="flex:1;min-width:0;">
-                      <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div class="u-flex1-min">
+                      <div class="u-flex-between">
                         <div style="font-size:13px;font-weight:700;color:#111;">Bharat Trading Co</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.4.toPay}} &nbsp;•&nbsp; Last
@@ -627,8 +627,8 @@
                     <div
                       style="width:34px;height:34px;border-radius:50%;background:#607D8B;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">
                       PP</div>
-                    <div style="flex:1;min-width:0;">
-                      <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div class="u-flex1-min">
+                      <div class="u-flex-between">
                         <div style="font-size:13px;font-weight:700;color:#111;">Patel Pipes &amp; Hardware</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.5.toPay}} &nbsp;•&nbsp; Last

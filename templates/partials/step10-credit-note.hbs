@@ -86,7 +86,7 @@
               <div class="msg-sender-wrap">
                 <div class="msg-sender" style="padding:8px 10px;">
                   <div class="msg-body">Download Ledger</div>
-                  <span class="msg-time">11:16 AM <span class="msg-tick" style="color:#53bdeb;">✓✓</span></span>
+                  <span class="msg-time">11:16 AM <span class="msg-tick u-text-blue">✓✓</span></span>
                 </div>
               </div>
               <!-- ZoAi responds with ledger PDF -->
@@ -143,7 +143,7 @@
               <!-- Header row -->
               <div style="display:flex;align-items:center;gap:10px;padding:12px 14px 8px;border-bottom:1px solid #f0f0f0;">
                 <div style="width:34px;height:34px;border-radius:50%;background:#e0e0e0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#555;flex-shrink:0;">RE</div>
-                <div style="flex:1;min-width:0;">
+                <div class="u-flex1-min">
                   <div style="font-size:13.5px;font-weight:700;color:#111;">{{journey.dealer.name}}</div>
                   <div style="font-size:10.5px;color:#888;">{{journey.content.navLedger}} · {{journey.order.date}} to {{journey.payment.date}}</div>
                 </div>
@@ -164,31 +164,31 @@
               </div>
               <!-- Opening Balance -->
               <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;background:#FFF8E1;border-bottom:1px solid #e0e0e0;">
-                <div><div style="font-size:12px;font-weight:700;color:#111;">01 Apr</div><div style="font-size:11px;color:#555;">Opening Balance</div></div>
+                <div><div class="u-text-md-bold">01 Apr</div><div style="font-size:11px;color:#555;">Opening Balance</div></div>
                 <div style="text-align:right;font-size:11.5px;font-weight:600;color:#E53935;align-self:center;">{{formatCurrency journey.ledger.entries.2.balance}}</div>
                 <div style="text-align:right;font-size:11.5px;color:#aaa;align-self:center;">-</div>
               </div>
               <!-- Row: Invoice -->
               <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;border-bottom:1px solid #f0f0f0;">
-                <div><div style="font-size:12px;font-weight:700;color:#111;">22 Apr</div><div style="font-size:10.5px;color:#777;">JK-{{journey.invoice.id}} · Invoice</div></div>
+                <div><div class="u-text-md-bold">22 Apr</div><div style="font-size:10.5px;color:#777;">JK-{{journey.invoice.id}} · Invoice</div></div>
                 <div style="text-align:right;font-size:11.5px;font-weight:600;color:#E53935;align-self:center;">{{formatCurrency journey.order.summary.orderValue}}</div>
                 <div style="text-align:right;font-size:11.5px;color:#aaa;align-self:center;">-</div>
               </div>
               <!-- Row: Credit Note -->
               <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;border-bottom:1px solid #f0f0f0;">
-                <div><div style="font-size:12px;font-weight:700;color:#111;">26 Apr</div><div style="font-size:10.5px;color:#777;">{{journey.ledger.creditNoteId}} · Credit Note</div></div>
+                <div><div class="u-text-md-bold">26 Apr</div><div style="font-size:10.5px;color:#777;">{{journey.ledger.creditNoteId}} · Credit Note</div></div>
                 <div style="text-align:right;font-size:11.5px;color:#aaa;align-self:center;">-</div>
                 <div style="text-align:right;font-size:11.5px;font-weight:600;color:#2E7D32;align-self:center;">{{formatCurrency journey.ledger.creditNoteAmount}}</div>
               </div>
               <!-- Row: Payment -->
               <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;border-bottom:1px solid #f0f0f0;">
-                <div><div style="font-size:12px;font-weight:700;color:#111;">25 Apr</div><div style="font-size:10.5px;color:#777;">UPI-9321840234 · Payment</div></div>
+                <div><div class="u-text-md-bold">25 Apr</div><div style="font-size:10.5px;color:#777;">UPI-9321840234 · Payment</div></div>
                 <div style="text-align:right;font-size:11.5px;color:#aaa;align-self:center;">-</div>
                 <div style="text-align:right;font-size:11.5px;font-weight:600;color:#2E7D32;align-self:center;">{{formatCurrency journey.ledger.creditNoteAmount}}</div>
               </div>
               <!-- Closing Balance -->
               <div style="display:grid;grid-template-columns:1fr 80px 80px;padding:10px 14px;background:#f5f5f5;border-top:1px solid #ddd;">
-                <div style="font-size:12px;font-weight:700;color:#111;">Closing Balance<br><span style="font-size:10px;font-weight:400;color:#777;">(To Pay)</span></div>
+                <div class="u-text-md-bold">Closing Balance<br><span style="font-size:10px;font-weight:400;color:#777;">(To Pay)</span></div>
                 <div style="text-align:right;font-size:12px;font-weight:700;color:#E53935;align-self:center;grid-column:span 2;">{{formatCurrency journey.ledger.entries.1.balance}}</div>
               </div>
             </div>

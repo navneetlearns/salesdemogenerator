@@ -7,7 +7,7 @@
         <div class="screen-wrap">
           <div class="screen-lbl">Screen 1 · Navigation Menu</div>
           <div class="screen-type-lbl">Embedded WhatsApp Web App — Self Service Side Drawer</div>
-          <div class="phone-frame-web" style="position:relative;">
+          <div class="phone-frame-web u-relative">
             <!-- Status bar -->
             {{> status-bar-web time="10:30" battery="84"}}
             <!-- Browser bar -->
@@ -26,7 +26,7 @@
             <div class="pwa-content">
               <div class="oh-header" style="display:flex;flex-direction:row;align-items:center;gap:10px;background:var(--brand);padding:10px 14px 10px;">
                 <div class="tb-av" style="width:34px;height:34px;cursor:pointer;border:2px solid rgba(255,255,255,0.4);"><img src="{{brandLogo}}" alt="{{brand.name}}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div style="flex:1;"><div class="oh-title" style="font-size:13.5px;color:#fff;font-weight:700;line-height:1.2;">My Orders</div><div class="oh-sub" style="color:rgba(255,255,255,0.8);font-size:11px;">{{journey.dealer.name}}</div></div>
+                <div class="u-flex1"><div class="oh-title" style="font-size:13.5px;color:#fff;font-weight:700;line-height:1.2;">My Orders</div><div class="oh-sub" style="color:rgba(255,255,255,0.8);font-size:11px;">{{journey.dealer.name}}</div></div>
               </div>
               <div class="filter-tabs"><button class="ft-pill active">All</button><button class="ft-pill">Submitted</button><button class="ft-pill">Approved</button><button class="ft-pill">Billed</button></div>
               <div class="order-cards">
@@ -117,7 +117,7 @@
               <!-- App bar with logo as hamburger -->
               <div class="oh-header" style="display:flex;flex-direction:row;align-items:center;gap:10px;background:var(--brand);padding:10px 14px 10px;">
                 <div class="tb-av" style="width:34px;height:34px;cursor:pointer;border:2px solid rgba(255,255,255,0.4);" title="Menu"><img src="{{brandLogo}}" alt="{{brand.name}}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div style="flex:1;">
+                <div class="u-flex1">
                   <div class="oh-title" style="font-size:13.5px;color:#fff;font-weight:700;line-height:1.2;">My Orders</div>
                   <div class="oh-sub" style="color:rgba(255,255,255,0.8);font-size:11px;">{{journey.dealer.name}}</div>
                 </div>

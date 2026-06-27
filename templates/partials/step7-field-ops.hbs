@@ -39,7 +39,7 @@
                 <div
                   style="width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,#10A7E1,#b01010);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;flex-shrink:0;">
                   H</div>
-                <div style="flex:1;">
+                <div class="u-flex1">
                   <div style="font-size:13px;font-weight:700;color:#fff;line-height:1.2;">Order Review</div>
                   <div style="font-size:10px;color:rgba(255,255,255,.6);">Sharma Supermart, Manish Nagar</div>
                 </div>
@@ -48,7 +48,7 @@
               </div>
               <!-- Cart header -->
               <div class="pwa-cart-hdr">
-                <div style="display:flex;align-items:center;gap:6px;">
+                <div class="u-flex-center">
                   <span style="font-size:15px;font-weight:700;color:#111;">Cart</span>
                   <span
                     style="background:#f0f0f0;color:#888;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;">3
@@ -68,8 +68,8 @@
                       font-family="sans-serif">FAN</text>
                   </svg>
                 </div>
-                <div style="flex:1;min-width:0;">
-                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px;">
+                <div class="u-flex1-min">
+                  <div class="u-flex-start-between">
                     <div>
                       <div class="pwa-iname">JK Super OPC 53 (50kg)</div>
                       <div style="display:flex;align-items:center;margin-bottom:4px;">
@@ -79,7 +79,7 @@
                     </div>
                     <div class="pwa-iprice">₹18,400</div>
                   </div>
-                  <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div class="u-flex-between">
                     <span style="font-size:10px;color:#E30613;font-weight:600;">✏️ Edited: 4→5 pcs</span>
                     <div class="qty-pill">
                       <span class="qty-btn">−</span>
@@ -98,8 +98,8 @@
                       font-family="sans-serif">COOL</text>
                   </svg>
                 </div>
-                <div style="flex:1;min-width:0;">
-                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px;">
+                <div class="u-flex1-min">
+                  <div class="u-flex-start-between">
                     <div>
                       <div class="pwa-iname">JK Super OPC 43 (50kg)</div>
                       <div style="display:flex;align-items:center;margin-bottom:4px;">
@@ -127,8 +127,8 @@
                       font-family="sans-serif">MIXI</text>
                   </svg>
                 </div>
-                <div style="flex:1;min-width:0;">
-                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px;">
+                <div class="u-flex1-min">
+                  <div class="u-flex-start-between">
                     <div>
                       <div class="pwa-iname">JKSuper Protect PPC (50kg)</div>
                       <div style="display:flex;align-items:center;margin-bottom:4px;">
@@ -160,9 +160,9 @@
                   </svg>
                   <span style="font-size:13px;font-weight:700;color:#111;">Order Summary</span>
                 </div>
-                <div class="req-row"><span style="color:#555;">Total Items</span><span
+                <div class="req-row"><span class="u-text-muted">Total Items</span><span
                     style="font-weight:600;color:#111;">3</span></div>
-                <div class="req-row"><span style="color:#555;">Total Quantity</span><span
+                <div class="req-row"><span class="u-text-muted">Total Quantity</span><span
                     style="font-weight:600;color:#111;">40 pcs</span></div>
               </div>
               <!-- Submit footer -->
@@ -204,7 +204,7 @@
             </div>
           </div>
           <!-- Sky blue — PWA step -->
-          <div class="screen-desc" style="background:#B0D4F0;">
+          <div class="screen-desc u-bg-blue">
             <strong>Mobile Browser · Order Review</strong>
             Ravi edits PVC Pipe qty 20 → 25 pcs · confirms ₹9,250 total · taps Submit Order
           </div>
@@ -234,7 +234,7 @@
                 {{> icons/back color="#fff"}}
               </div>
               <div class="dm-ava">SP</div>
-              <div style="flex:1;">
+              <div class="u-flex1">
                 <div style="font-size:14px;font-weight:600;color:#fff;line-height:1.2;">{{brand.name}}</div>
                 <div style="font-size:11px;color:rgba(255,255,255,.75);">Business Account</div>
               </div>
@@ -259,7 +259,7 @@
                     <div
                       style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(100,180,255,.15) 0%,transparent 65%);">
                     </div>
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="position:relative;">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" class="u-relative">
                       <rect x="4" y="6" width="20" height="16" rx="2.5" fill="rgba(255,255,255,0.13)"
                         stroke="rgba(255,255,255,0.3)" stroke-width="1.2" />
                       <path d="M4 10l10 7 10-7" stroke="rgba(100,200,255,0.7)" stroke-width="1.4" stroke-linecap="round"
@@ -302,7 +302,7 @@
             </div>
           </div>
           <!-- Mint green — retailer notification -->
-          <div class="screen-desc" style="background:#A8EAD6;">
+          <div class="screen-desc u-bg-green">
             <strong>Retailer WhatsApp · Template Message</strong>
             ZoAi auto-sends order summary to retailer's WhatsApp · no manual follow-up needed
           </div>
@@ -322,8 +322,8 @@
             </div>
             <div class="g-topbar">
               <div class="g-back">{{> icons/back color="#007AFF"}}</div>
-              <div class="g-ava" style="background:none;overflow:hidden;padding:0;"><img src="{{brandLogo}}"
-                  style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+              <div class="g-ava u-avatar-circle-bg"><img src="{{brandLogo}}"
+                  class="u-avatar-circle"></div>
               <div class="g-info">
                 <div class="g-name">{{brand.name}} x Manish Nagar</div>
                 <div class="g-sub">Ravi Singh, Deepak Sharma, ZoAi</div>
@@ -339,14 +339,14 @@
               <div class="msw" style="margin-bottom:16px;">
                 <div style="position:relative;display:inline-block;max-width:240px;">
                   <div class="mr" style="max-width:240px;padding:0 0 4px;">
-                    <div class="sname" style="color:#00897B;">ZoAi 🤖</div>
+                    <div class="sname u-text-teal">ZoAi 🤖</div>
                     <!-- Order Confirmed banner -->
                     <div
                       style="height:76px;background:linear-gradient(135deg,#0d2137 0%,#1a3a5c 60%,#0f2d4a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;position:relative;overflow:hidden;">
                       <div
                         style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(100,180,255,.15) 0%,transparent 65%);">
                       </div>
-                      <svg width="26" height="26" viewBox="0 0 28 28" fill="none" style="position:relative;">
+                      <svg width="26" height="26" viewBox="0 0 28 28" fill="none" class="u-relative">
                         <rect x="4" y="6" width="20" height="16" rx="2.5" fill="rgba(255,255,255,0.13)"
                           stroke="rgba(255,255,255,0.3)" stroke-width="1.2" />
                         <path d="M4 10l10 7 10-7" stroke="rgba(100,200,255,0.7)" stroke-width="1.4"
@@ -391,7 +391,7 @@
             </div>
           </div>
           <!-- Lavender — team visibility -->
-          <div class="screen-desc" style="background:#C8B8F0;">
+          <div class="screen-desc u-bg-purple">
             <strong>Group · Manager Visibility</strong>
             Order posted in team group · Deepak Sharma (ASM) reacts 👍 — instant acknowledgement, zero extra step
           </div>
