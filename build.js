@@ -853,6 +853,14 @@ async function build() {
       await fs.copy(tpSrc, path.join(DIST_DIR, 'template-pack.json'));
     }
     console.log('  Copied root files (index.html, style.css, app.js, js/, template-pack.json)');
+    // Stealth: robots.txt blocks all crawlers
+    const robotsSrc = path.join(ROOT, 'public', 'robots.txt');
+    const robotsDist = path.join(DIST_DIR, 'robots.txt');
+    if (await fs.pathExists(robotsSrc)) {
+      await fs.copy(robotsSrc, robotsDist);
+    } else {
+      await fs.writeFile(robotsDist, 'User-agent: *\nDisallow: /\n', 'utf8');
+    }
 
     await clearDir(PUBLIC_DIST_DIR);
     await fs.copy(DIST_DIR, PUBLIC_DIST_DIR);

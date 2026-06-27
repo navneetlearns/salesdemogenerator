@@ -53,13 +53,6 @@
     return getDefaultContentLabels();
   }
 
-  function getSelectedContentLabels() {
-    if (_contentAdaptation && _contentAdaptation.acceptedLabels) {
-      return _contentAdaptation.acceptedLabels;
-    }
-    return getDefaultContentLabels();
-  }
-
   /* ── Step Navigation ──────────────────────────────────── */
 
   function showStep(n) {
