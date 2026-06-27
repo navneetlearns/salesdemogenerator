@@ -8,17 +8,8 @@
             <div class="pwa-dark-sb">
               <span style="font-size:13px;font-weight:600;color:#fff;">9:21</span>
               <div style="display:flex;align-items:center;gap:5px;">
-                <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-                  <rect x="0" y="8" width="3" height="4" rx=".5" fill="#fff" opacity=".4" />
-                  <rect x="4" y="5" width="3" height="7" rx=".5" fill="#fff" opacity=".6" />
-                  <rect x="8" y="2" width="3" height="10" rx=".5" fill="#fff" opacity=".8" />
-                  <rect x="12" y="0" width="3" height="12" rx=".5" fill="#fff" />
-                </svg>
-                <svg width="15" height="11" viewBox="0 0 24 18" fill="none">
-                  <path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#fff" />
-                  <path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" />
-                  <path d="M2 5.8A14 14 0 0122 5.8" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" />
-                </svg>
+                {{> icons/signal-bars color="#fff"}}
+                {{> icons/double-check color="#fff"}}
                 <div
                   style="display:flex;align-items:center;border:1.5px solid rgba(255,255,255,.45);border-radius:3px;padding:1px 3px;height:14px;min-width:22px;position:relative;">
                   <div
@@ -145,24 +136,16 @@
                       style="padding:2px 12px 8px 40px;border-left:1.5px solid #2a2a2a;margin-left:14px;margin-right:12px;">
                       <div
                         style="color:#aaa;font-size:12px;padding:4px 0;display:flex;align-items:center;justify-content:space-between;">
-                        Orders <svg width="6" height="10" viewBox="0 0 8 13" fill="none">
-                          <path d="M1 1l6 5.5L1 12" stroke="#444" stroke-width="1.5" stroke-linecap="round" />
-                        </svg></div>
+                        Orders {{> icons/chevron-right color="#444"}}</div>
                       <div
                         style="color:#aaa;font-size:12px;padding:4px 0;display:flex;align-items:center;justify-content:space-between;">
-                        Invoices <svg width="6" height="10" viewBox="0 0 8 13" fill="none">
-                          <path d="M1 1l6 5.5L1 12" stroke="#444" stroke-width="1.5" stroke-linecap="round" />
-                        </svg></div>
+                        Invoices {{> icons/chevron-right color="#444"}}</div>
                       <div
                         style="color:#aaa;font-size:12px;padding:4px 0;display:flex;align-items:center;justify-content:space-between;">
-                        Payments <svg width="6" height="10" viewBox="0 0 8 13" fill="none">
-                          <path d="M1 1l6 5.5L1 12" stroke="#444" stroke-width="1.5" stroke-linecap="round" />
-                        </svg></div>
+                        Payments {{> icons/chevron-right color="#444"}}</div>
                       <div
                         style="color:#aaa;font-size:12px;padding:4px 0;display:flex;align-items:center;justify-content:space-between;">
-                        Dispatch Notes <svg width="6" height="10" viewBox="0 0 8 13" fill="none">
-                          <path d="M1 1l6 5.5L1 12" stroke="#444" stroke-width="1.5" stroke-linecap="round" />
-                        </svg></div>
+                        Dispatch Notes {{> icons/chevron-right color="#444"}}</div>
                     </div>
                   </div>
                   <!-- Add/View Customers -->
@@ -376,9 +359,7 @@
                     <div style="font-size:10px;color:#888;margin-top:1px;">3 SKUs &nbsp;•&nbsp; Order Amount {{formatCurrency journey.step10.orderAmount}}
                     </div>
                   </div>
-                  <svg width="6" height="10" viewBox="0 0 8 13" fill="none">
-                    <path d="M1 1l6 5.5L1 12" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" />
-                  </svg>
+                  {{> icons/chevron-right color="#ccc"}}
                 </div>
                 <!-- Offline payment card -->
                 <div
@@ -402,9 +383,7 @@
                     <div style="font-size:10px;color:#888;margin-top:1px;">Type: <strong
                         style="color:#E65100;">OFLN</strong> &nbsp;•&nbsp; Amt. Paid: {{formatCurrency journey.step10.paidAmount}}</div>
                   </div>
-                  <svg width="6" height="10" viewBox="0 0 8 13" fill="none">
-                    <path d="M1 1l6 5.5L1 12" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" />
-                  </svg>
+                  {{> icons/chevron-right color="#ccc"}}
                 </div>
                 <!-- Check-out -->
                 <div style="display:flex;align-items:center;justify-content:space-between;">
@@ -436,17 +415,8 @@
             <div class="pwa-dark-sb">
               <span style="font-size:13px;font-weight:600;color:#fff;">9:25</span>
               <div style="display:flex;align-items:center;gap:5px;">
-                <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-                  <rect x="0" y="8" width="3" height="4" rx=".5" fill="#fff" opacity=".4" />
-                  <rect x="4" y="5" width="3" height="7" rx=".5" fill="#fff" opacity=".6" />
-                  <rect x="8" y="2" width="3" height="10" rx=".5" fill="#fff" opacity=".8" />
-                  <rect x="12" y="0" width="3" height="12" rx=".5" fill="#fff" />
-                </svg>
-                <svg width="15" height="11" viewBox="0 0 24 18" fill="none">
-                  <path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#fff" />
-                  <path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" />
-                  <path d="M2 5.8A14 14 0 0122 5.8" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" />
-                </svg>
+                {{> icons/signal-bars color="#fff"}}
+                {{> icons/double-check color="#fff"}}
                 <div
                   style="display:flex;align-items:center;border:1.5px solid rgba(255,255,255,.45);border-radius:3px;padding:1px 3px;height:14px;min-width:22px;position:relative;">
                   <div
@@ -536,10 +506,7 @@
                       SP</div>
                     <div style="flex:1;min-width:0;">
                       <div style="display:flex;align-items:center;justify-content:space-between;">
-                        <div style="font-size:13px;font-weight:700;color:#111;">Sharma Supermart</div><svg width="6"
-                          height="10" viewBox="0 0 8 13" fill="none">
-                          <path d="M1 1l6 5.5L1 12" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
+                        <div style="font-size:13px;font-weight:700;color:#111;">Sharma Supermart</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.0.toPay}} &nbsp;•&nbsp; Last
                         Invoiced 26/03/2026</div>
@@ -563,10 +530,7 @@
                       OS</div>
                     <div style="flex:1;min-width:0;">
                       <div style="display:flex;align-items:center;justify-content:space-between;">
-                        <div style="font-size:13px;font-weight:700;color:#111;">Om Sai Enterprises</div><svg width="6"
-                          height="10" viewBox="0 0 8 13" fill="none">
-                          <path d="M1 1l6 5.5L1 12" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
+                        <div style="font-size:13px;font-weight:700;color:#111;">Om Sai Enterprises</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.1.toPay}} &nbsp;•&nbsp; Last
                         Invoiced 12/03/2026</div>
@@ -593,10 +557,7 @@
                       RH</div>
                     <div style="flex:1;min-width:0;">
                       <div style="display:flex;align-items:center;justify-content:space-between;">
-                        <div style="font-size:13px;font-weight:700;color:#111;">Rathi Corner House</div><svg width="6"
-                          height="10" viewBox="0 0 8 13" fill="none">
-                          <path d="M1 1l6 5.5L1 12" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
+                        <div style="font-size:13px;font-weight:700;color:#111;">Rathi Corner House</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.2.toPay}} &nbsp;•&nbsp; Not yet invoiced
                       </div>
@@ -620,10 +581,7 @@
                       GW</div>
                     <div style="flex:1;min-width:0;">
                       <div style="display:flex;align-items:center;justify-content:space-between;">
-                        <div style="font-size:13px;font-weight:700;color:#111;">Friends Kirana</div><svg width="6"
-                          height="10" viewBox="0 0 8 13" fill="none">
-                          <path d="M1 1l6 5.5L1 12" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
+                        <div style="font-size:13px;font-weight:700;color:#111;">Friends Kirana</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.3.toPay}} &nbsp;•&nbsp; Last
                         Invoiced 01/02/2026</div>
@@ -647,10 +605,7 @@
                       BT</div>
                     <div style="flex:1;min-width:0;">
                       <div style="display:flex;align-items:center;justify-content:space-between;">
-                        <div style="font-size:13px;font-weight:700;color:#111;">Bharat Trading Co</div><svg width="6"
-                          height="10" viewBox="0 0 8 13" fill="none">
-                          <path d="M1 1l6 5.5L1 12" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
+                        <div style="font-size:13px;font-weight:700;color:#111;">Bharat Trading Co</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.4.toPay}} &nbsp;•&nbsp; Last
                         Invoiced 20/03/2026</div>
@@ -674,10 +629,7 @@
                       PP</div>
                     <div style="flex:1;min-width:0;">
                       <div style="display:flex;align-items:center;justify-content:space-between;">
-                        <div style="font-size:13px;font-weight:700;color:#111;">Patel Pipes &amp; Hardware</div><svg
-                          width="6" height="10" viewBox="0 0 8 13" fill="none">
-                          <path d="M1 1l6 5.5L1 12" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
+                        <div style="font-size:13px;font-weight:700;color:#111;">Patel Pipes &amp; Hardware</div>{{> icons/chevron-right color="#ccc"}}
                       </div>
                       <div style="font-size:10.5px;color:#888;margin-top:1px;">To Pay: {{formatCurrency journey.step10.customers.5.toPay}} &nbsp;•&nbsp; Last
                         Invoiced 14/03/2026</div>

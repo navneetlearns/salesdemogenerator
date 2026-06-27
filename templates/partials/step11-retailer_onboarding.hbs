@@ -19,7 +19,7 @@
             <div class="wa-list-body"><strong>{{journey.distributor.name}}</strong><br>{{brand.name}} Partner Portal</div>
             <div class="wa-list-time">2:00 PM</div>
             <div class="wa-list-btn-row">
-              <svg width="15" height="13" viewBox="0 0 24 20" fill="none"><line x1="0" y1="2" x2="24" y2="2" stroke="#00A884" stroke-width="2.5"/><line x1="0" y1="10" x2="24" y2="10" stroke="#00A884" stroke-width="2.5"/><line x1="0" y1="18" x2="24" y2="18" stroke="#00A884" stroke-width="2.5"/></svg>
+              {{> icons/list-menu color="#00A884"}}
               <span class="wa-list-btn-label">Drive more orders</span>
             </div>
           </div>
@@ -84,9 +84,9 @@
         {{/with}}
       </div>
       <div class="input-bar">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        {{> icons/plus-circle color="#54656f"}}
         <div class="input-field">Type a message</div>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {{> icons/microphone color="#54656f"}}
       </div>
     </div>
     <div class="screen-desc" style="background:#F8BBD0;">

@@ -36,15 +36,8 @@
                 </div>
               </div>
             </div>
-            <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8" />
-                <path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" />
-              </svg>
-              <div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8" />
-                <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8"
-                  stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
+            <div class="input-bar">{{> icons/plus-circle color="#54656f"}}
+              <div class="input-field">Type a message</div>{{> icons/microphone color="#54656f"}}
             </div>
           </div>          <div class="screen-desc" style="background:#FFD9B0;">
             <strong>Handwritten Order</strong>
@@ -95,29 +88,14 @@
                   <div class="wa-tmpl-signoff">Team,<br>{{brand.name}} India</div>
                   <div class="wa-tmpl-time">10:16 AM</div>
                   <div class="wa-tmpl-btns">
-                    <div class="wa-cta-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#00A884"
-                          stroke-width="2.5" />
-                        <polyline points="15 3 21 3 21 9" stroke="#00A884" stroke-width="2.5" />
-                        <line x1="10" y1="14" x2="21" y2="3" stroke="#00A884" stroke-width="2.5" />
-                      </svg> Review and edit order</div>
-                    <div class="wa-qr-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                        <path d="M9 11L5 7l4-4M5 7h10a4 4 0 010 8h-1" stroke="#00A884" stroke-width="2.2"
-                          stroke-linecap="round" stroke-linejoin="round" />
-                      </svg> Submit order</div>
+                    <div class="wa-cta-btn">{{> icons/attach color="#00A884"}} Review and edit order</div>
+                    <div class="wa-qr-btn">{{> icons/reply color="#00A884"}} Submit order</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8" />
-                <path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" />
-              </svg>
-              <div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8" />
-                <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8"
-                  stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
+            <div class="input-bar">{{> icons/plus-circle color="#54656f"}}
+              <div class="input-field">Type a message</div>{{> icons/microphone color="#54656f"}}
             </div>
           </div>
 
@@ -132,18 +110,7 @@
           <div class="phone-frame-web">
             <div class="status-bar" style="background:#fff;color:#111;"><span
                 style="font-size:12.5px;font-weight:600;color:#111;">10:17</span>
-              <div class="status-icons"><svg width="15" height="11" viewBox="0 0 15 11" fill="none">
-                  <rect x="0" y="7" width="3" height="4" rx=".5" fill="#111" />
-                  <rect x="4" y="4.5" width="3" height="6.5" rx=".5" fill="#111" />
-                  <rect x="8" y="2" width="3" height="9" rx=".5" fill="#111" />
-                  <rect x="12" y="0" width="3" height="11" rx=".5" fill="#111" />
-                </svg><svg width="15" height="11" viewBox="0 0 24 18" fill="none">
-                  <path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111" />
-                  <path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"
-                    fill="none" />
-                  <path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2.2" stroke-linecap="round"
-                    fill="none" />
-                </svg>
+              <div class="status-icons">{{> icons/signal-bars color="#111"}}{{> icons/double-check color="#111"}}
                 <div class="battery-box">82</div>
               </div>
             </div>

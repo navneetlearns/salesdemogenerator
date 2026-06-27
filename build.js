@@ -105,6 +105,7 @@ Handlebars.registerHelper('fieldOpsImage', (filename) => {
   if (!filename) return '';
   return '../../assets/field_ops/' + filename;
 });
+Handlebars.registerHelper('default', (a, b) => a || b);
 
 /**
  * renderSchemaScreen — Render a schema screen by its { type, data } object.

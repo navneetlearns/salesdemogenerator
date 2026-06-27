@@ -2,8 +2,8 @@
         <div class="status-bar-web">
           <span style="font-size:12.5px;font-weight:600;color:#111;">{{time}}</span>
           <div style="display:flex;align-items:center;gap:5px;">
-            <svg width="15" height="11" viewBox="0 0 15 11" fill="none"><rect x="0" y="7" width="3" height="4" rx=".5" fill="#111"/><rect x="4" y="4.5" width="3" height="6.5" rx=".5" fill="#111"/><rect x="8" y="2" width="3" height="9" rx=".5" fill="#111"/><rect x="12" y="0" width="3" height="11" rx=".5" fill="#111"/></svg>
-            <svg width="15" height="11" viewBox="0 0 24 18" fill="none"><path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111"/><path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+            {{> icons/signal-bars color="#111"}}
+            {{> icons/double-check color="#111"}}
             <div class="battery-box">{{battery}}</div>
           </div>
         </div>

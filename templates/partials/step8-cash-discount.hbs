@@ -15,9 +15,9 @@
               <div class="msg-receiver-wrap">
                 <div class="wa-tmpl">
                   <div class="wa-hdr-doc">
-                    <div class="doc-icon"><svg width="14" height="17" viewBox="0 0 24 24" fill="white"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8" fill="none" stroke="white" stroke-width="2"/></svg></div>
+                    <div class="doc-icon">{{> icons/document color="#54656f"}}</div>
                     <div class="doc-meta"><div class="doc-name">Invoice_{{journey.order.primaryOrderId}}.pdf</div><div class="doc-info">2 pages · 1.4 MB · pdf</div></div>
-                    <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+                    <div class="doc-dl">{{> icons/download color="#555"}}</div>
                   </div>
                   <div class="wa-tmpl-body">
                     <strong style="font-size:13px;display:block;margin-bottom:6px;">{{journey.content.cashDiscountReminder}}</strong>
@@ -31,13 +31,13 @@
                   <div class="wa-tmpl-signoff">Team,<br>{{brand.name}}</div>
                   <div class="wa-tmpl-time">10:00 AM</div>
                                     <div class="wa-tmpl-btns">
-                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>{{journey.content.generatePaymentAdvice}}</div>
-                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Raise an Issue</div>
+                    <div class="wa-qr-btn">{{> icons/check-circle color="#00A884"}}{{journey.content.generatePaymentAdvice}}</div>
+                    <div class="wa-qr-btn">{{> icons/check-circle color="#00A884"}}Raise an Issue</div>
                   </div>
                           </div>
               </div>
             </div>
-            <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="input-bar">{{> icons/plus-circle color="#54656f"}}<div class="input-field">Type a message</div>{{> icons/microphone color="#54656f"}}</div>
           </div>
           <div class="screen-desc" style="background:#FFE0B2;">
             <strong>Cash Discount Reminder (Auto)</strong>
@@ -57,9 +57,9 @@
               <div class="msg-receiver-wrap">
                 <div class="wa-tmpl">
                   <div class="wa-hdr-doc">
-                    <div class="doc-icon"><svg width="14" height="17" viewBox="0 0 24 24" fill="white"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8" fill="none" stroke="white" stroke-width="2"/></svg></div>
+                    <div class="doc-icon">{{> icons/document color="#54656f"}}</div>
                     <div class="doc-meta"><div class="doc-name">Invoice_{{journey.order.primaryOrderId}}.pdf</div><div class="doc-info">2 pages · 1.4 MB · pdf</div></div>
-                    <div class="doc-dl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+                    <div class="doc-dl">{{> icons/download color="#555"}}</div>
                   </div>
                   <div class="wa-tmpl-body">
                     <strong style="font-size:13px;display:block;margin-bottom:6px;">{{journey.content.invoicePaymentDue}}</strong>
@@ -73,13 +73,13 @@
                   <div class="wa-tmpl-signoff">Team,<br>{{brand.name}}</div>
                   <div class="wa-tmpl-time">9:00 AM</div>
                                     <div class="wa-tmpl-btns">
-                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>{{journey.content.generatePaymentAdvice}}</div>
-                    <div class="wa-qr-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h11a5 5 0 010 10h-1" stroke="#00A884" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Raise an Issue</div>
+                    <div class="wa-qr-btn">{{> icons/check-circle color="#00A884"}}{{journey.content.generatePaymentAdvice}}</div>
+                    <div class="wa-qr-btn">{{> icons/check-circle color="#00A884"}}Raise an Issue</div>
                   </div>
                           </div>
               </div>
             </div>
-            <div class="input-bar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/></svg><div class="input-field">Type a message</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="input-bar">{{> icons/plus-circle color="#54656f"}}<div class="input-field">Type a message</div>{{> icons/microphone color="#54656f"}}</div>
           </div>
           <div class="screen-desc" style="background:#FFCCCC;">
             <strong>Due Date Reminder (Auto)</strong>
