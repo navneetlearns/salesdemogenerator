@@ -583,6 +583,16 @@ journey types:
 
 **Status:** All 9 journey types render correctly in the client-side wizard.
 
+### FIX-28: Content Adapter Redesign — Brainstorming Doc (June 30)
+
+**Issue:** The content adapter has 7 structural problems (P1-P7): only works for Path B,
+hard dependency on live LLM API, save-content broken on CF Pages, thin industry context,
+no deterministic fallback, manual per-journey label files, and adapts only UI labels not
+content. See `docs/superpowers/specs/2026-06-30-content-adapter-redesign.md` for full
+background and 4 proposed approaches.
+
+**Status:** BRAINSTORMING — 4 approaches documented, decision pending.
+
 ## Status Table (June 20)
 
 | Priority | Issue | Type | Effort | Status |
