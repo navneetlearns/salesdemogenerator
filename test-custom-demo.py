@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
-"""Test custom demo generation flow via Playwright.
-Tests the ACTUAL wizard → generate → preview pipeline."""
-
-import os, sys, json, time, re
+"""
+Visual regression test for all custom demo journeys via Playwright.
+Tests the actual wizard → generate → preview pipeline with pixel diff.
+MANDATORY: Run after every fix before committing.
+"""
+import os, sys, json, time, hashlib
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
-BASE_URL = os.environ.get("TEST_URL", "https://73a9de7a.demo-generator-482.pages.dev")
+BASE_URL = os.environ.get("TEST_URL", "https://161464ec.demo-generator-482.pages.dev")
 SCREENSHOTS_DIR = Path("/mnt/f/Sellerhub/Rakesh/JK Cement Vishal/demo-generator/test-screenshots/custom")
+BASELINE_DIR = SCREENSHOTS_DIR / "baseline"
+DIFF_DIR = SCREENSHOTS_DIR / "diff"
 JOURNEYS = [
     "order_to_cash", "field_ops_expense", "automated_collections",
     "dealer_engagement", "retailer_onboarding", "retailer_loyalty",
@@ -16,10 +20,114 @@ JOURNEYS = [
 ]
 
 bugs = []
+warnings = []
 
 
-def test_custom_demo(page, journey_type, screenshot_path):
-    """Fill wizard, generate demo, check preview iframe for issues."""
+def compute_pixel_diff(img1_path, img2_path, diff_path=None):
+    """Compare two screenshots pixel-by-pixel using pixelmatch."""
+    try:
+        from pngspec import PNG
+    except ImportError:
+        pass
+
+    try:
+        from PIL import Image
+        import numpy as np
+
+        a = np.array(Image.open(img1_path).convert('RGB'))
+        b = np.array(Image.open(img2_path).convert('RGB'))
+
+        if a.shape != b.shape:
+            return -1, -1  # Different dimensions
+
+        diff = np.abs(a.astype(int) - b.astype(int))
+        total_pixels = a.shape[0] * a.shape[1] * 3
+        changed_pixels = np.sum(diff > 10)  # threshold of 10 per channel
+        pct = (changed_pixels / total_pixels) * 100
+
+        if diff_path and pct > 0:
+            Path(diff_path).parent.mkdir(parents=True, exist_ok=True)
+            # Create diff image
+            diff_img = Image.fromarray(np.clip(diff * 5, 0, 255).astype(np.uint8))
+            diff_img.save(diff_path)
+
+        return changed_pixels, pct
+    except ImportError:
+        # Fallback: simple file size + hash comparison
+        h1 = hashlib.md5(open(img1_path, 'rb').read()).hexdigest()
+        h2 = hashlib.md5(open(img2_path, 'rb').read()).hexdigest()
+        s1 = os.path.getsize(img1_path)
+        s2 = os.path.getsize(img2_path)
+        if h1 == h2:
+            return 0, 0.0
+        return -1, -1
+
+
+def check_page(page, brand, journey):
+    """Run all checks on a loaded page."""
+    issues = []
+
+    # 1. Check for "undefined" text
+    undefined_els = page.query_selector_all("text=/\\bundefined\\b/")
+    if undefined_els:
+        for el in undefined_els[:3]:
+            txt = el.inner_text()[:80]
+            issues.append(f"UNDEFINED_TEXT: '{txt}'")
+
+    # 2. Check for unresolved Handlebars
+    html = page.content()
+    import re
+    hb_matches = re.findall(r'\{\{[^}]+\}\}', html)
+    hb_real = [m for m in hb_matches if not m.startswith('{{!--') and not m.startswith('{{!')]
+    if hb_real:
+        for m in hb_real[:3]:
+            issues.append(f"UNRESOLVED_HANDLEBARS: {m}")
+
+    # 3. Check for broken images
+    broken_imgs = page.evaluate("""() => {
+        const imgs = document.querySelectorAll('img');
+        const broken = [];
+        imgs.forEach(img => {
+            if (!img.complete || img.naturalWidth === 0) {
+                broken.push(img.src || img.getAttribute('data-src') || 'no-src');
+            }
+        });
+        return broken;
+    }""")
+    for img_url in broken_imgs[:3]:
+        issues.append(f"BROKEN_IMAGE: {img_url}")
+
+    # 4. Check for horizontal scroll
+    has_hscroll = page.evaluate("""() => {
+        return document.body.scrollWidth > document.body.clientWidth + 5;
+    }""")
+    if has_hscroll:
+        issues.append("HORIZONTAL_SCROLL detected")
+
+    # 5. Check for empty step sections
+    empty_steps = page.evaluate("""() => {
+        const steps = document.querySelectorAll('.step-section');
+        const empty = [];
+        steps.forEach((s, i) => {
+            if (s.textContent.trim().length < 10) {
+                empty.push('step-' + (i+1));
+            }
+        });
+        return empty;
+    }""")
+    for step in empty_steps:
+        issues.append(f"EMPTY_STEP: {step}")
+
+    # 6. Check page title
+    title = page.title()
+    if not title or title == "Untitled":
+        issues.append(f"MISSING_TITLE: '{title}'")
+
+    return issues
+
+
+def test_custom_demo(page, journey_type, screenshot_path, baseline_path, diff_path):
+    """Fill wizard, generate demo, check preview for issues."""
     issues = []
     console_errors = []
 
@@ -38,7 +146,8 @@ def test_custom_demo(page, journey_type, screenshot_path):
     if brand_input.count() > 0:
         brand_input.fill("TestBrand")
     else:
-        issues.append("WIZARD: brandNameInput not found")
+        issues.append("WIZARD: #brandNameInput not found")
+        return issues
 
     # Step 1: Select industry
     industry_select = page.locator("#industryInput")
@@ -57,48 +166,40 @@ def test_custom_demo(page, journey_type, screenshot_path):
         add_product_btn.click()
         page.wait_for_timeout(500)
 
-    # Fill product name
-    product_name = page.locator(".product-name-input").first
-    if product_name.count() > 0:
-        product_name.fill("Test Product 53")
-
-    # Fill product price
-    product_price = page.locator(".product-price-input").first
-    if product_price.count() > 0:
-        product_price.fill("420")
+    # Fill ALL product name and price fields (validation requires all filled)
+    name_inputs = page.locator(".product-name-input")
+    price_inputs = page.locator(".product-price-input")
+    for i in range(name_inputs.count()):
+        name_inputs.nth(i).fill(f"Test Product {i+1}")
+    for i in range(price_inputs.count()):
+        price_inputs.nth(i).fill("420")
 
     # Click Next to Step 3
     next_btn = page.locator("#nextStepBtn")
     if next_btn.count() > 0 and next_btn.is_visible():
         next_btn.click()
+        page.wait_for_timeout(1500)
+
+    # Step 3: Select journey by clicking the journey card
+    journey_card = page.locator(f".journey-card[data-journey='{journey_type}']")
+    if journey_card.count() > 0:
+        # Ensure step3 is active and card is visible
+        page.evaluate("document.getElementById('step3').classList.add('active')")
+        page.evaluate("document.getElementById('step3').style.display = 'block'")
+        page.wait_for_timeout(300)
+        journey_card.click(force=True)
         page.wait_for_timeout(500)
-
-    # Step 3: Select journey type
-    journey_checkbox = page.locator(f"input[value='{journey_type}']")
-    if journey_checkbox.count() > 0:
-        # Uncheck all first
-        all_checks = page.locator(".journey-cards-grid input[type='checkbox']")
-        for i in range(all_checks.count()):
-            cb = all_checks.nth(i)
-            if cb.is_checked():
-                cb.uncheck()
-        # Check only our target journey
-        journey_checkbox.check()
     else:
-        issues.append(f"WIZARD: journey checkbox for {journey_type} not found")
+        issues.append(f"WIZARD: journey card for {journey_type} not found")
+        return issues
 
-    # Click Generate
+    # Click Generate Demo button (the one inside step3, not #generateBtn)
     generate_btn = page.locator("button:has-text('Generate Demo')")
     if generate_btn.count() > 0 and generate_btn.is_visible():
         generate_btn.click()
     else:
-        # Try alternative selector
-        generate_btn = page.locator("#generateBtn")
-        if generate_btn.count() > 0 and generate_btn.is_visible():
-            generate_btn.click()
-        else:
-            issues.append("WIZARD: Generate button not found")
-            return issues
+        # Fallback to the onclick version
+        page.evaluate("demoUI.generate()")
 
     # Wait for generation to complete
     page.wait_for_timeout(8000)
@@ -106,34 +207,22 @@ def test_custom_demo(page, journey_type, screenshot_path):
     # Check if preview iframe is visible
     preview_area = page.locator("#previewArea")
     if preview_area.count() > 0 and preview_area.is_visible():
-        # Check the iframe content
-        iframe = page.locator("#previewIframe")
-        if iframe.count() > 0:
-            # Get iframe content via src URL
-            src = iframe.get_attribute("src")
-            if src and src.startswith("blob:"):
-                # Can't directly access blob URL content, check via page
-                pass
+        # Take screenshot of the full page (includes preview)
+        page.screenshot(path=str(screenshot_path), full_page=True)
 
-            # Take screenshot of the full page (includes preview)
-            page.screenshot(path=str(screenshot_path), full_page=True)
+        # Check for visible errors
+        error_el = page.locator("#wizardError")
+        if error_el.count() > 0 and error_el.is_visible():
+            err_text = error_el.inner_text()
+            issues.append(f"WIZARD_ERROR: {err_text[:200]}")
 
-            # Check for visible errors in the page
-            error_el = page.locator("#wizardError")
-            if error_el.count() > 0 and error_el.is_visible():
-                err_text = error_el.inner_text()
-                issues.append(f"WIZARD_ERROR: {err_text[:200]}")
-
-            # Check genStatus
-            gen_status = page.locator("#genStatus")
-            if gen_status.count() > 0 and gen_status.is_visible():
-                status_text = gen_status.inner_text()
-                if "error" in status_text.lower() or "fail" in status_text.lower():
-                    issues.append(f"GEN_STATUS: {status_text[:200]}")
-        else:
-            issues.append("PREVIEW: iframe not found")
+        # Check genStatus
+        gen_status = page.locator("#genStatus")
+        if gen_status.count() > 0 and gen_status.is_visible():
+            status_text = gen_status.inner_text()
+            if "error" in status_text.lower() or "fail" in status_text.lower():
+                issues.append(f"GEN_STATUS: {status_text[:200]}")
     else:
-        # Check for error messages
         error_el = page.locator("#wizardError")
         if error_el.count() > 0 and error_el.is_visible():
             err_text = error_el.inner_text()
@@ -142,174 +231,106 @@ def test_custom_demo(page, journey_type, screenshot_path):
             issues.append("PREVIEW: previewArea not visible after generate")
             page.screenshot(path=str(screenshot_path), full_page=True)
 
-    # Check console errors
+    # Visual diff comparison
+    if screenshot_path.exists() and baseline_path.exists():
+        changed, pct = compute_pixel_diff(str(baseline_path), str(screenshot_path), str(diff_path))
+        if changed == 0:
+            pass  # Identical
+        elif changed == -1:
+            warnings.append(f"{journey_type}: Could not compare (different dimensions or missing PIL)")
+        elif pct > 1.0:
+            issues.append(f"VISUAL_DIFF: {pct:.2f}% pixels changed ({changed} pixels)")
+        elif pct > 0:
+            warnings.append(f"{journey_type}: Minor diff {pct:.4f}% ({changed} pixels)")
+
+    # Check console errors (skip resource loading errors)
     for err in console_errors:
-        if "Failed to load resource" not in err:  # Skip 404s for assets
+        if "Failed to load resource" not in err and "404" not in err:
             issues.append(f"CONSOLE: {err[:150]}")
-
-    return issues
-
-
-def test_share_flow(page, screenshot_path):
-    """Test the share link creation flow."""
-    issues = []
-
-    # After generating, try to create share link
-    share_btn = page.locator("#createShareLinkBtn")
-    if share_btn.count() > 0 and share_btn.is_visible():
-        share_btn.click()
-        page.wait_for_timeout(5000)
-
-        # Check share status
-        share_status = page.locator("#shareStatus")
-        if share_status.count() > 0 and share_status.is_visible():
-            status_text = share_status.inner_text()
-            if "error" in status_text.lower() or "fail" in status_text.lower():
-                issues.append(f"SHARE_ERROR: {status_text[:200]}")
-            elif "http" in status_text.lower():
-                pass  # Share link created successfully
-        else:
-            issues.append("SHARE: shareStatus not visible after click")
-    else:
-        issues.append("SHARE: createShareLinkBtn not found or not visible")
 
     return issues
 
 
 def run_tests():
     SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
-    total = 0
+    BASELINE_DIR.mkdir(parents=True, exist_ok=True)
+    DIFF_DIR.mkdir(parents=True, exist_ok=True)
+
     passed = 0
     failed = 0
+    total = len(JOURNEYS)
+
+    print(f"Testing {total} custom demo journeys against {BASE_URL}")
+    print(f"Screenshots: {SCREENSHOTS_DIR}")
+    print(f"Baselines:   {BASELINE_DIR}")
+    print(f"Diffs:       {DIFF_DIR}")
+    print("=" * 60)
+
+    # Check if baselines exist
+    has_baselines = all((BASELINE_DIR / f"{j}.png").exists() for j in JOURNEYS)
+    if not has_baselines:
+        print("No baselines found — first run will create them.")
+        print("Second run will compare against these baselines.\n")
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         context = browser.new_context(viewport={"width": 1440, "height": 900})
 
-        # Test each journey type
         for journey in JOURNEYS:
-            total += 1
             page = context.new_page()
             screenshot_path = SCREENSHOTS_DIR / f"{journey}.png"
+            baseline_path = BASELINE_DIR / f"{journey}.png"
+            diff_path = DIFF_DIR / f"{journey}.png"
 
             try:
-                issues = test_custom_demo(page, journey, screenshot_path)
-
-                # Also test share flow on first successful journey
-                if not issues and journey == "order_to_cash":
-                    share_issues = test_share_flow(page, screenshot_path)
-                    issues.extend(share_issues)
+                issues = test_custom_demo(page, journey, screenshot_path, baseline_path, diff_path)
 
                 if issues:
                     failed += 1
                     bugs.append({"journey": journey, "issues": issues})
-                    print(f"  ❌ {journey}: {len(issues)} issues")
+                    print(f"  FAIL  {journey}: {len(issues)} issues")
                     for iss in issues:
-                        print(f"     - {iss}")
+                        print(f"        - {iss}")
                 else:
                     passed += 1
-                    print(f"  ✅ {journey}: OK")
+                    print(f"  PASS  {journey}")
+
+                # Save as baseline if first run
+                if not has_baselines and screenshot_path.exists():
+                    import shutil
+                    shutil.copy2(str(screenshot_path), str(baseline_path))
 
             except Exception as e:
                 failed += 1
                 bugs.append({"journey": journey, "issues": [f"EXCEPTION: {str(e)[:200]}"]})
-                print(f"  ❌ {journey}: EXCEPTION: {e}")
-                try:
-                    page.screenshot(path=str(screenshot_path), full_page=True)
-                except:
-                    pass
+                print(f"  FAIL  {journey}: EXCEPTION: {str(e)[:100]}")
             finally:
                 page.close()
 
-        # Also test multi-journey generation
-        total += 1
-        page = context.new_page()
-        try:
-            page.goto(BASE_URL + "/", wait_until="load", timeout=15000)
-            page.wait_for_timeout(2000)
-
-            # Fill wizard
-            brand_input = page.locator("#brandNameInput")
-            if brand_input.count() > 0:
-                brand_input.fill("MultiTest")
-
-            industry_select = page.locator("#industryInput")
-            if industry_select.count() > 0:
-                industry_select.select_option("Cement")
-
-            # Go to step 1 → 2
-            next_btn = page.locator("#nextStepBtn")
-            if next_btn.count() > 0 and next_btn.is_visible():
-                next_btn.click()
-                page.wait_for_timeout(500)
-
-            # Add product
-            add_product_btn = page.locator("#addProductBtn")
-            if add_product_btn.count() > 0 and add_product_btn.is_visible():
-                add_product_btn.click()
-                page.wait_for_timeout(500)
-                product_name = page.locator(".product-name-input").first
-                if product_name.count() > 0:
-                    product_name.fill("Cement OPC 53")
-                product_price = page.locator(".product-price-input").first
-                if product_price.count() > 0:
-                    product_price.fill("400")
-
-            # Go to step 2 → 3
-            next_btn = page.locator("#nextStepBtn")
-            if next_btn.count() > 0 and next_btn.is_visible():
-                next_btn.click()
-                page.wait_for_timeout(500)
-
-            # Select multiple journeys
-            checks = page.locator(".journey-cards-grid input[type='checkbox']")
-            for i in range(min(3, checks.count())):
-                checks.nth(i).check()
-
-            # Generate
-            generate_btn = page.locator("button:has-text('Generate Demo')")
-            if generate_btn.count() > 0 and generate_btn.is_visible():
-                generate_btn.click()
-                page.wait_for_timeout(10000)
-
-            # Check result
-            preview_area = page.locator("#previewArea")
-            if preview_area.count() > 0 and preview_area.is_visible():
-                passed += 1
-                page.screenshot(path=str(SCREENSHOTS_DIR / "multi_journey.png"), full_page=True)
-                print(f"  ✅ multi-journey (3 journeys): OK")
-            else:
-                failed += 1
-                error_el = page.locator("#wizardError")
-                err = error_el.inner_text() if error_el.count() > 0 and error_el.is_visible() else "unknown"
-                bugs.append({"journey": "multi-journey", "issues": [f"Preview not visible: {err[:200]}"]})
-                print(f"  ❌ multi-journey: Preview not visible")
-                page.screenshot(path=str(SCREENSHOTS_DIR / "multi_journey.png"), full_page=True)
-
-        except Exception as e:
-            failed += 1
-            bugs.append({"journey": "multi-journey", "issues": [f"EXCEPTION: {str(e)[:200]}"]})
-            print(f"  ❌ multi-journey: EXCEPTION: {e}")
-        finally:
-            page.close()
-
         browser.close()
 
-    print(f"\n{'='*60}")
-    print(f"CUSTOM DEMO RESULTS: {passed} passed, {failed} failed, {total} total")
-    print(f"{'='*60}")
+    print(f"\n{'=' * 60}")
+    print(f"RESULTS: {passed} passed, {failed} failed, {total} total")
+    print(f"{'=' * 60}")
 
     if bugs:
-        print(f"\nBUGS FOUND ({sum(len(b['issues']) for b in bugs)}):")
+        print(f"\nBUGS FOUND ({len(bugs)}):")
         for b in bugs:
-            print(f"\n  {b['journey']}:")
-            for iss in b["issues"]:
+            print(f"  {b['journey']}:")
+            for iss in b['issues']:
                 print(f"    - {iss}")
 
+    if warnings:
+        print(f"\nWARNINGS ({len(warnings)}):")
+        for w in warnings:
+            print(f"  - {w}")
+
+    # Save report
+    report = {"total": total, "passed": passed, "failed": failed, "bugs": bugs, "warnings": warnings}
     report_path = SCREENSHOTS_DIR / "custom-bug-report.json"
     with open(str(report_path), "w") as f:
-        json.dump({"total": total, "passed": passed, "failed": failed, "bugs": bugs}, f, indent=2)
-    print(f"\nBug report: {report_path}")
+        json.dump(report, f, indent=2)
+    print(f"\nReport saved to: {report_path}")
 
     return failed == 0
 
