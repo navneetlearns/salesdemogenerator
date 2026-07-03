@@ -19,12 +19,17 @@ runtime, the browser loads this pack, the user fills a wizard form, and
 `DemoRenderer.render()` compiles and renders the demo entirely client-side. No server
 calls after initial page load.
 
-### Path C: AI Premium Demos (`scripts/generate-premium.js`)
+### Path C: AI Premium Demos (`scripts/generate-premium.js`) — DEFERRED INDEFINITELY (July 3, 2026)
 
 At build time, `scripts/generate-premium.js` generates standalone, self-contained HTML
 files with inline CSS, base64-embedded brand logos, multi-turn WhatsApp conversations,
 sidebar navigation, and keyboard shortcuts. Output goes to `dist/{brand}/premium/`.
 These are reference-quality client demos that coexist with Path A output.
+
+**Status (July 3, 2026):** Deferred indefinitely per user directive. The 6 existing
+JK Cement premiums in `dist/jk_cement/premium/` stay frozen. No new premiums (the
+24 missing Haldiram + Sundaram journeys) will be generated until further notice.
+The content-adapter / migration tracks (below) take priority.
 
 The generator reads conversation templates from its own data (embedded in the script)
 and injects brand-specific colors (#003D7A for JK Cement), order IDs (JKC-2026-XXXX),
@@ -160,6 +165,75 @@ The Order to Cash SAP architecture screen is `templates/partials/step6-sap-archi
 Brand asset references may be written as either filenames or repo-style paths such as `assets/brands/sunder_masala/logo.png`. The asset pipeline normalizes brand asset values to basenames before looking inside the active brand asset directory.
 
 During `--dist` builds, optimized dist assets are mirrored back into `generated/<brand>/assets` so the generated HTML and packaged dist HTML both resolve the same `./assets/...` paths.
+
+## Supabase Content Backend (July 3, 2026 — PLANNED)
+
+**Status:** Design approved, implementation pending Supabase project provisioning
+by the user (URL + anon key + service-role key in `.env`).
+
+The LLM-driven content adapter (`services/content-adapter.js`, which calls OpenCode
+API at runtime to rewire UI labels per industry) is being replaced by a deterministic
+Supabase-backed Industry Profile System. Supabase (managed Postgres + Storage + auto
+REST API + admin Studio) becomes the single source of truth for content and images.
+
+**Tables (planned):**
+- `industries` — one row per industry (cement, fmcg, retail, …). JSONB columns hold
+  comprehensive profiles: `labels` (21 UI-label keys), `messages` (welcome + step1..N
+  WhatsApp conversation content with `{{brandName}}`/`{{dealerStoreName}}`/`{{product}}`
+  placeholders — scope iii), `descriptions` (per-step screen descriptions), `terminology`
+  (product_categories, partner_types, units). Replaces the per-brand JSON duplication
+  of `journey.messages.*` objects AND the 7 manual per-journey label files.
+- `brands` — one row per brand. Replaces `data/brands/*.json` on disk.
+- `journeys` — per-(brand, journey_type) overrides layered over the industry profile.
+- `images_meta` — references to image files in the Supabase Storage `demo-assets` bucket.
+
+**Row-Level Security:** public SELECT on all tables (no anon key needed in frontend);
+admin-only INSERT/UPDATE/DELETE via service-role key (never shipped to frontend).
+
+**Integration by rendering path:**
+- Path A (`build.js`): fetches industry profile at build time, bakes absolute Supabase
+  Storage image URLs into `dist/{brand}/index.html`. No LLM, no API key beyond anon.
+- Path B (`demo-renderer.js` + `demo-ui.js`): wizard's industry dropdown reads from
+  `/rest/v1/industries` live. On Generate, fetches profile live from Supabase. No
+  silent LLM call. Adding a new industry in Supabase Studio instantly appears in wizard.
+- `api/experiments/adapt-content.js` and `api/experiments/save-content.js`: removed.
+  Supabase IS the persistence layer; no sessions needed.
+
+**Full schema + RLS + storage + migration phasing:**
+`docs/superpowers/specs/2026-07-03-supabase-content-backend-design.md`
+**Completion plan (refreshed July 3):**
+`docs/superpowers/plans/2026-07-01-project-completion.md`
+
+## Legacy Project Migration (July 3, 2026 — PRIMARY TRACK)
+
+The 22 client projects from `whatsapp-mock-generator-main` (84 HTML journey files,
+~197MB, deployed on AWS Amplify ap-south-1) are being adapted into the
+demo-generator's data-driven structure. Originals untouched; copies in
+`migration/projects/` (gitignored, regenerable from upstream zip).
+
+**Foundations (DONE, commits `065d623` + `5e19e2d`):**
+- `migration/scripts/extract_project_manifest.py` — profiles every legacy HTML
+  (brand colors, brand name, journey type, step/screen counts, base64 image count,
+  inline CSS/JS size, screen labels, message samples). Outputs `manifest.json` +
+  `manifest.csv` covering all 84 files.
+- `migration/scripts/extract_images.py` — rewrites each HTML in place, extracting
+  every base64-embedded image to per-project `_images/` folders and replacing inline
+  data with relative URLs. 236 unique images extracted (deduped from ~921 raw
+  occurrences across projects). Working HTML size: 175MB → 12MB (93% reduction).
+
+**Remaining sub-phases:**
+- **2.2 Content extraction:** parse slimmed HTMLs into structured JSON matching
+  `data/journeys/{brand}_{journey}.json` schema → `migration/extracted/`.
+- **2.3 Brand metadata extraction:** colors/fonts/names → `data/brands/{slug}.json`.
+- **2.4 New journey-type modules:** 9 non-canonical journey types discovered
+  (customer_groups, direct_enquiries, support_tickets, erp_externalization,
+  scrap_marketplace, scrap_procurement, domestic_customer_lifecycle,
+  defect_alert_management, dsr_expense_claim, plumber_registration_engagement,
+  daily_rate_broadcast, retailer_ordering, collections_finance_ptp_incentives)
+  — classify as new modules or aliases to canonical journeys.
+
+**Spec:** `docs/superpowers/specs/2026-07-03-supabase-content-backend-design.md` § 5
+**Plan:** `docs/superpowers/plans/2026-07-01-project-completion.md` § Phase 2
 
 ## Template Boundary
 

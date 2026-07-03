@@ -2,7 +2,8 @@
 
 > Computed from live analysis of the codebase and generated output.
 > Branch: `main`
-> Last updated: June 20, 2026. Tests: 70/70 pass. Deployed on Cloudflare Pages.
+> Last updated: July 2, 2026. Tests: 70/70 pass. Deployed on Cloudflare Pages.
+> Local and origin/main in sync (25 commits pushed July 2). Live site matches local.
 
 ---
 
@@ -43,22 +44,19 @@
 - Share links use branded paths: `/p/{brand}/{slug}/`
 - No public listing of available demos
 
-### MIGRATION-2: Known Issue — Share Worker Routing (In Progress)
+### MIGRATION-2: /api/health Returns HTML Instead of JSON — RESOLVED (July 2)
 
-**Issue:** `functions/api/share.js` catch-all returns 404 for `/api/health` and other routes.
+**Issue:** `GET /api/health` returned a full HTML page (stealth 404) with `Content-Type: text/html` instead of JSON.
 
-**Root cause:** Cloudflare Pages Functions routes ALL `/api/*` requests through Workers in `functions/api/`. The share Worker's `handleGet()` has a catch-all that returns a 404 for any route not matching `/p/*` or `/api/share`. This intercepts `/api/health` before the health Worker can respond.
+**Root cause:** The old Vercel-style `api/health.js` (Express handler) does not run on Cloudflare Pages. No Pages Function existed at `functions/api/health.js`. The static build produced `dist/api/health.json` but the URL `/api/health` (no extension) did not match it, so CF Pages served the SPA fallback (`index.html`).
 
-**Current behavior:**
-- `/api/health` → returns stealth 404 (should return JSON)
-- `/api/brands.json` → works (static file, not a Worker)
-- `/p/{brand}/{slug}/` → works (branded share URLs)
-- `/robots.txt` → works (static file)
-- `/` → stealth 404 (correct — hides site)
+**Resolution:** Created `functions/api/health.js` as a proper Cloudflare Pages Function. It exports `onRequest`, returns 204 for OPTIONS preflight, and serves `{"status":"ok","version":"1.0.0","mode":"static"}` with `Content-Type: application/json` for GET.
 
-**Fix needed:** Remove the catch-all from `handleGet()` so it only responds to `/p/*` and `/api/share` routes. For other routes, return `null` or `undefined` to let Cloudflare's default handling take over.
+**Verified:** `curl -sI https://demo-generator-482.pages.dev/api/health` returns `content-type: application/json` and body `{"status":"ok","version":"1.0.0","mode":"static"}`.
 
-**Status:** In progress — fix available next session
+**Files changed:** `functions/api/health.js` (created).
+
+**Status:** RESOLVED July 2, 2026.
 
 ---
 
@@ -593,10 +591,30 @@ background and 4 proposed approaches.
 
 **Status:** BRAINSTORMING — 4 approaches documented, decision pending.
 
-## Status Table (June 20)
+## July 2, 2026 — Project Completion Execution
+
+### PHASE-0: Commit + Sync (July 2)
+
+Committed 28 visual regression baselines + test-runner.py + test-custom-demo.py + content-adapter redesign spec + project completion plan. Pushed all 23 previously-unpushed commits + 2 new commits to origin/main.
+
+**Commits:**
+- `5a07d0e` — `chore: update visual regression baselines + add test-runner.py orchestrator` (30 files)
+- `780b17d` — `docs: content adapter redesign spec + project completion plan` (3 files)
+
+**Deploy:** `node build.js --dist` rebuilt all 3 brands x 10 journeys. CF Pages auto-deployed via git integration. Live site verified byte-identical to local. `git log --oneline origin/main..HEAD` is empty.
+
+### PHASE-1: Fix /api/health Routing (July 2)
+
+Created `functions/api/health.js` — a proper CF Pages Function returning JSON. The original MIGRATION-2 diagnosis (blaming `functions/api/share.js` catch-all) was wrong; the real cause was a missing health Pages Function, causing CF Pages to serve the SPA fallback. Pending commit + push + live verification.
+
+---
+
+## Status Table (July 2)
 
 | Priority | Issue | Type | Effort | Status |
 |----------|-------|------|--------|--------|
+| **P0** | MIGRATION-2: /api/health returns HTML | Bug | Low | RESOLVED July 2 (Phase 1) |
+| **P0** | PHASE-0: Commit + sync 25 commits to origin | Deploy | Low | COMPLETE July 2 |
 | **P0** | PEND-1: Content adaptation for all journeys | Feature | High | RESOLVED June 12 |
 | **P0** | FIX-10: Hub clicks broken | Bug | Medium | RESOLVED June 10 |
 | **P0** | FIX-11: v3 multi-blob share | Feature | High | RESOLVED June 10 |
@@ -621,7 +639,72 @@ background and 4 proposed approaches.
 | **P2** | BUG-3: Replacement overlaps | Bug | Medium | PARTIALLY RESOLVED (data-driven reduced risk) |
 | **P2** | ARCH-1: Replacement system | Architecture | High | PARTIALLY RESOLVED (data-driven eliminated need for most) |
 | **P2** | ARCH-2: Post-HBS replacement | Architecture | Medium | PARTIALLY RESOLVED |
-| **P3** | STR-1: 200K monolith | Architecture | High | Still open |
-| **P3** | STR-2: 411 inline styles | Architecture | High | Still open |
-| **P3** | STR-3: 252 inline SVGs | Architecture | Medium | Still open |
-| **P3** | STR-4: Empty block partials | Architecture | Medium | Still open |
+| **P3** | STR-1: build.js 949-line monolith | Architecture | High | Still open — Phase 4 |
+| **P3** | STR-2: 411 inline styles | Architecture | High | RESOLVED July 2 (659 inline styles extracted to CSS utility classes) |
+| **P3** | STR-3: 252 inline SVGs | Architecture | Medium | RESOLVED July 2 (551 inline SVGs extracted, 19 icon partials created) |
+
+---
+
+## July 3, 2026 — Long-term Architecture Pivot + Migration Track
+
+### ARCH-PIVOT-1: Content Adapter → Supabase Backend (DECISION)
+
+**Decision:** Replace the flat-JSON industry-profile approach (the documented 2026-06-30 redesign spec) with **Supabase** (managed Postgres + Storage + auto REST API + admin Studio) as the single source of truth for content and images.
+
+**Drivers:**
+1. The `journey.messages.*` objects in `data/journeys/{brand}_{journey}.json` are duplicated per-brand — Supabase eliminates this with one `industries` row per industry sourced by both rendering paths.
+2. Long-term goal: ONE Supabase project serves both this repo and the legacy `whatsapp-mock-generator-main` 22-client-project corpus (now being migrated — see MIGRATION-1 below).
+3. Image storage: moves from `assets/` folders on disk + base64-in-HTML bloat to Supabase Storage with native URL serving.
+4. Removes the LLM (OPENCODE_API_KEY) from the runtime path entirely — LLM becomes dev-time optional only.
+
+**Spec:** `docs/superpowers/specs/2026-07-03-supabase-content-backend-design.md` — full schema (tables: `industries`, `brands`, `journeys`, `images_meta`), RLS policies, storage bucket, integration by rendering path.
+
+**Supersedes:** `docs/superpowers/specs/2026-06-30-content-adapter-redesign.md` (the flat-JSON Approaches 1–4 spec; Approach 1 content is preserved but the storage layer changes from JSON files to Supabase rows).
+
+**Scope:** Approach 1 (Industry Profile System), scope **iii** (labels + notification messages + screen descriptions + WhatsApp conversation tone — the heaviest scope). Partially-approved scope (iii) requires parameterizing WhatsApp conversation text in journey JSONs into Handlebars templates sourced from industry profile rows.
+
+### Path C Premium Demos — DEFERRED indefinitely
+
+User directive July 3: *"forget about premium — top priority is content."* The 6 existing JK Cement premiums in `dist/jk_cement/premium/` stay frozen. The 24 missing Haldiram + Sundaram premiums (Track 4 of the original completion plan) are out of scope until further notice. FIX-24, FIX-26 (premium generation feature work) remain RESOLVED as historical; new premium work is not tracked.
+
+### MIGRATION-1: 22 Legacy Client Projects → Demo-Generator (PRIMARY, July 3)
+
+**Directive:** *"the 22 client projects in whatsapp-mock-generator need to be adapted to our logic in demo generator—primary and priority task. We will not touch the original files—make a copy of them in demo generator and work on it. start working on it first."*
+
+**Source:** `F:\Sellerhub\whatsapp-mock-generator-main\whatsapp-mock-generator-main\projects\` — 22 client project folders, 84 HTML journey files, ~197MB total, deployed on AWS Amplify (ap-south-1). Clients: Adani Wilmar, Atharva, Banas_Diary, BlueOcean, freyr, Haldirams, Hindalco, insightzz, jkcement, lucky_seeds, Mukund, Orient, OrientElectric, pmcona, RCPL, Recykal, SakkuGroup, Savera, Sintex, sundar_masala, V[N] Fogg, zydus.
+
+**Staged copy + manifest + image extraction (DONE):**
+
+- Copied 22 client project folders to `migration/projects/` (untracked in git, regenerable from the upstream zip). Originals untouched.
+- `migration/scripts/extract_project_manifest.py` profiles each legacy HTML (brand colors from CSS `:root`, brand name from `<title>`, journey type canonical/inferred/unknown, step/screen/phone-frame counts, base64 image count + bytes, inline CSS/JS size, step-screen labels, message bubble samples). Outputs `migration/manifest.json` + `migration/manifest.csv`. Committed in `065d623`.
+- `migration/scripts/extract_images.py` walks `migration/projects/` and rewrites each HTML in place, extracting every base64-embedded image to per-project `_images/` folders and replacing inline data with relative URLs. Extracted 236 unique images across 80 HTML files (deduped against ~921 raw in-HTML occurrences). Working size: 175MB → 12MB (93% reduction). Committed in `5e19e2d`.
+
+**Findings from the manifest (driving the remaining migration scope):**
+
+- 84 HTML files across 21 project directories (RCPL is empty).
+- 8 hub / `index.html` files — per-project navigation hubs (no `.step-section` content; exist as launchers, not journey data). Listed in the manifest as `journey_kind=hub`.
+- 9 non-canonical journey types beyond the demo-generator's 10 — must be classified as new journey modules OR aliases of canonical journeys:
+  - BlueOcean: `customer_groups`, `direct_enquiries`, `support_tickets`
+  - OrientElectric: `erp_externalization`
+  - Recykal: `ms_scrap_marketplace`, `ms_scrap_procurement`
+  - freyr: `domestic_customer_lifecycle`
+  - insightzz: `defect_alert_management`
+  - Hindalco: `dsr_expense_claim` (likely aliases `field_ops_expense`)
+  - Sintex: `plumber_registration_engagement` (likely aliases `retailer_onboarding`)
+  - SakkuGroup: `daily_rate_broadcast` (likely aliases `campaigns_queries`)
+  - lucky_seeds: `retailer_ordering` (likely aliases `order_to_cash`)
+  - zydus: `collections_finance_ptp_incentives` (likely aliases `automated_collections`)
+- 25 distinct brand entities recoverable from `<title>` tags — these seed the eventual Supabase `brands` rows.
+- Total inline CSS across files: 2,458 KB (collapses to ~shared dist/style.css).
+- Total inline JS: 644 KB (collapses to ~shared app.js).
+
+**Remaining migration sub-phases:** see `docs/superpowers/plans/2026-07-01-project-completion.md` § Phase 2 (Sub-phases 2.2 content extraction → 2.3 brand metadata extraction → 2.4 new journey-type modules). Phase 3 (Supabase provisioning + content-adapter rewrite) depends on the user supplying Supabase project credentials.
+
+| Priority | Issue | Type | Effort | Status |
+|----------|-------|------|--------|--------|
+| **P0** | MIGRATION-1: 22 legacy client projects → demo-generator architecture | Migration | High | FOUNDATIONS DONE July 3 (copy + manifest + image extraction committed); content extraction, brand metadata, journey-type modules PENDING |
+| **P0** | ARCH-PIVOT-1: Content adapter → Supabase backend | Architecture | High | DECISION July 3, spec written; implementation BLOCKED on user-provisioning Supabase credentials |
+| **P0** | PHASE-1: Commit + deploy `/api/health` fix | Bug | Low | Code WRITTEN July 2 (untracked); commit + deploy + verify PENDING |
+| **P1** | Content adapter implementation (scope iii: labels + messages + descriptions + WhatsApp tone) | Feature | High | SPEC READY; pending Supabase provisioning + Sub-phase 2.2 content extraction |
+| **P1** | Sequence: Content/Migration first; Path C premiums OUT OF SCOPE | Directive | n/a | CONFIRMED July 3 |
+| **P3** | STR-4: Empty block partials | Architecture | Medium | Still open — scheduled for Phase 4 (build.js split) |
