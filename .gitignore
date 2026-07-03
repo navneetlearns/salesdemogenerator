@@ -22,6 +22,11 @@ data/extracted/
 # Scratch scripts (one-time fixes, not part of the build)
 scratch/
 
+# Migration workspace: staged copies of legacy whatsapp-mock-generator client
+# projects (197MB of source HTML, regenerable from upstream zip — don't track).
+# Scripts and manifest JSON are committed explicitly via `git add -f`.
+migration/projects/
+
 # OS files
 .DS_Store
 Thumbs.db
