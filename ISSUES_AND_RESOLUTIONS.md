@@ -331,7 +331,7 @@ The following stale files and directories were removed:
 
 - **Content-Type Safety** — Implemented (June 9, uncommitted). All 3 fetch call sites in `demo-ui.js` (`/api/share`, `/api/experiments/adapt-content`, `/api/experiments/save-content`) check Content-Type header before calling `.json()`. Pre-flight size check for share endpoint to prevent Vercel 413 errors.
 
-- **Pending: P0 bugs** — BUG-1 (prices never replaced), BUG-2 (secondary dealers unreplaced), BUG-4 (product name mismatch) — still open.
+- **Bug status (refreshed July 3, see plan `docs/superpowers/plans/2026-07-03-supabase-content-backend.md`)** — BUG-1 (prices never replaced) RESOLVED June 17 (data-driven prices); BUG-4 (product name mismatch) RESOLVED June 17 (data-driven catalog); BUG-2 (secondary dealers unreplaced) and BUG-3 (replacement overlaps) PARTIALLY RESOLVED by data-driven design — the Supabase content-adapter redesign (Phase 7) addresses the remainder by sourcing all conversation text from industry profiles.
 
 - **Retailer Onboarding to Cash (scaffold → complete, 10→12 steps)**
 

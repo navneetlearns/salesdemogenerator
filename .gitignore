@@ -51,3 +51,4 @@ public/dist/
 
 # Disabled API routes (not in production)
 api_disabled/
+.backup
