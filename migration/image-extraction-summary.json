@@ -1,0 +1,754 @@
+[
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 202,
+    "new_kb": 98,
+    "savings_kb": 104,
+    "project": "Adani Wilmar",
+    "html": "awl_automated_collections.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 3,
+    "orig_kb": 934,
+    "new_kb": 93,
+    "savings_kb": 840,
+    "project": "Adani Wilmar",
+    "html": "awl_campaigns_queries.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 6,
+    "orig_kb": 469,
+    "new_kb": 176,
+    "savings_kb": 293,
+    "project": "Adani Wilmar",
+    "html": "awl_dt_fulfillment_payment.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 8,
+    "orig_kb": 8207,
+    "new_kb": 354,
+    "savings_kb": 7853,
+    "project": "Adani Wilmar",
+    "html": "awl_field_ops_expense.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 24,
+    "new_kb": 15,
+    "savings_kb": 8,
+    "project": "Adani Wilmar",
+    "html": "awl_index.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 8,
+    "orig_kb": 1866,
+    "new_kb": 105,
+    "savings_kb": 1761,
+    "project": "Adani Wilmar",
+    "html": "awl_order_to_cash.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 2,
+    "orig_kb": 166,
+    "new_kb": 74,
+    "savings_kb": 92,
+    "project": "Adani Wilmar",
+    "html": "awl_retailer_activation.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 2,
+    "orig_kb": 107,
+    "new_kb": 80,
+    "savings_kb": 26,
+    "project": "Adani Wilmar",
+    "html": "awl_retailer_loyalty.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 3,
+    "orig_kb": 7144,
+    "new_kb": 232,
+    "savings_kb": 6912,
+    "project": "Atharva",
+    "html": "journey_field_ops.html"
+  },
+  {
+    "already_done": true,
+    "extracted": 0,
+    "orig_kb": 12,
+    "new_kb": 12,
+    "project": "Banas_Diary",
+    "html": "index.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 99,
+    "new_kb": 98,
+    "savings_kb": 1,
+    "project": "Banas_Diary",
+    "html": "journey_automated_collections.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 2,
+    "orig_kb": 4272,
+    "new_kb": 116,
+    "savings_kb": 4156,
+    "project": "Banas_Diary",
+    "html": "journey_campaigns_queries.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 2,
+    "orig_kb": 4272,
+    "new_kb": 116,
+    "savings_kb": 4156,
+    "project": "Banas_Diary",
+    "html": "journey_dealer_engagement.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 5,
+    "orig_kb": 520,
+    "new_kb": 226,
+    "savings_kb": 294,
+    "project": "Banas_Diary",
+    "html": "journey_dt_fulfillment_payment.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 7,
+    "orig_kb": 16703,
+    "new_kb": 354,
+    "savings_kb": 16349,
+    "project": "Banas_Diary",
+    "html": "journey_field_ops_expense.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 9,
+    "orig_kb": 4897,
+    "new_kb": 241,
+    "savings_kb": 4655,
+    "project": "Banas_Diary",
+    "html": "journey_order_to_cash.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 148,
+    "new_kb": 120,
+    "savings_kb": 27,
+    "project": "Banas_Diary",
+    "html": "journey_post_order_communication.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 1124,
+    "new_kb": 94,
+    "savings_kb": 1029,
+    "project": "Banas_Diary",
+    "html": "journey_retailer_activation.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 110,
+    "new_kb": 109,
+    "savings_kb": 0,
+    "project": "Banas_Diary",
+    "html": "journey_retailer_loyalty_invoice_collection.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 10,
+    "orig_kb": 2348,
+    "new_kb": 386,
+    "savings_kb": 1961,
+    "project": "Banas_Diary",
+    "html": "journey_retailer_onboarding_to_cash.html"
+  },
+  {
+    "already_done": true,
+    "extracted": 0,
+    "orig_kb": 10,
+    "new_kb": 10,
+    "project": "BlueOcean",
+    "html": "index.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 101,
+    "new_kb": 100,
+    "savings_kb": 0,
+    "project": "BlueOcean",
+    "html": "journey_customer_groups.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 74,
+    "new_kb": 74,
+    "savings_kb": 0,
+    "project": "BlueOcean",
+    "html": "journey_daily_rate_broadcast.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 99,
+    "new_kb": 99,
+    "savings_kb": 0,
+    "project": "BlueOcean",
+    "html": "journey_direct_enquiries.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 8,
+    "orig_kb": 16121,
+    "new_kb": 323,
+    "savings_kb": 15797,
+    "project": "BlueOcean",
+    "html": "journey_field_ops_expense.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 761,
+    "new_kb": 146,
+    "savings_kb": 615,
+    "project": "BlueOcean",
+    "html": "journey_sales_to_cash.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 88,
+    "new_kb": 88,
+    "savings_kb": 0,
+    "project": "BlueOcean",
+    "html": "journey_support_tickets.html"
+  },
+  {
+    "already_done": true,
+    "extracted": 0,
+    "orig_kb": 7,
+    "new_kb": 7,
+    "project": "Haldirams",
+    "html": "index.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 288,
+    "new_kb": 81,
+    "savings_kb": 207,
+    "project": "Haldirams",
+    "html": "journey_automated_collections.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 3,
+    "orig_kb": 581,
+    "new_kb": 93,
+    "savings_kb": 487,
+    "project": "Haldirams",
+    "html": "journey_campaigns_queries.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 6,
+    "orig_kb": 676,
+    "new_kb": 176,
+    "savings_kb": 500,
+    "project": "Haldirams",
+    "html": "journey_dt_fulfillment_payment.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 8,
+    "orig_kb": 16121,
+    "new_kb": 323,
+    "savings_kb": 15797,
+    "project": "Haldirams",
+    "html": "journey_field_ops_expense.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 8,
+    "orig_kb": 16089,
+    "new_kb": 291,
+    "savings_kb": 15797,
+    "project": "Haldirams",
+    "html": "journey_field_ops_expense_bkp.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 8,
+    "orig_kb": 3798,
+    "new_kb": 106,
+    "savings_kb": 3692,
+    "project": "Haldirams",
+    "html": "journey_order_to_cash.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 2,
+    "orig_kb": 818,
+    "new_kb": 74,
+    "savings_kb": 743,
+    "project": "Haldirams",
+    "html": "journey_retailer_activation.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 115,
+    "new_kb": 80,
+    "savings_kb": 34,
+    "project": "Haldirams",
+    "html": "journey_retailer_loyalty_invoice_collection.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 11,
+    "orig_kb": 2789,
+    "new_kb": 314,
+    "savings_kb": 2475,
+    "project": "Haldirams",
+    "html": "journey_retailer_onboarding_to_cash.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 76,
+    "new_kb": 75,
+    "savings_kb": 0,
+    "project": "Hindalco",
+    "html": "journey_dsr_expense_claim.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 235,
+    "new_kb": 231,
+    "savings_kb": 3,
+    "project": "Mukund",
+    "html": "journey_field_ops.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 26,
+    "new_kb": 12,
+    "savings_kb": 13,
+    "project": "Orient",
+    "html": "index.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 260,
+    "new_kb": 98,
+    "savings_kb": 162,
+    "project": "Orient",
+    "html": "journey_automated_collections.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 3,
+    "orig_kb": 4406,
+    "new_kb": 116,
+    "savings_kb": 4289,
+    "project": "Orient",
+    "html": "journey_campaigns_queries.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 3,
+    "orig_kb": 479,
+    "new_kb": 116,
+    "savings_kb": 362,
+    "project": "Orient",
+    "html": "journey_dealer_engagement.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 5,
+    "orig_kb": 562,
+    "new_kb": 226,
+    "savings_kb": 336,
+    "project": "Orient",
+    "html": "journey_dt_fulfillment_payment.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 8,
+    "orig_kb": 16864,
+    "new_kb": 354,
+    "savings_kb": 16510,
+    "project": "Orient",
+    "html": "journey_field_ops_expense.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 9,
+    "orig_kb": 11232,
+    "new_kb": 269,
+    "savings_kb": 10962,
+    "project": "Orient",
+    "html": "journey_order_to_cash.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 255,
+    "new_kb": 120,
+    "savings_kb": 134,
+    "project": "Orient",
+    "html": "journey_post_order_communication.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 2,
+    "orig_kb": 179,
+    "new_kb": 94,
+    "savings_kb": 85,
+    "project": "Orient",
+    "html": "journey_retailer_activation.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 136,
+    "new_kb": 109,
+    "savings_kb": 27,
+    "project": "Orient",
+    "html": "journey_retailer_loyalty_invoice_collection.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 15,
+    "orig_kb": 2054,
+    "new_kb": 383,
+    "savings_kb": 1670,
+    "project": "Orient",
+    "html": "journey_retailer_onboarding_to_cash.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 174,
+    "new_kb": 119,
+    "savings_kb": 54,
+    "project": "OrientElectric",
+    "html": "journey_erp_externalization.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 172,
+    "new_kb": 171,
+    "savings_kb": 1,
+    "project": "Recykal",
+    "html": "journey_ms_scrap_marketplace.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 179,
+    "new_kb": 178,
+    "savings_kb": 0,
+    "project": "Recykal",
+    "html": "journey_ms_scrap_procurement.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 102,
+    "new_kb": 101,
+    "savings_kb": 0,
+    "project": "Recykal",
+    "html": "journey_ms_scrap_procurement_bkp.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 5357,
+    "new_kb": 193,
+    "savings_kb": 5164,
+    "project": "SakkuGroup",
+    "html": "DT Fulfilment.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 2042,
+    "new_kb": 75,
+    "savings_kb": 1967,
+    "project": "SakkuGroup",
+    "html": "journey_daily_rate_broadcast.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 235,
+    "new_kb": 231,
+    "savings_kb": 3,
+    "project": "Savera",
+    "html": "journey_field_ops.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 73,
+    "new_kb": 72,
+    "savings_kb": 0,
+    "project": "Sintex",
+    "html": "journey_plumber_registration_engagement.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 223,
+    "new_kb": 98,
+    "savings_kb": 125,
+    "project": "V[N] Fogg",
+    "html": "vini_automated_collections.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 3,
+    "orig_kb": 1333,
+    "new_kb": 93,
+    "savings_kb": 1240,
+    "project": "V[N] Fogg",
+    "html": "vini_campaigns_queries.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 6,
+    "orig_kb": 467,
+    "new_kb": 176,
+    "savings_kb": 291,
+    "project": "V[N] Fogg",
+    "html": "vini_dt_fulfillment_payment.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 11,
+    "orig_kb": 8363,
+    "new_kb": 354,
+    "savings_kb": 8008,
+    "project": "V[N] Fogg",
+    "html": "vini_field_ops_expense.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 28,
+    "new_kb": 17,
+    "savings_kb": 10,
+    "project": "V[N] Fogg",
+    "html": "vini_index.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 8,
+    "orig_kb": 1481,
+    "new_kb": 105,
+    "savings_kb": 1376,
+    "project": "V[N] Fogg",
+    "html": "vini_order_to_cash.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 2,
+    "orig_kb": 165,
+    "new_kb": 74,
+    "savings_kb": 91,
+    "project": "V[N] Fogg",
+    "html": "vini_retailer_activation.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 2,
+    "orig_kb": 108,
+    "new_kb": 80,
+    "savings_kb": 28,
+    "project": "V[N] Fogg",
+    "html": "vini_retailer_loyalty.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 97,
+    "new_kb": 95,
+    "savings_kb": 1,
+    "project": "freyr",
+    "html": "journey_domestic_customer_lifecycle.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 113,
+    "new_kb": 111,
+    "savings_kb": 1,
+    "project": "insightzz",
+    "html": "journey_defect_alert_management.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 99,
+    "new_kb": 98,
+    "savings_kb": 1,
+    "project": "jkcement",
+    "html": "jk_cement_automated_collections.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 117,
+    "new_kb": 116,
+    "savings_kb": 1,
+    "project": "jkcement",
+    "html": "jk_cement_dealer_engagement.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 357,
+    "new_kb": 354,
+    "savings_kb": 3,
+    "project": "jkcement",
+    "html": "jk_cement_field_ops_expense.html"
+  },
+  {
+    "already_done": true,
+    "extracted": 0,
+    "orig_kb": 19,
+    "new_kb": 19,
+    "project": "jkcement",
+    "html": "jk_cement_index.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 271,
+    "new_kb": 269,
+    "savings_kb": 1,
+    "project": "jkcement",
+    "html": "jk_cement_order_to_cash.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 110,
+    "new_kb": 109,
+    "savings_kb": 0,
+    "project": "jkcement",
+    "html": "jk_cement_retailer_loyalty.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 405,
+    "new_kb": 403,
+    "savings_kb": 2,
+    "project": "jkcement",
+    "html": "jk_cement_retailer_onboarding.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 69,
+    "new_kb": 68,
+    "savings_kb": 0,
+    "project": "lucky_seeds",
+    "html": "journey_retailer_ordering.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 76,
+    "new_kb": 74,
+    "savings_kb": 1,
+    "project": "pmcona",
+    "html": "journey_phase1_retailer_activation.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 3,
+    "orig_kb": 872,
+    "new_kb": 93,
+    "savings_kb": 778,
+    "project": "sundar_masala",
+    "html": "journey_campaigns_queries.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 6,
+    "orig_kb": 466,
+    "new_kb": 176,
+    "savings_kb": 290,
+    "project": "sundar_masala",
+    "html": "journey_dt_fulfillment_payment.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 8,
+    "orig_kb": 1811,
+    "new_kb": 104,
+    "savings_kb": 1707,
+    "project": "sundar_masala",
+    "html": "journey_order_to_cash.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 2,
+    "orig_kb": 200,
+    "new_kb": 74,
+    "savings_kb": 125,
+    "project": "sundar_masala",
+    "html": "journey_retailer_activation.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 2,
+    "orig_kb": 103,
+    "new_kb": 80,
+    "savings_kb": 22,
+    "project": "sundar_masala",
+    "html": "journey_retailer_loyalty_invoice_collection.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 1,
+    "orig_kb": 17,
+    "new_kb": 12,
+    "savings_kb": 5,
+    "project": "sundar_masala",
+    "html": "sunder_index.html"
+  },
+  {
+    "already_done": false,
+    "extracted": 0,
+    "orig_kb": 73,
+    "new_kb": 72,
+    "savings_kb": 1,
+    "project": "zydus",
+    "html": "journey_collections_finance_ptp_incentives.html"
+  }
+]
