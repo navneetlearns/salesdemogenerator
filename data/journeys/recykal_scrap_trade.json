@@ -1,0 +1,79 @@
+{
+  "id": "scrap_trade",
+  "title": "Scrap Trade Marketplace",
+  "description": "Scrap marketplace: seller listing flow and buyer procurement via WhatsApp",
+  "industry": "industrial",
+  "brands": ["recykal"],
+  "steps": [
+    {
+      "num": 1,
+      "title": "Scrap Listing & Procurement",
+      "description": "Seller nudged to list scrap, creates draft listing, publishes; buyer creates PO, broadcasts to sellers, confirms procurement",
+      "tags": ["marketplace", "scrap", "procurement"],
+      "screens": [
+        {
+          "type": "whatsapp-message",
+          "description": "Nudge to list scrap material",
+          "data": {
+            "label": "Screen 1 - Nudge to List",
+            "sender": "Recykal Bot",
+            "body": "Hi! Got scrap MS material sitting idle? List it on Recykal marketplace and get instant quotes from verified buyers.",
+            "time": "10:30 AM"
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Seller creates draft listing",
+          "data": {
+            "label": "Screen 2 - Draft Listing",
+            "title": "Create Listing",
+            "content": "Scrap type: MS Scrap | Quantity: 500 kg | Expected price: Rs 28/kg | Location: Pune"
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Buyer creates purchase order",
+          "data": {
+            "label": "Screen 3 - Create Purchase Order",
+            "title": "Create PO",
+            "content": "Material: MS Scrap | Qty: 500 kg | Rate: Rs 28/kg | Delivery: 3 days"
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Buyer broadcasts PO to sellers",
+          "data": {
+            "documentName": "Purchase_Order.pdf",
+            "body": "New PO broadcast: MS Scrap 500kg @ Rs 28/kg. Respond to accept.",
+            "buttons": [{"label": "View PO", "url": "/po/123"}]
+          }
+        },
+        {
+          "type": "whatsapp-message",
+          "description": "Procurement confirmed",
+          "data": {
+            "label": "Screen 5 - Confirmation",
+            "sender": "Recykal Bot",
+            "body": "PO confirmed! Seller accepted. Pickup scheduled for 15 Jul, 2 PM. Tracking ID: RKL-2026-4821.",
+            "time": "11:45 AM"
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "welcome": {
+      "title": "Scrap Trade Marketplace",
+      "body": "Welcome to Recykal Scrap Marketplace! List your scrap material and get instant quotes from verified buyers.",
+      "time": "10:30 AM",
+      "cta": ""
+    },
+    "step1": {
+      "title": "Scrap Listing & Procurement",
+      "bodies": [
+        "Hi! Got scrap MS material sitting idle? List it on Recykal marketplace and get instant quotes from verified buyers.",
+        "PO confirmed! Seller accepted. Pickup scheduled for 15 Jul, 2 PM."
+      ]
+    }
+  }
+}

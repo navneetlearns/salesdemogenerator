@@ -644,7 +644,8 @@ async function build() {
     const knownJourneyTypes = new Set([
       'order_to_cash', 'field_ops_expense', 'dealer_engagement', 
       'retailer_onboarding', 'retailer_loyalty', 'automated_collections',
-      'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation'
+      'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation',
+      'scrap_trade', 'customer_lifecycle', 'defect_alert_management'
     ]);
 
     for (const journeyFile of allJourneyFiles) {
@@ -778,7 +779,7 @@ async function build() {
       }
 
       // Sort journeys by a defined order
-      const journeyOrder = ['order_to_cash', 'field_ops_expense', 'automated_collections', 'dealer_engagement', 'retailer_onboarding', 'retailer_loyalty', 'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation', 'post_order_communication'];
+      const journeyOrder = ['order_to_cash', 'field_ops_expense', 'automated_collections', 'dealer_engagement', 'retailer_onboarding', 'retailer_loyalty', 'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation', 'post_order_communication', 'scrap_trade', 'customer_lifecycle', 'defect_alert_management'];
       hubJourneys.sort((a, b) => {
         const ai = journeyOrder.indexOf(a.key);
         const bi = journeyOrder.indexOf(b.key);

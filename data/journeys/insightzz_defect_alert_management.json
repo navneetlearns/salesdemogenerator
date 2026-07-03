@@ -1,0 +1,105 @@
+{
+  "id": "defect_alert_management",
+  "title": "Defect Alert Management",
+  "description": "Industrial IoT defect alert via WhatsApp group: alert raised, team dispatched, fix verified",
+  "industry": "industrial",
+  "brands": ["insightzz"],
+  "steps": [
+    {
+      "num": 1,
+      "title": "Defect Detected",
+      "description": "IoT sensor detects defect, alert posted to WhatsApp group",
+      "tags": ["iot", "defect", "alert"],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "Automated defect alert from IoT sensor",
+          "data": {
+            "label": "Screen 1 - Defect Alert",
+            "header": "DEFECT ALERT - Line 3",
+            "body": "Sensor IoT-L3-07 detected temperature anomaly: 82C (threshold 75C). Location: Assembly Line 3, Station 7. Action required.",
+            "buttons": [{"label": "Assign Technician", "url": "/assign/123"}, {"label": "Acknowledge", "url": "/ack/123"}],
+            "time": "2:15 PM"
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Team Dispatched",
+      "description": "Technician assigned and dispatched to the defect location",
+      "tags": ["dispatch", "technician"],
+      "screens": [
+        {
+          "type": "whatsapp-message",
+          "description": "Technician assignment confirmation",
+          "data": {
+            "label": "Screen 1 - Technician Assigned",
+            "sender": "Insightzz Bot",
+            "body": "Technician Ramesh K. assigned to Line 3 Station 7. ETA: 15 minutes. Contact: +91 98XXXXXXXX",
+            "time": "2:18 PM"
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Fix Applied",
+      "description": "Technician reports fix applied and provides update",
+      "tags": ["fix", "repair"],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Fix report document",
+          "data": {
+            "documentName": "Fix_Report_Line3.pdf",
+            "body": "Cooling fan bearing replaced. Temperature normalizing: 72C and dropping. Root cause: worn bearing (last serviced 8 months ago).",
+            "buttons": [{"label": "View Report", "url": "/report/123"}]
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Verified & Closed",
+      "description": "Sensor confirms normal reading, alert closed",
+      "tags": ["verification", "closed"],
+      "screens": [
+        {
+          "type": "whatsapp-message",
+          "description": "Alert closure confirmation",
+          "data": {
+            "label": "Screen 1 - Alert Closed",
+            "sender": "Insightzz Bot",
+            "body": "Temperature stable at 68C for 30 min. Alert IoT-L3-07 CLOSED. Duration: 45 min. No further action needed.",
+            "time": "3:00 PM"
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "welcome": {
+      "title": "Defect Alert Management",
+      "body": "Welcome to Insightzz Defect Alert Management. IoT sensors monitor your plant 24/7 and alert your team via WhatsApp.",
+      "time": "2:15 PM",
+      "cta": ""
+    },
+    "step1": {
+      "title": "Defect Detected",
+      "bodies": ["Sensor IoT-L3-07 detected temperature anomaly: 82C (threshold 75C)."]
+    },
+    "step2": {
+      "title": "Team Dispatched",
+      "bodies": ["Technician Ramesh K. assigned to Line 3 Station 7. ETA: 15 minutes."]
+    },
+    "step3": {
+      "title": "Fix Applied",
+      "bodies": ["Cooling fan bearing replaced. Temperature normalizing: 72C and dropping."]
+    },
+    "step4": {
+      "title": "Verified & Closed",
+      "bodies": ["Temperature stable at 68C for 30 min. Alert IoT-L3-07 CLOSED."]
+    }
+  }
+}

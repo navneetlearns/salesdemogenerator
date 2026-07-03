@@ -1,0 +1,104 @@
+{
+  "id": "customer_lifecycle",
+  "title": "Customer Lifecycle",
+  "description": "Solar customer journey: discovery, consideration, estimation, installation, and support via WhatsApp",
+  "industry": "industrial",
+  "brands": ["freyr"],
+  "steps": [
+    {
+      "num": 1,
+      "title": "Discovery",
+      "description": "Campaign template reaches potential solar customer",
+      "tags": ["discovery", "solar"],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "Solar awareness campaign",
+          "data": {
+            "label": "Screen 1 - Campaign Template",
+            "header": "Go Solar with Freyr",
+            "body": "Thinking about solar? Get a free rooftop assessment. Reply YES to schedule.",
+            "buttons": [{"label": "Schedule Assessment", "url": "/assess"}],
+            "time": "9:00 AM"
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Consideration & Estimation",
+      "description": "AI qualification and solar system sizing",
+      "tags": ["consideration", "estimation"],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "AI-powered solar system estimator",
+          "data": {
+            "label": "Screen 1 - Solar Estimator",
+            "title": "System Sizing",
+            "content": "Roof area: 800 sq ft | Recommended: 3 kW system | Estimated savings: Rs 4,200/month"
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Purchase & Installation",
+      "description": "Quote approved, installation scheduled",
+      "tags": ["purchase", "installation"],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Quote and installation schedule",
+          "data": {
+            "documentName": "Solar_Quote.pdf",
+            "body": "3 kW system: Rs 2.1L (after subsidy). Installation: 3 days. Warranty: 25 years.",
+            "buttons": [{"label": "Approve Quote", "url": "/quote/123"}]
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Support & Monitoring",
+      "description": "Post-installation support and generation monitoring",
+      "tags": ["support", "monitoring"],
+      "screens": [
+        {
+          "type": "whatsapp-message",
+          "description": "Generation report notification",
+          "data": {
+            "label": "Screen 1 - Generation Report",
+            "sender": "Freyr Solar Bot",
+            "body": "Your 3 kW system generated 14.2 kWh today! That's Rs 42 saved. Total this month: 420 kWh.",
+            "time": "6:00 PM"
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "welcome": {
+      "title": "Customer Lifecycle",
+      "body": "Welcome to Freyr Solar Connect! Your journey from discovery to installation and beyond, all on WhatsApp.",
+      "time": "9:00 AM",
+      "cta": ""
+    },
+    "step1": {
+      "title": "Discovery",
+      "bodies": ["Thinking about solar? Get a free rooftop assessment. Reply YES to schedule."]
+    },
+    "step2": {
+      "title": "Consideration & Estimation",
+      "bodies": ["Roof area: 800 sq ft. Recommended: 3 kW system."]
+    },
+    "step3": {
+      "title": "Purchase & Installation",
+      "bodies": ["3 kW system: Rs 2.1L after subsidy. Installation in 3 days."]
+    },
+    "step4": {
+      "title": "Support & Monitoring",
+      "bodies": ["Your 3 kW system generated 14.2 kWh today!"]
+    }
+  }
+}

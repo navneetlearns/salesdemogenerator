@@ -1,0 +1,135 @@
+{
+  "_description": "Phase 5 — Classification of 9 non-canonical journey types from 22 legacy whatsapp-mock-generator client projects. Cap: at most 3 new journey modules; the rest are aliases of canonical journeys.",
+  "_cap": 3,
+  "_decision_date": "2026-07-04",
+  "classifications": [
+    {
+      "journey_type": "daily_rate_broadcast",
+      "source_projects": [
+        "BlueOcean",
+        "SakkuGroup"
+      ],
+      "decision": "alias",
+      "canonical_id": "campaigns_queries",
+      "reason": "Daily rate broadcast is a campaign message broadcast — fits campaigns_queries which already handles push-broadcast journeys. No unique screen types needed."
+    },
+    {
+      "journey_type": "customer_groups",
+      "source_projects": [
+        "BlueOcean"
+      ],
+      "decision": "alias",
+      "canonical_id": "dealer_engagement",
+      "reason": "Customer group setup + enquiry routing mirrors dealer engagement (group enrollment + communication). 7 steps with no unique screen patterns."
+    },
+    {
+      "journey_type": "direct_enquiries",
+      "source_projects": [
+        "BlueOcean"
+      ],
+      "decision": "alias",
+      "canonical_id": "campaigns_queries",
+      "reason": "Customer DM to sales exec + internal group routing + quote delivery — this is a query-and-response flow identical in structure to campaigns_queries."
+    },
+    {
+      "journey_type": "support_tickets",
+      "source_projects": [
+        "BlueOcean"
+      ],
+      "decision": "alias",
+      "canonical_id": "post_order_communication",
+      "reason": "Ticket creation, team updates, customer notification — this is post-order/post-service communication. Same notification + document flow as post_order_communication."
+    },
+    {
+      "journey_type": "erp_externalization",
+      "source_projects": [
+        "OrientElectric"
+      ],
+      "decision": "alias",
+      "canonical_id": "order_to_cash",
+      "reason": "Order submission, order history nav, invoice, cash discount, payment received — this IS order_to_cash with ERP integration emphasis. 5 steps, same screen types."
+    },
+    {
+      "journey_type": "dsr_expense_claim",
+      "source_projects": [
+        "Hindalco"
+      ],
+      "decision": "alias",
+      "canonical_id": "field_ops_expense",
+      "reason": "DSR (Daily Sales Report) expense claim = field_ops_expense with a different label. Same step structure."
+    },
+    {
+      "journey_type": "plumber_registration_engagement",
+      "source_projects": [
+        "Sintex"
+      ],
+      "decision": "alias",
+      "canonical_id": "retailer_onboarding",
+      "reason": "Plumber registration = retailer onboarding with a different partner label. Same step structure."
+    },
+    {
+      "journey_type": "retailer_ordering",
+      "source_projects": [
+        "lucky_seeds"
+      ],
+      "decision": "alias",
+      "canonical_id": "order_to_cash",
+      "reason": "Retailer ordering journey = order_to_cash for an agri brand. No unique screen types."
+    },
+    {
+      "journey_type": "collections_finance_ptp_incentives",
+      "source_projects": [
+        "zydus"
+      ],
+      "decision": "alias",
+      "canonical_id": "automated_collections",
+      "reason": "Collections finance with PTP (Promise to Pay) incentives = automated_collections with incentive messaging. Same step structure."
+    },
+    {
+      "journey_type": "ms_scrap_marketplace",
+      "source_projects": [
+        "Recykal"
+      ],
+      "decision": "new",
+      "new_journey_id": "scrap_trade",
+      "reason": "Seller side of scrap trade: nudge to list, draft listing, review, publish. Merged with scrap_procurement into single scrap_trade module (buyer + seller in one journey type). 26 screens."
+    },
+    {
+      "journey_type": "ms_scrap_procurement",
+      "source_projects": [
+        "Recykal"
+      ],
+      "decision": "alias",
+      "reason": "Buyer side of scrap trade: create PO, PO list, broadcast, confirmation. Aliased to scrap_trade journey type (same module, buyer perspective). 29 screens.",
+      "canonical_id": "scrap_trade"
+    },
+    {
+      "journey_type": "domestic_customer_lifecycle",
+      "source_projects": [
+        "freyr"
+      ],
+      "decision": "new",
+      "new_journey_id": "customer_lifecycle",
+      "reason": "Discovery → Consideration → Installation → Support lifecycle for solar customers. Sidebar-based layout (8 steps with sbstep-N IDs) — different DOM pattern from all others. No canonical has this lifecycle flow."
+    },
+    {
+      "journey_type": "defect_alert_management",
+      "source_projects": [
+        "insightzz"
+      ],
+      "decision": "new",
+      "new_journey_id": "defect_alert_management",
+      "reason": "Industrial IoT defect alert via WhatsApp group — alert raised, team dispatched, fix verified. 4 steps with sidebar layout. Unique to industrial IoT use case."
+    }
+  ],
+  "_summary": {
+    "aliases": 9,
+    "new_modules": 3,
+    "new_module_ids": [
+      "scrap_trade",
+      "customer_lifecycle",
+      "defect_alert_management"
+    ],
+    "_note": "Cap of 3 honored. scrap_marketplace + scrap_procurement merged into scrap_trade (seller + buyer in one module)."
+  }
+}

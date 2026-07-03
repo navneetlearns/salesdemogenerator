@@ -29,6 +29,9 @@ const JOURNEY_IDS = [
   'dt_fulfillment_payment',
   'retailer_activation',
   'post_order_communication',
+  'scrap_trade',
+  'customer_lifecycle',
+  'defect_alert_management',
 ];
 
 // Step 1: Partials
@@ -330,6 +333,24 @@ function buildJourneyDescriptions() {
       title: 'Post-Order Communication',
       steps: 3,
       desc: 'Dealer receives order confirmations, invoices, and payment reminders via WhatsApp and PWA',
+      scaffold: false,
+    },
+    scrap_trade: {
+      title: 'Scrap Trade Marketplace',
+      steps: 1,
+      desc: 'Scrap marketplace: seller listing flow (nudge, draft, review, publish) and buyer procurement (create PO, broadcast, confirmation)',
+      scaffold: false,
+    },
+    customer_lifecycle: {
+      title: 'Customer Lifecycle',
+      steps: 8,
+      desc: 'Solar customer journey: discovery, consideration, estimation, installation, and support via WhatsApp',
+      scaffold: false,
+    },
+    defect_alert_management: {
+      title: 'Defect Alert Management',
+      steps: 4,
+      desc: 'Industrial IoT defect alert via WhatsApp group: alert raised, team dispatched, fix verified',
       scaffold: false,
     },
   };
