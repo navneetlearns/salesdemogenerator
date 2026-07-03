@@ -52,3 +52,5 @@ public/dist/
 # Disabled API routes (not in production)
 api_disabled/
 .backup
+migration/extracted/
+migration/brand_metadata/
