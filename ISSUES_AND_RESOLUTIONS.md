@@ -2,8 +2,8 @@
 
 > Computed from live analysis of the codebase and generated output.
 > Branch: `main`
-> Last updated: July 2, 2026. Tests: 70/70 pass. Deployed on Cloudflare Pages.
-> Local and origin/main in sync (25 commits pushed July 2). Live site matches local.
+> Last updated: July 4, 2026. Tests: 72/72 pass. Supabase backend live. Deployed on Cloudflare Pages.
+> Local and origin/main in sync. Content adapter rewritten — no LLM runtime dependency.
 
 ---
 
