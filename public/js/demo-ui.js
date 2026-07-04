@@ -16,6 +16,14 @@
   var GROUP_D_JOURNEYS = ['retailer_activation', 'dt_fulfillment_payment'];
   var GROUP_B_C_JOURNEYS = ['retailer_loyalty', 'automated_collections', 'field_ops_expense', 'campaigns_queries'];
 
+  // Journey buckets for grouped display in Step 3
+  var JOURNEY_BUCKETS = [
+    { id: 'sales', label: 'Order to Cash (Sales Cycle)', icon: '🛒', journeys: ['order_to_cash', 'dt_fulfillment_payment', 'automated_collections'] },
+    { id: 'field', label: 'Field Operations & Dealer', icon: '🔧', journeys: ['field_ops_expense', 'dealer_engagement'] },
+    { id: 'retailer', label: 'Retailer Management', icon: '🏪', journeys: ['retailer_onboarding', 'retailer_activation', 'retailer_loyalty'] },
+    { id: 'comms', label: 'Communications & Post-Order', icon: '📱', journeys: ['campaigns_queries', 'post_order_communication'] },
+  ];
+
   function isJourneySelected(journeyKey) {
     return _selectedJourneys.indexOf(journeyKey) !== -1;
   }
@@ -321,63 +329,127 @@
       return;
     }
 
+    // Build lookup of journey key → description, tracking which are assigned to buckets
+    var assigned = {};
+    
+    // Render each bucket section
+    JOURNEY_BUCKETS.forEach(function(bucket) {
+      var bucketKeys = bucket.journeys.filter(function(k) { return descriptions[k] && k !== 'home'; });
+      if (!bucketKeys.length) return;
+      
+      var section = document.createElement('div');
+      section.className = 'journey-bucket';
+      
+      var header = document.createElement('div');
+      header.className = 'journey-bucket-header';
+      header.innerHTML = '<span class="journey-bucket-icon">' + (bucket.icon || '') + '</span> <span class="journey-bucket-label">' + bucket.label + '</span>';
+      section.appendChild(header);
+      
+      var grid = document.createElement('div');
+      grid.className = 'journey-cards-grid';
+      
+      bucketKeys.forEach(function(key) {
+        assigned[key] = true;
+        var desc = descriptions[key];
+        var card = document.createElement('div');
+        card.className = 'journey-card';
+        card.setAttribute('data-journey', key);
+        card.setAttribute('role', 'checkbox');
+        card.setAttribute('aria-checked', isJourneySelected(key) ? 'true' : 'false');
+        if (desc.scaffold) card.classList.add('journey-card-wip');
+        if (isJourneySelected(key)) card.classList.add('selected');
+
+        var title = document.createElement('h4');
+        title.textContent = desc.title || key;
+
+        var meta = document.createElement('p');
+        meta.className = 'journey-meta';
+        meta.textContent = (desc.steps || '?') + ' steps';
+
+        var descP = document.createElement('p');
+        descP.className = 'journey-desc';
+        descP.textContent = desc.desc || '';
+
+        var selectedMark = document.createElement('span');
+        selectedMark.className = 'journey-selected-mark';
+        selectedMark.textContent = 'Selected';
+
+        card.appendChild(title);
+        card.appendChild(meta);
+        card.appendChild(descP);
+        card.appendChild(selectedMark);
+
+        if (desc.scaffold) {
+          var badge = document.createElement('span');
+          badge.className = 'scaffold-badge';
+          badge.textContent = 'Work in progress';
+          card.appendChild(badge);
+        }
+
+        (function(journeyKey, cardEl) {
+          cardEl.addEventListener('click', function() {
+            var idx = _selectedJourneys.indexOf(journeyKey);
+            if (idx === -1) {
+              _selectedJourneys.push(journeyKey);
+              cardEl.classList.add('selected');
+              cardEl.setAttribute('aria-checked', 'true');
+            } else {
+              _selectedJourneys.splice(idx, 1);
+              cardEl.classList.remove('selected');
+              cardEl.setAttribute('aria-checked', 'false');
+            }
+            updateStepSelection();
+          });
+        })(key, card);
+
+        grid.appendChild(card);
+      });
+      
+      section.appendChild(grid);
+      container.appendChild(section);
+    });
+    
+    // Any unassigned journeys (not in any bucket) go into an "Other" section
+    var unassigned = [];
     for (var key in descriptions) {
       if (!descriptions.hasOwnProperty(key)) continue;
-      // Skip "home" — it's always included as the default wrapper, not a selectable journey
       if (key === 'home') continue;
-      var desc = descriptions[key];
-      var card = document.createElement('div');
-      card.className = 'journey-card';
-      card.setAttribute('data-journey', key);
-      card.setAttribute('role', 'checkbox');
-      card.setAttribute('aria-checked', isJourneySelected(key) ? 'true' : 'false');
-      if (desc.scaffold) card.classList.add('journey-card-wip');
-      if (isJourneySelected(key)) card.classList.add('selected');
-
-      var title = document.createElement('h4');
-      title.textContent = desc.title || key;
-
-      var meta = document.createElement('p');
-      meta.className = 'journey-meta';
-      meta.textContent = (desc.steps || '?') + ' steps';
-
-      var descP = document.createElement('p');
-      descP.className = 'journey-desc';
-      descP.textContent = desc.desc || '';
-
-      var selectedMark = document.createElement('span');
-      selectedMark.className = 'journey-selected-mark';
-      selectedMark.textContent = 'Selected';
-
-      card.appendChild(title);
-      card.appendChild(meta);
-      card.appendChild(descP);
-      card.appendChild(selectedMark);
-
-      if (desc.scaffold) {
-        var badge = document.createElement('span');
-        badge.className = 'scaffold-badge';
-        badge.textContent = 'Work in progress';
-        card.appendChild(badge);
-      }
-
-      (function(journeyKey, cardEl) {
-        cardEl.addEventListener('click', function() {
-          var idx = _selectedJourneys.indexOf(journeyKey);
-          if (idx === -1) {
-            _selectedJourneys.push(journeyKey);
-            cardEl.classList.add('selected');
-            cardEl.setAttribute('aria-checked', 'true');
-          } else {
-            _selectedJourneys.splice(idx, 1);
-            cardEl.classList.remove('selected');
-            cardEl.setAttribute('aria-checked', 'false');
-          }
-          updateStepSelection();
-        });
-      })(key, card);
-
-      container.appendChild(card);
+      if (!assigned[key]) unassigned.push(key);
+    }
+    
+    if (unassigned.length) {
+      var otherSection = document.createElement('div');
+      otherSection.className = 'journey-bucket';
+      otherSection.innerHTML = '<div class="journey-bucket-header"><span class="journey-bucket-icon">📋</span> <span class="journey-bucket-label">Other Journeys</span></div>';
+      var otherGrid = document.createElement('div');
+      otherGrid.className = 'journey-cards-grid';
+      
+      unassigned.forEach(function(key) {
+        var desc = descriptions[key];
+        var card = document.createElement('div');
+        card.className = 'journey-card';
+        card.setAttribute('data-journey', key);
+        card.setAttribute('role', 'checkbox');
+        card.setAttribute('aria-checked', isJourneySelected(key) ? 'true' : 'false');
+        if (isJourneySelected(key)) card.classList.add('selected');
+        // ... same card build as above, minimal version
+        card.innerHTML = '<h4>' + (desc.title || key) + '</h4>' +
+          '<p class="journey-meta">' + (desc.steps || '?') + ' steps</p>' +
+          '<p class="journey-desc">' + (desc.desc || '') + '</p>' +
+          '<span class="journey-selected-mark">Selected</span>';
+        (function(journeyKey, cardEl) {
+          cardEl.addEventListener('click', function() {
+            var idx = _selectedJourneys.indexOf(journeyKey);
+            if (idx === -1) { _selectedJourneys.push(journeyKey); cardEl.classList.add('selected'); cardEl.setAttribute('aria-checked', 'true'); }
+            else { _selectedJourneys.splice(idx, 1); cardEl.classList.remove('selected'); cardEl.setAttribute('aria-checked', 'false'); }
+            updateStepSelection();
+          });
+        })(key, card);
+        otherGrid.appendChild(card);
+      });
+      
+      otherSection.appendChild(otherGrid);
+      container.appendChild(otherSection);
     }
   }
 

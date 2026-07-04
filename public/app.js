@@ -1,5 +1,5 @@
 // Demo Generator - Frontend App
-// Supports two modes: static (Vercel) and runtime (local server)
+// Shows brands grouped by industry with journey filtering
 
 const API_BASE = window.location.origin;
 
@@ -25,19 +25,19 @@ async function loadBrands() {
   }
 }
 
-async function loadJourneys(brand) {
+async function loadAllJourneys() {
   try {
-    const res = await fetch(API_BASE + '/api/journeys.json?brand=' + brand);
+    const res = await fetch(API_BASE + '/api/journeys.json');
     return await res.json();
   } catch (e) {
     console.error('Failed to load journeys:', e);
-    return null;
+    return {};
   }
 }
 
-function renderStaticMode(brands) {
-  document.getElementById('modeIndicator').textContent = 'Static mode - viewing pre-built demos';
-  const container = document.getElementById('brandList');
+function renderStaticMode(brands, allJourneys) {
+  document.getElementById('modeIndicator').textContent = 'Select a brand to view pre-built demos';
+  var container = document.getElementById('brandList');
   if (!container) return;
 
   container.innerHTML = '';
@@ -46,43 +46,117 @@ function renderStaticMode(brands) {
     return;
   }
 
-  brands.forEach(function(brand) {
-    const card = document.createElement('details');
-    card.className = 'brand-card brand-details';
+  // Group brands by industry
+  var byIndustry = {};
+  brands.forEach(function(b) {
+    var ind = b.industry || 'general';
+    if (!byIndustry[ind]) byIndustry[ind] = [];
+    b._journeys = allJourneys[b.id] || [];
+    byIndustry[ind].push(b);
+  });
 
-    const summary = document.createElement('summary');
-    summary.className = 'brand-summary';
+  var industryOrder = ['cement', 'fmcg', 'industrial', 'pharma', 'agri', 'general'];
+  var industryLabels = {
+    cement: 'Cement & Construction',
+    fmcg: 'FMCG / Consumer Goods',
+    industrial: 'Industrial & Manufacturing',
+    pharma: 'Pharma & Healthcare',
+    agri: 'Agriculture',
+    general: 'General / Retail'
+  };
 
-    const title = document.createElement('span');
-    title.className = 'brand-summary-title';
-    title.textContent = brand.id.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+  // Build industry filter bar
+  var filterBar = document.createElement('div');
+  filterBar.className = 'industry-filter';
+  filterBar.innerHTML = '<button class="filter-btn active" data-industry="all">All (' + brands.length + ')</button>';
+  industryOrder.forEach(function(ind) {
+    var list = byIndustry[ind];
+    if (!list || !list.length) return;
+    var total = list.reduce(function(sum, b) { return sum + (b.journeyCount || 0); }, 0);
+    var btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.dataset.industry = ind;
+    btn.textContent = (industryLabels[ind] || ind) + ' (' + list.length + ' brands, ' + total + ' journeys)';
+    btn.onclick = function() {
+      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.industry-group').forEach(function(g) {
+        g.style.display = (ind === 'all' || g.dataset.industry === ind) ? '' : 'none';
+      });
+    };
+    filterBar.appendChild(btn);
+  });
+  container.appendChild(filterBar);
 
-    const count = document.createElement('span');
-    count.className = 'brand-summary-count';
-    count.textContent = (brand.journeys || []).length + ' journeys';
+  // Build industry groups
+  industryOrder.forEach(function(ind) {
+    var list = byIndustry[ind];
+    if (!list || !list.length) return;
 
-    summary.appendChild(title);
-    summary.appendChild(count);
-    card.appendChild(summary);
+    var group = document.createElement('div');
+    group.className = 'industry-group';
+    group.dataset.industry = ind;
 
-    const links = document.createElement('div');
-    links.className = 'journey-links grid';
-    (brand.journeys || []).forEach(function(j) {
-      const btn = document.createElement('a');
-      btn.href = j.url;
-      btn.className = 'btn primary';
-      btn.target = '_blank';
-      btn.textContent = j.name;
-      links.appendChild(btn);
+    var heading = document.createElement('h3');
+    heading.className = 'industry-heading';
+    heading.textContent = industryLabels[ind] || ind.charAt(0).toUpperCase() + ind.slice(1);
+    group.appendChild(heading);
+
+    var brandGrid = document.createElement('div');
+    brandGrid.className = 'brand-grid';
+
+    list.forEach(function(brand) {
+      var card = document.createElement('div');
+      card.className = 'brand-card';
+
+      var logoPath = './assets/brands/' + brand.id + '/logo.png';
+      var fallbackLogo = './assets/brands/' + brand.id + '/logo.svg';
+      var logoExt = brand.id === 'vn_fogg' ? '' : '';
+
+      card.innerHTML =
+        '<a href="./' + brand.id + '/" class="brand-card-link">' +
+          '<div class="brand-card-logo">' +
+            '<img src="' + logoPath + '" alt="' + brand.name + '" onerror="this.src=\'' + fallbackLogo + '\';this.onerror=null" loading="lazy">' +
+          '</div>' +
+          '<div class="brand-card-info">' +
+            '<strong class="brand-card-name">' + brand.name + '</strong>' +
+            '<span class="brand-card-count">' + brand.journeyCount + ' journey' + (brand.journeyCount !== 1 ? 's' : '') + '</span>' +
+          '</div>' +
+        '</a>';
+
+      // Add quick-journey links
+      if (brand._journeys && brand._journeys.length) {
+        var jLinks = document.createElement('div');
+        jLinks.className = 'brand-card-journeys';
+        brand._journeys.slice(0, 5).forEach(function(j) {
+          var jPath = './' + brand.id + '/' + j.id + '.html';
+          var jLink = document.createElement('a');
+          jLink.href = jPath;
+          jLink.className = 'journey-pill';
+          jLink.textContent = (j.title || j.id).replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+          jLink.target = '_blank';
+          jLinks.appendChild(jLink);
+        });
+        if (brand._journeys.length > 5) {
+          var more = document.createElement('span');
+          more.className = 'journey-pill more';
+          more.textContent = '+' + (brand._journeys.length - 5) + ' more';
+          jLinks.appendChild(more);
+        }
+        card.appendChild(jLinks);
+      }
+
+      brandGrid.appendChild(card);
     });
-    card.appendChild(links);
-    container.appendChild(card);
+
+    group.appendChild(brandGrid);
+    container.appendChild(group);
   });
 }
 
 function renderRuntimeMode() {
-  const staticSection = document.getElementById('staticSection');
-  const runtimeSection = document.getElementById('runtimeSection');
+  var staticSection = document.getElementById('staticSection');
+  var runtimeSection = document.getElementById('runtimeSection');
   if (staticSection) staticSection.style.display = 'none';
   if (runtimeSection) runtimeSection.style.display = 'block';
   document.getElementById('modeIndicator').textContent = 'Runtime mode - upload assets and generate custom demos';
@@ -90,12 +164,12 @@ function renderRuntimeMode() {
 }
 
 function setupRuntimeJourneySelection() {
-  const list = document.getElementById('journeyList');
+  var list = document.getElementById('journeyList');
   if (!list) return;
 
-  const options = list.querySelectorAll('.runtime-journey-option');
+  var options = list.querySelectorAll('.runtime-journey-option');
   options.forEach(function(option) {
-    const input = option.querySelector('input[type="checkbox"]');
+    var input = option.querySelector('input[type="checkbox"]');
     if (!input) return;
     if (option.dataset.selectionBound === 'true') return;
     option.dataset.selectionBound = 'true';
@@ -115,10 +189,10 @@ function setupRuntimeJourneySelection() {
 
 async function ensureRuntimeSession() {
   if (window._activeSessionId) return window._activeSessionId;
-  const industryInput = document.getElementById('runtimeIndustryInput');
-  const industry = industryInput && industryInput.value ? industryInput.value : 'Cement';
+  var industryInput = document.getElementById('runtimeIndustryInput');
+  var industry = industryInput && industryInput.value ? industryInput.value : 'Cement';
   try {
-    const res = await fetch(API_BASE + '/api/session/create', {
+    var res = await fetch(API_BASE + '/api/session/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -126,10 +200,10 @@ async function ensureRuntimeSession() {
         industry: industry
       })
     });
-    const data = await res.json();
+    var data = await res.json();
     if (data && data.sessionId) {
       window._activeSessionId = data.sessionId;
-      const box = document.getElementById('sessionBox');
+      var box = document.getElementById('sessionBox');
       if (box) {
         box.textContent = 'Session: ' + data.sessionId + ' (expires ' + (data.expiresAt ? new Date(data.expiresAt).toLocaleString() : 'soon') + ')';
       }
@@ -142,10 +216,11 @@ async function ensureRuntimeSession() {
 }
 
 async function init() {
-  const mode = await detectMode();
+  var mode = await detectMode();
   if (mode === 'static') {
-    const brands = await loadBrands();
-    renderStaticMode(brands);
+    var brands = await loadBrands();
+    var allJourneys = await loadAllJourneys();
+    renderStaticMode(brands, allJourneys);
   } else {
     renderRuntimeMode();
     await ensureRuntimeSession();

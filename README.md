@@ -18,7 +18,8 @@ Static HTML demo generator using vanilla Handlebars.
 - Content adapter (`services/content-adapter.js`) rewritten to fetch from Supabase at build time — no runtime LLM dependency
 - Old LLM endpoints (`/api/experiments/adapt-content`, `save-content`) removed
 - 165 images uploaded to `demo-assets` Storage bucket (brand logos, products, fallbacks, migration images)
-- Client wizard industry dropdown hardcoded; will fetch from Supabase live in a future update
+- Client wizard industry dropdown fetches live from Supabase REST API (publishable key via `apikey` header)
+- Brand logos: 23/23 brands have logos in `assets/brands/{slug}/` — extracted via multi-source scraper (`services/brand-logo-extractor.py`)
 
 Design spec: `docs/superpowers/specs/2026-07-03-supabase-content-backend-design.md`
 
@@ -56,7 +57,9 @@ Core Handlebars templates are intentionally stable. Brand onboarding should pref
 | PM Cona | General | 1 journey | Imported |
 | SakkuGroup | General | 2 journeys | Imported |
 
-**Total: 23 brands, ~97 journey files**
+**Total: 23 brands, ~99 journey files**
+
+All brands have logos in `assets/brands/{slug}/` (see `services/brand-logo-extractor.py` for the multi-source extraction system).
 
 Build auto-discovers brands from `data/brands/*.json`. Industry dropdown in the wizard loads live from Supabase REST API. See `docs/superpowers/plans/2026-07-04-tracing-visualdiff-legacy-import.md`.
 
@@ -98,6 +101,7 @@ npm run build:dist               # Build all brands to dist/
 npm run build                    # Build all brands to generated/
 npm run validate                 # Run validation checks
 npm run visual:test              # Run visual regression tests
+python3 services/brand-logo-extractor.py  # Extract/refresh brand logos from web
 ```
 
 On Windows PowerShell environments that block `npm.ps1`, use:
@@ -116,7 +120,7 @@ The "WhatsApp Commerce OS" (home) journey renders a standalone hub landing page 
 
 ## Secure Share Links
 
-Generated demos can be shared through `/api/share?token=<hex>` links backed by Vercel Blob. Configure `BLOB_READ_WRITE_TOKEN` in the Vercel project environment before deploying; links expire after 24 hours and are rejected server-side after expiry.
+Generated demos can be shared through branded URLs (`/p/{brand}/{slug}/`) backed by Cloudflare KV. Shares expire after 24 hours.
 
 Share links are backward compatible across three versions:
 
@@ -135,22 +139,28 @@ The v3 hub card metadata is server-rendered from stable journey defaults in `api
 | `GET /api/journeys?brand=<id>` | List journeys for a brand |
 | `POST /api/share` | Create a share link |
 | `GET /api/share?token=<hex>` | Retrieve a shared demo by token |
-| `POST /api/experiments/adapt-content` | Adapt UI labels for an industry via LLM — **PLANNED REMOVAL** (replaced by Supabase profile lookup, July 3) |
-| `POST /api/experiments/save-content` | Save adapted content overrides to a session — **PLANNED REMOVAL** (replaced by Supabase persistence, July 3) |
 
 ## Content Adapter
 
-**Status: Being replaced by the Supabase-backed Industry Profile System (July 3, 2026).**
+**Status: Supabase-backed (July 4, 2026) — no LLM runtime dependency.**
 
-The current content adapter (`services/content-adapter.js`) uses an LLM (OpenCode API, deepseek-v4-flash) to rewrite generic UI labels into industry-specific terminology. For example, "Browse Products" becomes "Browse Medicines" for Pharma or "Browse Stockyard" for Steel. The adapter validates responses (no HTML, no emoji, no marketing language) and falls back to original labels on invalid output. Default labels are in `data/content/order_to_cash_labels.json`.
+The content adapter (`services/content-adapter.js`) loads industry profiles from Supabase at build time using `getIndustryProfile(name)`. Each profile contains 236 labels, industry-specific messages, WhatsApp conversation templates, and description text. Profiles are stored in Supabase's `industries` table and fetched via the publishable key (`apikey` header).
 
-**Planned replacement (pending Supabase provisioning):** the LLM-driven adapter is being retired in favor of deterministic industry-profile lookups from Supabase Postgres. The LLM becomes a dev-time optional draft helper only; runtime path has no LLM dependency. The 7 manual per-journey label files in `data/content/*_labels.json` will be merged into industry profile rows. See `docs/superpowers/specs/2026-07-03-supabase-content-backend-design.md`. The runtime endpoints `POST /api/experiments/adapt-content` and `POST /api/experiments/save-content` will be removed.
+6 industry profiles seeded: cement, fmcg, industrial, pharma, agri, general.
+
+The old LLM-driven adapter and 7 per-journey label files (`data/content/*_labels.json`) were deleted in Phase 7 cleanup. See `docs/superpowers/specs/2026-07-03-supabase-content-backend-design.md`.
 
 ## Add A New Brand
 
 1. Create brand JSON at `data/brands/<brand_id>.json`.
 2. Add required fields: `id`, `name`, `shortName`, `industry`, `colors`, and logo asset references.
-3. Store the logo at `assets/brands/<brand_id>/logo.png`.
+3. **Auto-extract logo** from the brand's website:
+
+   ```bash
+   python3 services/brand-logo-extractor.py --brand <brand_id>
+   ```
+   
+   Or manually store the logo at `assets/brands/<brand_id>/logo.png`.
 4. Store product images at `assets/products/<brand_id>/`.
 5. Add catalog data at `data/catalogs/<brand_id>_products.json`.
 6. If cloning from JK Cement, add a `replacements` object in the brand JSON for brand names, dealer names, product/category labels, order prefixes, and shared asset paths.
@@ -203,9 +213,14 @@ templates/
   partials/         Reusable UI components
   screens/          Full-screen templates
 services/
-  content-adapter.js  LLM-powered industry label adaptation
-api/
-  experiments/      Content adaptation experiment endpoints
+  brand-logo-extractor.py  Multi-source brand logo scraper (meta tags, Clearbit, favicons, etc.)
+  content-adapter.js       Supabase-backed industry profile loader (no LLM)
+functions/         Cloudflare Pages Workers (share, health, catch-all)
+  api/
+    share.js          Share creation/retrieval
+    health.js         Health check endpoint
+  p/
+    [[catchall]].js   Branded share URL handler + re-render page
 scripts/
   generate-premium.js     Premium demo generator (Path C)
   build-template-pack.js
@@ -267,7 +282,9 @@ QA preview deployments at `https://<hash>.demo-generator-482.pages.dev` (created
 
 | Date | Commit | Changes |
 |------|--------|---------|
-| **July 2** | `780b17d`, `5a07d0e` | Synced 23 previously-unpushed commits + 2 new to origin/main (visual baselines, test-runner.py, content-adapter redesign spec, project completion plan). Live site matches local. |
+| **July 4** | `a2a161e` | Brand logos for all 23 brands via multi-source extractor; `services/brand-logo-extractor.py`; cleaned up empty/placeholder logos; docs updated. |
+| **July 4** | `c4010ef` | Fixed insightzz content (empty stub → full defect alert screens); cleaned up unsupported journey types from build.js. |
+| **July 4** | `6a8139a` | Legacy brand import (20 brands, 67 journeys); live industry dropdown from Supabase; brand selector; Tier 4 pixel visual diff; structured pino logging. |
 | **July 3** | `065d623`, `5e19e2d` | Migration foundations (off the live site): staged 22 legacy client projects, manifest extractor (84 HTMLs profiled), image extractor (236 unique images, 175MB→12MB working size). Untracked `migration/projects/` regenerable from upstream zip; does not affect deployment. |
 | June 20 | `25d94cc` | Cloudflare Pages migration — branded URLs, stealth 404, robots.txt, KV share storage |
 | June 20 | `82ed398` | Phase 4+5: AI premium demos (Path C), cleanup — prod-demo-renderer.js removed, premium generator auto-runs on build, docs updated |
@@ -308,9 +325,9 @@ https://demo-generator-482.pages.dev/p/{brand}/{slug}/
 
 Example: `https://demo-generator-482.pages.dev/p/jk-cement/abc123/`
 
-- Root URL returns stealth 404 (hides site purpose)
+- Root URL returns stealth 404 (handled by `functions/[[catchall]].js` Worker)
 - `robots.txt` blocks all crawlers
-- `404.html` shows generic "Page not found"
+- No `404.html` (removed — would override Workers)
 
 ### Security
 

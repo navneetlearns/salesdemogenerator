@@ -18,6 +18,29 @@ h3{font-size:14px;margin:12px 0 6px;color:#333}
 .brand-card{border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin:8px 0;background:#fafafa}
 .brand-card h3{margin:0 0 6px;font-size:15px;color:var(--accent)}
 .brand-card .btn{margin:2px 4px 2px 0;font-size:12px}
+/* Industry filter bar */
+.industry-filter{display:flex;gap:6px;overflow-x:auto;padding:0 0 8px;margin:0 0 8px;-webkit-overflow-scrolling:touch}
+.industry-filter::-webkit-scrollbar{height:3px}
+.industry-filter::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+.filter-btn{flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:12px;white-space:nowrap;transition:all .15s}
+.filter-btn:hover{background:#f0f0f0;border-color:#bbb}
+.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* Industry group */
+.industry-heading{font-size:13px;color:#555;margin:16px 0 8px;padding:0 0 4px;border-bottom:1px solid #eee;text-transform:uppercase;letter-spacing:.5px}
+/* Brand grid */
+.brand-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin:0 0 12px}
+.brand-card{background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:12px;transition:box-shadow .15s;cursor:default}
+.brand-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.brand-card-link{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;margin-bottom:6px}
+.brand-card-logo{width:44px;height:44px;border-radius:8px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.brand-card-logo img{max-width:40px;max-height:40px;object-fit:contain}
+.brand-card-info{display:flex;flex-direction:column;min-width:0}
+.brand-card-name{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-card-count{font-size:11px;color:#888}
+.brand-card-journeys{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.journey-pill{display:inline-block;padding:2px 8px;border-radius:12px;background:#f0f5ff;color:#1a5fb4;font-size:11px;text-decoration:none;white-space:nowrap;transition:background .15s}
+.journey-pill:hover{background:#dce8f5}
+.journey-pill.more{background:transparent;color:#888;font-size:11px;cursor:default}
 .brand-details {
   padding: 0;
   overflow: hidden;

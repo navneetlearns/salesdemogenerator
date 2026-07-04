@@ -166,74 +166,49 @@ Brand asset references may be written as either filenames or repo-style paths su
 
 During `--dist` builds, optimized dist assets are mirrored back into `generated/<brand>/assets` so the generated HTML and packaged dist HTML both resolve the same `./assets/...` paths.
 
-## Supabase Content Backend (July 3, 2026 — PLANNED)
+## Supabase Content Backend (July 4, 2026 — ✅ LIVE)
 
-**Status:** Design approved, implementation pending Supabase project provisioning
-by the user (URL + anon key + service-role key in `.env`).
+**Status:** Fully deployed. Supabase project `lrjkzsrqvvotqjyascju` (ap-south-1) is the
+single source of truth for content and images.
 
-The LLM-driven content adapter (`services/content-adapter.js`, which calls OpenCode
-API at runtime to rewire UI labels per industry) is being replaced by a deterministic
-Supabase-backed Industry Profile System. Supabase (managed Postgres + Storage + auto
-REST API + admin Studio) becomes the single source of truth for content and images.
+The content adapter (`services/content-adapter.js`) loads industry profiles from
+Supabase at build time — no LLM runtime dependency. 
 
-**Tables (planned):**
-- `industries` — one row per industry (cement, fmcg, retail, …). JSONB columns hold
-  comprehensive profiles: `labels` (21 UI-label keys), `messages` (welcome + step1..N
-  WhatsApp conversation content with `{{brandName}}`/`{{dealerStoreName}}`/`{{product}}`
-  placeholders — scope iii), `descriptions` (per-step screen descriptions), `terminology`
-  (product_categories, partner_types, units). Replaces the per-brand JSON duplication
-  of `journey.messages.*` objects AND the 7 manual per-journey label files.
-- `brands` — one row per brand. Replaces `data/brands/*.json` on disk.
-- `journeys` — per-(brand, journey_type) overrides layered over the industry profile.
-- `images_meta` — references to image files in the Supabase Storage `demo-assets` bucket.
+**Tables:**
+- `industries` — 6 rows (cement, fmcg, industrial, pharma, agri, general). JSONB columns hold comprehensive profiles: `labels` (21 UI-label keys), `messages` (welcome + step1..N WhatsApp conversation content with `{{brandName}}`/`{{dealerStoreName}}`/`{{product}}` placeholders), `descriptions` (per-step screen descriptions), `terminology` (product_categories, partner_types, units).
+- `brands` — 23 brands (3 live + 20 imported).
+- `journeys` — per-(brand, journey_type) data.
+- `images_meta` — references to 165 images in `demo-assets` Storage bucket.
 
-**Row-Level Security:** public SELECT on all tables (no anon key needed in frontend);
-admin-only INSERT/UPDATE/DELETE via service-role key (never shipped to frontend).
+**Row-Level Security:** public SELECT on all tables; admin-only INSERT/UPDATE/DELETE via
+secret key (never shipped to frontend).
 
 **Integration by rendering path:**
-- Path A (`build.js`): fetches industry profile at build time, bakes absolute Supabase
-  Storage image URLs into `dist/{brand}/index.html`. No LLM, no API key beyond anon.
-- Path B (`demo-renderer.js` + `demo-ui.js`): wizard's industry dropdown reads from
-  `/rest/v1/industries` live. On Generate, fetches profile live from Supabase. No
-  silent LLM call. Adding a new industry in Supabase Studio instantly appears in wizard.
-- `api/experiments/adapt-content.js` and `api/experiments/save-content.js`: removed.
-  Supabase IS the persistence layer; no sessions needed.
+- Path A (`build.js`): fetches industry profile at build time, bakes content into `dist/{brand}/index.html`. No LLM.
+- Path B (`demo-renderer.js` + `demo-ui.js`): wizard's industry dropdown reads from `/rest/v1/industries` live via publishable key (`apikey` header).
+- Old LLM endpoints `api/experiments/adapt-content.js` and `api/experiments/save-content.js`: **deleted.**
 
-**Full schema + RLS + storage + migration phasing:**
-`docs/superpowers/specs/2026-07-03-supabase-content-backend-design.md`
-**Completion plan (refreshed July 3):**
-`docs/superpowers/plans/2026-07-01-project-completion.md`
+**Full schema + RLS + storage:** `docs/superpowers/specs/2026-07-03-supabase-content-backend-design.md`
 
-## Legacy Project Migration (July 3, 2026 — PRIMARY TRACK)
+## Legacy Project Migration (July 4, 2026 — ✅ COMPLETE)
 
 The 22 client projects from `whatsapp-mock-generator-main` (84 HTML journey files,
-~197MB, deployed on AWS Amplify ap-south-1) are being adapted into the
+~197MB, deployed on AWS Amplify ap-south-1) have been adapted into the
 demo-generator's data-driven structure. Originals untouched; copies in
 `migration/projects/` (gitignored, regenerable from upstream zip).
 
-**Foundations (DONE, commits `065d623` + `5e19e2d`):**
-- `migration/scripts/extract_project_manifest.py` — profiles every legacy HTML
-  (brand colors, brand name, journey type, step/screen counts, base64 image count,
-  inline CSS/JS size, screen labels, message samples). Outputs `manifest.json` +
-  `manifest.csv` covering all 84 files.
-- `migration/scripts/extract_images.py` — rewrites each HTML in place, extracting
-  every base64-embedded image to per-project `_images/` folders and replacing inline
-  data with relative URLs. 236 unique images extracted (deduped from ~921 raw
-  occurrences across projects). Working HTML size: 175MB → 12MB (93% reduction).
+**Phases completed (all committed to `main`):**
 
-**Remaining sub-phases:**
-- **2.2 Content extraction:** parse slimmed HTMLs into structured JSON matching
-  `data/journeys/{brand}_{journey}.json` schema → `migration/extracted/`.
-- **2.3 Brand metadata extraction:** colors/fonts/names → `data/brands/{slug}.json`.
-- **2.4 New journey-type modules:** 9 non-canonical journey types discovered
-  (customer_groups, direct_enquiries, support_tickets, erp_externalization,
-  scrap_marketplace, scrap_procurement, domestic_customer_lifecycle,
-  defect_alert_management, dsr_expense_claim, plumber_registration_engagement,
-  daily_rate_broadcast, retailer_ordering, collections_finance_ptp_incentives)
-  — classify as new modules or aliases to canonical journeys.
+| Phase | What | Output |
+|-------|------|--------|
+| **0. Foundations** | Copy 22 projects, build manifest, extract images | `migration/manifest.json`, 236 images extracted, 175MB→12MB HTML size |
+| **1. Content extraction** | Parse legacy HTMLs → structured JSON | 76 JSONs in `migration/extracted/` |
+| **2. Brand metadata** | Extract colors, fonts, names | 21 brand metadata files in `migration/brand_metadata/` |
+| **3. Import** | Create `data/brands/` + `data/journeys/` | 20 brand JSONs + 67 journey JSONs |
+| **4. Classification** | Classify 9 unknown journey types as aliases | `migration/journey_classification.json` — all aliases, 0 new modules needed |
+| **5. Logos** | Multi-source extraction of brand logos | 23/23 brands have logos in `assets/brands/{slug}/` |
 
-**Spec:** `docs/superpowers/specs/2026-07-03-supabase-content-backend-design.md` § 5
-**Plan:** `docs/superpowers/plans/2026-07-01-project-completion.md` § Phase 2
+**Result:** 20 legacy brands + 3 original = **23 brands, ~99 journey files**, all building and passing 72/72 tests.
 
 ## Template Boundary
 
