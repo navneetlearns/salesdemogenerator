@@ -1,18 +1,129 @@
 {
-  "id": "journey_defect_alert_management",
-  "steps": [],
-  "messages": {
-    "welcome": {
-      "title": "Welcome",
-      "body": "",
-      "time": "",
-      "cta": ""
-    }
-  },
+  "id": "defect_alert_management",
+  "title": "Defect Alert Management",
+  "description": "AI-powered defect alert management for pharma quality assurance",
+  "industry": [
+    "pharma"
+  ],
   "brands": [
     "insightzz"
   ],
-  "title": "Defect Alert Management",
-  "description": "Defect Alert Management",
-  "industry": []
+  "steps": [
+    {
+      "num": 1,
+      "title": "Defect Report Received",
+      "description": "Quality team receives automated defect alert from production line",
+      "tags": [
+        "Alert"
+      ],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "Defect alert notification",
+          "data": {
+            "header": "🚨 Defect Alert #DA-2026-0742",
+            "body": "Batch <strong>BAT-4231</strong> has reported <strong>3 quality deviations</strong> at Line 4. Severity: <span style=\"color:#E8201E;\">High</span>.\n\nProduct: Paracetamol 500mg\nLot: L-2026-0881\nDetected at: Compression Station #7\n\nImmediate investigation required.",
+            "buttons": [
+              {
+                "label": "View Report",
+                "url": "/defect/DA-2026-0742"
+              }
+            ]
+          }
+        },
+        {
+          "type": "screen-description",
+          "description": "Step 1 Summary",
+          "data": {
+            "content": "<strong>Automated Alert:</strong> System detects deviation → alert routed to QA team via WhatsApp with batch details and severity level."
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Investigation Assigned",
+      "description": "QA Manager assigns investigation team and initiates root cause analysis",
+      "tags": [
+        "Investigation",
+        "RCA"
+      ],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Investigation dashboard in PWA",
+          "data": {
+            "title": "Defect Investigation - DA-2026-0742",
+            "content": "<div style='padding:16px;font-family:Inter,sans-serif;'><h3>Investigation #DA-2026-0742</h3><div style='background:#f8f9fa;border-radius:8px;padding:12px;margin:12px 0;'><div style='display:flex;justify-content:space-between;margin-bottom:8px;'><span style='color:#666;'>Status:</span><span style='color:#E8201E;font-weight:600;'>Under Investigation</span></div><div style='display:flex;justify-content:space-between;margin-bottom:8px;'><span style='color:#666;'>Assigned To:</span><span>Dr. Priya Sharma</span></div><div style='display:flex;justify-content:space-between;margin-bottom:8px;'><span style='color:#666;'>Target Closure:</span><span>48 hours</span></div><hr style='border:none;border-top:1px solid #eee;margin:12px 0;'><h4 style='margin:0 0 8px;'>Root Cause Analysis</h4><div style='background:#fff;border:1px solid #ddd;border-radius:6px;padding:10px;margin:6px 0;'><span style='font-weight:500;'>Compression pressure variance</span><br><span style='color:#666;font-size:12px;'>Machine calibration drifted by 2.3%</span></div></div></div>"
+          }
+        },
+        {
+          "type": "screen-description",
+          "description": "Step 2 Summary",
+          "data": {
+            "content": "<strong>RCA Initiated:</strong> QA team assigns investigation to domain expert with automated timeline tracking."
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "CAPA Execution",
+      "description": "Corrective and Preventive Actions implemented based on RCA findings",
+      "tags": [
+        "CAPA",
+        "Resolution"
+      ],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "CAPA report shared via WhatsApp",
+          "data": {
+            "documentName": "CAPA_DA-2026-0742.pdf",
+            "body": "✅ Corrective Action Completed\n\nRoot Cause: Compression roller wear beyond tolerance (2.3% drift)\n\nActions Taken:\n• Roller replaced (Part #: CP-8842-K)\n• Calibration reset to baseline\n• 3-hour stability test: PASS\n\nPreventive Action: PM schedule updated — weekly calibration checks for Compression Station #7.\n\nNext review: 14 days",
+            "buttons": [
+              {
+                "label": "Download CAPA Report",
+                "url": "/capa/DA-2026-0742"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Closure & Monitoring",
+      "description": "Defect closed with monitoring period for recurrence tracking",
+      "tags": [
+        "Closure",
+        "Monitoring"
+      ],
+      "screens": [
+        {
+          "type": "whatsapp-message",
+          "description": "Closure notification",
+          "data": {
+            "sender": "system",
+            "body": "🔒 Defect DA-2026-0742 CLOSED\n\nTotal duration: 36 hours 22 mins\nClosure reason: CAPA verified effective\nMonitoring period: 30 days\n\n⚠️ Recurrence alert: If similar defect occurs within 30 days, case auto-escalates to Senior QA Director.",
+            "timestamp": "09:22 AM"
+          }
+        },
+        {
+          "type": "screen-description",
+          "description": "Step 4 Summary",
+          "data": {
+            "content": "<strong>Closure:</strong> Defect closed with auto-monitoring. Any recurrence within 30-day window triggers escalation."
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "welcome": "🔬 Welcome to Insightzz Defect Alert System. You will be notified of quality deviations in real-time.",
+    "step1": "⚠️ Defect alert received for Batch BAT-4231. Immediate investigation required.",
+    "step2": "🔍 Investigation assigned to Dr. Priya Sharma. RCA in progress.",
+    "step3": "✅ CAPA completed. Roller replaced and calibration reset.",
+    "step4": "🔒 Defect closed. Monitoring period: 30 days."
+  }
 }

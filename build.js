@@ -661,7 +661,6 @@ async function build() {
       'order_to_cash', 'field_ops_expense', 'dealer_engagement', 
       'retailer_onboarding', 'retailer_loyalty', 'automated_collections',
       'campaigns_queries', 'dt_fulfillment_payment', 'retailer_activation',
-      'scrap_trade', 'customer_lifecycle', 'defect_alert_management'
     ]);
 
     for (const journeyFile of allJourneyFiles) {
