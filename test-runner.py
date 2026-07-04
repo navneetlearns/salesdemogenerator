@@ -78,6 +78,18 @@ def main():
         print(f"  {line}")
     results.append(("Custom Demos", ok))
 
+    # Test 4: Pixel-level visual diff (Tier 4)
+    print("\n--- Pixel Visual Diff ---")
+    extra_args = ["--update-baseline"] if baseline_mode else []
+    r4 = subprocess.run(
+        [sys.executable, str(BASE / "test" / "tier4-visual-diff.py")] + extra_args,
+        capture_output=True, text=True, timeout=300
+    )
+    for line in r4.stdout.strip().split('\n')[-6:]:
+        print(f"  {line}")
+    tier4_ok = r4.returncode == 0
+    results.append(("Pixel Visual Diff", tier4_ok))
+
     # Summary
     print("\n" + "=" * 60)
     print("SUMMARY")
