@@ -934,9 +934,10 @@ async function build() {
               for (const jf of jFiles) {
                 try {
                   const jd = await fs.readJson(path.join(journeysDir, jf));
+                  const journeyKey = jf.replace(bd.id + '_', '').replace('.json', '');
                   brandJourneys.push({
-                    id: jd.id,
-                    title: jd.title || jd.id,
+                    id: journeyKey,
+                    title: jd.title || journeyKey,
                     brandId: bd.id,
                     stepCount: jd.steps ? jd.steps.length : 0,
                   });
