@@ -343,3 +343,4 @@ Example: `https://demo-generator-482.pages.dev/p/jk-cement/abc123/`
 - `AI_AGENT_RULES.md` -- AI-assisted edit safety guardrails
 - `ISSUES_AND_RESOLUTIONS.md` -- Known bugs and architectural issues
 - `USER_MANUAL.md` -- Non-technical user guide for adding brands
+# trigger rebuild
