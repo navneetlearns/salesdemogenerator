@@ -16,6 +16,8 @@ const { getIndustryProfile, applyProfileToJourney } = require('./services/conten
 const screenRenderer = require('./lib/screen-renderer');
 
 const ROOT = __dirname;
+const createLogger = require('./lib/logger');
+const log = createLogger('build');
 const DATA_DIR = path.join(ROOT, 'data');
 const TEMPLATES_DIR = path.join(ROOT, 'templates');
 const GENERATED_DIR = path.join(ROOT, 'generated');
@@ -310,7 +312,8 @@ async function build() {
     if (!brandFile.endsWith('.json')) continue;
     const brandId = path.basename(brandFile, '.json');
     builtBrandIds.push(brandId);
-    console.log(`\n--- Building for brand: ${brandId} ---`);
+    log.info({ brand: brandId }, 'Building brand');
+  const brandStart = Date.now();
 
     const brand = await fs.readJson(path.join(DATA_DIR, 'brands', brandFile));
     if (!validateBrand(brand)) {
@@ -519,6 +522,7 @@ async function build() {
         console.warn('  Dist validation warnings:');
         distErrors.forEach(e => console.warn(`    ⚠ ${e}`));
       }
+      log.info({ brand: brandId, bytes: (report.totalBuildBytes / 1024).toFixed(1) }, 'Dist build complete');
       console.log(`  Dist: dist/${brandId}/ (${(report.totalBuildBytes / 1024).toFixed(1)} KB)`);
       console.log(`  Manifest: dist/${brandId}/asset-manifest.json`);
       console.log(`  Report: dist/${brandId}/build-report.json`);
@@ -715,6 +719,9 @@ async function build() {
     }
   }
 
+  const totalDuration = Date.now() - brandStart;
+  log.info({ brand: brandId, duration: totalDuration }, 'Build done');
+  
   console.log(`\nBuild complete.${BUILD_DIST ? ' → dist/' : ''}`);
 
   // ── Generate premium demos (Path C) after dist build ──

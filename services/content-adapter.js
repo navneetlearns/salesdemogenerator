@@ -7,6 +7,8 @@
 const path = require('path');
 const fs = require('fs');
 const ROOT = path.resolve(__dirname, '..');
+const createLogger = require('../lib/logger');
+const log = createLogger('adapter');
 
 // Read .env as fallback when process.env doesn't have the vars (WSL→Windows node.exe)
 function readDotEnv(key) {
@@ -35,18 +37,21 @@ const PUBLISHABLE_KEY = readDotEnv('SUPABASE_PUBLISHABLE_KEY');
  */
 async function getIndustryProfile(name) {
   if (!SUPABASE_URL || !PUBLISHABLE_KEY) {
-    console.warn('[content-adapter] SUPABASE_URL or PUBLISHABLE_KEY not set; using empty profile');
+    log.warn({ supabase_url: !!SUPABASE_URL, publishable_key: !!PUBLISHABLE_KEY }, 'Supabase credentials not set; using empty profile');
     return { name: name || 'general', labels: {}, messages: {}, descriptions: {}, terminology: {} };
   }
 
   const target = name || 'general';
   const url = `${SUPABASE_URL}/rest/v1/industries?name=eq.${target}&select=*`;
+  const start = Date.now();
   const res = await fetch(url, {
     headers: { 'apikey': PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
   });
+  const duration = Date.now() - start;
 
   if (!res.ok) {
-    console.warn(`[content-adapter] GET industries/${target} failed: ${res.status}`);
+    const body = await res.text().catch(() => '');
+    log.warn({ industry: target, status: res.status, duration, body: body.slice(0, 200) }, 'Industry profile fetch failed');
     // Fallback to general
     if (target !== 'general') return getIndustryProfile('general');
     return { name: 'general', labels: {}, messages: {}, descriptions: {}, terminology: {} };
@@ -57,6 +62,8 @@ async function getIndustryProfile(name) {
     if (target !== 'general') return getIndustryProfile('general');
     return { name: 'general', labels: {}, messages: {}, descriptions: {}, terminology: {} };
   }
+
+  log.info({ industry: target, label: data[0]?.label, duration }, 'Industry profile loaded');
 
   return data[0];
 }
