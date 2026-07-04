@@ -282,7 +282,7 @@ QA preview deployments at `https://<hash>.demo-generator-482.pages.dev` (created
 
 | Date | Commit | Changes |
 |------|--------|---------|
-| **July 4** | `a2a161e` | Brand logos for all 23 brands via multi-source extractor; `services/brand-logo-extractor.py`; cleaned up empty/placeholder logos; docs updated. |
+| **July 4** | `a3a9022`, `e5fe9e9` | **Fixed journey IDs** in API to match HTML filenames (`build.js:938`); **fixed CF Pages auto-deploy** (production branch → `main`, build cmd → `npm run build:dist`). Live site now serves latest app.js with industry-filtered UI. |
 | **July 4** | `c4010ef` | Fixed insightzz content (empty stub → full defect alert screens); cleaned up unsupported journey types from build.js. |
 | **July 4** | `6a8139a` | Legacy brand import (20 brands, 67 journeys); live industry dropdown from Supabase; brand selector; Tier 4 pixel visual diff; structured pino logging. |
 | **July 3** | `065d623`, `5e19e2d` | Migration foundations (off the live site): staged 22 legacy client projects, manifest extractor (84 HTMLs profiled), image extractor (236 unique images, 175MB→12MB working size). Untracked `migration/projects/` regenerable from upstream zip; does not affect deployment. |

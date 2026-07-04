@@ -2,8 +2,8 @@
 
 > Computed from live analysis of the codebase and generated output.
 > Branch: `main`
-> Last updated: July 4, 2026. Tests: 72/72 pass. Supabase backend live. Deployed on Cloudflare Pages.
-> Local and origin/main in sync. Content adapter rewritten — no LLM runtime dependency.
+> Last updated: July 4, 2026 (Session 2). Tests: 71/72 pass (1 pre-existing demo-ui-static failure). Supabase backend live. Deployed on Cloudflare Pages.
+> Local and origin/main in sync. CF Pages build config fixed (production branch: `main`, build command: `npm run build:dist`).
 
 ---
 
@@ -607,9 +607,69 @@ Committed 28 visual regression baselines + test-runner.py + test-custom-demo.py 
 
 Created `functions/api/health.js` — a proper CF Pages Function returning JSON. The original MIGRATION-2 diagnosis (blaming `functions/api/share.js` catch-all) was wrong; the real cause was a missing health Pages Function, causing CF Pages to serve the SPA fallback. Pending commit + push + live verification.
 
+## July 4, 2026 — Journey ID Mismatch + CF Pages Deploy Fix
+
+### DEPLOY-1: Journey IDs in `/api/journeys.json` Mismatched HTML Filenames — RESOLVED
+
+**Issue:** The UI journey pills linked to non-existent pages for 18 of 23 imported brands. The API reported journey IDs like `awl_automated_collections` but actual HTML files were named `automated_collections.html`.
+
+**Root cause:** `build.js` (line 938) used the journey JSON's internal `id` field (`jd.id`) instead of deriving the canonical journey type from the filename. For imported legacy brands, `jd.id` was a legacy-specific prefix+type combo, while the build writes HTML with canonical type names.
+
+**Resolution:** Changed `build.js:938` to derive the journey key from the filename:
+```javascript
+const journeyKey = jf.replace(bd.id + '_', '').replace('.json', '');
+brandJourneys.push({ id: journeyKey, title: jd.title || journeyKey, ... });
+```
+
+**Files changed:** `build.js` (line 938)
+
+**Verified:** All 23 brands now have journey IDs matching actual HTML filenames.
+
+**Status:** RESOLVED July 4, 2026.
+
+### DEPLOY-2: CF Pages Auto-Deploy Broken — RESOLVED
+
+**Issue:** Git pushes to `main` triggered preview builds that always failed. Production URL served stale code from 15h ago.
+
+**Root cause:** Two CF Pages config issues detected via API:
+1. **Production branch** was set to `master` (not `main`), so pushes to `main` went to Preview environment
+2. **Build command** was empty (`''`), so the build stage ran nothing and failed
+
+**Resolution:** Updated via Cloudflare API:
+- Set `production_branch` to `main`
+- Set `build_command` to `npm run build:dist`
+
+**Config file:** `wrangler.toml` — added `pages_build_command = "npm run build:dist"` (note: CF Pages dashboard settings override wrangler.toml for git builds; the API call was required)
+
+**Verified:** Commit `e5fe9e9` triggered a successful production build (all 5 stages passed: queued, initialize, clone_repo, build, deploy).
+
+**Status:** RESOLVED July 4, 2026.
+
+### BUG-NAN-1: Retailer Loyalty Journeys Show NaN in Progress Bars — OPEN
+
+**Issue:** The `retailer_loyalty` journey renders `width:NaN%` and `₹NaN` in the progress bar and next-tier amount display. Affects all 9 brands with this journey type.
+
+**Root cause:** The `loyalty.tier` data structure is missing from all retailer_loyalty journey JSONs. The templates at `templates/partials/step3-retailer_loyalty.hbs` and `step6-retailer_loyalty.hbs` compute:
+```
+{{multiply (divide journey.loyalty.tier.progressAmount journey.loyalty.tier.currentMax) 100}}
+→ width:NaN%
+{{subtract journey.loyalty.tier.nextMin journey.loyalty.tier.progressAmount}}
+→ ₹NaN
+```
+When `journey.loyalty.tier` is undefined, arithmetic helpers produce `NaN`.
+
+**Affected files:**
+- `data/journeys/*_retailer_loyalty*.json` (9 files) — missing `loyalty.tier` data
+- `templates/partials/step3-retailer_loyalty.hbs:21,27-29` — no fallback for missing data
+- `templates/partials/step6-retailer_loyalty.hbs:39,46` — no fallback for missing data
+
+**Fix pending:** Add `loyalty.tier` data to each brand's JSON and/or add `{{#if}}` fallback guards in templates.
+
+**Status:** OPEN — planned fix before next deploy.
+
 ---
 
-## Status Table (July 2)
+## Status Table (July 4, 2026 — Session 2)
 
 | Priority | Issue | Type | Effort | Status |
 |----------|-------|------|--------|--------|
@@ -702,9 +762,11 @@ User directive July 3: *"forget about premium — top priority is content."* The
 
 | Priority | Issue | Type | Effort | Status |
 |----------|-------|------|--------|--------|
-| **P0** | MIGRATION-1: 22 legacy client projects → demo-generator architecture | Migration | High | FOUNDATIONS DONE July 3 (copy + manifest + image extraction committed); content extraction, brand metadata, journey-type modules PENDING |
-| **P0** | ARCH-PIVOT-1: Content adapter → Supabase backend | Architecture | High | DECISION July 3, spec written; implementation BLOCKED on user-provisioning Supabase credentials |
-| **P0** | PHASE-1: Commit + deploy `/api/health` fix | Bug | Low | Code WRITTEN July 2 (untracked); commit + deploy + verify PENDING |
-| **P1** | Content adapter implementation (scope iii: labels + messages + descriptions + WhatsApp tone) | Feature | High | SPEC READY; pending Supabase provisioning + Sub-phase 2.2 content extraction |
+| **P0** | MIGRATION-1: 22 legacy client projects → demo-generator architecture | Migration | High | FOUNDATIONS DONE July 3. Content extraction, brand metadata, journey-type modules PENDING |
+| **P0** | ARCH-PIVOT-1: Content adapter → Supabase backend | Architecture | High | DONE July 4 — 6 industries seeded, 99 journeys working, live industry dropdown |
+| **P0** | DEPLOY-1: Journey IDs mismatch in API | Bug | Low | RESOLVED July 4 — `build.js:938` uses filename-derived IDs |
+| **P0** | DEPLOY-2: CF Pages auto-build broken | Bug | Medium | RESOLVED July 4 — production branch: `main`, build cmd: `npm run build:dist` |
+| **P1** | BUG-NAN-1: Retailer loyalty shows NaN | Bug | Medium | OPEN — missing `loyalty.tier` data in 9 JSON files |
+| **P1** | Content adapter implementation (scope iii) | Feature | High | DONE July 4 — Supabase-backed, 6 industry profiles seeded |
 | **P1** | Sequence: Content/Migration first; Path C premiums OUT OF SCOPE | Directive | n/a | CONFIRMED July 3 |
 | **P3** | STR-4: Empty block partials | Architecture | Medium | Still open — scheduled for Phase 4 (build.js split) |
