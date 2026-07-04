@@ -1,0 +1,3158 @@
+[
+  {
+    "name": "cement",
+    "label": "Cement",
+    "partner_label": "Dealer",
+    "unit": "bag",
+    "unit_plural": "bags",
+    "currency": "INR",
+    "currency_symbol": "₹",
+    "category_tabs": [],
+    "labels": {
+      "browseProducts": "Browse Products",
+      "placeOrder": "Place an Order",
+      "repeatLastOrder": "Repeat Last Order",
+      "currentSchemes": "Current Schemes",
+      "priceList": "Price List",
+      "viewInvoices": "View Invoices",
+      "accountLedger": "Account Ledger",
+      "payOutstanding": "Pay Outstanding",
+      "orderDashboard": "Order Dashboard",
+      "orderConfirmed": "Order Confirmed",
+      "newInvoiceRaised": "New Invoice Raised",
+      "generatePaymentAdvice": "Generate Payment Advice",
+      "cashDiscountReminder": "Cash Discount Expiring Tomorrow",
+      "invoicePaymentDue": "Invoice Payment Due",
+      "paymentReceived": "Payment Received",
+      "creditNoteIssued": "Credit Note Issued",
+      "navDashboard": "Dashboard",
+      "navOrderHistory": "Order History",
+      "navInvoices": "Invoices",
+      "navPayments": "Payments",
+      "navLedger": "Ledger",
+      "createGroup": "Create Group",
+      "newGroup": "New Group",
+      "addMembers": "Add Members",
+      "groupName": "Group Name",
+      "cancel": "Cancel",
+      "beatPlanning": "Beat Planning",
+      "todayVisitPlan": "Today's Visit Plan",
+      "visitList": "Visit List",
+      "storeCheckIn": "Store Check-In",
+      "orderCapture": "Order Capture",
+      "retailerOnboarding": "Retailer Onboarding",
+      "activityReports": "Activity Reports",
+      "attendanceManagement": "Attendance Management",
+      "expenseClaims": "Expense Claims",
+      "travelExpense": "Travel Expense",
+      "meetingExpense": "Meeting Expense",
+      "eventExpense": "Event Expense",
+      "dayClosure": "Day Closure",
+      "clockedIn": "Clocked In",
+      "pendingApproval": "Pending for Approval",
+      "underReview": "Under Review",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejected": "Rejected",
+      "disbursed": "Disbursed",
+      "waitingForDisbursement": "Waiting for Disbursement",
+      "view": "View",
+      "status": "Status",
+      "amount": "Amount",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "name": "Name",
+      "claimId": "Claim ID",
+      "claimType": "Claim Type",
+      "dsrName": "DSR Name",
+      "actions": "Actions",
+      "smartAutomation": "Smart Automation",
+      "beatPlanCommand": "Beat Plan Command",
+      "zoAiCapabilities": "ZoAi Capabilities",
+      "hiRavi": "Hi Ravi",
+      "typeMessage": "Type a message",
+      "showingRecords": "Showing 5 of 5 records",
+      "today": "Today",
+      "automatedPaymentReminder": "Automated Payment Reminder",
+      "paymentReminder": "Payment Reminder",
+      "preDueReminderSent": "Pre-Due Reminder Sent",
+      "paymentConfirmed": "Payment Confirmed",
+      "invoiceBreakdown": "Invoice Breakdown",
+      "invoiceWiseBreakup": "Invoice-wise breakup",
+      "totalOutstanding": "Total Outstanding",
+      "promiseToPay": "Promise-to-Pay",
+      "ptpConfirmed": "PTP Confirmed & Logged",
+      "schemeUnlocked": "Scheme Unlocked for PTP Date",
+      "extraScheme": "Extra scheme",
+      "fastDeliveryPriority": "Fast delivery priority",
+      "alternatePaymentDates": "AI Offers Alternate Payment Dates",
+      "aiInitiatesPtp": "AI Initiates PTP + Scheme Hook",
+      "aiAsksAlternateDate": "AI Asks Alternate Date — Warm Tone + 3 Options",
+      "retailerCommits": "Retailer Commits to Friday",
+      "retailerConfirmsPtp": "Retailer Confirms PTP — Promise Registered",
+      "retailerDeclines": "Retailer Declines — Taps \"Nahi ho paayega\"",
+      "retailerSelectsAlternate": "Retailer Selects Alternate Date — Taps \"Friday\"",
+      "confirm": "Confirm",
+      "confirmKarein": "Confirm karein",
+      "confirmKarnaChahenge": "Confirm karna chahenge?",
+      "dhanyawaad": "Dhanyawaad",
+      "samajhGaya": "Samajh gaya",
+      "perfect": "Perfect",
+      "nahiHoPaayega": "Nahi ho paayega",
+      "karDunga": "Kar dunga",
+      "aapKaunsaDin": "Aap kaunsa din comfortable rahenge?",
+      "aapkaPtpRegister": "Aapka Promise-to-Pay register ho gaya hai",
+      "aapneKalPayment": "Aapne kal payment ka commitment diya tha",
+      "agarAap": "Agar aap",
+      "takPaymentKarteHain": "tak payment karte hain",
+      "nextWeek": "Next Week",
+      "lastSupply": "Last supply",
+      "managedByZotok": "Managed by ZoTok powered by Zono",
+      "extraSchemeUnlockHoga": "Extra scheme unlock hoga",
+      "fastDispatchMilega": "Fast dispatch milega",
+      "highMovingSkuPriority": "High-moving SKUs priority allocation",
+      "nextOrderParAapko": "Next order par aapko",
+      "bulkPurchaseCampaign": "Bulk Purchase Campaign",
+      "festiveCampaign": "Festive Campaign",
+      "productCategories": "Product Categories",
+      "selectCategory": "Select a category",
+      "priceListResponse": "Price List Response",
+      "instantPriceList": "Instant Price List",
+      "schemeNotification": "Scheme Notification",
+      "aiExplainsScheme": "AI Explains Scheme",
+      "aiResponseHinglish": "AI Response in Hinglish",
+      "productQuery": "Product Query",
+      "queryToZoAi": "Query to ZoAi",
+      "showPriceList": "Show me price list",
+      "explainScheme": "Can you explain this scheme in Hindi?",
+      "dealerLoyaltyQuery": "Dealer Loyalty Query",
+      "pointsWalletInquiry": "Points Wallet Inquiry",
+      "creditNoteAlternative": "Credit Note Alternative",
+      "dealerCreditQuery": "Dealer Credit Query",
+      "creditLimitQuery": "What's my current credit limit?",
+      "loyaltyPointsQuery": "How many loyalty points do I have?",
+      "smartEscalation": "Smart Escalation to Sales Executive",
+      "escalateToSalesExec": "Yes, please escalate to my sales executive",
+      "zoAiTyping": "ZoAi is typing...",
+      "dealerSeEscalation": "Dealer SE Escalation",
+      "productCategorySelection": "Product Category Selection",
+      "diwaliFestiveCampaign": "Diwali Festive Campaign",
+      "orderCampaignSent": "Order Campaign Sent",
+      "campaignLaunch": "Campaign Launch",
+      "retailerNudge": "Retailer Nudge",
+      "paymentNudgeSent": "Payment Nudge Sent",
+      "queryResponse": "Query Response",
+      "aiTyping": "AI Typing",
+      "orderNow": "Order Now",
+      "howCanIHelp": "How can I help you today?",
+      "whatCanIHelp": "What can I help with?",
+      "categoryToExplore": "Which category would you like to explore?",
+      "aiAssistant": "AI Assistant",
+      "marketingTemplate": "Marketing Template — Image Header + CTA Buttons",
+      "utilityTemplateDoc": "Utility Template — Document Header + CTA",
+      "utilityTemplateText": "Utility Template — Text Header + CTA Buttons",
+      "interactiveList": "Interactive List — Bottom Sheet Open",
+      "sessionMessage": "Session Message — AI Hinglish Response",
+      "sessionTyping": "Session Message — AI Typing Indicator",
+      "loyaltyProgramAnnouncement": "Loyalty Program Announcement",
+      "turnoverBasedLoyalty": "Turnover-Based Loyalty",
+      "rewardsProgram": "Rewards Program",
+      "programHighlights": "Program Highlights",
+      "currentTier": "Current Tier",
+      "pointsBalance": "Points Balance",
+      "viewTierBenefits": "View Tier Benefits",
+      "checkPoints": "Check Points",
+      "tierBenefitsComparison": "Tier Benefits Comparison",
+      "tierProgressTracking": "Tier Progress Tracking",
+      "programSummaryDashboard": "Program Summary Dashboard",
+      "exclusiveLoyaltyOffers": "Exclusive Loyalty Offers",
+      "rewardsCatalog": "Rewards Catalog",
+      "viewCatalog": "View Catalog",
+      "redeemNow": "Redeem Now",
+      "redeemPoints": "Redeem Points",
+      "redemptionHistory": "Redemption History",
+      "contactSupport": "Contact Support",
+      "placeOrderToClimb": "Place Order to Climb",
+      "viewAllOffers": "View All Offers",
+      "viewAllTiers": "View All Tiers",
+      "downloadStatement": "Download Statement",
+      "nextTier": "Next Tier",
+      "lifetimePoints": "Lifetime Points",
+      "annualTurnover": "Annual Turnover",
+      "availableRewards": "Available Rewards",
+      "earningRates": "Earning Rates",
+      "conversionRate": "Conversion Rate",
+      "milestones": "Milestones",
+      "nextSteps": "Next Steps",
+      "needHelp": "Need help? Just type your query here!",
+      "activationCampaign": "Activation Campaign",
+      "registrationForm": "Registration Form",
+      "applicationSubmitted": "Application Submitted",
+      "retailPartnerRegistration": "Retail Partner Registration",
+      "fillBusinessDetails": "Fill in your business details to get started",
+      "storeName": "Store Name",
+      "owner": "Owner",
+      "phone": "Phone",
+      "gst": "GST",
+      "registrationSubmitted": "Registration Submitted",
+      "applicationUnderReview": "Application Under Review",
+      "retailerSelection": "Retailer Selection",
+      "selectRetailers": "Select Retailers to Nudge",
+      "nudgeRetailers": "Nudge Retailers",
+      "sendNudge": "Send Nudge to 1 Retailer",
+      "sendReminders": "Send Reminders",
+      "pendingInvoices": "Pending Invoices",
+      "orderReviewPortal": "Order Review Portal",
+      "ordersPendingBilling": "Orders Pending Billing",
+      "pendingBilling": "Pending billing",
+      "orderAlert": "Order Alert to Distributor",
+      "distributorMenu": "Distributor Menu",
+      "orderAccepted": "Order Accepted",
+      "confirmOrder": "Confirm Order",
+      "accept": "Accept",
+      "reviewCheckout": "Review & Checkout",
+      "cartReview": "Cart Review",
+      "catalogView": "Catalog View",
+      "invoiceUpload": "Invoice Upload",
+      "uploadInvoice": "Upload Invoice",
+      "dropInvoicePdf": "Drop invoice PDF here",
+      "invoiceDashboard": "Invoice Dashboard",
+      "invoiceOnWhatsApp": "Invoice on WhatsApp",
+      "aiExtractsOrder": "AI Extracts Order",
+      "handwrittenOrder": "Handwritten Order",
+      "upiPayment": "UPI Payment",
+      "scanToPay": "Scan to Pay",
+      "partnerApproved": "Partner Approved",
+      "partnerDashboard": "Partner Dashboard",
+      "fulfilmentList": "Fulfilment List",
+      "generateInvoice": "Generate Invoice",
+      "trackPayments": "Track payments",
+      "orderReports": "Order Reports",
+      "myAccount": "My Account",
+      "retailerList": "Retailer List",
+      "payments": "Payments",
+      "paymentsReceived": "Payments Received",
+      "invoicePaymentTracker": "Invoice Payment Tracker",
+      "orderNote": "Order Note",
+      "ordersToProcess": "Orders to Process",
+      "overdue": "Overdue",
+      "total": "Total",
+      "items": "Items",
+      "orderId": "Order ID",
+      "order": "Order",
+      "edit": "Edit",
+      "manageOrders": "Manage your orders",
+      "driveMoreOrders": "Drive more orders",
+      "orTapToBrowse": "or tap to browse"
+    },
+    "messages": {
+      "jk_cement_automated_collections": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "jk_cement_dealer_engagement": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "View Catalog",
+            "Cement Price List"
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Monsoon Scheme",
+            "Monsoon Protection scheme ke baare mein batao",
+            "Monsoon Protection scheme ke baare mein batao",
+            "Ramesh ji, Monsoon Protection Scheme ekdum mast hai! 🎉 Sirf 10 boxes Cement Lights ka order dijiye aur aapko ₹10/bag additional margin milega — seedha aapke account mein! Aur upar se aapke loyalty wallet mein ₹2,000 worth Points bhi credit kar denge! Yeh offer 30 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Samsung Smart TV 32\" ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Family Trip Goa (2N3D) gift mil sakta hai Aapke current points ka status check karein?",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Samsung Smart TV 32\" ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Family Trip Goa (2N3D) gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Samsung Smart TV 32\" ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Family Trip Goa (2N3D) gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Par maine agar payment ka credit uthaya hai toh kya?",
+            "Ramesh ji, mein aapki baat sales executive se kara deti hu 😊 Kya main aapko unse connect kar dun?",
+            "Haa ji",
+            "Informed the relevant sales executive ✅ Aapko unka call bahut jaldi aayega. Koi aur help chahiye?"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "View Catalog",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "jk_cement_field_ops_expense": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "jk_cement_order_to_cash": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Hi",
+            "Open Menu",
+            "View Products"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now...",
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now..."
+          ]
+        },
+        "step9": {
+          "title": "Step 9",
+          "bodies": [
+            "Submit details",
+            "Thanks Sharma Cement Stores for submitting details and choosing Grey Cement Division for settling the amount. You will receive the notification once the payment is settled with the respective divisions."
+          ]
+        },
+        "step10": {
+          "title": "Step 10",
+          "bodies": [
+            "Download Ledger"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Hi",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "jk_cement_retailer_loyalty": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "jk_cement_retailer_onboarding": {
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Register Now",
+            "Open Menu"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "View Products",
+            "Price List"
+          ]
+        },
+        "step4": {
+          "title": "Step 4",
+          "bodies": [
+            "Monsoon Scheme",
+            "Scheme thoda detail mein batao",
+            "Scheme thoda detail mein batao",
+            "Ramesh ji, JKSuper Protect ka scheme ekdum mast hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+          ]
+        },
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Register Now",
+            "Open Menu",
+            "View Products"
+          ]
+        },
+        "step7": {
+          "title": "Step 7",
+          "bodies": [
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now...",
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now..."
+          ]
+        },
+        "step8": {
+          "title": "Step 8",
+          "bodies": [
+            "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+          ]
+        },
+        "step9": {
+          "title": "Step 9",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to JK Cement Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step11": {
+          "title": "Step 11",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to JK Cement Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step12": {
+          "title": "Step 12",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to JK Cement Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Register Now",
+          "time": "",
+          "cta": ""
+        }
+      }
+    },
+    "descriptions": {
+      "jk_cement_dealer_engagement_step1": "Festive Campaign ZoTok pushes a targeted bulk purchase campaign to all active dealers in the territory to drive seasonal orders and awareness.",
+      "jk_cement_dealer_engagement_step2": "Scheme Notification ZoTok pushes the latest bulk dairy scheme as a marketing message to dealers, driving awareness and incremental orders.",
+      "jk_cement_dealer_engagement_step3": "Points Wallet Inquiry Ramesh asks about his points balance — ZoAi instantly explains the quarterly gift redemption tiers in Hinglish.",
+      "jk_cement_order_to_cash_step1": "Menu Navigation Dealer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "jk_cement_order_to_cash_step2": "WebView Catalog Dealer browses the full JK Cement product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "jk_cement_order_to_cash_step3": "Handwritten Order Dealer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "jk_cement_order_to_cash_step4": "Back Office Order Dashboard JK Cement's fulfilment team sees all incoming dealer orders on the ZoTok portal. They select JKO-48291 from Sharma Cement Stores (₹35,080 · 4 SKUs) to review and process.",
+      "jk_cement_order_to_cash_step5": "Order Confirmed Notification JK Cement's ERP triggers a WhatsApp confirmation once the order is approved. The previous \"Order Received\" message is shown faded for context. The single CTA links to read-only order details.",
+      "jk_cement_order_to_cash_step6": "ZoTok × SAP Integration Once the dealer's order is confirmed on WhatsApp and approved in the ZoTok PWA, it is pushed to SAP via ZoTok's integration layer. The JSON payload flows through the API Gateway → Payload Transformation → SAP Adapter, triggering the full order-to-bill cycle in SAP SD/FI — from sales order creation and credit check through delivery, picking, and billing document generation. OData callbacks flow back to ZoTok to update the dealer via WhatsApp.",
+      "jk_cement_order_to_cash_step7": "New Invoice Notification When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.",
+      "jk_cement_order_to_cash_step8": "Cash Discount Reminder (Auto) ZoTok automatically sends this reminder 1 day before the 7-day cash discount deadline. Dealers who haven't paid yet see exactly how much they stand to save — creating urgency without being pushy.",
+      "jk_cement_order_to_cash_step9": "Payment Received Notification ZoTok receives the bank transfer from JK Cement's ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.",
+      "jk_cement_order_to_cash_step10": "Credit Note Issued When SAP FI raises a credit note (scheme incentive or return refund), the event triggers ZoTok via webhook. ZoTok instantly sends the PDF with credit details. The dealer can view the note or tap Download Ledger to get a full statement.",
+      "jk_cement_order_to_cash_step11": "Navigation Drawer Dealer taps the JK Cement logo (hamburger) in the header — the side navigation drawer slides in, giving access to Dashboard, Order History, Invoices, Payments, and Ledger from a single portal.",
+      "jk_cement_retailer_onboarding_step1": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official JK Cement retail partners.",
+      "jk_cement_retailer_onboarding_step2": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+      "jk_cement_retailer_onboarding_step3": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+      "jk_cement_retailer_onboarding_step4": "Scheme Notification ZoTok pushes the latest Monsoon Protection Scheme as a marketing message to retailers, driving awareness and incremental orders.",
+      "jk_cement_retailer_onboarding_step5": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "jk_cement_retailer_onboarding_step6": "WebView Catalog Retailer browses the full JK Cement product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "jk_cement_retailer_onboarding_step7": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "jk_cement_retailer_onboarding_step8": "Order Alert to Distributor The distributor's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+      "jk_cement_retailer_onboarding_step9": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "jk_cement_retailer_onboarding_step10": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+      "jk_cement_retailer_onboarding_step11": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "jk_cement_retailer_onboarding_step12": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections."
+    },
+    "terminology": {
+      "order_term": "order",
+      "dealer_term": "dealer",
+      "unit_term": "bag"
+    }
+  },
+  {
+    "name": "fmcg",
+    "label": "Fmcg",
+    "partner_label": "Retailer",
+    "unit": "case",
+    "unit_plural": "cases",
+    "currency": "INR",
+    "currency_symbol": "₹",
+    "category_tabs": [],
+    "labels": {
+      "browseProducts": "Browse Products",
+      "placeOrder": "Place an Order",
+      "repeatLastOrder": "Repeat Last Order",
+      "currentSchemes": "Current Schemes",
+      "priceList": "Price List",
+      "viewInvoices": "View Invoices",
+      "accountLedger": "Account Ledger",
+      "payOutstanding": "Pay Outstanding",
+      "orderDashboard": "Order Dashboard",
+      "orderConfirmed": "Order Confirmed",
+      "newInvoiceRaised": "New Invoice Raised",
+      "generatePaymentAdvice": "Generate Payment Advice",
+      "cashDiscountReminder": "Cash Discount Expiring Tomorrow",
+      "invoicePaymentDue": "Invoice Payment Due",
+      "paymentReceived": "Payment Received",
+      "creditNoteIssued": "Credit Note Issued",
+      "navDashboard": "Dashboard",
+      "navOrderHistory": "Order History",
+      "navInvoices": "Invoices",
+      "navPayments": "Payments",
+      "navLedger": "Ledger",
+      "createGroup": "Create Group",
+      "newGroup": "New Group",
+      "addMembers": "Add Members",
+      "groupName": "Group Name",
+      "cancel": "Cancel",
+      "beatPlanning": "Beat Planning",
+      "todayVisitPlan": "Today's Visit Plan",
+      "visitList": "Visit List",
+      "storeCheckIn": "Store Check-In",
+      "orderCapture": "Order Capture",
+      "retailerOnboarding": "Retailer Onboarding",
+      "activityReports": "Activity Reports",
+      "attendanceManagement": "Attendance Management",
+      "expenseClaims": "Expense Claims",
+      "travelExpense": "Travel Expense",
+      "meetingExpense": "Meeting Expense",
+      "eventExpense": "Event Expense",
+      "dayClosure": "Day Closure",
+      "clockedIn": "Clocked In",
+      "pendingApproval": "Pending for Approval",
+      "underReview": "Under Review",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejected": "Rejected",
+      "disbursed": "Disbursed",
+      "waitingForDisbursement": "Waiting for Disbursement",
+      "view": "View",
+      "status": "Status",
+      "amount": "Amount",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "name": "Name",
+      "claimId": "Claim ID",
+      "claimType": "Claim Type",
+      "dsrName": "DSR Name",
+      "actions": "Actions",
+      "smartAutomation": "Smart Automation",
+      "beatPlanCommand": "Beat Plan Command",
+      "zoAiCapabilities": "ZoAi Capabilities",
+      "hiRavi": "Hi Ravi",
+      "typeMessage": "Type a message",
+      "showingRecords": "Showing 5 of 5 records",
+      "today": "Today",
+      "automatedPaymentReminder": "Automated Payment Reminder",
+      "paymentReminder": "Payment Reminder",
+      "preDueReminderSent": "Pre-Due Reminder Sent",
+      "paymentConfirmed": "Payment Confirmed",
+      "invoiceBreakdown": "Invoice Breakdown",
+      "invoiceWiseBreakup": "Invoice-wise breakup",
+      "totalOutstanding": "Total Outstanding",
+      "promiseToPay": "Promise-to-Pay",
+      "ptpConfirmed": "PTP Confirmed & Logged",
+      "schemeUnlocked": "Scheme Unlocked for PTP Date",
+      "extraScheme": "Extra scheme",
+      "fastDeliveryPriority": "Fast delivery priority",
+      "alternatePaymentDates": "AI Offers Alternate Payment Dates",
+      "aiInitiatesPtp": "AI Initiates PTP + Scheme Hook",
+      "aiAsksAlternateDate": "AI Asks Alternate Date — Warm Tone + 3 Options",
+      "retailerCommits": "Retailer Commits to Friday",
+      "retailerConfirmsPtp": "Retailer Confirms PTP — Promise Registered",
+      "retailerDeclines": "Retailer Declines — Taps \"Nahi ho paayega\"",
+      "retailerSelectsAlternate": "Retailer Selects Alternate Date — Taps \"Friday\"",
+      "confirm": "Confirm",
+      "confirmKarein": "Confirm karein",
+      "confirmKarnaChahenge": "Confirm karna chahenge?",
+      "dhanyawaad": "Dhanyawaad",
+      "samajhGaya": "Samajh gaya",
+      "perfect": "Perfect",
+      "nahiHoPaayega": "Nahi ho paayega",
+      "karDunga": "Kar dunga",
+      "aapKaunsaDin": "Aap kaunsa din comfortable rahenge?",
+      "aapkaPtpRegister": "Aapka Promise-to-Pay register ho gaya hai",
+      "aapneKalPayment": "Aapne kal payment ka commitment diya tha",
+      "agarAap": "Agar aap",
+      "takPaymentKarteHain": "tak payment karte hain",
+      "nextWeek": "Next Week",
+      "lastSupply": "Last supply",
+      "managedByZotok": "Managed by ZoTok powered by Zono",
+      "extraSchemeUnlockHoga": "Extra scheme unlock hoga",
+      "fastDispatchMilega": "Fast dispatch milega",
+      "highMovingSkuPriority": "High-moving SKUs priority allocation",
+      "nextOrderParAapko": "Next order par aapko",
+      "bulkPurchaseCampaign": "Bulk Purchase Campaign",
+      "festiveCampaign": "Festive Campaign",
+      "productCategories": "Product Categories",
+      "selectCategory": "Select a category",
+      "priceListResponse": "Price List Response",
+      "instantPriceList": "Instant Price List",
+      "schemeNotification": "Scheme Notification",
+      "aiExplainsScheme": "AI Explains Scheme",
+      "aiResponseHinglish": "AI Response in Hinglish",
+      "productQuery": "Product Query",
+      "queryToZoAi": "Query to ZoAi",
+      "showPriceList": "Show me price list",
+      "explainScheme": "Can you explain this scheme in Hindi?",
+      "dealerLoyaltyQuery": "Dealer Loyalty Query",
+      "pointsWalletInquiry": "Points Wallet Inquiry",
+      "creditNoteAlternative": "Credit Note Alternative",
+      "dealerCreditQuery": "Dealer Credit Query",
+      "creditLimitQuery": "What's my current credit limit?",
+      "loyaltyPointsQuery": "How many loyalty points do I have?",
+      "smartEscalation": "Smart Escalation to Sales Executive",
+      "escalateToSalesExec": "Yes, please escalate to my sales executive",
+      "zoAiTyping": "ZoAi is typing...",
+      "dealerSeEscalation": "Dealer SE Escalation",
+      "productCategorySelection": "Product Category Selection",
+      "diwaliFestiveCampaign": "Diwali Festive Campaign",
+      "orderCampaignSent": "Order Campaign Sent",
+      "campaignLaunch": "Campaign Launch",
+      "retailerNudge": "Retailer Nudge",
+      "paymentNudgeSent": "Payment Nudge Sent",
+      "queryResponse": "Query Response",
+      "aiTyping": "AI Typing",
+      "orderNow": "Order Now",
+      "howCanIHelp": "How can I help you today?",
+      "whatCanIHelp": "What can I help with?",
+      "categoryToExplore": "Which category would you like to explore?",
+      "aiAssistant": "AI Assistant",
+      "marketingTemplate": "Marketing Template — Image Header + CTA Buttons",
+      "utilityTemplateDoc": "Utility Template — Document Header + CTA",
+      "utilityTemplateText": "Utility Template — Text Header + CTA Buttons",
+      "interactiveList": "Interactive List — Bottom Sheet Open",
+      "sessionMessage": "Session Message — AI Hinglish Response",
+      "sessionTyping": "Session Message — AI Typing Indicator",
+      "loyaltyProgramAnnouncement": "Loyalty Program Announcement",
+      "turnoverBasedLoyalty": "Turnover-Based Loyalty",
+      "rewardsProgram": "Rewards Program",
+      "programHighlights": "Program Highlights",
+      "currentTier": "Current Tier",
+      "pointsBalance": "Points Balance",
+      "viewTierBenefits": "View Tier Benefits",
+      "checkPoints": "Check Points",
+      "tierBenefitsComparison": "Tier Benefits Comparison",
+      "tierProgressTracking": "Tier Progress Tracking",
+      "programSummaryDashboard": "Program Summary Dashboard",
+      "exclusiveLoyaltyOffers": "Exclusive Loyalty Offers",
+      "rewardsCatalog": "Rewards Catalog",
+      "viewCatalog": "View Catalog",
+      "redeemNow": "Redeem Now",
+      "redeemPoints": "Redeem Points",
+      "redemptionHistory": "Redemption History",
+      "contactSupport": "Contact Support",
+      "placeOrderToClimb": "Place Order to Climb",
+      "viewAllOffers": "View All Offers",
+      "viewAllTiers": "View All Tiers",
+      "downloadStatement": "Download Statement",
+      "nextTier": "Next Tier",
+      "lifetimePoints": "Lifetime Points",
+      "annualTurnover": "Annual Turnover",
+      "availableRewards": "Available Rewards",
+      "earningRates": "Earning Rates",
+      "conversionRate": "Conversion Rate",
+      "milestones": "Milestones",
+      "nextSteps": "Next Steps",
+      "needHelp": "Need help? Just type your query here!",
+      "activationCampaign": "Activation Campaign",
+      "registrationForm": "Registration Form",
+      "applicationSubmitted": "Application Submitted",
+      "retailPartnerRegistration": "Retail Partner Registration",
+      "fillBusinessDetails": "Fill in your business details to get started",
+      "storeName": "Store Name",
+      "owner": "Owner",
+      "phone": "Phone",
+      "gst": "GST",
+      "registrationSubmitted": "Registration Submitted",
+      "applicationUnderReview": "Application Under Review",
+      "retailerSelection": "Retailer Selection",
+      "selectRetailers": "Select Retailers to Nudge",
+      "nudgeRetailers": "Nudge Retailers",
+      "sendNudge": "Send Nudge to 1 Retailer",
+      "sendReminders": "Send Reminders",
+      "pendingInvoices": "Pending Invoices",
+      "orderReviewPortal": "Order Review Portal",
+      "ordersPendingBilling": "Orders Pending Billing",
+      "pendingBilling": "Pending billing",
+      "orderAlert": "Order Alert to Distributor",
+      "distributorMenu": "Distributor Menu",
+      "orderAccepted": "Order Accepted",
+      "confirmOrder": "Confirm Order",
+      "accept": "Accept",
+      "reviewCheckout": "Review & Checkout",
+      "cartReview": "Cart Review",
+      "catalogView": "Catalog View",
+      "invoiceUpload": "Invoice Upload",
+      "uploadInvoice": "Upload Invoice",
+      "dropInvoicePdf": "Drop invoice PDF here",
+      "invoiceDashboard": "Invoice Dashboard",
+      "invoiceOnWhatsApp": "Invoice on WhatsApp",
+      "aiExtractsOrder": "AI Extracts Order",
+      "handwrittenOrder": "Handwritten Order",
+      "upiPayment": "UPI Payment",
+      "scanToPay": "Scan to Pay",
+      "partnerApproved": "Partner Approved",
+      "partnerDashboard": "Partner Dashboard",
+      "fulfilmentList": "Fulfilment List",
+      "generateInvoice": "Generate Invoice",
+      "trackPayments": "Track payments",
+      "orderReports": "Order Reports",
+      "myAccount": "My Account",
+      "retailerList": "Retailer List",
+      "payments": "Payments",
+      "paymentsReceived": "Payments Received",
+      "invoicePaymentTracker": "Invoice Payment Tracker",
+      "orderNote": "Order Note",
+      "ordersToProcess": "Orders to Process",
+      "overdue": "Overdue",
+      "total": "Total",
+      "items": "Items",
+      "orderId": "Order ID",
+      "order": "Order",
+      "edit": "Edit",
+      "manageOrders": "Manage your orders",
+      "driveMoreOrders": "Drive more orders",
+      "orTapToBrowse": "or tap to browse"
+    },
+    "messages": {
+      "awl_automated_collections": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "awl_campaigns_queries": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "View Products",
+            "Price List"
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Diwali Scheme",
+            "Scheme thoda detail mein batao",
+            "Scheme thoda detail mein batao",
+            "Ramesh ji, scheme kaafi exciting hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Par maine agar payment ka credit uthaya hai toh kya?",
+            "Ramesh ji, mein aapki baat sales executive se kara deti hu 😊 Kya main aapko unse connect kar dun?",
+            "Haa ji",
+            "Informed the relevant sales executive ✅ Aapko unka call bahut jaldi aayega. Koi aur help chahiye?"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "View Products",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "awl_dt_fulfillment_payment": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Adani Wilmar Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step4": {
+          "title": "Step 4",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Adani Wilmar Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Adani Wilmar Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Order accepted ✅ All items verified. Dispatching by 19 April 2026.",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "awl_field_ops_expense": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "awl_order_to_cash": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Register Now",
+            "Open Menu",
+            "View Products"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now...",
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now..."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Register Now",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "awl_retailer_activation": {
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Register Now",
+            "Open Menu"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Register Now",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "awl_retailer_loyalty": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_automated_collections": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_campaigns_queries": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "View Products",
+            "Price List"
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Diwali Scheme",
+            "Scheme thoda detail mein batao",
+            "Scheme thoda detail mein batao",
+            "Ramesh ji, scheme kaafi exciting hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Par maine agar payment ka credit uthaya hai toh kya?",
+            "Ramesh ji, mein aapki baat sales executive se kara deti hu 😊 Kya main aapko unse connect kar dun?",
+            "Haa ji",
+            "Informed the relevant sales executive ✅ Aapko unka call bahut jaldi aayega. Koi aur help chahiye?"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "View Products",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_dealer_engagement": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "View Products",
+            "Butter Price List"
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Bulk Scheme",
+            "Q2 scheme thoda detail mein batao",
+            "Q2 scheme thoda detail mein batao",
+            "Ramesh ji, Q2 Volume Scheme kaafi exciting hai! 🎉 Aap 50 cartons Butter ka order dijiye aur hum aapko 55 cartons bhej denge — 5 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹2,000 worth ZoPs bhi credit kar denge! Yeh offer 30 Jun 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Par maine agar payment ka credit uthaya hai toh kya?",
+            "Ramesh ji, mein aapki baat sales executive se kara deti hu 😊 Kya main aapko unse connect kar dun?",
+            "Haa ji",
+            "Informed the relevant sales executive ✅ Aapko unka call bahut jaldi aayega. Koi aur help chahiye?"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "View Products",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_dt_fulfillment_payment": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Fullfilments ! 👋 Welcome to Banas Dairy Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step4": {
+          "title": "Step 4",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Fullfilments ! 👋 Welcome to Banas Dairy Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Fullfilments ! 👋 Welcome to Banas Dairy Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Order accepted ✅ All items verified. Dispatching by 19 April 2026.",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_field_ops_expense": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_order_to_cash": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Hi",
+            "Open Menu",
+            "View Products"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now...",
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now..."
+          ]
+        },
+        "step8": {
+          "title": "Step 8",
+          "bodies": [
+            "Submit details",
+            "Thanks Ramesh Dairys for submitting details and choosing Home Dairy Products for settling the amount. You will receive the notification once the payment is settled with the respective divisions."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Hi",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_post_order_communication": {
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Submit details",
+            "Thanks Ramesh Dairys for submitting details and choosing Home Dairy Products for settling the amount. You will receive the notification once the payment is settled with the respective divisions."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Submit details",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_retailer_activation": {
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Register Now",
+            "Open Menu"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Register Now",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_retailer_loyalty_invoice_collection": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_retailer_onboarding_to_cash": {
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Register Now",
+            "Open Menu"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "View Products",
+            "Price List"
+          ]
+        },
+        "step4": {
+          "title": "Step 4",
+          "bodies": [
+            "Diwali Scheme",
+            "Scheme thoda detail mein batao",
+            "Scheme thoda detail mein batao",
+            "Ramesh ji, scheme kaafi exciting hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+          ]
+        },
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Register Now",
+            "Open Menu",
+            "View Products"
+          ]
+        },
+        "step7": {
+          "title": "Step 7",
+          "bodies": [
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now...",
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now..."
+          ]
+        },
+        "step8": {
+          "title": "Step 8",
+          "bodies": [
+            "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+          ]
+        },
+        "step9": {
+          "title": "Step 9",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Banas Dairy Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step11": {
+          "title": "Step 11",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Banas Dairy Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step12": {
+          "title": "Step 12",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Banas Dairy Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Register Now",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_field_ops_expense_bkp": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_field_ops": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "vini_automated_collections": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "vini_campaigns_queries": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "View Products",
+            "Price List"
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Diwali Scheme",
+            "Scheme thoda detail mein batao",
+            "Scheme thoda detail mein batao",
+            "Ramesh ji, scheme kaafi exciting hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Par maine agar payment ka credit uthaya hai toh kya?",
+            "Ramesh ji, mein aapki baat sales executive se kara deti hu 😊 Kya main aapko unse connect kar dun?",
+            "Haa ji",
+            "Informed the relevant sales executive ✅ Aapko unka call bahut jaldi aayega. Koi aur help chahiye?"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "View Products",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "vini_dt_fulfillment_payment": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Vini Cosmetics Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step4": {
+          "title": "Step 4",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Vini Cosmetics Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Vini Cosmetics Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Order accepted ✅ All items verified. Dispatching by 19 April 2026.",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "vini_field_ops_expense": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "vini_order_to_cash": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Register Now",
+            "Open Menu",
+            "View Products"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now...",
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now..."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Register Now",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "vini_retailer_activation": {
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Register Now",
+            "Open Menu"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Register Now",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "vini_retailer_loyalty": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      }
+    },
+    "descriptions": {
+      "awl_campaigns_queries_step1": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+      "awl_campaigns_queries_step2": "Scheme Notification ZoTok pushes the latest Fortune Edible Oil Range scheme as a marketing message to retailers, driving awareness and incremental orders.",
+      "awl_campaigns_queries_step3": "Points Wallet Inquiry Ramesh asks about his points balance — ZoAi instantly explains the quarterly gift redemption tiers in Hinglish.",
+      "awl_dt_fulfillment_payment_step1": "Order Alert to Distributor The distributor's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+      "awl_dt_fulfillment_payment_step2": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "awl_dt_fulfillment_payment_step3": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+      "awl_dt_fulfillment_payment_step4": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "awl_dt_fulfillment_payment_step5": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "awl_order_to_cash_step1": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "awl_order_to_cash_step2": "WebView Catalog Retailer browses the full Adani Wilmar product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "awl_order_to_cash_step3": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "awl_retailer_activation_step1": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Adani Wilmar retail partners.",
+      "awl_retailer_activation_step2": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+      "journey_campaigns_queries_step1": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+      "journey_campaigns_queries_step2": "Scheme Notification ZoTok pushes the latest Bhujia Range scheme as a marketing message to retailers, driving awareness and incremental orders.",
+      "journey_campaigns_queries_step3": "Points Wallet Inquiry Ramesh asks about his points balance — ZoAi instantly explains the quarterly gift redemption tiers in Hinglish.",
+      "journey_dealer_engagement_step1": "Festive Campaign ZoTok pushes a targeted bulk purchase campaign to all active dealers in the territory to drive seasonal orders and awareness.",
+      "journey_dealer_engagement_step2": "Scheme Notification ZoTok pushes the latest bulk dairy scheme as a marketing message to dealers, driving awareness and incremental orders.",
+      "journey_dealer_engagement_step3": "Points Wallet Inquiry Ramesh asks about his points balance — ZoAi instantly explains the quarterly gift redemption tiers in Hinglish.",
+      "journey_dt_fulfillment_payment_step1": "Order Alert to Fullfilment The Fullfilment's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+      "journey_dt_fulfillment_payment_step2": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_dt_fulfillment_payment_step3": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+      "journey_dt_fulfillment_payment_step4": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_dt_fulfillment_payment_step5": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_order_to_cash_step1": "Menu Navigation Dealer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "journey_order_to_cash_step2": "WebView Catalog Dealer browses the full Banas Dairy product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "journey_order_to_cash_step3": "Handwritten Order Dealer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "journey_order_to_cash_step4": "Back Office Order Dashboard Banas Dairy's fulfilment team sees all incoming dealer orders on the ZoTok portal. They select BND-48291 from Ramesh Dairys (₹35,080 · 4 SKUs) to review and process.",
+      "journey_order_to_cash_step5": "Order Confirmed Notification Banas Dairy's ERP triggers a WhatsApp confirmation once the order is approved. The previous \"Order Received\" message is shown faded for context. The single CTA links to read-only order details.",
+      "journey_order_to_cash_step6": "Order History — PWA Dealer sees their full order history with status filters. The Banas Dairy logo in the header doubles as a hamburger menu — tapping it opens the navigation drawer to access other modules.",
+      "journey_order_to_cash_step7": "New Invoice Notification When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.",
+      "journey_order_to_cash_step8": "Payment Received Notification ZoTok receives the bank transfer from Banas Dairy's ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.",
+      "journey_post_order_communication_step1": "Order Submitted Notification Banas Dairy's ERP triggers a WhatsApp Business message to the dealer on order submission. The PDF attachment bar links to the order PDF while CTA buttons deep-link to the PWA for details and history.",
+      "journey_post_order_communication_step2": "Order Confirmed Notification Banas Dairy's ERP triggers a WhatsApp confirmation once the order is approved. The previous \"Order Received\" message is shown faded for context. The single CTA links to read-only order details.",
+      "journey_post_order_communication_step3": "Order History — PWA Dealer sees their full order history with status filters. The Banas Dairy logo in the header doubles as a hamburger menu — tapping it opens the navigation drawer to access other modules.",
+      "journey_post_order_communication_step4": "New Invoice Notification When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.",
+      "journey_post_order_communication_step5": "Payment Received Notification ZoTok receives the bank transfer from Banas Dairy's ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.",
+      "journey_retailer_activation_step1": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Banas Dairy retail partners.",
+      "journey_retailer_activation_step2": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+      "journey_retailer_onboarding_to_cash_step1": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Banas Dairy retail partners.",
+      "journey_retailer_onboarding_to_cash_step2": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+      "journey_retailer_onboarding_to_cash_step3": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+      "journey_retailer_onboarding_to_cash_step4": "Scheme Notification ZoTok pushes the latest Bhujia Range scheme as a marketing message to retailers, driving awareness and incremental orders.",
+      "journey_retailer_onboarding_to_cash_step5": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "journey_retailer_onboarding_to_cash_step6": "WebView Catalog Retailer browses the full Banas Dairy product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "journey_retailer_onboarding_to_cash_step7": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "journey_retailer_onboarding_to_cash_step8": "Order Alert to Distributor The distributor's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+      "journey_retailer_onboarding_to_cash_step9": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_retailer_onboarding_to_cash_step10": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+      "journey_retailer_onboarding_to_cash_step11": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_retailer_onboarding_to_cash_step12": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "vini_campaigns_queries_step1": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+      "vini_campaigns_queries_step2": "Scheme Notification ZoTok pushes the latest Fogg Deodorant Range scheme as a marketing message to retailers, driving awareness and incremental orders.",
+      "vini_campaigns_queries_step3": "Points Wallet Inquiry Ramesh asks about his points balance — ZoAi instantly explains the quarterly gift redemption tiers in Hinglish.",
+      "vini_dt_fulfillment_payment_step1": "Order Alert to Distributor The distributor's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+      "vini_dt_fulfillment_payment_step2": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "vini_dt_fulfillment_payment_step3": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+      "vini_dt_fulfillment_payment_step4": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "vini_dt_fulfillment_payment_step5": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "vini_order_to_cash_step1": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "vini_order_to_cash_step2": "WebView Catalog Retailer browses the full Vini Cosmetics product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "vini_order_to_cash_step3": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "vini_retailer_activation_step1": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Vini Cosmetics retail partners.",
+      "vini_retailer_activation_step2": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel."
+    },
+    "terminology": {
+      "order_term": "order",
+      "dealer_term": "distributor",
+      "unit_term": "case"
+    }
+  },
+  {
+    "name": "industrial",
+    "label": "Industrial",
+    "partner_label": "Client",
+    "unit": "tonne",
+    "unit_plural": "tonnes",
+    "currency": "INR",
+    "currency_symbol": "₹",
+    "category_tabs": [],
+    "labels": {
+      "browseProducts": "Browse Products",
+      "placeOrder": "Place an Order",
+      "repeatLastOrder": "Repeat Last Order",
+      "currentSchemes": "Current Schemes",
+      "priceList": "Price List",
+      "viewInvoices": "View Invoices",
+      "accountLedger": "Account Ledger",
+      "payOutstanding": "Pay Outstanding",
+      "orderDashboard": "Order Dashboard",
+      "orderConfirmed": "Order Confirmed",
+      "newInvoiceRaised": "New Invoice Raised",
+      "generatePaymentAdvice": "Generate Payment Advice",
+      "cashDiscountReminder": "Cash Discount Expiring Tomorrow",
+      "invoicePaymentDue": "Invoice Payment Due",
+      "paymentReceived": "Payment Received",
+      "creditNoteIssued": "Credit Note Issued",
+      "navDashboard": "Dashboard",
+      "navOrderHistory": "Order History",
+      "navInvoices": "Invoices",
+      "navPayments": "Payments",
+      "navLedger": "Ledger",
+      "createGroup": "Create Group",
+      "newGroup": "New Group",
+      "addMembers": "Add Members",
+      "groupName": "Group Name",
+      "cancel": "Cancel",
+      "beatPlanning": "Beat Planning",
+      "todayVisitPlan": "Today's Visit Plan",
+      "visitList": "Visit List",
+      "storeCheckIn": "Store Check-In",
+      "orderCapture": "Order Capture",
+      "retailerOnboarding": "Retailer Onboarding",
+      "activityReports": "Activity Reports",
+      "attendanceManagement": "Attendance Management",
+      "expenseClaims": "Expense Claims",
+      "travelExpense": "Travel Expense",
+      "meetingExpense": "Meeting Expense",
+      "eventExpense": "Event Expense",
+      "dayClosure": "Day Closure",
+      "clockedIn": "Clocked In",
+      "pendingApproval": "Pending for Approval",
+      "underReview": "Under Review",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejected": "Rejected",
+      "disbursed": "Disbursed",
+      "waitingForDisbursement": "Waiting for Disbursement",
+      "view": "View",
+      "status": "Status",
+      "amount": "Amount",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "name": "Name",
+      "claimId": "Claim ID",
+      "claimType": "Claim Type",
+      "dsrName": "DSR Name",
+      "actions": "Actions",
+      "smartAutomation": "Smart Automation",
+      "beatPlanCommand": "Beat Plan Command",
+      "zoAiCapabilities": "ZoAi Capabilities",
+      "hiRavi": "Hi Ravi",
+      "typeMessage": "Type a message",
+      "showingRecords": "Showing 5 of 5 records",
+      "today": "Today",
+      "automatedPaymentReminder": "Automated Payment Reminder",
+      "paymentReminder": "Payment Reminder",
+      "preDueReminderSent": "Pre-Due Reminder Sent",
+      "paymentConfirmed": "Payment Confirmed",
+      "invoiceBreakdown": "Invoice Breakdown",
+      "invoiceWiseBreakup": "Invoice-wise breakup",
+      "totalOutstanding": "Total Outstanding",
+      "promiseToPay": "Promise-to-Pay",
+      "ptpConfirmed": "PTP Confirmed & Logged",
+      "schemeUnlocked": "Scheme Unlocked for PTP Date",
+      "extraScheme": "Extra scheme",
+      "fastDeliveryPriority": "Fast delivery priority",
+      "alternatePaymentDates": "AI Offers Alternate Payment Dates",
+      "aiInitiatesPtp": "AI Initiates PTP + Scheme Hook",
+      "aiAsksAlternateDate": "AI Asks Alternate Date — Warm Tone + 3 Options",
+      "retailerCommits": "Retailer Commits to Friday",
+      "retailerConfirmsPtp": "Retailer Confirms PTP — Promise Registered",
+      "retailerDeclines": "Retailer Declines — Taps \"Nahi ho paayega\"",
+      "retailerSelectsAlternate": "Retailer Selects Alternate Date — Taps \"Friday\"",
+      "confirm": "Confirm",
+      "confirmKarein": "Confirm karein",
+      "confirmKarnaChahenge": "Confirm karna chahenge?",
+      "dhanyawaad": "Dhanyawaad",
+      "samajhGaya": "Samajh gaya",
+      "perfect": "Perfect",
+      "nahiHoPaayega": "Nahi ho paayega",
+      "karDunga": "Kar dunga",
+      "aapKaunsaDin": "Aap kaunsa din comfortable rahenge?",
+      "aapkaPtpRegister": "Aapka Promise-to-Pay register ho gaya hai",
+      "aapneKalPayment": "Aapne kal payment ka commitment diya tha",
+      "agarAap": "Agar aap",
+      "takPaymentKarteHain": "tak payment karte hain",
+      "nextWeek": "Next Week",
+      "lastSupply": "Last supply",
+      "managedByZotok": "Managed by ZoTok powered by Zono",
+      "extraSchemeUnlockHoga": "Extra scheme unlock hoga",
+      "fastDispatchMilega": "Fast dispatch milega",
+      "highMovingSkuPriority": "High-moving SKUs priority allocation",
+      "nextOrderParAapko": "Next order par aapko",
+      "bulkPurchaseCampaign": "Bulk Purchase Campaign",
+      "festiveCampaign": "Festive Campaign",
+      "productCategories": "Product Categories",
+      "selectCategory": "Select a category",
+      "priceListResponse": "Price List Response",
+      "instantPriceList": "Instant Price List",
+      "schemeNotification": "Scheme Notification",
+      "aiExplainsScheme": "AI Explains Scheme",
+      "aiResponseHinglish": "AI Response in Hinglish",
+      "productQuery": "Product Query",
+      "queryToZoAi": "Query to ZoAi",
+      "showPriceList": "Show me price list",
+      "explainScheme": "Can you explain this scheme in Hindi?",
+      "dealerLoyaltyQuery": "Dealer Loyalty Query",
+      "pointsWalletInquiry": "Points Wallet Inquiry",
+      "creditNoteAlternative": "Credit Note Alternative",
+      "dealerCreditQuery": "Dealer Credit Query",
+      "creditLimitQuery": "What's my current credit limit?",
+      "loyaltyPointsQuery": "How many loyalty points do I have?",
+      "smartEscalation": "Smart Escalation to Sales Executive",
+      "escalateToSalesExec": "Yes, please escalate to my sales executive",
+      "zoAiTyping": "ZoAi is typing...",
+      "dealerSeEscalation": "Dealer SE Escalation",
+      "productCategorySelection": "Product Category Selection",
+      "diwaliFestiveCampaign": "Diwali Festive Campaign",
+      "orderCampaignSent": "Order Campaign Sent",
+      "campaignLaunch": "Campaign Launch",
+      "retailerNudge": "Retailer Nudge",
+      "paymentNudgeSent": "Payment Nudge Sent",
+      "queryResponse": "Query Response",
+      "aiTyping": "AI Typing",
+      "orderNow": "Order Now",
+      "howCanIHelp": "How can I help you today?",
+      "whatCanIHelp": "What can I help with?",
+      "categoryToExplore": "Which category would you like to explore?",
+      "aiAssistant": "AI Assistant",
+      "marketingTemplate": "Marketing Template — Image Header + CTA Buttons",
+      "utilityTemplateDoc": "Utility Template — Document Header + CTA",
+      "utilityTemplateText": "Utility Template — Text Header + CTA Buttons",
+      "interactiveList": "Interactive List — Bottom Sheet Open",
+      "sessionMessage": "Session Message — AI Hinglish Response",
+      "sessionTyping": "Session Message — AI Typing Indicator",
+      "loyaltyProgramAnnouncement": "Loyalty Program Announcement",
+      "turnoverBasedLoyalty": "Turnover-Based Loyalty",
+      "rewardsProgram": "Rewards Program",
+      "programHighlights": "Program Highlights",
+      "currentTier": "Current Tier",
+      "pointsBalance": "Points Balance",
+      "viewTierBenefits": "View Tier Benefits",
+      "checkPoints": "Check Points",
+      "tierBenefitsComparison": "Tier Benefits Comparison",
+      "tierProgressTracking": "Tier Progress Tracking",
+      "programSummaryDashboard": "Program Summary Dashboard",
+      "exclusiveLoyaltyOffers": "Exclusive Loyalty Offers",
+      "rewardsCatalog": "Rewards Catalog",
+      "viewCatalog": "View Catalog",
+      "redeemNow": "Redeem Now",
+      "redeemPoints": "Redeem Points",
+      "redemptionHistory": "Redemption History",
+      "contactSupport": "Contact Support",
+      "placeOrderToClimb": "Place Order to Climb",
+      "viewAllOffers": "View All Offers",
+      "viewAllTiers": "View All Tiers",
+      "downloadStatement": "Download Statement",
+      "nextTier": "Next Tier",
+      "lifetimePoints": "Lifetime Points",
+      "annualTurnover": "Annual Turnover",
+      "availableRewards": "Available Rewards",
+      "earningRates": "Earning Rates",
+      "conversionRate": "Conversion Rate",
+      "milestones": "Milestones",
+      "nextSteps": "Next Steps",
+      "needHelp": "Need help? Just type your query here!",
+      "activationCampaign": "Activation Campaign",
+      "registrationForm": "Registration Form",
+      "applicationSubmitted": "Application Submitted",
+      "retailPartnerRegistration": "Retail Partner Registration",
+      "fillBusinessDetails": "Fill in your business details to get started",
+      "storeName": "Store Name",
+      "owner": "Owner",
+      "phone": "Phone",
+      "gst": "GST",
+      "registrationSubmitted": "Registration Submitted",
+      "applicationUnderReview": "Application Under Review",
+      "retailerSelection": "Retailer Selection",
+      "selectRetailers": "Select Retailers to Nudge",
+      "nudgeRetailers": "Nudge Retailers",
+      "sendNudge": "Send Nudge to 1 Retailer",
+      "sendReminders": "Send Reminders",
+      "pendingInvoices": "Pending Invoices",
+      "orderReviewPortal": "Order Review Portal",
+      "ordersPendingBilling": "Orders Pending Billing",
+      "pendingBilling": "Pending billing",
+      "orderAlert": "Order Alert to Distributor",
+      "distributorMenu": "Distributor Menu",
+      "orderAccepted": "Order Accepted",
+      "confirmOrder": "Confirm Order",
+      "accept": "Accept",
+      "reviewCheckout": "Review & Checkout",
+      "cartReview": "Cart Review",
+      "catalogView": "Catalog View",
+      "invoiceUpload": "Invoice Upload",
+      "uploadInvoice": "Upload Invoice",
+      "dropInvoicePdf": "Drop invoice PDF here",
+      "invoiceDashboard": "Invoice Dashboard",
+      "invoiceOnWhatsApp": "Invoice on WhatsApp",
+      "aiExtractsOrder": "AI Extracts Order",
+      "handwrittenOrder": "Handwritten Order",
+      "upiPayment": "UPI Payment",
+      "scanToPay": "Scan to Pay",
+      "partnerApproved": "Partner Approved",
+      "partnerDashboard": "Partner Dashboard",
+      "fulfilmentList": "Fulfilment List",
+      "generateInvoice": "Generate Invoice",
+      "trackPayments": "Track payments",
+      "orderReports": "Order Reports",
+      "myAccount": "My Account",
+      "retailerList": "Retailer List",
+      "payments": "Payments",
+      "paymentsReceived": "Payments Received",
+      "invoicePaymentTracker": "Invoice Payment Tracker",
+      "orderNote": "Order Note",
+      "ordersToProcess": "Orders to Process",
+      "overdue": "Overdue",
+      "total": "Total",
+      "items": "Items",
+      "orderId": "Order ID",
+      "order": "Order",
+      "edit": "Edit",
+      "manageOrders": "Manage your orders",
+      "driveMoreOrders": "Drive more orders",
+      "orTapToBrowse": "or tap to browse"
+    },
+    "messages": {
+      "journey_customer_groups": {
+        "welcome": {
+          "title": "Step 1",
+          "body": "Step 1",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_daily_rate_broadcast": {
+        "welcome": {
+          "title": "Step 1",
+          "body": "Step 1",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_direct_enquiries": {
+        "welcome": {
+          "title": "Step 1",
+          "body": "Step 1",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_field_ops_expense": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_sales_to_cash": {
+        "welcome": {
+          "title": "Step 1",
+          "body": "Step 1",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_support_tickets": {
+        "welcome": {
+          "title": "Step 1",
+          "body": "Step 1",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_dsr_expense_claim": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_erp_externalization": {
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Submit details",
+            "Thanks Ramesh Electricals for submitting details and choosing Home Appliances for settling the amount. You will receive the notification once the payment is settled with the respective divisions."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Submit details",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_automated_collections": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_campaigns_queries": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "View Products",
+            "Price List"
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Diwali Scheme",
+            "Scheme thoda detail mein batao",
+            "Scheme thoda detail mein batao",
+            "Ramesh ji, scheme kaafi exciting hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Par maine agar payment ka credit uthaya hai toh kya?",
+            "Ramesh ji, mein aapki baat sales executive se kara deti hu 😊 Kya main aapko unse connect kar dun?",
+            "Haa ji",
+            "Informed the relevant sales executive ✅ Aapko unka call bahut jaldi aayega. Koi aur help chahiye?"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "View Products",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_dealer_engagement": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "View Products",
+            "Butter Price List"
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Bulk Scheme",
+            "Diwali LED scheme ke baare mein batao",
+            "Diwali LED scheme ke baare mein batao",
+            "Ramesh ji, Diwali LED Offer ekdum mast hai! 🎉 Sirf 10 boxes LED Lights ka order dijiye aur aapko 1.5% additional margin milega — seedha aapke account mein! Aur upar se aapke loyalty wallet mein ₹2,000 worth Points bhi credit kar denge! Yeh offer 30 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+            "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+            "Agar points 5000 nahee hue toh kya?",
+            "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+            "Par maine agar payment ka credit uthaya hai toh kya?",
+            "Ramesh ji, mein aapki baat sales executive se kara deti hu 😊 Kya main aapko unse connect kar dun?",
+            "Haa ji",
+            "Informed the relevant sales executive ✅ Aapko unka call bahut jaldi aayega. Koi aur help chahiye?"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "View Products",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_dt_fulfillment_payment": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Fullfilments ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step4": {
+          "title": "Step 4",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Fullfilments ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Fullfilments ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Order accepted ✅ All items verified. Dispatching by 19 April 2026.",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_order_to_cash": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Hi",
+            "Open Menu",
+            "View Products"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now...",
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now..."
+          ]
+        },
+        "step9": {
+          "title": "Step 9",
+          "bodies": [
+            "Submit details",
+            "Thanks Ganesh Electicals for submitting details and choosing Home Electrical Products for settling the amount. You will receive the notification once the payment is settled with the respective divisions."
+          ]
+        },
+        "step10": {
+          "title": "Step 10",
+          "bodies": [
+            "Download Ledger"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Hi",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_post_order_communication": {
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Submit details",
+            "Thanks Ganesh Electicals for submitting details and choosing Home Electrical Products for settling the amount. You will receive the notification once the payment is settled with the respective divisions."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Submit details",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_retailer_activation": {
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Register Now",
+            "Open Menu"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Register Now",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_retailer_loyalty_invoice_collection": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_retailer_onboarding_to_cash": {
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Register Now",
+            "Open Menu"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "View Products",
+            "Price List"
+          ]
+        },
+        "step4": {
+          "title": "Step 4",
+          "bodies": [
+            "Diwali Scheme",
+            "Scheme thoda detail mein batao",
+            "Scheme thoda detail mein batao",
+            "Ramesh ji, scheme kaafi exciting hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+          ]
+        },
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Register Now",
+            "Open Menu",
+            "View Products"
+          ]
+        },
+        "step7": {
+          "title": "Step 7",
+          "bodies": [
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now...",
+            "Please process this order 🙏",
+            "📋 Received your order note! ZoTok AI is reading it now..."
+          ]
+        },
+        "step8": {
+          "title": "Step 8",
+          "bodies": [
+            "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+          ]
+        },
+        "step9": {
+          "title": "Step 9",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step11": {
+          "title": "Step 11",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step12": {
+          "title": "Step 12",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Register Now",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_ms_scrap_marketplace": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Haan haan list karna hai 🙏",
+            "Yeh photo dekh lijiye. 8-10 ton scrap hai HMS, aaj sham tak load karna hai.",
+            "Ji Suresh ji 👋 photo mil gayi. Rate kya rakhna chahte hain? Bazaar abhi ₹34,400–34,600 per MT chal raha hai.",
+            "Samajh gaya 👍 ek minute, draft listing taiyaar kar raha hoon…",
+            "Suresh ji draft taiyaar hai 👇 review kar ke confirm kar dijiye."
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Publish Now",
+            "Listing published · RCKL-LST-9847"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Extend 6 hrs",
+            "Done ✅ Listing extended. 📋 RCKL-LST-9821 ⏱ Now valid till 9:44 PM today Buyer ke match aate hi aapko alert milega 💪",
+            "📈 FYI: 3 buyers viewed your listing in the last hour. Tata Steel is one of them."
+          ]
+        },
+        "step7": {
+          "title": "Step 7",
+          "bodies": [
+            "Welcome to the execution room for RCKL-4471-01 . ⚙️ What’s locked in Seller: Om Metal Aggregators Buyer: Tata Steel, Jamshedpur Material: MS Scrap HMS 1&2 · 8 MT Rate: ₹34,500/MT · Total ₹2,76,000 Deliver by: 31 May 2026",
+            "How I work in this group 👀 I read every message and categorise it — but I do not act on my own. ✋ To create a record (dispatch note, debit note, etc.), reply to the relevant message(s) with @zoai followed by what you want. 🧵 You can stitch multiple messages: reply to one with @zoai and list the others in the same reply. Example: reply to a weighbridge photo with @zoai create dispatch note — vehicle and LR in next 2 messages",
+            "Records you can ask me to create 1️⃣ Dispatch note — from weighbridge + vehicle + LR 2️⃣ GRN summary — I post automatically from buyer app 3️⃣ Quality report — I post automatically from buyer app 4️⃣ Debit note — when there is a quality shortfall 5️⃣ Invoice — auto on QC ack, mirrored here 6️⃣ Close-out — once payment is received 📌 Pricing and quantity are locked. For any change, contact Rahul off-channel.",
+            "Samajh gaya 🙏 vehicle kal subah lagaa denge, weighbridge ke baad slip yahin daal dunga."
+          ]
+        },
+        "step8": {
+          "title": "Step 8",
+          "bodies": [
+            "Good morning sir 🙏 vehicle load ho gaya, weighbridge slip bhej raha hoon.",
+            "Vehicle: MH-31-AB-4521 Driver: Ramesh Yadav Phone: +91 97xxxxxx48 Net wt: 8.04 MT · Tare 12.6 / Gross 20.64 Leaving Nagpur yard now, ETA Jamshedpur 27 May evening",
+            "Vehicle MH-31-AB-4521, Driver Ramesh Yadav +91 97xxxxxx48, net wt 8.04 MT…",
+            "@zoai create dispatch note — vehicle & LR are in the next 2 messages",
+            "✅ Dispatch note created · RCKL-DSP-4471-01 Stitched from 3 messages (weighbridge, vehicle/driver, LR PDF): ⚖️ Net weight: 8.04 MT · slip NGP-WB-3387 🚚 Vehicle: MH-31-AB-4521 👨‍✈️ Driver: Ramesh Yadav · +91 97xxxxxx48 📄 LR: OM-2926 (attached) 📅 ETA Jamshedpur: 27 May, evening Variance vs PO: +0.04 MT (within ±1% tolerance). Pushed to control tower; buyer notification queued."
+          ]
+        },
+        "step9": {
+          "title": "Step 9",
+          "bodies": [
+            "✅ GRN received · Tata Steel marked in Recykal app 📋 GRN No: TS-GRN-22841 ⚖️ Net weight received: 7.98 MT 📅 27 May 2026, 6:38 PM 🚪 Gate 3, Jamshedpur Plant 0.06 MT variance from dispatch — within ±1% tolerance. Next: quality report from Tata Steel QC within 24 hr.",
+            "Thank you sir 🙏 quality bhi sahi rahega, photos lete waqt sab clean tha.",
+            "👍 Ab quality report ka wait karte hain. Kal subah tak update karenge.",
+            "📊 Quality report · Tata Steel QC (auto-mirrored from buyer app) ✅ Grade accepted: HMS 1&2 ⚖️ Net received: 7.98 MT ⚠️ Moisture content: 0.4% (above 0.2% spec) ⚠️ Non-ferrous contamination: 0.08 MT ✅ Accepted weight: 7.90 MT",
+            "@zoai draft debit note for the 0.08 MT contamination",
+            "✅ Debit note drafted · TS-DN-1147 Against 0.08 MT contamination @ ₹34,500/MT Debit amount: ₹2,760 Net payable: ₹2,72,550 + GST",
+            "Acknowledged sir. 0.08 MT ke liye debit note acceptable hai 👍"
+          ]
+        },
+        "step10": {
+          "title": "Step 10",
+          "bodies": [
+            "Suresh ji invoice approved aur dispatched. ₹3,21,609 ka payment 30 May tak aapke ICICI account me aa jaayega. Payment milte hi notification milegi."
+          ]
+        },
+        "step11": {
+          "title": "'+s.title+'",
+          "bodies": [
+            "🎉 Deal closed — final summary 📋 RCKL-SPO-4471-01 🏢 Om Metal → 🏭 Tata Steel 📦 7.90 MT MS Scrap HMS 1&2 (after QC) 💰 ₹3,21,609 credited to Om Metal · 30 May, 10:52 AM ⏱ Lead time: contract → payment = 6 days ⭐ Quality & on-time: 96% (no delay, debit note ₹2,760 only) Group will be archived in 24 hrs. PDFs and chat will remain searchable in your records.",
+            "Suresh ji 🙏 thank you. Rating prompt Tata Steel ko bheja gaya hai — unki rating aapke next match score me reflect hogi. Aapko bhi Recykal ke experience ke baare me feedback dena ho to reply karke bata dijiye — phone call set up kar dunga.",
+            "Bahut shukriya team 🙏 process bahut smooth tha. Next listing aaj shaam tak daal raha hoon.",
+            "🙏 Thank you Suresh ji. Looking forward to the next one!"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Haan haan list karna hai 🙏",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_ms_scrap_procurement": {
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Submitted availability for HMS 1&2 ✓",
+            "Material photos — HMS 1&2, Nagpur yard",
+            "Thank you, Om Metal Aggregators ! ✅ We have received your availability: Material: HMS 1&2 Quantity: 8 MT Location: MIDC Nagpur Our procurement executive for the Nagpur region will connect with you shortly to discuss the deal. Team, Recykal"
+          ]
+        },
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Welcome to deal room LEAD-4471-01 . ♻ Requirement (Tata Steel PO) Material: MS Scrap HMS 1&2 Quantity: 8 MT (this lead) Delivery: Tata Steel Plant, Jamshedpur Indicative Rate: ₹34,500/MT How this group works 1️⃣ Supplier confirms material availability and best rate 2️⃣ Once terms are finalised, buyer sends 👍 to confirm 3️⃣ ZoAi posts the Deal Summary and sub-order is sent to supplier for acknowledgement 4️⃣ After acceptance, logistics team and driver will be added as needed",
+            "Thank you. Material is ready at our Nagpur yard. 👍"
+          ]
+        },
+        "step6": {
+          "title": "Step 6",
+          "bodies": [
+            "Welcome to deal room LEAD-4471-01 . ♻ Requirement (Tata Steel PO) Material: MS Scrap HMS 1&2 Quantity: 8 MT (this lead) Delivery: Tata Steel Plant, Jamshedpur Indicative Rate: ₹34,500/MT How this group works 1️⃣ Supplier confirms material availability and best rate 2️⃣ Once terms are finalised, buyer sends 👍 to confirm 3️⃣ ZoAi posts the Deal Summary and sub-order is sent to supplier for acknowledgement 4️⃣ After acceptance, logistics team and driver will be added as needed",
+            "Thank you. Material is ready at our Nagpur yard. 👍",
+            "Great Suresh. Please share your best rate for 8 MT HMS 1&2.",
+            "Good morning sir. 8 MT HMS 1&2 is ready at our Nagpur yard. I can offer ₹34,800/MT, dispatch within 2 days.",
+            "Our approved ceiling for this PO is ₹34,500/MT. That is the max we can go.",
+            "Suresh bhai, ₹34,500 is our target. Can you work with that?",
+            "Good morning sir. 8 MT HMS 1&2 is ready at our Nagpur yard. I can offer ₹34,800/MT, dispatch within 2 days.",
+            "Our approved ceiling for this PO is ₹34,500/MT. That is the max we can go.",
+            "Suresh bhai, ₹34,500 is our target. Can you work with that?",
+            "Sir ₹34,600 is my best. Material is Grade A certified, no rejections ever from Tata Steel before.",
+            "Suresh, if you can match ₹34,500 we can ensure payment within 2 days of GRN instead of 3. That is faster cash for you.",
+            "Sir ₹34,600 is my best. Material is Grade A certified, no rejections ever from Tata Steel before.",
+            "Suresh, if you can match ₹34,500 we can ensure payment within 2 days of GRN instead of 3. That is faster cash for you.",
+            "Okay sir, ₹34,500/MT accepted for 8 MT. Dispatch from Nagpur on 27th May. 😇",
+            "Deal Summary ✅ Lead: LEAD-4471-01 Supplier: Om Metal Aggregators Material: MS Scrap HMS 1&2 Quantity: 8 MT Final Rate: ₹34,500 / MT Order Value: ₹2,76,000 Dispatch: 27 May 2026, Nagpur Delivery: Tata Steel, Jamshedpur Payment: Within 2 days of GRN Recykal will raise the Sub-PO shortly."
+          ]
+        },
+        "step9": {
+          "title": "Step 9",
+          "bodies": [
+            "Your OTP for PO Approval is 1533 . Valid for 10 minutes. Do not share this code. Team, Recykal"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Submitted availability for HMS 1&2 ✓",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_ms_scrap_procurement_bkp": {
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Submitted availability for HMS 1&2 ✓",
+            "Material photos — HMS 1&2, Nagpur yard",
+            "Thank you, Om Metal Aggregators ! ✅ We have received your availability: Material: HMS 1&2 Quantity: 120 MT Location: MIDC Nagpur Our procurement executive for the Nagpur region will connect with you shortly to discuss the deal. Team, Recykal"
+          ]
+        },
+        "step4": {
+          "title": "Step 4",
+          "bodies": [
+            "Welcome to the Recykal MS Scrap sourcing room. ♻ Requirement Material: MS Scrap (HMS 1&2) Quantity: 120 MT Delivery: Tata Steel Plant, Jamshedpur Indicative Rate: ₹34,500/MT Please use this group to discuss final rate, quantity and dispatch schedule. I will keep the Recykal coordination team updated.",
+            "Thank you. Material is ready at our Nagpur yard. Looking forward to it. 👍"
+          ]
+        },
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Hi Suresh, can you confirm the quantity ready at your Nagpur yard and your best rate?",
+            "Hello sir. I have 120 MT HMS 1&2 ready. Rate ₹34,800/MT, loading from Nagpur.",
+            "Tata's ceiling is ₹34,500. Can you do ₹34,500 if we lift all 120 MT this week?",
+            "Okay sir ₹34,500/MT works for the full 120 MT. We can dispatch within 3 days.",
+            "Noted. Capturing the agreed terms for the Recykal coordination team. 📝",
+            "Deal Summary ✅ Supplier: Om Metal Aggregators Material: MS Scrap HMS 1&2 Quantity: 120 MT Final Rate: ₹34,500 / MT Order Value: ₹41,40,000 Dispatch: Within 3 days Delivery: Tata Steel Plant, Jamshedpur Payment: Within 3 days of GRN Recykal will raise the Purchase Order shortly.",
+            "Confirmed sir. Thank you. 👍",
+            "Great. Raising the PO now — you will receive it on WhatsApp for acknowledgement."
+          ]
+        },
+        "step8": {
+          "title": "'+s.title+'",
+          "bodies": [
+            "Your OTP for PO Approval is 1533 . Valid for 10 minutes. Do not share this code. Team, Recykal"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Submitted availability for HMS 1&2 ✓",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_plumber_registration_engagement": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Hi"
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Hi",
+            "Menu"
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Upload Purchase"
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Hi",
+          "time": "",
+          "cta": ""
+        }
+      }
+    },
+    "descriptions": {
+      "journey_customer_groups_step1": "Adding Team Members Priya Nair (coordinator) creates the dedicated customer group. She adds Rajesh Shah (customer), Amit Joshi (mapped sales person), Suresh Patil (manager), and ZoAi bot — the AI agent that will process all enquiries automatically.",
+      "journey_customer_groups_step2": "Customer Drops the Requirement Rajesh Shah (customer) sends a free-text enquiry — SS 304 coils, 2mm × 1250mm, 5 MT, delivery Bhiwandi by next Wednesday. This is unstructured text, just as it would happen in any WhatsApp group today.",
+      "journey_customer_groups_step3": "Structured Data Written to Sheet ZoAi's NLU engine parses Rajesh's free-text message and extracts: material (SS 304 Coil), dimensions (2mm × 1250mm), quantity (5 MT), delivery location (Bhiwandi), and required-by date (20-May-2026). A new row is automatically inserted into the Enquiries Google Sheet — no coordinator needed to manually type this.",
+      "journey_customer_groups_step4": "Zero Manual Steps — Fully Automated From the moment Priya tags @zoai, the entire quote preparation, routing, approval, and PDF generation happens automatically. The team focuses on the approval decision — everything else is handled by ZoTok + Google Sheets automation.",
+      "journey_customer_groups_step5": "Sheet Updated — ZoAi Triggers Delivery Suresh Patil approves the quote in the ZoTok admin portal. The sheet status updates to \"Quote Approved\", Quote No QT-2026-01129 is written, and the PDF URL is attached. ZoAi detects this status change via a sheet webhook and immediately prepares to send the quote PDF back into the customer group.",
+      "journey_customer_groups_step6": "Group Notification + Review Link ZoAi sends the PDF in the customer group (within 24hr session window — no template approval needed) along with a short review URL. It also informs Rajesh that a formal approval message has been sent directly to his WhatsApp from Blue Ocean's official business account.",
+      "journey_customer_groups_step7": "Order Confirmed — Full Cycle Complete Rajesh types the confirmation keyword in the group. ZoAi detects it, logs the order confirmation against QT-2026-01129, updates the sheet status to \"Booking In Progress\", and replies in the group. From free-text enquiry to confirmed order — entirely within WhatsApp, with minimal team effort.",
+      "journey_daily_rate_broadcast_step2": "7:30 AM morning routine — update rates, send broadcast Every morning at 7:30 AM the coordinator updates today's poultry rates and clicks Send Messages . Dealer, wholesaler, and retailer rows carry the segment price, stock remarks, and delivery status ZoTok uses to personalize WhatsApp broadcasts and start order capture from replies.",
+      "journey_daily_rate_broadcast_step3": "ZoTok Workspace Add-on — installed once, lives in every sheet The ZoTok add-on is published in Google Workspace Marketplace. Once installed by the org admin, it appears under Extensions › Zotok for every sheet user with no per-user setup. For Sakku's daily poultry price communication, the coordinator uses Extensions → Zotok → Campaign → Send Messages after updating the 7:30 AM rate sheet; ZoTok selects dealer, wholesaler, and retailer templates, drives WhatsApp engagement, and starts order generation from replies and CTAs.",
+      "journey_daily_rate_broadcast_step4": "One click → 2,480 daily price messages queued ZoTok queues the daily Sakku price broadcast through WhatsApp Business API using pre-approved templates with placeholders replaced from the sheet rows. Campaign codes are detected for EGG-2026-06-01-DEALER , EGG-2026-06-01-RETAILER , and EGG-2026-06-01-WHOLESALER , covering dealers, retailers, and wholesalers in one run.",
+      "journey_daily_rate_broadcast_step5": "Dealer broadcast — daily price update + order CTA The EGG-2026-06-01-DEALER template lands on dealer WhatsApp at 7:31 AM with layer egg, jumbo egg, and broiler rates. Place Order opens the ZoAi order capture flow; Talk To Sales hands off to the mapped sales representative.",
+      "journey_daily_rate_broadcast_step6": "Broadcast → order capture → dispatch process The dealer starts from the broadcast CTA and ZoAi captures product, tray quantity, location, and delivery date before creating the order and notifying the Sakku sales representative. Final flow: Broadcast → Order Intent → Quantity Capture → Delivery Capture → Order Creation → Dispatch Process .",
+      "journey_direct_enquiries_step1": "Direct Channel — No Dedicated Group Yet Vikram Patel (VPatel Steel Centre) is a customer who sends enquiries directly to Amit Joshi's personal WhatsApp number. There is no dedicated customer group set up for him. Amit receives the requirement as a free-text DM and will now forward it into the internal BOS team group using the @zoai trigger.",
+      "journey_direct_enquiries_step2": "BOS — The Internal Hub \"BOS · Blue Ocean Steels Team\" is the internal WhatsApp group where the entire sales team (executives, coordinator, manager) and ZoAi operate together. No customers are in this group. ZoAi posts a daily morning summary and processes any @zoai triggers that team members send for direct enquiries.",
+      "journey_direct_enquiries_step3": "Same Sheet — New Source Column ENQ-2026-04825 lands in the same unified Enquiries Log used by Journey 1. A new Source column (K) distinguishes how the enquiry arrived — \"Direct (DM)\" vs \"Cust. Group\". Quote columns (H–J) show dashes; the quote engine kicks off automatically.",
+      "journey_direct_enquiries_step4": "Identical Engine — Source Doesn't Matter Once an enquiry is in the Google Sheet, the automation pipeline is exactly the same whether it came from a dedicated customer group or a direct DM. The only difference downstream is the delivery channel: this customer gets Email + WABA instead of a group notification.",
+      "journey_direct_enquiries_step5": "Quote Approved — ZoAi Triggers Multi-Channel Delivery Suresh approves QT-2026-01130 in the admin portal. Sheet rows 4–5 update to \"Quote Approved\" with amounts ₹3,60,000 + ₹1,80,000 (total ₹5,40,000). ZoAi detects the status change and simultaneously sends the quote to the BOS group, Vikram's email, and Vikram's WhatsApp via WABA.",
+      "journey_direct_enquiries_step6": "Quote Arrives in Vikram's Email The quote email lands in Vikram's inbox simultaneously with the WABA message. It carries the full PDF, a line-item breakdown, and inline Approve / Reject buttons — so Vikram can act from any device, even without WhatsApp open.",
+      "journey_direct_enquiries_step7": "One Tap — Order Confirmed Vikram taps \"Approve Quote\" on the WABA template. The button triggers a WhatsApp reply message (\"Approve Quote\") which ZoAi detects instantly. ZoAi responds in the same DM with an order confirmation — no call, no email reply, no manual processing needed.",
+      "journey_sales_to_cash_step2": "Invoice Auto-Delivered from TallyPrime — Zero Manual Touch The moment a Sales Invoice voucher is saved in TallyPrime, a webhook fires to ZoTok. The Meta-approved utility template fills with TallyPrime data (invoice no, amount, due date) and lands on Vikram's WhatsApp — no email chase, no PDF attachment forwarding.",
+      "journey_sales_to_cash_step3": "TallyPrime-Driven Cash Discount Offer The day after dispatch, ZoTok reads the payment terms configured in TallyPrime and triggers a proactive discount offer. Vikram sees a clear \"save ₹5,400 if you pay early\" — a one-tap incentive that improves BOS cashflow without any sales rep chasing. The discount is automatically reconciled in TallyPrime when he pays within the window.",
+      "journey_sales_to_cash_step4": "TallyPrime Receipt Entry → Instant Acknowledgement The moment a Receipt voucher is saved in TallyPrime against Vikram's ledger, a webhook fires to ZoTok. The utility template fills with TallyPrime data — UTR, amount, date, cash discount auto-applied — and lands on his WhatsApp in seconds. No manual receipt emails, no delay.",
+      "journey_sales_to_cash_step5": "TallyPrime Credit Note → Instant WhatsApp Notification A Credit Note voucher is saved in TallyPrime → ZoTok webhook fires → WABA utility template with red PDF icon lands on Vikram's WhatsApp in seconds. Red PDF icon distinguishes credit/return documents from pink invoices at a glance. Note: demo shows both CTA URL and Quick Reply buttons to illustrate the flow — production templates use one button type only.",
+      "journey_sales_to_cash_step6": "Navigation Drawer — Everything One Tap Away Vikram taps the VP avatar in the header — the side navigation drawer slides in, giving access to Orders, Invoices, Payments, Credit Notes, Ledger, and Rate Card from a single portal. No app download, no login screen, no email chain.",
+      "journey_support_tickets_step1": "Customer Self-Service via @zoai Rakesh types @zoai what is my current outstanding? directly in the group. No phone call, no chasing the coordinator — same handle used for enquiries, now used for account queries too.",
+      "journey_support_tickets_step2": "No @zoai Tag — No ZoAi Response Rakesh sends a plain group message to the team. Because there is no @zoai mention, ZoAi stays silent. The message is visible to every member — it is Priya who notices it and takes action.",
+      "journey_support_tickets_step3": "Source-of-Truth — Human Authored, ZoAi Persisted TKT-2026-00342 lands in the same Sheets layer the rest of BOS runs on. The footer trail is deliberate: \"Logged by ZoAi on instruction from Priya Nair\" — the team made the call, ZoAi only wrote the row. The internal WMS reads from this sheet to assign and track work.",
+      "journey_support_tickets_step4": "Sheet is the Contract — WMS is the Work Surface BOS team can work from the Sheet or the WMS — both stay in sync. The customer never sees either; they only see ZoAi's updates in their group. ZoAi sits in the pipes, not in the decisions.",
+      "journey_support_tickets_step5": "Team Works in WMS — One Click Syncs to Customer Suresh updates the ticket status and adds a note in the internal WMS. Clicking \"Save & Sync\" triggers ZoAi to auto-post the update into the customer's WhatsApp group — no manual messaging needed.",
+      "journey_support_tickets_step6": "Sheet Updated — Ticket Closed · SLA Met in 28 Hours Priya marks the ticket Resolved — the same Google Sheet that logged the ticket now shows its closure. Row 4 turns green, resolution date is stamped, and the SLA is recorded. This feeds the team's monthly support report automatically.",
+      "journey_erp_externalization_step1": "Order Submitted Notification Orient Electric's ERP triggers a WhatsApp Business message to the dealer on order submission. The PDF attachment bar links to the order PDF while CTA buttons deep-link to the PWA for details and history.",
+      "journey_erp_externalization_step2": "Order Confirmed Notification Orient Electric's ERP triggers a WhatsApp confirmation once the order is approved. The previous \"Order Received\" message is shown faded for context. The single CTA links to read-only order details.",
+      "journey_erp_externalization_step3": "Order History — PWA Dealer sees their full order history with status filters. The Orient Electric logo in the header doubles as a hamburger menu — tapping it opens the navigation drawer to access other modules.",
+      "journey_erp_externalization_step4": "New Invoice Notification When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.",
+      "journey_erp_externalization_step5": "Payment Received Notification ZoTok receives the bank transfer from Orient Electric's ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.",
+      "journey_campaigns_queries_step1": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+      "journey_campaigns_queries_step2": "Scheme Notification ZoTok pushes the latest Bhujia Range scheme as a marketing message to retailers, driving awareness and incremental orders.",
+      "journey_campaigns_queries_step3": "Points Wallet Inquiry Ramesh asks about his points balance — ZoAi instantly explains the quarterly gift redemption tiers in Hinglish.",
+      "journey_dealer_engagement_step1": "Festive Campaign ZoTok pushes a targeted bulk purchase campaign to all active dealers in the territory to drive seasonal orders and awareness.",
+      "journey_dealer_engagement_step2": "Scheme Notification ZoTok pushes the latest bulk dairy scheme as a marketing message to dealers, driving awareness and incremental orders.",
+      "journey_dealer_engagement_step3": "Points Wallet Inquiry Ramesh asks about his points balance — ZoAi instantly explains the quarterly gift redemption tiers in Hinglish.",
+      "journey_dt_fulfillment_payment_step1": "Order Alert to Fullfilment The Fullfilment's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+      "journey_dt_fulfillment_payment_step2": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_dt_fulfillment_payment_step3": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+      "journey_dt_fulfillment_payment_step4": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_dt_fulfillment_payment_step5": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_order_to_cash_step1": "Menu Navigation Dealer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "journey_order_to_cash_step2": "WebView Catalog Dealer browses the full Orient Electric product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "journey_order_to_cash_step3": "Handwritten Order Dealer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "journey_order_to_cash_step4": "Back Office Order Dashboard Orient Electric's fulfilment team sees all incoming dealer orders on the ZoTok portal. They select BND-48291 from Ganesh Electicals (₹35,080 · 4 SKUs) to review and process.",
+      "journey_order_to_cash_step5": "Order Confirmed Notification Orient Electric's ERP triggers a WhatsApp confirmation once the order is approved. The previous \"Order Received\" message is shown faded for context. The single CTA links to read-only order details.",
+      "journey_order_to_cash_step6": "ZoTok × SAP Integration Once the dealer's order is confirmed on WhatsApp and approved in the ZoTok PWA, it is pushed to SAP via ZoTok's integration layer. The JSON payload flows through the API Gateway → Payload Transformation → SAP Adapter, triggering the full order-to-bill cycle in SAP SD/FI — from sales order creation and credit check through delivery, picking, and billing document generation. OData callbacks flow back to ZoTok to update the dealer via WhatsApp.",
+      "journey_order_to_cash_step7": "New Invoice Notification When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.",
+      "journey_order_to_cash_step8": "Cash Discount Reminder (Auto) ZoTok automatically sends this reminder 1 day before the 7-day cash discount deadline. Dealers who haven't paid yet see exactly how much they stand to save — creating urgency without being pushy.",
+      "journey_order_to_cash_step9": "Payment Received Notification ZoTok receives the bank transfer from Orient Electric's ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.",
+      "journey_order_to_cash_step10": "Credit Note Issued When SAP FI raises a credit note (scheme incentive or return refund), the event triggers ZoTok via webhook. ZoTok instantly sends the PDF with credit details. The dealer can view the note or tap Download Ledger to get a full statement.",
+      "journey_order_to_cash_step11": "Navigation Drawer Dealer taps the Orient Electric logo (hamburger) in the header — the side navigation drawer slides in, giving access to Dashboard, Order History, Invoices, Payments, and Ledger from a single portal.",
+      "journey_post_order_communication_step1": "Order Submitted Notification Orient Electric's ERP triggers a WhatsApp Business message to the dealer on order submission. The PDF attachment bar links to the order PDF while CTA buttons deep-link to the PWA for details and history.",
+      "journey_post_order_communication_step2": "Order Confirmed Notification Orient Electric's ERP triggers a WhatsApp confirmation once the order is approved. The previous \"Order Received\" message is shown faded for context. The single CTA links to read-only order details.",
+      "journey_post_order_communication_step3": "Order History — PWA Dealer sees their full order history with status filters. The Orient Electric logo in the header doubles as a hamburger menu — tapping it opens the navigation drawer to access other modules.",
+      "journey_post_order_communication_step4": "New Invoice Notification When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.",
+      "journey_post_order_communication_step5": "Payment Received Notification ZoTok receives the bank transfer from Orient Electric's ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.",
+      "journey_retailer_activation_step1": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Orient Electric retail partners.",
+      "journey_retailer_activation_step2": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+      "journey_retailer_onboarding_to_cash_step1": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Orient Electric retail partners.",
+      "journey_retailer_onboarding_to_cash_step2": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+      "journey_retailer_onboarding_to_cash_step3": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+      "journey_retailer_onboarding_to_cash_step4": "Scheme Notification ZoTok pushes the latest Diwali LED Offer as a marketing message to retailers, driving awareness and incremental orders.",
+      "journey_retailer_onboarding_to_cash_step5": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "journey_retailer_onboarding_to_cash_step6": "WebView Catalog Retailer browses the full Orient Electric product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "journey_retailer_onboarding_to_cash_step7": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "journey_retailer_onboarding_to_cash_step8": "Order Alert to Distributor The distributor's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+      "journey_retailer_onboarding_to_cash_step9": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_retailer_onboarding_to_cash_step10": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+      "journey_retailer_onboarding_to_cash_step11": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_retailer_onboarding_to_cash_step12": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "journey_ms_scrap_marketplace_step1": "Outbound nudge to sellers without an active listing A generic Utility template sent to any seller whose listing has expired or has never been created. Body has three bullets that lay out the listing process. Two Quick Reply buttons: “List New Stock” starts the listing flow, “View Menu” opens the always-available menu.",
+      "journey_ms_scrap_marketplace_step2": "Publish confirmation with the menu CTA on the same template One Utility template covers both: image header is the seller’s own stock photo, body shows the new Listing ID and 6-hour validity, and the “View Menu” CTA at the bottom opens the Interactive List.",
+      "journey_ms_scrap_marketplace_step3": "Renewal nudge sent 1 hour before listing expiry A Utility template fires 1 hour before the 6-hour listing window closes. Three Quick Reply buttons cover the three possible outcomes: extend the listing, edit qty/rate, or deactivate. Required to keep listings fresh under the 6-hour auto-expiry rule.",
+      "journey_ms_scrap_marketplace_step4": "Buyer-side flow shown as a 4-box diagram The Recykal Marketplace UI for matching and awarding is built and owned by Recykal’s product team — not in scope for this demo. The four boxes show how a buyer requirement flows into matching, allocation, and the WhatsApp handoff that fires the eight Accept / Reject templates to selected sellers. Quantities and chips are illustrative.",
+      "journey_ms_scrap_marketplace_step5": "Award template with two outcomes only The sub-PO PDF is the Document header. Body carries the full agreed terms (qty, rate, buyer, payment). Two Quick Reply buttons: Accept or Reject. There is no counter-offer path; price was set when the seller listed the stock.",
+      "journey_ms_scrap_marketplace_step6": "Signed contract delivered to the seller The follow-up Utility template carries the signed sub-PO PDF. Body names the seller (Om Metal) and the buyer (Tata Steel) explicitly — Recykal is the facilitator and is not on the contract or the invoice chain. The “View Contract” button opens the PDF.",
+      "journey_ms_scrap_marketplace_step7": "3-member execution group, auto-created on acceptance Members: seller, Recykal facilitator (Rahul), ZoAi. The buyer is intentionally not in this group — they continue interacting via the Recykal app. The amber note in the group settings makes the room’s purpose explicit so it is not used as a negotiation thread.",
+      "journey_ms_scrap_marketplace_step8": "Seller drops 3 raw messages; ZoAi stays silent Weighbridge slip photo, vehicle/driver text, and the LR PDF land in the group as plain messages. ZoAi reads and categorises each one but does not post anything yet — nothing is created until a Recykal team member tags it with @zoai .",
+      "journey_ms_scrap_marketplace_step9": "GRN auto-mirrored from buyer app (no @zoai tag needed) The GRN event is mirroring an external system action, not creating a record from scratch — so ZoAi posts the GRN ID, net received weight and variance into the group automatically. Creating records like dispatch notes, debit notes etc. still requires an explicit @zoai mention from a team member.",
+      "journey_ms_scrap_marketplace_step10": "Direct invoice generated, Recykal not on the document Seller is Om Metal, buyer is Tata Steel. The amber callout makes the separation explicit. Line value reflects the QC-accepted weight (7.90 MT) and the debit note is netted off before tax. Recykal charges its platform fee on a separate document, not on the trade invoice.",
+      "journey_ms_scrap_marketplace_step11": "Recykal HO control tower — single live ops view One screen for live listings, active awards and every running transaction group with a milestone progress bar. KPIs at the top, expiring-listing alerts in the middle, sub-PO milestones below. The page is fed by WhatsApp events and Recykal app actions; HO does not need to read individual group chats.",
+      "journey_ms_scrap_procurement_step1": "PO captured once — no re-entry Amit Zaa fills in buyer, material, quantity, rate and terms directly in the Recykal Marketplace. The system auto-selects 47 matched suppliers based on material tags and region — nothing is typed into ZoTok.",
+      "journey_ms_scrap_procurement_step2": "Status change is the broadcast trigger Amit selects “Publish / Live” and clicks Publish PO. Recykal’s backend immediately calls ZoTok’s Campaign API — no extra steps in any other tool.",
+      "journey_ms_scrap_procurement_step3": "The supplier gets the broadcast One of 248 scrap aggregators receives the personalised requirement on WhatsApp. The CTA opens a form where the supplier can declare what stock they currently hold.",
+      "journey_ms_scrap_procurement_step4": "Broadcast replies become leads Every supplier who submits availability lands on Recykal's procurement dashboard with quantity, grade, location and material photos already attached.",
+      "journey_ms_scrap_procurement_step5": "Five-way deal room, auto-assembled The group is created the moment the lead is assigned — no manual setup. All five participants are added automatically: Tata Steel PM, both Recykal team members, the supplier, and ZoAi. The name embeds the Lead ID for traceability.",
+      "journey_ms_scrap_procurement_step6": "Supplier opens, buyer holds firm Om Metal quotes ₹34,800. Vikram Singh (Tata Steel PM) immediately states the ₹34,500 ceiling — no back-channel call needed, the buyer's position is visible to everyone in the room.",
+      "journey_ms_scrap_procurement_step7": "Head office stays in the loop Because ZoAi sits in every negotiation group, the coordination team gets a live tracker of all deal rooms and their agreed terms — full oversight without micromanaging.",
+      "journey_ms_scrap_procurement_step8": "PO lands on the supplier's WhatsApp Recykal's WABA sends a Utility template with the PO PDF attached. The supplier taps \"View PO\" to open the full order in WhatsApp's browser.",
+      "journey_ms_scrap_procurement_step9": "OTP-verified approval The supplier enters the 4-digit OTP delivered to their WhatsApp and submits. The PO acknowledgement is now legally traceable to a verified number.",
+      "journey_ms_scrap_procurement_step10": "Delivery day alert On the morning of the delivery date, Recykal's WABA sends an automated reminder to the supplier. The \"Create Dispatch\" CTA links directly to the dispatch form — one tap to log vehicle and weights.",
+      "journey_ms_scrap_procurement_step11": "One-click compliance Recykal’s marketplace auto-creates a GST-compliant invoice the moment dispatch details are submitted — seller, buyer, HSN code, IGST pre-validated against the sub-PO. Amit reviews the checklist and approves in seconds.",
+      "journey_ms_scrap_procurement_step12": "Invoice lands on WhatsApp — automatically Seconds after Amit approves, Om Metal Aggregators receives a utility template with the PDF attached. The supplier can download, verify and file it without leaving WhatsApp.",
+      "journey_ms_scrap_procurement_bkp_step1": "Recykal HO composes the broadcast A fresh PO from Tata Steel triggers a WhatsApp Marketing campaign. The procurement coordinator drafts the requirement — material grade, indicative rate, delivery terms and plant location — with variables for personalisation.",
+      "journey_ms_scrap_procurement_bkp_step2": "The supplier gets the broadcast One of 248 scrap aggregators receives the personalised requirement on WhatsApp. The CTA opens a form where the supplier can declare what stock they currently hold.",
+      "journey_ms_scrap_procurement_bkp_step3": "Broadcast replies become leads Every supplier who submits availability lands on Recykal's procurement dashboard with quantity, grade, location and material photos already attached.",
+      "journey_ms_scrap_procurement_bkp_step4": "A dedicated deal room The procurement executive creates a WhatsApp group with three participants — himself, the supplier, and ZoAi. ZoAi's presence is what gives head office visibility into every negotiation.",
+      "journey_ms_scrap_procurement_bkp_step5": "The deal is negotiated in the open Rate, quantity and dispatch timeline are settled directly in the group. Because ZoAi is a participant, every message is visible to head office in real time.",
+      "journey_ms_scrap_procurement_bkp_step6": "Head office stays in the loop Because ZoAi sits in every negotiation group, the coordination team gets a live tracker of all deal rooms and their agreed terms — full oversight without micromanaging.",
+      "journey_ms_scrap_procurement_bkp_step7": "PO lands on the supplier's WhatsApp Recykal's WABA sends a Utility template with the PO PDF attached. The supplier taps \"View PO\" to open the full order in WhatsApp's browser.",
+      "journey_ms_scrap_procurement_bkp_step8": "OTP-verified approval The supplier enters the 4-digit OTP delivered to their WhatsApp and submits. The PO acknowledgement is now legally traceable to a verified number."
+    },
+    "terminology": {
+      "order_term": "purchase order",
+      "dealer_term": "supplier",
+      "unit_term": "tonne"
+    }
+  },
+  {
+    "name": "pharma",
+    "label": "Pharma",
+    "partner_label": "Chemist",
+    "unit": "box",
+    "unit_plural": "boxes",
+    "currency": "INR",
+    "currency_symbol": "₹",
+    "category_tabs": [],
+    "labels": {
+      "browseProducts": "Browse Products",
+      "placeOrder": "Place an Order",
+      "repeatLastOrder": "Repeat Last Order",
+      "currentSchemes": "Current Schemes",
+      "priceList": "Price List",
+      "viewInvoices": "View Invoices",
+      "accountLedger": "Account Ledger",
+      "payOutstanding": "Pay Outstanding",
+      "orderDashboard": "Order Dashboard",
+      "orderConfirmed": "Order Confirmed",
+      "newInvoiceRaised": "New Invoice Raised",
+      "generatePaymentAdvice": "Generate Payment Advice",
+      "cashDiscountReminder": "Cash Discount Expiring Tomorrow",
+      "invoicePaymentDue": "Invoice Payment Due",
+      "paymentReceived": "Payment Received",
+      "creditNoteIssued": "Credit Note Issued",
+      "navDashboard": "Dashboard",
+      "navOrderHistory": "Order History",
+      "navInvoices": "Invoices",
+      "navPayments": "Payments",
+      "navLedger": "Ledger",
+      "createGroup": "Create Group",
+      "newGroup": "New Group",
+      "addMembers": "Add Members",
+      "groupName": "Group Name",
+      "cancel": "Cancel",
+      "beatPlanning": "Beat Planning",
+      "todayVisitPlan": "Today's Visit Plan",
+      "visitList": "Visit List",
+      "storeCheckIn": "Store Check-In",
+      "orderCapture": "Order Capture",
+      "retailerOnboarding": "Retailer Onboarding",
+      "activityReports": "Activity Reports",
+      "attendanceManagement": "Attendance Management",
+      "expenseClaims": "Expense Claims",
+      "travelExpense": "Travel Expense",
+      "meetingExpense": "Meeting Expense",
+      "eventExpense": "Event Expense",
+      "dayClosure": "Day Closure",
+      "clockedIn": "Clocked In",
+      "pendingApproval": "Pending for Approval",
+      "underReview": "Under Review",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejected": "Rejected",
+      "disbursed": "Disbursed",
+      "waitingForDisbursement": "Waiting for Disbursement",
+      "view": "View",
+      "status": "Status",
+      "amount": "Amount",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "name": "Name",
+      "claimId": "Claim ID",
+      "claimType": "Claim Type",
+      "dsrName": "DSR Name",
+      "actions": "Actions",
+      "smartAutomation": "Smart Automation",
+      "beatPlanCommand": "Beat Plan Command",
+      "zoAiCapabilities": "ZoAi Capabilities",
+      "hiRavi": "Hi Ravi",
+      "typeMessage": "Type a message",
+      "showingRecords": "Showing 5 of 5 records",
+      "today": "Today",
+      "automatedPaymentReminder": "Automated Payment Reminder",
+      "paymentReminder": "Payment Reminder",
+      "preDueReminderSent": "Pre-Due Reminder Sent",
+      "paymentConfirmed": "Payment Confirmed",
+      "invoiceBreakdown": "Invoice Breakdown",
+      "invoiceWiseBreakup": "Invoice-wise breakup",
+      "totalOutstanding": "Total Outstanding",
+      "promiseToPay": "Promise-to-Pay",
+      "ptpConfirmed": "PTP Confirmed & Logged",
+      "schemeUnlocked": "Scheme Unlocked for PTP Date",
+      "extraScheme": "Extra scheme",
+      "fastDeliveryPriority": "Fast delivery priority",
+      "alternatePaymentDates": "AI Offers Alternate Payment Dates",
+      "aiInitiatesPtp": "AI Initiates PTP + Scheme Hook",
+      "aiAsksAlternateDate": "AI Asks Alternate Date — Warm Tone + 3 Options",
+      "retailerCommits": "Retailer Commits to Friday",
+      "retailerConfirmsPtp": "Retailer Confirms PTP — Promise Registered",
+      "retailerDeclines": "Retailer Declines — Taps \"Nahi ho paayega\"",
+      "retailerSelectsAlternate": "Retailer Selects Alternate Date — Taps \"Friday\"",
+      "confirm": "Confirm",
+      "confirmKarein": "Confirm karein",
+      "confirmKarnaChahenge": "Confirm karna chahenge?",
+      "dhanyawaad": "Dhanyawaad",
+      "samajhGaya": "Samajh gaya",
+      "perfect": "Perfect",
+      "nahiHoPaayega": "Nahi ho paayega",
+      "karDunga": "Kar dunga",
+      "aapKaunsaDin": "Aap kaunsa din comfortable rahenge?",
+      "aapkaPtpRegister": "Aapka Promise-to-Pay register ho gaya hai",
+      "aapneKalPayment": "Aapne kal payment ka commitment diya tha",
+      "agarAap": "Agar aap",
+      "takPaymentKarteHain": "tak payment karte hain",
+      "nextWeek": "Next Week",
+      "lastSupply": "Last supply",
+      "managedByZotok": "Managed by ZoTok powered by Zono",
+      "extraSchemeUnlockHoga": "Extra scheme unlock hoga",
+      "fastDispatchMilega": "Fast dispatch milega",
+      "highMovingSkuPriority": "High-moving SKUs priority allocation",
+      "nextOrderParAapko": "Next order par aapko",
+      "bulkPurchaseCampaign": "Bulk Purchase Campaign",
+      "festiveCampaign": "Festive Campaign",
+      "productCategories": "Product Categories",
+      "selectCategory": "Select a category",
+      "priceListResponse": "Price List Response",
+      "instantPriceList": "Instant Price List",
+      "schemeNotification": "Scheme Notification",
+      "aiExplainsScheme": "AI Explains Scheme",
+      "aiResponseHinglish": "AI Response in Hinglish",
+      "productQuery": "Product Query",
+      "queryToZoAi": "Query to ZoAi",
+      "showPriceList": "Show me price list",
+      "explainScheme": "Can you explain this scheme in Hindi?",
+      "dealerLoyaltyQuery": "Dealer Loyalty Query",
+      "pointsWalletInquiry": "Points Wallet Inquiry",
+      "creditNoteAlternative": "Credit Note Alternative",
+      "dealerCreditQuery": "Dealer Credit Query",
+      "creditLimitQuery": "What's my current credit limit?",
+      "loyaltyPointsQuery": "How many loyalty points do I have?",
+      "smartEscalation": "Smart Escalation to Sales Executive",
+      "escalateToSalesExec": "Yes, please escalate to my sales executive",
+      "zoAiTyping": "ZoAi is typing...",
+      "dealerSeEscalation": "Dealer SE Escalation",
+      "productCategorySelection": "Product Category Selection",
+      "diwaliFestiveCampaign": "Diwali Festive Campaign",
+      "orderCampaignSent": "Order Campaign Sent",
+      "campaignLaunch": "Campaign Launch",
+      "retailerNudge": "Retailer Nudge",
+      "paymentNudgeSent": "Payment Nudge Sent",
+      "queryResponse": "Query Response",
+      "aiTyping": "AI Typing",
+      "orderNow": "Order Now",
+      "howCanIHelp": "How can I help you today?",
+      "whatCanIHelp": "What can I help with?",
+      "categoryToExplore": "Which category would you like to explore?",
+      "aiAssistant": "AI Assistant",
+      "marketingTemplate": "Marketing Template — Image Header + CTA Buttons",
+      "utilityTemplateDoc": "Utility Template — Document Header + CTA",
+      "utilityTemplateText": "Utility Template — Text Header + CTA Buttons",
+      "interactiveList": "Interactive List — Bottom Sheet Open",
+      "sessionMessage": "Session Message — AI Hinglish Response",
+      "sessionTyping": "Session Message — AI Typing Indicator",
+      "loyaltyProgramAnnouncement": "Loyalty Program Announcement",
+      "turnoverBasedLoyalty": "Turnover-Based Loyalty",
+      "rewardsProgram": "Rewards Program",
+      "programHighlights": "Program Highlights",
+      "currentTier": "Current Tier",
+      "pointsBalance": "Points Balance",
+      "viewTierBenefits": "View Tier Benefits",
+      "checkPoints": "Check Points",
+      "tierBenefitsComparison": "Tier Benefits Comparison",
+      "tierProgressTracking": "Tier Progress Tracking",
+      "programSummaryDashboard": "Program Summary Dashboard",
+      "exclusiveLoyaltyOffers": "Exclusive Loyalty Offers",
+      "rewardsCatalog": "Rewards Catalog",
+      "viewCatalog": "View Catalog",
+      "redeemNow": "Redeem Now",
+      "redeemPoints": "Redeem Points",
+      "redemptionHistory": "Redemption History",
+      "contactSupport": "Contact Support",
+      "placeOrderToClimb": "Place Order to Climb",
+      "viewAllOffers": "View All Offers",
+      "viewAllTiers": "View All Tiers",
+      "downloadStatement": "Download Statement",
+      "nextTier": "Next Tier",
+      "lifetimePoints": "Lifetime Points",
+      "annualTurnover": "Annual Turnover",
+      "availableRewards": "Available Rewards",
+      "earningRates": "Earning Rates",
+      "conversionRate": "Conversion Rate",
+      "milestones": "Milestones",
+      "nextSteps": "Next Steps",
+      "needHelp": "Need help? Just type your query here!",
+      "activationCampaign": "Activation Campaign",
+      "registrationForm": "Registration Form",
+      "applicationSubmitted": "Application Submitted",
+      "retailPartnerRegistration": "Retail Partner Registration",
+      "fillBusinessDetails": "Fill in your business details to get started",
+      "storeName": "Store Name",
+      "owner": "Owner",
+      "phone": "Phone",
+      "gst": "GST",
+      "registrationSubmitted": "Registration Submitted",
+      "applicationUnderReview": "Application Under Review",
+      "retailerSelection": "Retailer Selection",
+      "selectRetailers": "Select Retailers to Nudge",
+      "nudgeRetailers": "Nudge Retailers",
+      "sendNudge": "Send Nudge to 1 Retailer",
+      "sendReminders": "Send Reminders",
+      "pendingInvoices": "Pending Invoices",
+      "orderReviewPortal": "Order Review Portal",
+      "ordersPendingBilling": "Orders Pending Billing",
+      "pendingBilling": "Pending billing",
+      "orderAlert": "Order Alert to Distributor",
+      "distributorMenu": "Distributor Menu",
+      "orderAccepted": "Order Accepted",
+      "confirmOrder": "Confirm Order",
+      "accept": "Accept",
+      "reviewCheckout": "Review & Checkout",
+      "cartReview": "Cart Review",
+      "catalogView": "Catalog View",
+      "invoiceUpload": "Invoice Upload",
+      "uploadInvoice": "Upload Invoice",
+      "dropInvoicePdf": "Drop invoice PDF here",
+      "invoiceDashboard": "Invoice Dashboard",
+      "invoiceOnWhatsApp": "Invoice on WhatsApp",
+      "aiExtractsOrder": "AI Extracts Order",
+      "handwrittenOrder": "Handwritten Order",
+      "upiPayment": "UPI Payment",
+      "scanToPay": "Scan to Pay",
+      "partnerApproved": "Partner Approved",
+      "partnerDashboard": "Partner Dashboard",
+      "fulfilmentList": "Fulfilment List",
+      "generateInvoice": "Generate Invoice",
+      "trackPayments": "Track payments",
+      "orderReports": "Order Reports",
+      "myAccount": "My Account",
+      "retailerList": "Retailer List",
+      "payments": "Payments",
+      "paymentsReceived": "Payments Received",
+      "invoicePaymentTracker": "Invoice Payment Tracker",
+      "orderNote": "Order Note",
+      "ordersToProcess": "Orders to Process",
+      "overdue": "Overdue",
+      "total": "Total",
+      "items": "Items",
+      "orderId": "Order ID",
+      "order": "Order",
+      "edit": "Edit",
+      "manageOrders": "Manage your orders",
+      "driveMoreOrders": "Drive more orders",
+      "orTapToBrowse": "or tap to browse"
+    },
+    "messages": {
+      "journey_domestic_customer_lifecycle": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_defect_alert_management": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_collections_finance_ptp_incentives": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      }
+    },
+    "descriptions": {},
+    "terminology": {
+      "order_term": "indent",
+      "dealer_term": "stockist",
+      "unit_term": "box"
+    }
+  },
+  {
+    "name": "agri",
+    "label": "Agri",
+    "partner_label": "Farmer",
+    "unit": "packet",
+    "unit_plural": "packets",
+    "currency": "INR",
+    "currency_symbol": "₹",
+    "category_tabs": [],
+    "labels": {
+      "browseProducts": "Browse Products",
+      "placeOrder": "Place an Order",
+      "repeatLastOrder": "Repeat Last Order",
+      "currentSchemes": "Current Schemes",
+      "priceList": "Price List",
+      "viewInvoices": "View Invoices",
+      "accountLedger": "Account Ledger",
+      "payOutstanding": "Pay Outstanding",
+      "orderDashboard": "Order Dashboard",
+      "orderConfirmed": "Order Confirmed",
+      "newInvoiceRaised": "New Invoice Raised",
+      "generatePaymentAdvice": "Generate Payment Advice",
+      "cashDiscountReminder": "Cash Discount Expiring Tomorrow",
+      "invoicePaymentDue": "Invoice Payment Due",
+      "paymentReceived": "Payment Received",
+      "creditNoteIssued": "Credit Note Issued",
+      "navDashboard": "Dashboard",
+      "navOrderHistory": "Order History",
+      "navInvoices": "Invoices",
+      "navPayments": "Payments",
+      "navLedger": "Ledger",
+      "createGroup": "Create Group",
+      "newGroup": "New Group",
+      "addMembers": "Add Members",
+      "groupName": "Group Name",
+      "cancel": "Cancel",
+      "beatPlanning": "Beat Planning",
+      "todayVisitPlan": "Today's Visit Plan",
+      "visitList": "Visit List",
+      "storeCheckIn": "Store Check-In",
+      "orderCapture": "Order Capture",
+      "retailerOnboarding": "Retailer Onboarding",
+      "activityReports": "Activity Reports",
+      "attendanceManagement": "Attendance Management",
+      "expenseClaims": "Expense Claims",
+      "travelExpense": "Travel Expense",
+      "meetingExpense": "Meeting Expense",
+      "eventExpense": "Event Expense",
+      "dayClosure": "Day Closure",
+      "clockedIn": "Clocked In",
+      "pendingApproval": "Pending for Approval",
+      "underReview": "Under Review",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejected": "Rejected",
+      "disbursed": "Disbursed",
+      "waitingForDisbursement": "Waiting for Disbursement",
+      "view": "View",
+      "status": "Status",
+      "amount": "Amount",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "name": "Name",
+      "claimId": "Claim ID",
+      "claimType": "Claim Type",
+      "dsrName": "DSR Name",
+      "actions": "Actions",
+      "smartAutomation": "Smart Automation",
+      "beatPlanCommand": "Beat Plan Command",
+      "zoAiCapabilities": "ZoAi Capabilities",
+      "hiRavi": "Hi Ravi",
+      "typeMessage": "Type a message",
+      "showingRecords": "Showing 5 of 5 records",
+      "today": "Today",
+      "automatedPaymentReminder": "Automated Payment Reminder",
+      "paymentReminder": "Payment Reminder",
+      "preDueReminderSent": "Pre-Due Reminder Sent",
+      "paymentConfirmed": "Payment Confirmed",
+      "invoiceBreakdown": "Invoice Breakdown",
+      "invoiceWiseBreakup": "Invoice-wise breakup",
+      "totalOutstanding": "Total Outstanding",
+      "promiseToPay": "Promise-to-Pay",
+      "ptpConfirmed": "PTP Confirmed & Logged",
+      "schemeUnlocked": "Scheme Unlocked for PTP Date",
+      "extraScheme": "Extra scheme",
+      "fastDeliveryPriority": "Fast delivery priority",
+      "alternatePaymentDates": "AI Offers Alternate Payment Dates",
+      "aiInitiatesPtp": "AI Initiates PTP + Scheme Hook",
+      "aiAsksAlternateDate": "AI Asks Alternate Date — Warm Tone + 3 Options",
+      "retailerCommits": "Retailer Commits to Friday",
+      "retailerConfirmsPtp": "Retailer Confirms PTP — Promise Registered",
+      "retailerDeclines": "Retailer Declines — Taps \"Nahi ho paayega\"",
+      "retailerSelectsAlternate": "Retailer Selects Alternate Date — Taps \"Friday\"",
+      "confirm": "Confirm",
+      "confirmKarein": "Confirm karein",
+      "confirmKarnaChahenge": "Confirm karna chahenge?",
+      "dhanyawaad": "Dhanyawaad",
+      "samajhGaya": "Samajh gaya",
+      "perfect": "Perfect",
+      "nahiHoPaayega": "Nahi ho paayega",
+      "karDunga": "Kar dunga",
+      "aapKaunsaDin": "Aap kaunsa din comfortable rahenge?",
+      "aapkaPtpRegister": "Aapka Promise-to-Pay register ho gaya hai",
+      "aapneKalPayment": "Aapne kal payment ka commitment diya tha",
+      "agarAap": "Agar aap",
+      "takPaymentKarteHain": "tak payment karte hain",
+      "nextWeek": "Next Week",
+      "lastSupply": "Last supply",
+      "managedByZotok": "Managed by ZoTok powered by Zono",
+      "extraSchemeUnlockHoga": "Extra scheme unlock hoga",
+      "fastDispatchMilega": "Fast dispatch milega",
+      "highMovingSkuPriority": "High-moving SKUs priority allocation",
+      "nextOrderParAapko": "Next order par aapko",
+      "bulkPurchaseCampaign": "Bulk Purchase Campaign",
+      "festiveCampaign": "Festive Campaign",
+      "productCategories": "Product Categories",
+      "selectCategory": "Select a category",
+      "priceListResponse": "Price List Response",
+      "instantPriceList": "Instant Price List",
+      "schemeNotification": "Scheme Notification",
+      "aiExplainsScheme": "AI Explains Scheme",
+      "aiResponseHinglish": "AI Response in Hinglish",
+      "productQuery": "Product Query",
+      "queryToZoAi": "Query to ZoAi",
+      "showPriceList": "Show me price list",
+      "explainScheme": "Can you explain this scheme in Hindi?",
+      "dealerLoyaltyQuery": "Dealer Loyalty Query",
+      "pointsWalletInquiry": "Points Wallet Inquiry",
+      "creditNoteAlternative": "Credit Note Alternative",
+      "dealerCreditQuery": "Dealer Credit Query",
+      "creditLimitQuery": "What's my current credit limit?",
+      "loyaltyPointsQuery": "How many loyalty points do I have?",
+      "smartEscalation": "Smart Escalation to Sales Executive",
+      "escalateToSalesExec": "Yes, please escalate to my sales executive",
+      "zoAiTyping": "ZoAi is typing...",
+      "dealerSeEscalation": "Dealer SE Escalation",
+      "productCategorySelection": "Product Category Selection",
+      "diwaliFestiveCampaign": "Diwali Festive Campaign",
+      "orderCampaignSent": "Order Campaign Sent",
+      "campaignLaunch": "Campaign Launch",
+      "retailerNudge": "Retailer Nudge",
+      "paymentNudgeSent": "Payment Nudge Sent",
+      "queryResponse": "Query Response",
+      "aiTyping": "AI Typing",
+      "orderNow": "Order Now",
+      "howCanIHelp": "How can I help you today?",
+      "whatCanIHelp": "What can I help with?",
+      "categoryToExplore": "Which category would you like to explore?",
+      "aiAssistant": "AI Assistant",
+      "marketingTemplate": "Marketing Template — Image Header + CTA Buttons",
+      "utilityTemplateDoc": "Utility Template — Document Header + CTA",
+      "utilityTemplateText": "Utility Template — Text Header + CTA Buttons",
+      "interactiveList": "Interactive List — Bottom Sheet Open",
+      "sessionMessage": "Session Message — AI Hinglish Response",
+      "sessionTyping": "Session Message — AI Typing Indicator",
+      "loyaltyProgramAnnouncement": "Loyalty Program Announcement",
+      "turnoverBasedLoyalty": "Turnover-Based Loyalty",
+      "rewardsProgram": "Rewards Program",
+      "programHighlights": "Program Highlights",
+      "currentTier": "Current Tier",
+      "pointsBalance": "Points Balance",
+      "viewTierBenefits": "View Tier Benefits",
+      "checkPoints": "Check Points",
+      "tierBenefitsComparison": "Tier Benefits Comparison",
+      "tierProgressTracking": "Tier Progress Tracking",
+      "programSummaryDashboard": "Program Summary Dashboard",
+      "exclusiveLoyaltyOffers": "Exclusive Loyalty Offers",
+      "rewardsCatalog": "Rewards Catalog",
+      "viewCatalog": "View Catalog",
+      "redeemNow": "Redeem Now",
+      "redeemPoints": "Redeem Points",
+      "redemptionHistory": "Redemption History",
+      "contactSupport": "Contact Support",
+      "placeOrderToClimb": "Place Order to Climb",
+      "viewAllOffers": "View All Offers",
+      "viewAllTiers": "View All Tiers",
+      "downloadStatement": "Download Statement",
+      "nextTier": "Next Tier",
+      "lifetimePoints": "Lifetime Points",
+      "annualTurnover": "Annual Turnover",
+      "availableRewards": "Available Rewards",
+      "earningRates": "Earning Rates",
+      "conversionRate": "Conversion Rate",
+      "milestones": "Milestones",
+      "nextSteps": "Next Steps",
+      "needHelp": "Need help? Just type your query here!",
+      "activationCampaign": "Activation Campaign",
+      "registrationForm": "Registration Form",
+      "applicationSubmitted": "Application Submitted",
+      "retailPartnerRegistration": "Retail Partner Registration",
+      "fillBusinessDetails": "Fill in your business details to get started",
+      "storeName": "Store Name",
+      "owner": "Owner",
+      "phone": "Phone",
+      "gst": "GST",
+      "registrationSubmitted": "Registration Submitted",
+      "applicationUnderReview": "Application Under Review",
+      "retailerSelection": "Retailer Selection",
+      "selectRetailers": "Select Retailers to Nudge",
+      "nudgeRetailers": "Nudge Retailers",
+      "sendNudge": "Send Nudge to 1 Retailer",
+      "sendReminders": "Send Reminders",
+      "pendingInvoices": "Pending Invoices",
+      "orderReviewPortal": "Order Review Portal",
+      "ordersPendingBilling": "Orders Pending Billing",
+      "pendingBilling": "Pending billing",
+      "orderAlert": "Order Alert to Distributor",
+      "distributorMenu": "Distributor Menu",
+      "orderAccepted": "Order Accepted",
+      "confirmOrder": "Confirm Order",
+      "accept": "Accept",
+      "reviewCheckout": "Review & Checkout",
+      "cartReview": "Cart Review",
+      "catalogView": "Catalog View",
+      "invoiceUpload": "Invoice Upload",
+      "uploadInvoice": "Upload Invoice",
+      "dropInvoicePdf": "Drop invoice PDF here",
+      "invoiceDashboard": "Invoice Dashboard",
+      "invoiceOnWhatsApp": "Invoice on WhatsApp",
+      "aiExtractsOrder": "AI Extracts Order",
+      "handwrittenOrder": "Handwritten Order",
+      "upiPayment": "UPI Payment",
+      "scanToPay": "Scan to Pay",
+      "partnerApproved": "Partner Approved",
+      "partnerDashboard": "Partner Dashboard",
+      "fulfilmentList": "Fulfilment List",
+      "generateInvoice": "Generate Invoice",
+      "trackPayments": "Track payments",
+      "orderReports": "Order Reports",
+      "myAccount": "My Account",
+      "retailerList": "Retailer List",
+      "payments": "Payments",
+      "paymentsReceived": "Payments Received",
+      "invoicePaymentTracker": "Invoice Payment Tracker",
+      "orderNote": "Order Note",
+      "ordersToProcess": "Orders to Process",
+      "overdue": "Overdue",
+      "total": "Total",
+      "items": "Items",
+      "orderId": "Order ID",
+      "order": "Order",
+      "edit": "Edit",
+      "manageOrders": "Manage your orders",
+      "driveMoreOrders": "Drive more orders",
+      "orTapToBrowse": "or tap to browse"
+    },
+    "messages": {
+      "journey_retailer_ordering": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      }
+    },
+    "descriptions": {},
+    "terminology": {
+      "order_term": "order",
+      "dealer_term": "retailer",
+      "unit_term": "packet"
+    }
+  },
+  {
+    "name": "general",
+    "label": "General",
+    "partner_label": "Partner",
+    "unit": "unit",
+    "unit_plural": "units",
+    "currency": "INR",
+    "currency_symbol": "₹",
+    "category_tabs": [],
+    "labels": {
+      "browseProducts": "Browse Products",
+      "placeOrder": "Place an Order",
+      "repeatLastOrder": "Repeat Last Order",
+      "currentSchemes": "Current Schemes",
+      "priceList": "Price List",
+      "viewInvoices": "View Invoices",
+      "accountLedger": "Account Ledger",
+      "payOutstanding": "Pay Outstanding",
+      "orderDashboard": "Order Dashboard",
+      "orderConfirmed": "Order Confirmed",
+      "newInvoiceRaised": "New Invoice Raised",
+      "generatePaymentAdvice": "Generate Payment Advice",
+      "cashDiscountReminder": "Cash Discount Expiring Tomorrow",
+      "invoicePaymentDue": "Invoice Payment Due",
+      "paymentReceived": "Payment Received",
+      "creditNoteIssued": "Credit Note Issued",
+      "navDashboard": "Dashboard",
+      "navOrderHistory": "Order History",
+      "navInvoices": "Invoices",
+      "navPayments": "Payments",
+      "navLedger": "Ledger",
+      "createGroup": "Create Group",
+      "newGroup": "New Group",
+      "addMembers": "Add Members",
+      "groupName": "Group Name",
+      "cancel": "Cancel",
+      "beatPlanning": "Beat Planning",
+      "todayVisitPlan": "Today's Visit Plan",
+      "visitList": "Visit List",
+      "storeCheckIn": "Store Check-In",
+      "orderCapture": "Order Capture",
+      "retailerOnboarding": "Retailer Onboarding",
+      "activityReports": "Activity Reports",
+      "attendanceManagement": "Attendance Management",
+      "expenseClaims": "Expense Claims",
+      "travelExpense": "Travel Expense",
+      "meetingExpense": "Meeting Expense",
+      "eventExpense": "Event Expense",
+      "dayClosure": "Day Closure",
+      "clockedIn": "Clocked In",
+      "pendingApproval": "Pending for Approval",
+      "underReview": "Under Review",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejected": "Rejected",
+      "disbursed": "Disbursed",
+      "waitingForDisbursement": "Waiting for Disbursement",
+      "view": "View",
+      "status": "Status",
+      "amount": "Amount",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "name": "Name",
+      "claimId": "Claim ID",
+      "claimType": "Claim Type",
+      "dsrName": "DSR Name",
+      "actions": "Actions",
+      "smartAutomation": "Smart Automation",
+      "beatPlanCommand": "Beat Plan Command",
+      "zoAiCapabilities": "ZoAi Capabilities",
+      "hiRavi": "Hi Ravi",
+      "typeMessage": "Type a message",
+      "showingRecords": "Showing 5 of 5 records",
+      "today": "Today",
+      "automatedPaymentReminder": "Automated Payment Reminder",
+      "paymentReminder": "Payment Reminder",
+      "preDueReminderSent": "Pre-Due Reminder Sent",
+      "paymentConfirmed": "Payment Confirmed",
+      "invoiceBreakdown": "Invoice Breakdown",
+      "invoiceWiseBreakup": "Invoice-wise breakup",
+      "totalOutstanding": "Total Outstanding",
+      "promiseToPay": "Promise-to-Pay",
+      "ptpConfirmed": "PTP Confirmed & Logged",
+      "schemeUnlocked": "Scheme Unlocked for PTP Date",
+      "extraScheme": "Extra scheme",
+      "fastDeliveryPriority": "Fast delivery priority",
+      "alternatePaymentDates": "AI Offers Alternate Payment Dates",
+      "aiInitiatesPtp": "AI Initiates PTP + Scheme Hook",
+      "aiAsksAlternateDate": "AI Asks Alternate Date — Warm Tone + 3 Options",
+      "retailerCommits": "Retailer Commits to Friday",
+      "retailerConfirmsPtp": "Retailer Confirms PTP — Promise Registered",
+      "retailerDeclines": "Retailer Declines — Taps \"Nahi ho paayega\"",
+      "retailerSelectsAlternate": "Retailer Selects Alternate Date — Taps \"Friday\"",
+      "confirm": "Confirm",
+      "confirmKarein": "Confirm karein",
+      "confirmKarnaChahenge": "Confirm karna chahenge?",
+      "dhanyawaad": "Dhanyawaad",
+      "samajhGaya": "Samajh gaya",
+      "perfect": "Perfect",
+      "nahiHoPaayega": "Nahi ho paayega",
+      "karDunga": "Kar dunga",
+      "aapKaunsaDin": "Aap kaunsa din comfortable rahenge?",
+      "aapkaPtpRegister": "Aapka Promise-to-Pay register ho gaya hai",
+      "aapneKalPayment": "Aapne kal payment ka commitment diya tha",
+      "agarAap": "Agar aap",
+      "takPaymentKarteHain": "tak payment karte hain",
+      "nextWeek": "Next Week",
+      "lastSupply": "Last supply",
+      "managedByZotok": "Managed by ZoTok powered by Zono",
+      "extraSchemeUnlockHoga": "Extra scheme unlock hoga",
+      "fastDispatchMilega": "Fast dispatch milega",
+      "highMovingSkuPriority": "High-moving SKUs priority allocation",
+      "nextOrderParAapko": "Next order par aapko",
+      "bulkPurchaseCampaign": "Bulk Purchase Campaign",
+      "festiveCampaign": "Festive Campaign",
+      "productCategories": "Product Categories",
+      "selectCategory": "Select a category",
+      "priceListResponse": "Price List Response",
+      "instantPriceList": "Instant Price List",
+      "schemeNotification": "Scheme Notification",
+      "aiExplainsScheme": "AI Explains Scheme",
+      "aiResponseHinglish": "AI Response in Hinglish",
+      "productQuery": "Product Query",
+      "queryToZoAi": "Query to ZoAi",
+      "showPriceList": "Show me price list",
+      "explainScheme": "Can you explain this scheme in Hindi?",
+      "dealerLoyaltyQuery": "Dealer Loyalty Query",
+      "pointsWalletInquiry": "Points Wallet Inquiry",
+      "creditNoteAlternative": "Credit Note Alternative",
+      "dealerCreditQuery": "Dealer Credit Query",
+      "creditLimitQuery": "What's my current credit limit?",
+      "loyaltyPointsQuery": "How many loyalty points do I have?",
+      "smartEscalation": "Smart Escalation to Sales Executive",
+      "escalateToSalesExec": "Yes, please escalate to my sales executive",
+      "zoAiTyping": "ZoAi is typing...",
+      "dealerSeEscalation": "Dealer SE Escalation",
+      "productCategorySelection": "Product Category Selection",
+      "diwaliFestiveCampaign": "Diwali Festive Campaign",
+      "orderCampaignSent": "Order Campaign Sent",
+      "campaignLaunch": "Campaign Launch",
+      "retailerNudge": "Retailer Nudge",
+      "paymentNudgeSent": "Payment Nudge Sent",
+      "queryResponse": "Query Response",
+      "aiTyping": "AI Typing",
+      "orderNow": "Order Now",
+      "howCanIHelp": "How can I help you today?",
+      "whatCanIHelp": "What can I help with?",
+      "categoryToExplore": "Which category would you like to explore?",
+      "aiAssistant": "AI Assistant",
+      "marketingTemplate": "Marketing Template — Image Header + CTA Buttons",
+      "utilityTemplateDoc": "Utility Template — Document Header + CTA",
+      "utilityTemplateText": "Utility Template — Text Header + CTA Buttons",
+      "interactiveList": "Interactive List — Bottom Sheet Open",
+      "sessionMessage": "Session Message — AI Hinglish Response",
+      "sessionTyping": "Session Message — AI Typing Indicator",
+      "loyaltyProgramAnnouncement": "Loyalty Program Announcement",
+      "turnoverBasedLoyalty": "Turnover-Based Loyalty",
+      "rewardsProgram": "Rewards Program",
+      "programHighlights": "Program Highlights",
+      "currentTier": "Current Tier",
+      "pointsBalance": "Points Balance",
+      "viewTierBenefits": "View Tier Benefits",
+      "checkPoints": "Check Points",
+      "tierBenefitsComparison": "Tier Benefits Comparison",
+      "tierProgressTracking": "Tier Progress Tracking",
+      "programSummaryDashboard": "Program Summary Dashboard",
+      "exclusiveLoyaltyOffers": "Exclusive Loyalty Offers",
+      "rewardsCatalog": "Rewards Catalog",
+      "viewCatalog": "View Catalog",
+      "redeemNow": "Redeem Now",
+      "redeemPoints": "Redeem Points",
+      "redemptionHistory": "Redemption History",
+      "contactSupport": "Contact Support",
+      "placeOrderToClimb": "Place Order to Climb",
+      "viewAllOffers": "View All Offers",
+      "viewAllTiers": "View All Tiers",
+      "downloadStatement": "Download Statement",
+      "nextTier": "Next Tier",
+      "lifetimePoints": "Lifetime Points",
+      "annualTurnover": "Annual Turnover",
+      "availableRewards": "Available Rewards",
+      "earningRates": "Earning Rates",
+      "conversionRate": "Conversion Rate",
+      "milestones": "Milestones",
+      "nextSteps": "Next Steps",
+      "needHelp": "Need help? Just type your query here!",
+      "activationCampaign": "Activation Campaign",
+      "registrationForm": "Registration Form",
+      "applicationSubmitted": "Application Submitted",
+      "retailPartnerRegistration": "Retail Partner Registration",
+      "fillBusinessDetails": "Fill in your business details to get started",
+      "storeName": "Store Name",
+      "owner": "Owner",
+      "phone": "Phone",
+      "gst": "GST",
+      "registrationSubmitted": "Registration Submitted",
+      "applicationUnderReview": "Application Under Review",
+      "retailerSelection": "Retailer Selection",
+      "selectRetailers": "Select Retailers to Nudge",
+      "nudgeRetailers": "Nudge Retailers",
+      "sendNudge": "Send Nudge to 1 Retailer",
+      "sendReminders": "Send Reminders",
+      "pendingInvoices": "Pending Invoices",
+      "orderReviewPortal": "Order Review Portal",
+      "ordersPendingBilling": "Orders Pending Billing",
+      "pendingBilling": "Pending billing",
+      "orderAlert": "Order Alert to Distributor",
+      "distributorMenu": "Distributor Menu",
+      "orderAccepted": "Order Accepted",
+      "confirmOrder": "Confirm Order",
+      "accept": "Accept",
+      "reviewCheckout": "Review & Checkout",
+      "cartReview": "Cart Review",
+      "catalogView": "Catalog View",
+      "invoiceUpload": "Invoice Upload",
+      "uploadInvoice": "Upload Invoice",
+      "dropInvoicePdf": "Drop invoice PDF here",
+      "invoiceDashboard": "Invoice Dashboard",
+      "invoiceOnWhatsApp": "Invoice on WhatsApp",
+      "aiExtractsOrder": "AI Extracts Order",
+      "handwrittenOrder": "Handwritten Order",
+      "upiPayment": "UPI Payment",
+      "scanToPay": "Scan to Pay",
+      "partnerApproved": "Partner Approved",
+      "partnerDashboard": "Partner Dashboard",
+      "fulfilmentList": "Fulfilment List",
+      "generateInvoice": "Generate Invoice",
+      "trackPayments": "Track payments",
+      "orderReports": "Order Reports",
+      "myAccount": "My Account",
+      "retailerList": "Retailer List",
+      "payments": "Payments",
+      "paymentsReceived": "Payments Received",
+      "invoicePaymentTracker": "Invoice Payment Tracker",
+      "orderNote": "Order Note",
+      "ordersToProcess": "Orders to Process",
+      "overdue": "Overdue",
+      "total": "Total",
+      "items": "Items",
+      "orderId": "Order ID",
+      "order": "Order",
+      "edit": "Edit",
+      "manageOrders": "Manage your orders",
+      "driveMoreOrders": "Drive more orders",
+      "orTapToBrowse": "or tap to browse"
+    },
+    "messages": {
+      "journey_field_ops": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_phase1_retailer_activation": {
+        "welcome": {
+          "title": "Welcome",
+          "body": "",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "DT Fulfilment": {
+        "step1": {
+          "title": "Step 1",
+          "bodies": [
+            "Opening Distributor Menu to place today's egg order."
+          ]
+        },
+        "step2": {
+          "title": "Step 2",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Sakku Distributor Menu . Use the menu below to check rates, place egg orders, view invoices, repeat orders, view ledger, report damage, and see schemes."
+          ]
+        },
+        "step3": {
+          "title": "Step 3",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Sakku Distributor Menu . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step5": {
+          "title": "Step 5",
+          "bodies": [
+            "Hi",
+            "Hello Shyam Distributors ! 👋 Welcome to Sakku Distributor Menu . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+          ]
+        },
+        "step6": {
+          "title": "Step 6",
+          "bodies": [
+            "Hi Sakku Group, please share dispatch and order status for ORD-SKK-10245 . We need Hyderabad delivery confirmation.",
+            "Thanks, Sri Lakshmi Traders. Checking your Sakku egg order now."
+          ]
+        },
+        "welcome": {
+          "title": "Step 1",
+          "body": "Opening Distributor Menu to place today's egg order.",
+          "time": "",
+          "cta": ""
+        }
+      },
+      "journey_daily_rate_broadcast": {
+        "welcome": {
+          "title": "Step 1",
+          "body": "Step 1",
+          "time": "",
+          "cta": ""
+        }
+      }
+    },
+    "descriptions": {
+      "DT Fulfilment_step1": "Daily Egg Price Broadcast Distributor receives daily Sakku egg rates, available stock, and a CTA to open the Distributor Menu.",
+      "DT Fulfilment_step2": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "DT Fulfilment_step3": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "DT Fulfilment_step4": "Invoice & Payment Distributor receives invoice INV-SKK-10245 with Layer Egg Trays, quantity 500, and Pay via UPI CTA.",
+      "DT Fulfilment_step5": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "DT Fulfilment_step6": "Customer asks for dispatch and order status Sri Lakshmi Traders requests the latest dispatch update for order ORD-SKK-10245 from the same Sakku WhatsApp thread.",
+      "journey_daily_rate_broadcast_step2": "7:30 AM morning routine — update rates, send broadcast Every morning at 7:30 AM the coordinator updates today's poultry rates and clicks Send Messages . Dealer, wholesaler, and retailer rows carry the segment price, stock remarks, and delivery status ZoTok uses to personalize WhatsApp broadcasts and start order capture from replies.",
+      "journey_daily_rate_broadcast_step3": "ZoTok Workspace Add-on — installed once, lives in every sheet The ZoTok add-on is published in Google Workspace Marketplace. Once installed by the org admin, it appears under Extensions › Zotok for every sheet user with no per-user setup. For Sakku's daily poultry price communication, the coordinator uses Extensions → Zotok → Campaign → Send Messages after updating the 7:30 AM rate sheet; ZoTok selects dealer, wholesaler, and retailer templates, drives WhatsApp engagement, and starts order generation from replies and CTAs.",
+      "journey_daily_rate_broadcast_step4": "One click → 2,480 daily price messages queued ZoTok queues the daily Sakku price broadcast through WhatsApp Business API using pre-approved templates with placeholders replaced from the sheet rows. Campaign codes are detected for EGG-2026-06-01-DEALER , EGG-2026-06-01-RETAILER , and EGG-2026-06-01-WHOLESALER , covering dealers, retailers, and wholesalers in one run.",
+      "journey_daily_rate_broadcast_step5": "Dealer broadcast — daily price update + order CTA The EGG-2026-06-01-DEALER template lands on dealer WhatsApp at 7:31 AM with layer egg, jumbo egg, and country egg rates. Place Order opens the ZoAi order capture flow; Talk To Sales hands off to the mapped sales representative.",
+      "journey_daily_rate_broadcast_step6": "Broadcast → order capture → dispatch process The dealer starts from the broadcast CTA and ZoAi captures product, tray quantity, location, and delivery date before creating the order and notifying the Sakku sales representative. Final flow: Broadcast → Order Intent → Quantity Capture → Delivery Capture → Order Creation → Dispatch Process ."
+    },
+    "terminology": {
+      "order_term": "order",
+      "dealer_term": "store",
+      "unit_term": "unit"
+    }
+  }
+]

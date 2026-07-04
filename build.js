@@ -9,8 +9,9 @@ const { normalizeJourney } = require('./lib/journey-normalizer');
 const { normalizeCatalog } = require('./lib/catalog-normalizer');
 const { runAssetPipeline } = require('./lib/asset-pipeline');
 const { packageDist } = require('./lib/dist-packager');
-const { buildJourneyContent } = require('./services/content-adapter');
-
+// Content adapter — loads industry profiles from Supabase, applies to brands.
+// Replaces old LLM-at-runtime adapter.
+const { getIndustryProfile, applyProfileToJourney } = require('./services/content-adapter');
 // New schema-driven renderer (Phase 2)
 const screenRenderer = require('./lib/screen-renderer');
 
@@ -370,7 +371,12 @@ async function build() {
     }
 
     const journey = normalizeJourney(rawJourney, pipeline.products);
-    journey.content = buildJourneyContent({});
+    // ── Load industry content from Supabase ──
+    const industryName = brand.industry || 'general';
+    const profile = await getIndustryProfile(industryName).catch(() => null);
+    const applied = profile ? applyProfileToJourney(profile, brand) : { labels: {} };
+    journey.content = applied.labels || {};
+    
     pipeline.report.journeyStepCount = journey.steps?.length || 0;
 
     // ── Inject brand dealer store name into journey messages ──
@@ -522,7 +528,11 @@ async function build() {
     // Helper: build context for a non-OTC journey (normalize, load scripts, include style)
     async function buildJourneyContext(rawJourney) {
       const j = normalizeJourney(rawJourney, pipeline.products);
-      j.content = buildJourneyContent({});
+      // ── Load industry content from Supabase ──
+      const industryName2 = brand.industry || 'general';
+      const profile2 = await getIndustryProfile(industryName2).catch(() => null);
+      const applied2 = profile2 ? applyProfileToJourney(profile2, brand) : { labels: {} };
+      j.content = applied2.labels || {};
       const jScripts = await loadScripts(j.navSteps);
       const useHaldiramSourceIdentity = brandId === 'haldirams' && HALDIRAM_SOURCE_JOURNEYS.has(j.id);
       return {
@@ -667,7 +677,11 @@ async function build() {
         
         // Build context for schema-driven journey
         const schemaJourney = normalizeJourney(journeyData, pipeline.products);
-        schemaJourney.content = buildJourneyContent({});
+        // ── Load industry content from Supabase ──
+        const industryName3 = brand.industry || 'general';
+        const profile3 = await getIndustryProfile(industryName3).catch(() => null);
+        const applied3 = profile3 ? applyProfileToJourney(profile3, brand) : { labels: {} };
+        schemaJourney.content = applied3.labels || {};
         const schemaScripts = await loadScripts(schemaJourney.navSteps);
         
         const schemaContext = {

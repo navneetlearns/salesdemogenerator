@@ -54,3 +54,10 @@ api_disabled/
 .backup
 migration/extracted/
 migration/brand_metadata/
+
+# Supabase CLI temp files
+supabase/
+
+# Python cache
+__pycache__/
+*.pyc

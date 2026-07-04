@@ -165,7 +165,7 @@ One row per stored image file.
 ### Row-Level Security
 - All four tables: `SELECT` policy `USING (true)` — public read, no anon
   key needed in frontend (anon key only for rate-limit attribution).
-- `INSERT`/`UPDATE`/`DELETE` policies require `auth.role() = 'service_role'`
+- `INSERT`/`UPDATE`/`DELETE` policies: allow-all with `USING (true) WITH CHECK (true)` — Supabase's new non-JWT secret key authenticates as service_role when sent as `apikey` header, bypassing RLS. Harden with `REVOKE INSERT, UPDATE, DELETE ON <t> FROM anon, authenticated, public`.
   — admin-only, key never shipped to frontend.
 
 ### Storage
@@ -307,14 +307,14 @@ Completed and committed:
 The user must create the Supabase project (the agent cannot create
 Supabase projects on the user's behalf). Once the URL + keys are in hand,
 put them in the demo-generator's `.env` file as
-`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (the
+`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` (the
 latter gitignored).
 
 ---
 
 ## 8. VERIFICATION — when the design is implemented
 
-1. `node build.js --dist` with `SUPABASE_URL` + `SUPABASE_ANON_KEY` set →
+1. `node build.js --dist` with `SUPABASE_URL` + `SUPABASE_PUBLISHABLE_KEY` set →
    builds all 3 live brands (JK Cement, Haldiram, Sundaram Store) end-to-end
    without LLM calls.
 2. `node build.js --dist` → output `dist/{brand}/index.html` references

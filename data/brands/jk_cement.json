@@ -1,7 +1,7 @@
 {
   "id": "jk_cement",
   "name": "JK Cement",
-  "industry": "building_materials",
+  "industry": "cement",
   "assets": {
     "logo": "logo.png",
     "logoDark": "logo_dark.png",

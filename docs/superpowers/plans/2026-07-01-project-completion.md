@@ -148,7 +148,7 @@ Delete stale branches, resolve stash on `feature/bugfix-stabilize`, final docs a
 - Remove: `api/experiments/adapt-content.js`, `api/experiments/save-content.js`.
 - Remove: `data/content/*_labels.json` (7 manual label files — merged into industry profiles in `industries.labels`).
 - Update: `test/content-adapter.test.js`, `test/experiment-ui.test.js`.
-- Update: `.env.example` to document `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
+- Update: `.env.example` to document `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` (Supabase replaced anon/service_role JWT keys with non-JWT publishable/secret keys in 2026).
 
 - [ ] **Step 1:** Confirm Supabase credentials present in `.env` (user action — cannot proceed until done).
 - [ ] **Step 2:** Apply schema migration. Tables: `industries`, `brands`, `journeys`, `images_meta`. Configure RLS (public read, admin write). Create `demo-assets` bucket with public read.
