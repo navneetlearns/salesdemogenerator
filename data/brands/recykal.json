@@ -1,0 +1,22 @@
+{
+  "id": "recykal",
+  "name": "Recykal",
+  "shortName": "Recykal",
+  "industry": "industrial",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#049769",
+    "brandDark": "#037a54",
+    "accent": "#fc5000"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

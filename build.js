@@ -28,6 +28,8 @@ const ASSETS_DIR = path.join(ROOT, 'assets');
 
 const BUILD_DIST = process.argv.includes('--dist');
 const STRICT_ASSETS = process.argv.includes('--strict');
+const VERBOSE = process.argv.includes('--verbose') || process.argv.includes('-v');
+if (VERBOSE) process.env.LOG_LEVEL = 'debug';
 
 const ajv = new Ajv();
 const brandSchema = fs.readJsonSync(path.join(DATA_DIR, 'schemas', 'brand.schema.json'));
@@ -719,8 +721,7 @@ async function build() {
     }
   }
 
-  const totalDuration = Date.now() - brandStart;
-  log.info({ brand: brandId, duration: totalDuration }, 'Build done');
+  log.info({}, 'Build done');
   
   console.log(`\nBuild complete.${BUILD_DIST ? ' → dist/' : ''}`);
 

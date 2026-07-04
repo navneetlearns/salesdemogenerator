@@ -23,12 +23,7 @@
       <h3>Brand</h3>
       <label class="file-row">Industry
         <select id="runtimeIndustryInput">
-          <option value="FMCG">FMCG</option>
-          <option value="Pharma">Pharma</option>
-          <option value="Cement">Cement</option>
-          <option value="Steel">Steel</option>
-          <option value="Construction">Construction</option>
-          <option value="Retail">Retail</option>
+          <option value="">Loading...</option>
         </select>
       </label>
       <label class="file-row">Logo (png/jpg/webp)
@@ -73,12 +68,6 @@
           <label for="industryInput">Industry <span class="required">*</span></label>
           <select id="industryInput" class="form-control" required>
             <option value="">Select industry</option>
-            <option value="FMCG">FMCG</option>
-            <option value="Pharma">Pharma</option>
-            <option value="Cement">Cement</option>
-            <option value="Steel">Steel</option>
-            <option value="Construction">Construction</option>
-            <option value="Retail">Retail</option>
           </select>
         </div>
         <div class="form-row">
@@ -154,6 +143,34 @@
 
     <footer class="muted small">ZoTok Demo Generator &mdash; static demos + runtime generation</footer>
   </main>
+  <script>
+  // Load industries from Supabase live
+  (function loadIndustries() {
+    var SUPABASE_URL = 'https://lrjkzsrqvvotqjyascju.supabase.co';
+    var PUBLISHABLE_KEY = 'sb_publishable_mbWcvD1_-cFHvwrNG9JwhQ_G2Z-xFJP';
+    fetch(SUPABASE_URL + '/rest/v1/industries?select=name,label&order=label.asc', {
+      headers: { 'apikey': PUBLISHABLE_KEY, 'Content-Type': 'application/json' }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(industries) {
+      var selects = ['industryInput', 'runtimeIndustryInput'];
+      selects.forEach(function(id) {
+        var sel = document.getElementById(id);
+        if (!sel) return;
+        while (sel.options.length > 1) sel.remove(1);
+        industries.forEach(function(ind) {
+          var opt = document.createElement('option');
+          opt.value = ind.name;
+          opt.textContent = ind.label;
+          sel.appendChild(opt);
+        });
+      });
+    })
+    .catch(function(err) {
+      console.warn('Failed to load industries from Supabase:', err);
+    });
+  })();
+  </script>
   <script src="/app.js"></script>
   <script src="/js/handlebars.min.js"></script>
   <script src="/js/demo-renderer.js"></script>

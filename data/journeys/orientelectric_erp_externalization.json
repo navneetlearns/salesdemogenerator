@@ -1,0 +1,61 @@
+{
+  "id": "journey_erp_externalization",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Order Submitted Notification Orient Electric's ERP triggers a WhatsApp Business message to the dealer on order submission. The PDF attachment bar links to the order PDF while CTA buttons deep-link to the PWA for details and history.",
+      "tags": [],
+      "screens": []
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "Order Confirmed Notification Orient Electric's ERP triggers a WhatsApp confirmation once the order is approved. The previous \"Order Received\" message is shown faded for context. The single CTA links to read-only order details.",
+      "tags": [],
+      "screens": []
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Order History — PWA Dealer sees their full order history with status filters. The Orient Electric logo in the header doubles as a hamburger menu — tapping it opens the navigation drawer to access other modules.",
+      "tags": [],
+      "screens": []
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "New Invoice Notification When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.",
+      "tags": [],
+      "screens": []
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "Payment Received Notification ZoTok receives the bank transfer from Orient Electric's ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.",
+      "tags": [],
+      "screens": []
+    }
+  ],
+  "messages": {
+    "step5": {
+      "title": "Step 5",
+      "bodies": [
+        "Submit details",
+        "Thanks Ramesh Electricals for submitting details and choosing Home Appliances for settling the amount. You will receive the notification once the payment is settled with the respective divisions."
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "Submit details",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "orientelectric"
+  ],
+  "title": "Erp Externalization",
+  "description": "Erp Externalization",
+  "industry": []
+}

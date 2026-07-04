@@ -1,5 +1,5 @@
 {
-  "id": "journey_defect_alert_management",
+  "id": "journey_domestic_customer_lifecycle",
   "steps": [],
   "messages": {
     "welcome": {
@@ -10,9 +10,9 @@
     }
   },
   "brands": [
-    "insightzz"
+    "freyr"
   ],
-  "title": "Defect Alert Management",
-  "description": "Defect Alert Management",
+  "title": "Domestic Customer Lifecycle",
+  "description": "Domestic Customer Lifecycle",
   "industry": []
 }

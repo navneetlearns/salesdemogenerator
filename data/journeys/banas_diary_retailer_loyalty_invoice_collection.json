@@ -1,0 +1,18 @@
+{
+  "id": "journey_retailer_loyalty_invoice_collection",
+  "steps": [],
+  "messages": {
+    "welcome": {
+      "title": "Welcome",
+      "body": "",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "banas_diary"
+  ],
+  "title": "Diary Retailer Loyalty Invoice Collection",
+  "description": "Diary Retailer Loyalty Invoice Collection",
+  "industry": []
+}

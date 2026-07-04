@@ -1,5 +1,5 @@
 {
-  "id": "journey_defect_alert_management",
+  "id": "journey_phase1_retailer_activation",
   "steps": [],
   "messages": {
     "welcome": {
@@ -10,9 +10,9 @@
     }
   },
   "brands": [
-    "insightzz"
+    "pmcona"
   ],
-  "title": "Defect Alert Management",
-  "description": "Defect Alert Management",
+  "title": "Phase1 Retailer Activation",
+  "description": "Phase1 Retailer Activation",
   "industry": []
 }

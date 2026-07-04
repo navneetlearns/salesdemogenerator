@@ -1,0 +1,180 @@
+{
+  "id": "vini_order_to_cash",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+          "data": {
+            "label": "Screen 1 · Self Service Menu",
+            "screenTypeLabel": "Session Interactive Message — Reply Button",
+            "description": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+            "messages": [
+              "Register Now"
+            ],
+            "time": "9:22 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Product Categories ZoTok opens the catalog category list for the retailer to choose the product category they want to order from.",
+          "data": {
+            "label": "Screen 2 · Browse Products",
+            "screenTypeLabel": "Interactive List — Bottom Sheet Open",
+            "description": "Product Categories ZoTok opens the catalog category list for the retailer to choose the product category they want to order from.",
+            "messages": [
+              "Open Menu"
+            ],
+            "time": "9:23 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Catalog View Retailer browses the Vini Cosmetics product catalog with images, pricing, and quantity selectors directly in WhatsApp.",
+          "data": {
+            "label": "Screen 3 · Product Selection",
+            "screenTypeLabel": "Interactive List — Bottom Sheet Open",
+            "description": "Catalog View Retailer browses the Vini Cosmetics product catalog with images, pricing, and quantity selectors directly in WhatsApp.",
+            "messages": [
+              "View Products"
+            ],
+            "time": "9:46 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "WebView Catalog Retailer browses the full Vini Cosmetics product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "WebView Catalog Retailer browses the full Vini Cosmetics product catalog inside WhatsApp's native browser with real product images and pricing.",
+          "data": {
+            "label": "Screen 1 · Browse Products Catalog",
+            "screenTypeLabel": "Commerce WebView — Catalog Browse",
+            "description": "WebView Catalog Retailer browses the full Vini Cosmetics product catalog inside WhatsApp's native browser with real product images and pricing.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Cart Review Retailer reviews selected items, quantities, and total order value in the cart before submitting the order.",
+          "data": {
+            "label": "Screen 2 · Cart Review",
+            "screenTypeLabel": "Commerce WebView — Cart",
+            "description": "Cart Review Retailer reviews selected items, quantities, and total order value in the cart before submitting the order.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Order Confirmed ZoTok sends an automated order confirmation to the retailer with the order ID, SKU list, and total value.",
+          "data": {
+            "label": "Screen 3 · Order Received",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons",
+            "description": "Order Confirmed ZoTok sends an automated order confirmation to the retailer with the order ID, SKU list, and total value.",
+            "messages": [],
+            "time": "10:28 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-message",
+          "description": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+          "data": {
+            "label": "Screen 1 · Retailer Sends Order Note",
+            "screenTypeLabel": "Session Message — Handwritten Note + AI Acknowledgement",
+            "description": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+            "messages": [
+              "Please process this order 🙏",
+              "📋 Received your order note! ZoTok AI is reading it now..."
+            ],
+            "time": "10:15 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-template",
+          "description": "AI Extracts Order ZoAi reads the image and extracts a structured draft order with items and quantities for retailer review.",
+          "data": {
+            "label": "Screen 2 · Draft Order",
+            "screenTypeLabel": "Interactive Template — Image Header + CTA Buttons",
+            "description": "AI Extracts Order ZoAi reads the image and extracts a structured draft order with items and quantities for retailer review.",
+            "messages": [
+              "Please process this order 🙏",
+              "📋 Received your order note! ZoTok AI is reading it now..."
+            ],
+            "time": "10:16 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Review & Checkout Retailer reviews the AI-generated cart in a WebView and proceeds to checkout with a single tap.",
+          "data": {
+            "label": "Screen 3 · Cart & Checkout",
+            "screenTypeLabel": "Commerce WebView — Cart Review & Checkout",
+            "description": "Review & Checkout Retailer reviews the AI-generated cart in a WebView and proceeds to checkout with a single tap.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "step1": {
+      "title": "Step 1",
+      "bodies": [
+        "Register Now",
+        "Open Menu",
+        "View Products"
+      ]
+    },
+    "step3": {
+      "title": "Step 3",
+      "bodies": [
+        "Please process this order 🙏",
+        "📋 Received your order note! ZoTok AI is reading it now...",
+        "Please process this order 🙏",
+        "📋 Received your order note! ZoTok AI is reading it now..."
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "Register Now",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "vn_fogg"
+  ],
+  "title": "Fogg Order To Cash",
+  "description": "Fogg Order To Cash",
+  "industry": []
+}

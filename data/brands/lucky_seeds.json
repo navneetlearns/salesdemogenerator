@@ -1,0 +1,23 @@
+{
+  "id": "lucky_seeds",
+  "name": "Lucky Seeds",
+  "shortName": "Lucky",
+  "industry": "agri",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#2E7D32",
+    "brand_light": "#4CAF50",
+    "brandDark": "#1B5E20",
+    "accent": "#00A884"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

@@ -1,0 +1,195 @@
+{
+  "id": "journey_direct_enquiries",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Direct Channel — No Dedicated Group Yet Vikram Patel (VPatel Steel Centre) is a customer who sends enquiries directly to Amit Joshi's personal WhatsApp number. There is no dedicated customer group set up for him. Amit receives the requirement as a free-text DM and will now forward it into the internal BOS team group using the @zoai trigger.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Direct Channel — No Dedicated Group Yet Vikram Patel (VPatel Steel Centre) is a customer who sends enquiries directly to Amit Joshi's personal WhatsApp number. There is no dedicated customer group set up for him. Amit receives the requirement as a free-text DM and will now forward it into the internal BOS team group using the @zoai trigger.",
+          "data": {
+            "label": "Screen 1 · Customer WhatsApp DM",
+            "screenTypeLabel": "WhatsApp DM — Customer to Sales Executive (Personal Number)",
+            "description": "Direct Channel — No Dedicated Group Yet Vikram Patel (VPatel Steel Centre) is a customer who sends enquiries directly to Amit Joshi's personal WhatsApp number. There is no dedicated customer group set up for him. Amit receives the requirement as a free-text DM and will now forward it into the internal BOS team group using the @zoai trigger.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "BOS — The Internal Hub \"BOS · Blue Ocean Steels Team\" is the internal WhatsApp group where the entire sales team (executives, coordinator, manager) and ZoAi operate together. No customers are in this group. ZoAi posts a daily morning summary and processes any @zoai triggers that team members send for direct enquiries.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "BOS — The Internal Hub \"BOS · Blue Ocean Steels Team\" is the internal WhatsApp group where the entire sales team (executives, coordinator, manager) and ZoAi operate together. No customers are in this group. ZoAi posts a daily morning summary and processes any @zoai triggers that team members send for direct enquiries.",
+          "data": {
+            "label": "Screen 1 · BOS Internal Group",
+            "screenTypeLabel": "WhatsApp Group — Internal Team Hub (No Customers)",
+            "description": "BOS — The Internal Hub \"BOS · Blue Ocean Steels Team\" is the internal WhatsApp group where the entire sales team (executives, coordinator, manager) and ZoAi operate together. No customers are in this group. ZoAi posts a daily morning summary and processes any @zoai triggers that team members send for direct enquiries.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Two-Message Pattern — Forward + Tag Amit pastes Vikram's requirement as a forwarded message in BOS, then immediately replies to it with @zoai vpatel-steel-centre enquiry . ZoAi reads the reply-quote (the original requirement) plus the customer tag, extracts all structured data, and begins processing — without Amit needing to retype anything.",
+          "data": {
+            "label": "Screen 2 · Amit Triggers @zoai",
+            "screenTypeLabel": "WhatsApp Group — @zoai enquiry (Reply-Quote Pattern)",
+            "description": "Two-Message Pattern — Forward + Tag Amit pastes Vikram's requirement as a forwarded message in BOS, then immediately replies to it with @zoai vpatel-steel-centre enquiry . ZoAi reads the reply-quote (the original requirement) plus the customer tag, extracts all structured data, and begins processing — without Amit needing to retype anything.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Same Sheet — New Source Column ENQ-2026-04825 lands in the same unified Enquiries Log used by Journey 1. A new Source column (K) distinguishes how the enquiry arrived — \"Direct (DM)\" vs \"Cust. Group\". Quote columns (H–J) show dashes; the quote engine kicks off automatically.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Same Sheet — New Source Column ENQ-2026-04825 lands in the same unified Enquiries Log used by Journey 1. A new Source column (K) distinguishes how the enquiry arrived — \"Direct (DM)\" vs \"Cust. Group\". Quote columns (H–J) show dashes; the quote engine kicks off automatically.",
+          "data": {
+            "label": "Screen 1 · Enquiry Sheet Updated",
+            "screenTypeLabel": "Google Sheets — Enquiries Log (Direct Source)",
+            "description": "Same Sheet — New Source Column ENQ-2026-04825 lands in the same unified Enquiries Log used by Journey 1. A new Source column (K) distinguishes how the enquiry arrived — \"Direct (DM)\" vs \"Cust. Group\". Quote columns (H–J) show dashes; the quote engine kicks off automatically.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "ZoAi Confirms in BOS — Customer Notified Separately ZoAi acknowledges in the BOS group, listing both line items and confirming the source as \"Direct DM\". It explicitly states the customer will receive the quote via Email + WABA — the internal team does not need to manually forward anything to Vikram.",
+          "data": {
+            "label": "Screen 2 · BOS Group Acknowledgement",
+            "screenTypeLabel": "WhatsApp Group — ZoAi Auto-Reply in BOS",
+            "description": "ZoAi Confirms in BOS — Customer Notified Separately ZoAi acknowledges in the BOS group, listing both line items and confirming the source as \"Direct DM\". It explicitly states the customer will receive the quote via Email + WABA — the internal team does not need to manually forward anything to Vikram.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "Identical Engine — Source Doesn't Matter Once an enquiry is in the Google Sheet, the automation pipeline is exactly the same whether it came from a dedicated customer group or a direct DM. The only difference downstream is the delivery channel: this customer gets Email + WABA instead of a group notification.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Identical Engine — Source Doesn't Matter Once an enquiry is in the Google Sheet, the automation pipeline is exactly the same whether it came from a dedicated customer group or a direct DM. The only difference downstream is the delivery channel: this customer gets Email + WABA instead of a group notification.",
+          "data": {
+            "label": "Internal Process — Behind the Scenes",
+            "screenTypeLabel": "Automation Flow — Same Engine as Journey 1",
+            "description": "Identical Engine — Source Doesn't Matter Once an enquiry is in the Google Sheet, the automation pipeline is exactly the same whether it came from a dedicated customer group or a direct DM. The only difference downstream is the delivery channel: this customer gets Email + WABA instead of a group notification.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "Quote Approved — ZoAi Triggers Multi-Channel Delivery Suresh approves QT-2026-01130 in the admin portal. Sheet rows 4–5 update to \"Quote Approved\" with amounts ₹3,60,000 + ₹1,80,000 (total ₹5,40,000). ZoAi detects the status change and simultaneously sends the quote to the BOS group, Vikram's email, and Vikram's WhatsApp via WABA.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Quote Approved — ZoAi Triggers Multi-Channel Delivery Suresh approves QT-2026-01130 in the admin portal. Sheet rows 4–5 update to \"Quote Approved\" with amounts ₹3,60,000 + ₹1,80,000 (total ₹5,40,000). ZoAi detects the status change and simultaneously sends the quote to the BOS group, Vikram's email, and Vikram's WhatsApp via WABA.",
+          "data": {
+            "label": "Quote Approved — Sheet Updated",
+            "screenTypeLabel": "Google Sheets — Enquiries Log (VPatel · Quote Filled)",
+            "description": "Quote Approved — ZoAi Triggers Multi-Channel Delivery Suresh approves QT-2026-01130 in the admin portal. Sheet rows 4–5 update to \"Quote Approved\" with amounts ₹3,60,000 + ₹1,80,000 (total ₹5,40,000). ZoAi detects the status change and simultaneously sends the quote to the BOS group, Vikram's email, and Vikram's WhatsApp via WABA.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "title": "Step 6",
+      "description": "Quote Arrives in Vikram's Email The quote email lands in Vikram's inbox simultaneously with the WABA message. It carries the full PDF, a line-item breakdown, and inline Approve / Reject buttons — so Vikram can act from any device, even without WhatsApp open.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Quote Arrives in Vikram's Email The quote email lands in Vikram's inbox simultaneously with the WABA message. It carries the full PDF, a line-item breakdown, and inline Approve / Reject buttons — so Vikram can act from any device, even without WhatsApp open.",
+          "data": {
+            "label": "Screen 1 · Customer Email",
+            "screenTypeLabel": "Email — Quote Delivered to Vikram's Inbox",
+            "description": "Quote Arrives in Vikram's Email The quote email lands in Vikram's inbox simultaneously with the WABA message. It carries the full PDF, a line-item breakdown, and inline Approve / Reject buttons — so Vikram can act from any device, even without WhatsApp open.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "WABA Template — Vikram's Personal WhatsApp Blue Ocean's official WABA sends a Utility Template directly to Vikram's WhatsApp. The PDF is in the document header; the body summarises both line items; Approve / Reject CTAs let him respond with a single tap — no typing needed.",
+          "data": {
+            "label": "Screen 2 · WABA Template to Customer",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons (Customer's WA)",
+            "description": "WABA Template — Vikram's Personal WhatsApp Blue Ocean's official WABA sends a Utility Template directly to Vikram's WhatsApp. The PDF is in the document header; the body summarises both line items; Approve / Reject CTAs let him respond with a single tap — no typing needed.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 7,
+      "title": "Step 7",
+      "description": "One Tap — Order Confirmed Vikram taps \"Approve Quote\" on the WABA template. The button triggers a WhatsApp reply message (\"Approve Quote\") which ZoAi detects instantly. ZoAi responds in the same DM with an order confirmation — no call, no email reply, no manual processing needed.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "One Tap — Order Confirmed Vikram taps \"Approve Quote\" on the WABA template. The button triggers a WhatsApp reply message (\"Approve Quote\") which ZoAi detects instantly. ZoAi responds in the same DM with an order confirmation — no call, no email reply, no manual processing needed.",
+          "data": {
+            "label": "Screen 1 · Customer Taps Approve",
+            "screenTypeLabel": "WABA DM — Customer Approves via Button Tap",
+            "description": "One Tap — Order Confirmed Vikram taps \"Approve Quote\" on the WABA template. The button triggers a WhatsApp reply message (\"Approve Quote\") which ZoAi detects instantly. ZoAi responds in the same DM with an order confirmation — no call, no email reply, no manual processing needed.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "welcome": {
+      "title": "Step 1",
+      "body": "Step 1",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "blueocean"
+  ],
+  "title": "Direct Enquiries",
+  "description": "Direct Enquiries",
+  "industry": []
+}

@@ -1,0 +1,190 @@
+{
+  "id": "journey_plumber_registration_engagement",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "Screen 1",
+            "screenTypeLabel": "Welcome + CTA",
+            "description": "",
+            "messages": [
+              "Hi"
+            ],
+            "time": "12:31 PM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "Screen 2",
+            "screenTypeLabel": "Registration Prompt",
+            "description": "",
+            "messages": [],
+            "time": "12:32 PM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "Screen 3",
+            "screenTypeLabel": "WebView — Registration Form",
+            "description": "",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "Screen 4",
+            "screenTypeLabel": "Registration Successful + Quick Reply",
+            "description": "",
+            "messages": [],
+            "time": "12:35 PM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "Screen 1",
+            "screenTypeLabel": "Welcome Back + Menu CTA",
+            "description": "",
+            "messages": [
+              "Hi"
+            ],
+            "time": "12:37 PM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "",
+          "data": {
+            "label": "Screen 2",
+            "screenTypeLabel": "Interactive Menu — Bottom Sheet Open",
+            "description": "",
+            "messages": [
+              "Menu"
+            ],
+            "time": "12:38 PM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "Screen 1",
+            "screenTypeLabel": "Upload Invoice CTA",
+            "description": "",
+            "messages": [
+              "Upload Purchase"
+            ],
+            "time": "12:41 PM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "Screen 2",
+            "screenTypeLabel": "WebView — Upload Form",
+            "description": "",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "Screen 3",
+            "screenTypeLabel": "Purchase Submitted",
+            "description": "",
+            "messages": [],
+            "time": "12:44 PM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "Screen 4",
+            "screenTypeLabel": "Reward Points Credited",
+            "description": "",
+            "messages": [],
+            "time": "2:17 PM",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "step1": {
+      "title": "Step 1",
+      "bodies": [
+        "Hi"
+      ]
+    },
+    "step2": {
+      "title": "Step 2",
+      "bodies": [
+        "Hi",
+        "Menu"
+      ]
+    },
+    "step3": {
+      "title": "Step 3",
+      "bodies": [
+        "Upload Purchase"
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "Hi",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "sintex"
+  ],
+  "title": "Plumber Registration Engagement",
+  "description": "Plumber Registration Engagement",
+  "industry": []
+}

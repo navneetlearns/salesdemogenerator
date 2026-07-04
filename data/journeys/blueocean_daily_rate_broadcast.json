@@ -1,0 +1,151 @@
+{
+  "id": "journey_daily_rate_broadcast",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "",
+            "screenTypeLabel": "",
+            "description": "",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "7:30 AM morning routine — update rates, send broadcast Every morning at 7:30 AM the coordinator updates today's poultry rates and clicks Send Messages . Dealer, wholesaler, and retailer rows carry the segment price, stock remarks, and delivery status ZoTok uses to personalize WhatsApp broadcasts and start order capture from replies.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "7:30 AM morning routine — update rates, send broadcast Every morning at 7:30 AM the coordinator updates today's poultry rates and clicks Send Messages . Dealer, wholesaler, and retailer rows carry the segment price, stock remarks, and delivery status ZoTok uses to personalize WhatsApp broadcasts and start order capture from replies.",
+          "data": {
+            "label": "Step 2 · Daily Poultry Rate Sheet in Google Sheets",
+            "screenTypeLabel": "Coordinator updates today's poultry rates at 7:30 AM",
+            "description": "7:30 AM morning routine — update rates, send broadcast Every morning at 7:30 AM the coordinator updates today's poultry rates and clicks Send Messages . Dealer, wholesaler, and retailer rows carry the segment price, stock remarks, and delivery status ZoTok uses to personalize WhatsApp broadcasts and start order capture from replies.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "ZoTok Workspace Add-on — installed once, lives in every sheet The ZoTok add-on is published in Google Workspace Marketplace. Once installed by the org admin, it appears under Extensions › Zotok for every sheet user with no per-user setup. For Sakku's daily poultry price communication, the coordinator uses Extensions → Zotok → Campaign → Send Messages after updating the 7:30 AM rate sheet; ZoTok selects dealer, wholesaler, and retailer templates, drives WhatsApp engagement, and starts order generation from replies and CTAs.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "ZoTok Workspace Add-on — installed once, lives in every sheet The ZoTok add-on is published in Google Workspace Marketplace. Once installed by the org admin, it appears under Extensions › Zotok for every sheet user with no per-user setup. For Sakku's daily poultry price communication, the coordinator uses Extensions → Zotok → Campaign → Send Messages after updating the 7:30 AM rate sheet; ZoTok selects dealer, wholesaler, and retailer templates, drives WhatsApp engagement, and starts order generation from replies and CTAs.",
+          "data": {
+            "label": "Step 3 · ZoTok Add-on Menu",
+            "screenTypeLabel": "Extensions › Zotok › Campaign › Send Messages",
+            "description": "ZoTok Workspace Add-on — installed once, lives in every sheet The ZoTok add-on is published in Google Workspace Marketplace. Once installed by the org admin, it appears under Extensions › Zotok for every sheet user with no per-user setup. For Sakku's daily poultry price communication, the coordinator uses Extensions → Zotok → Campaign → Send Messages after updating the 7:30 AM rate sheet; ZoTok selects dealer, wholesaler, and retailer templates, drives WhatsApp engagement, and starts order generation from replies and CTAs.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "One click → 2,480 daily price messages queued ZoTok queues the daily Sakku price broadcast through WhatsApp Business API using pre-approved templates with placeholders replaced from the sheet rows. Campaign codes are detected for EGG-2026-06-01-DEALER , EGG-2026-06-01-RETAILER , and EGG-2026-06-01-WHOLESALER , covering dealers, retailers, and wholesalers in one run.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "One click → 2,480 daily price messages queued ZoTok queues the daily Sakku price broadcast through WhatsApp Business API using pre-approved templates with placeholders replaced from the sheet rows. Campaign codes are detected for EGG-2026-06-01-DEALER , EGG-2026-06-01-RETAILER , and EGG-2026-06-01-WHOLESALER , covering dealers, retailers, and wholesalers in one run.",
+          "data": {
+            "label": "Step 4 · Broadcast Sent",
+            "screenTypeLabel": "Segment-specific templates queued · live WhatsApp delivery",
+            "description": "One click → 2,480 daily price messages queued ZoTok queues the daily Sakku price broadcast through WhatsApp Business API using pre-approved templates with placeholders replaced from the sheet rows. Campaign codes are detected for EGG-2026-06-01-DEALER , EGG-2026-06-01-RETAILER , and EGG-2026-06-01-WHOLESALER , covering dealers, retailers, and wholesalers in one run.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "Dealer broadcast — daily price update + order CTA The EGG-2026-06-01-DEALER template lands on dealer WhatsApp at 7:31 AM with layer egg, jumbo egg, and broiler rates. Place Order opens the ZoAi order capture flow; Talk To Sales hands off to the mapped sales representative.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Dealer broadcast — daily price update + order CTA The EGG-2026-06-01-DEALER template lands on dealer WhatsApp at 7:31 AM with layer egg, jumbo egg, and broiler rates. Place Order opens the ZoAi order capture flow; Talk To Sales hands off to the mapped sales representative.",
+          "data": {
+            "label": "Screen 1 · Dealer Receives Rate",
+            "screenTypeLabel": "WABA Utility Template — Dealer rate + order CTA",
+            "description": "Dealer broadcast — daily price update + order CTA The EGG-2026-06-01-DEALER template lands on dealer WhatsApp at 7:31 AM with layer egg, jumbo egg, and broiler rates. Place Order opens the ZoAi order capture flow; Talk To Sales hands off to the mapped sales representative.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Retailer broadcast — market update + stock CTA The EGG-2026-06-01-RETAILER variant uses retail pricing and the Book Stock CTA. Retailers get the latest layer egg, jumbo egg, and broiler rates with stock status before booking inventory for the day.",
+          "data": {
+            "label": "Screen 2 · Retailer Receives Rate",
+            "screenTypeLabel": "WABA Utility Template — Retail rate + stock update",
+            "description": "Retailer broadcast — market update + stock CTA The EGG-2026-06-01-RETAILER variant uses retail pricing and the Book Stock CTA. Retailers get the latest layer egg, jumbo egg, and broiler rates with stock status before booking inventory for the day.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "title": "Step 6",
+      "description": "Broadcast → order capture → dispatch process The dealer starts from the broadcast CTA and ZoAi captures product, tray quantity, location, and delivery date before creating the order and notifying the Sakku sales representative. Final flow: Broadcast → Order Intent → Quantity Capture → Delivery Capture → Order Creation → Dispatch Process .",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Broadcast → order capture → dispatch process The dealer starts from the broadcast CTA and ZoAi captures product, tray quantity, location, and delivery date before creating the order and notifying the Sakku sales representative. Final flow: Broadcast → Order Intent → Quantity Capture → Delivery Capture → Order Creation → Dispatch Process .",
+          "data": {
+            "label": "Step 6 · Dealer Order Capture & Dispatch",
+            "screenTypeLabel": "WhatsApp order intent → ZoAi captures product, quantity, delivery",
+            "description": "Broadcast → order capture → dispatch process The dealer starts from the broadcast CTA and ZoAi captures product, tray quantity, location, and delivery date before creating the order and notifying the Sakku sales representative. Final flow: Broadcast → Order Intent → Quantity Capture → Delivery Capture → Order Creation → Dispatch Process .",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "welcome": {
+      "title": "Step 1",
+      "body": "Step 1",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "blueocean"
+  ],
+  "title": "Daily Rate Broadcast",
+  "description": "Daily Rate Broadcast",
+  "industry": []
+}

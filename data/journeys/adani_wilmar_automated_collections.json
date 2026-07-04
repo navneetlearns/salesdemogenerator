@@ -1,5 +1,5 @@
 {
-  "id": "journey_defect_alert_management",
+  "id": "awl_automated_collections",
   "steps": [],
   "messages": {
     "welcome": {
@@ -10,9 +10,9 @@
     }
   },
   "brands": [
-    "insightzz"
+    "adani_wilmar"
   ],
-  "title": "Defect Alert Management",
-  "description": "Defect Alert Management",
+  "title": "Wilmar Automated Collections",
+  "description": "Wilmar Automated Collections",
   "industry": []
 }

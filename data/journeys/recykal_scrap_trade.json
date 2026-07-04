@@ -3,13 +3,19 @@
   "title": "Scrap Trade Marketplace",
   "description": "Scrap marketplace: seller listing flow and buyer procurement via WhatsApp",
   "industry": "industrial",
-  "brands": ["recykal"],
+  "brands": [
+    "recykal"
+  ],
   "steps": [
     {
       "num": 1,
       "title": "Scrap Listing & Procurement",
       "description": "Seller nudged to list scrap, creates draft listing, publishes; buyer creates PO, broadcasts to sellers, confirms procurement",
-      "tags": ["marketplace", "scrap", "procurement"],
+      "tags": [
+        "marketplace",
+        "scrap",
+        "procurement"
+      ],
       "screens": [
         {
           "type": "whatsapp-message",
@@ -45,7 +51,12 @@
           "data": {
             "documentName": "Purchase_Order.pdf",
             "body": "New PO broadcast: MS Scrap 500kg @ Rs 28/kg. Respond to accept.",
-            "buttons": [{"label": "View PO", "url": "/po/123"}]
+            "buttons": [
+              {
+                "label": "View PO",
+                "url": "/po/123"
+              }
+            ]
           }
         },
         {

@@ -1,0 +1,32 @@
+{
+  "id": "insightzz",
+  "name": "Insightzz",
+  "shortName": "Insightzz",
+  "industry": "pharma",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#0B1F3A",
+    "accent": "#2BB673",
+    "waGreen": "#25D366",
+    "waTeal": "#075E54",
+    "wa_chat_bg": "#ECE5DD",
+    "wa_receiver": "#FFFFFF",
+    "wa_sender": "#DCF8C6",
+    "wa_group_topbar": "#FFFFFF",
+    "wa_msg_text": "#111B21",
+    "wa_time": "#667781",
+    "wa_blue": "#007AFF",
+    "wa_input_bg": "#F0F0F0",
+    "brandDark": "#0B1F3A"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

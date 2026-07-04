@@ -1,5 +1,5 @@
 {
-  "id": "journey_defect_alert_management",
+  "id": "journey_dsr_expense_claim",
   "steps": [],
   "messages": {
     "welcome": {
@@ -10,9 +10,9 @@
     }
   },
   "brands": [
-    "insightzz"
+    "hindalco"
   ],
-  "title": "Defect Alert Management",
-  "description": "Defect Alert Management",
+  "title": "Dsr Expense Claim",
+  "description": "Dsr Expense Claim",
   "industry": []
 }

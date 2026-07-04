@@ -1,0 +1,22 @@
+{
+  "id": "savera",
+  "name": "Savera Pipes",
+  "shortName": "Savera",
+  "industry": "industrial",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#1B2A4A",
+    "brandDark": "#0f1d33",
+    "accent": "#C8860A"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

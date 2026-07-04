@@ -1,0 +1,106 @@
+{
+  "id": "journey_retailer_activation",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Orient Electric retail partners.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Orient Electric retail partners.",
+          "data": {
+            "label": "Screen 1 · Activation Campaign",
+            "screenTypeLabel": "Marketing Template — Image Header + Quick Reply",
+            "description": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Orient Electric retail partners.",
+            "messages": [],
+            "time": "9:20 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Registration Form Retailer taps 'Register Now' and fills in their business details via a ZoTok-hosted WebView form opened inside WhatsApp.",
+          "data": {
+            "label": "Screen 2 · Retailer Registration",
+            "screenTypeLabel": "WebView — Registration Form",
+            "description": "Registration Form Retailer taps 'Register Now' and fills in their business details via a ZoTok-hosted WebView form opened inside WhatsApp.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Application Submitted ZoTok auto-confirms receipt of the registration. The Orient Electric team reviews details before activating the retail partner.",
+          "data": {
+            "label": "Screen 3 · Application Under Review",
+            "screenTypeLabel": "Utility Template — Text Header, No Buttons",
+            "description": "Application Submitted ZoTok auto-confirms receipt of the registration. The Orient Electric team reviews details before activating the retail partner.",
+            "messages": [],
+            "time": "9:20 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+          "data": {
+            "label": "Screen 3 · Registration Successful",
+            "screenTypeLabel": "Session Interactive Message — Reply Button",
+            "description": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+            "messages": [
+              "Register Now"
+            ],
+            "time": "9:22 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Self Service Menu Retailer is greeted with a 10-option interactive menu covering ordering, product queries, schemes, invoices, and dedicated support.",
+          "data": {
+            "label": "Screen 4 · Self Service Menu",
+            "screenTypeLabel": "Interactive List — Bottom Sheet Open",
+            "description": "Self Service Menu Retailer is greeted with a 10-option interactive menu covering ordering, product queries, schemes, invoices, and dedicated support.",
+            "messages": [
+              "Open Menu"
+            ],
+            "time": "9:23 AM",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "step2": {
+      "title": "Step 2",
+      "bodies": [
+        "Register Now",
+        "Open Menu"
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "Register Now",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "orient"
+  ],
+  "title": "Retailer Activation",
+  "description": "Retailer Activation",
+  "industry": []
+}

@@ -10,7 +10,9 @@ test('wizard includes mandatory industry selection and adaptation wiring', () =>
   const js = fs.readFileSync(path.join(ROOT, 'public', 'js', 'demo-ui.js'), 'utf8');
 
   assert.match(html, /id="industryInput"/);
-  assert.match(html, /FMCG/);
+  assert.match(html, /SUPABASE_URL/);
+  assert.match(html, /supabase\.co/);
+  assert.match(html, /industries\?select=name,label/);
   // Adapt Content button removed — adaptation happens automatically during generate
   assert.doesNotMatch(html, /adaptContentBtn/);
   assert.doesNotMatch(html, /contentReviewPanel/);

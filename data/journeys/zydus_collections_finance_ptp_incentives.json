@@ -1,5 +1,5 @@
 {
-  "id": "journey_defect_alert_management",
+  "id": "journey_collections_finance_ptp_incentives",
   "steps": [],
   "messages": {
     "welcome": {
@@ -10,9 +10,9 @@
     }
   },
   "brands": [
-    "insightzz"
+    "zydus"
   ],
-  "title": "Defect Alert Management",
-  "description": "Defect Alert Management",
+  "title": "Collections Finance Ptp Incentives",
+  "description": "Collections Finance Ptp Incentives",
   "industry": []
 }

@@ -1,0 +1,22 @@
+{
+  "id": "sintex",
+  "name": "Sintex",
+  "shortName": "Sintex",
+  "industry": "industrial",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#005BAC",
+    "brandDark": "#004080",
+    "accent": "#F58220"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

@@ -1,0 +1,640 @@
+{
+  "id": "journey_retailer_onboarding_to_cash",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Orient Electric retail partners.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Orient Electric retail partners.",
+          "data": {
+            "label": "Screen 1 · Activation Campaign",
+            "screenTypeLabel": "Marketing Template — Image Header + Quick Reply",
+            "description": "Activation Campaign ZoTok sends a WhatsApp marketing message to prospective retailers, inviting them to register as official Orient Electric retail partners.",
+            "messages": [],
+            "time": "9:20 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Registration Form Retailer taps 'Register Now' and fills in their business details via a ZoTok-hosted WebView form opened inside WhatsApp.",
+          "data": {
+            "label": "Screen 2 · Retailer Registration",
+            "screenTypeLabel": "WebView — Registration Form",
+            "description": "Registration Form Retailer taps 'Register Now' and fills in their business details via a ZoTok-hosted WebView form opened inside WhatsApp.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Application Submitted ZoTok auto-confirms receipt of the registration. The Orient Electric team reviews details before activating the retail partner.",
+          "data": {
+            "label": "Screen 3 · Application Under Review",
+            "screenTypeLabel": "Utility Template — Text Header, No Buttons",
+            "description": "Application Submitted ZoTok auto-confirms receipt of the registration. The Orient Electric team reviews details before activating the retail partner.",
+            "messages": [],
+            "time": "9:20 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+          "data": {
+            "label": "Screen 3 · Registration Successful",
+            "screenTypeLabel": "Session Interactive Message — Reply Button",
+            "description": "Partner Approved Once the application is reviewed and approved, the retailer automatically receives a welcome message on this channel.",
+            "messages": [
+              "Register Now"
+            ],
+            "time": "9:22 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Self Service Menu Retailer is greeted with a 10-option interactive menu covering ordering, product queries, schemes, invoices, and dedicated support.",
+          "data": {
+            "label": "Screen 4 · Self Service Menu",
+            "screenTypeLabel": "Interactive List — Bottom Sheet Open",
+            "description": "Self Service Menu Retailer is greeted with a 10-option interactive menu covering ordering, product queries, schemes, invoices, and dedicated support.",
+            "messages": [
+              "Open Menu"
+            ],
+            "time": "9:23 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+          "data": {
+            "label": "Screen 1 · Diwali Festive Campaign",
+            "screenTypeLabel": "Marketing Template — Image Header + Quick Reply",
+            "description": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+            "messages": [],
+            "time": "9:45 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Product Query Retailer uses the interactive list to raise a query about a product category or pricing — no need to call a sales rep.",
+          "data": {
+            "label": "Screen 2 · Product Category Selection",
+            "screenTypeLabel": "Interactive List — Bottom Sheet Open",
+            "description": "Product Query Retailer uses the interactive list to raise a query about a product category or pricing — no need to call a sales rep.",
+            "messages": [
+              "View Products"
+            ],
+            "time": "9:46 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Instant Price List ZoAi instantly responds with the price list document for the selected category, saving hours of back-and-forth.",
+          "data": {
+            "label": "Screen 3 · Price List Response",
+            "screenTypeLabel": "Utility Template — Document Header + CTA",
+            "description": "Instant Price List ZoAi instantly responds with the price list document for the selected category, saving hours of back-and-forth.",
+            "messages": [
+              "Price List"
+            ],
+            "time": "9:47 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "Scheme Notification ZoTok pushes the latest Diwali LED Offer as a marketing message to retailers, driving awareness and incremental orders.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "Scheme Notification ZoTok pushes the latest Diwali LED Offer as a marketing message to retailers, driving awareness and incremental orders.",
+          "data": {
+            "label": "Screen 1 · Diwali LED Offer",
+            "screenTypeLabel": "Marketing Template — Image Header + CTA Buttons",
+            "description": "Scheme Notification ZoTok pushes the latest Diwali LED Offer as a marketing message to retailers, driving awareness and incremental orders.",
+            "messages": [
+              "Diwali Scheme"
+            ],
+            "time": "9:48 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-message",
+          "description": "Query to ZoAi Retailer sends a scheme-related question in natural language. ZoAi picks it up instantly and starts composing a response.",
+          "data": {
+            "label": "Screen 2 · Retailer Asks — AI Typing",
+            "screenTypeLabel": "Session Message — AI Typing Indicator",
+            "description": "Query to ZoAi Retailer sends a scheme-related question in natural language. ZoAi picks it up instantly and starts composing a response.",
+            "messages": [
+              "Scheme thoda detail mein batao"
+            ],
+            "time": "9:50 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-message",
+          "description": "AI Response in Hinglish ZoAi explains the scheme in Hinglish, making it easy for the retailer to understand the offer and act on it immediately.",
+          "data": {
+            "label": "Screen 3 · AI Explains Scheme",
+            "screenTypeLabel": "Session Message — AI Hinglish Response",
+            "description": "AI Response in Hinglish ZoAi explains the scheme in Hinglish, making it easy for the retailer to understand the offer and act on it immediately.",
+            "messages": [
+              "Scheme thoda detail mein batao",
+              "Ramesh ji, scheme kaafi exciting hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+            ],
+            "time": "9:51 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+          "data": {
+            "label": "Screen 1 · Self Service Menu",
+            "screenTypeLabel": "Session Interactive Message — Reply Button",
+            "description": "Menu Navigation Retailer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+            "messages": [
+              "Register Now"
+            ],
+            "time": "9:22 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Product Categories ZoTok opens the catalog category list for the retailer to choose the product category they want to order from.",
+          "data": {
+            "label": "Screen 2 · Browse Products",
+            "screenTypeLabel": "Interactive List — Bottom Sheet Open",
+            "description": "Product Categories ZoTok opens the catalog category list for the retailer to choose the product category they want to order from.",
+            "messages": [
+              "Open Menu"
+            ],
+            "time": "9:23 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Catalog View Retailer browses the Orient Electric product catalog with images, pricing, and quantity selectors directly in WhatsApp.",
+          "data": {
+            "label": "Screen 3 · Product Selection",
+            "screenTypeLabel": "Interactive List — Bottom Sheet Open",
+            "description": "Catalog View Retailer browses the Orient Electric product catalog with images, pricing, and quantity selectors directly in WhatsApp.",
+            "messages": [
+              "View Products"
+            ],
+            "time": "9:46 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "title": "Step 6",
+      "description": "WebView Catalog Retailer browses the full Orient Electric product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "WebView Catalog Retailer browses the full Orient Electric product catalog inside WhatsApp's native browser with real product images and pricing.",
+          "data": {
+            "label": "Screen 1 · Browse Products Catalog",
+            "screenTypeLabel": "Commerce WebView — Catalog Browse",
+            "description": "WebView Catalog Retailer browses the full Orient Electric product catalog inside WhatsApp's native browser with real product images and pricing.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Cart Review Retailer reviews selected items, quantities, and total order value in the cart before submitting the order.",
+          "data": {
+            "label": "Screen 2 · Cart Review",
+            "screenTypeLabel": "Commerce WebView — Cart",
+            "description": "Cart Review Retailer reviews selected items, quantities, and total order value in the cart before submitting the order.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Order Confirmed ZoTok sends an automated order confirmation to the retailer with the order ID, SKU list, and total value.",
+          "data": {
+            "label": "Screen 3 · Order Received",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons",
+            "description": "Order Confirmed ZoTok sends an automated order confirmation to the retailer with the order ID, SKU list, and total value.",
+            "messages": [],
+            "time": "10:28 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 7,
+      "title": "Step 7",
+      "description": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-message",
+          "description": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+          "data": {
+            "label": "Screen 1 · Retailer Sends Order Note",
+            "screenTypeLabel": "Session Message — Handwritten Note + AI Acknowledgement",
+            "description": "Handwritten Order Retailer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+            "messages": [
+              "Please process this order 🙏",
+              "📋 Received your order note! ZoTok AI is reading it now..."
+            ],
+            "time": "10:15 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-template",
+          "description": "AI Extracts Order ZoAi reads the image and extracts a structured draft order with items and quantities for retailer review.",
+          "data": {
+            "label": "Screen 2 · Draft Order",
+            "screenTypeLabel": "Interactive Template — Image Header + CTA Buttons",
+            "description": "AI Extracts Order ZoAi reads the image and extracts a structured draft order with items and quantities for retailer review.",
+            "messages": [
+              "Please process this order 🙏",
+              "📋 Received your order note! ZoTok AI is reading it now..."
+            ],
+            "time": "10:16 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Review & Checkout Retailer reviews the AI-generated cart in a WebView and proceeds to checkout with a single tap.",
+          "data": {
+            "label": "Screen 3 · Cart & Checkout",
+            "screenTypeLabel": "Commerce WebView — Cart Review & Checkout",
+            "description": "Review & Checkout Retailer reviews the AI-generated cart in a WebView and proceeds to checkout with a single tap.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 8,
+      "title": "Step 8",
+      "description": "Order Alert to Distributor The distributor's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Order Alert to Distributor The distributor's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+          "data": {
+            "label": "Screen 1 · DT Receives Order",
+            "screenTypeLabel": "Utility Template — Text Header + CTA Buttons",
+            "description": "Order Alert to Distributor The distributor's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+            "messages": [],
+            "time": "10:18 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Order Review Portal Distributor reviews the full order details in the ZoTok portal — items, quantities, pricing, and retailer info.",
+          "data": {
+            "label": "Screen 2 · DT Order Review",
+            "screenTypeLabel": "Commerce WebView — Order Review & Edit",
+            "description": "Order Review Portal Distributor reviews the full order details in the ZoTok portal — items, quantities, pricing, and retailer info.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Order Accepted Distributor confirms the order. The retailer is automatically notified with an order acceptance message.",
+          "data": {
+            "label": "Screen 3 · DT Accepts Order",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons",
+            "description": "Order Accepted Distributor confirms the order. The retailer is automatically notified with an order acceptance message.",
+            "messages": [
+              "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+            ],
+            "time": "10:20 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 9,
+      "title": "Step 9",
+      "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "interactive-list",
+          "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+          "data": {
+            "label": "Screen 1 · Distributor Menu",
+            "screenTypeLabel": "Interactive List — Channel Partner Menu",
+            "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+            "messages": [
+              "Hi",
+              "Hello Shyam Distributors ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+            ],
+            "time": "10:24 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Fulfilment List Distributor views pending orders on the ZoTok portal and selects HDIN-3892 to process and invoice.",
+          "data": {
+            "label": "Screen 2 · Orders to Process",
+            "screenTypeLabel": "Commerce WebView — Orders Pending Billing",
+            "description": "Fulfilment List Distributor views pending orders on the ZoTok portal and selects HDIN-3892 to process and invoice.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Invoice Upload Distributor uploads the invoice PDF; ZoAi pre-populates the fields from the confirmed order, saving time.",
+          "data": {
+            "label": "Screen 3 · Upload Invoice",
+            "screenTypeLabel": "Commerce WebView — Invoice Upload & AI Parse",
+            "description": "Invoice Upload Distributor uploads the invoice PDF; ZoAi pre-populates the fields from the confirmed order, saving time.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 10,
+      "title": "Step 10",
+      "description": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+          "data": {
+            "label": "Screen 1 · Invoice Shared",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons",
+            "description": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+            "messages": [],
+            "time": "11:00 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-template",
+          "description": "UPI Payment Retailer scans the QR code or taps 'Pay Now' to complete payment via UPI — without leaving WhatsApp.",
+          "data": {
+            "label": "Screen 2 · Payment Reminder",
+            "screenTypeLabel": "Utility Template — Image Header (UPI QR) + CTA Buttons",
+            "description": "UPI Payment Retailer scans the QR code or taps 'Pay Now' to complete payment via UPI — without leaving WhatsApp.",
+            "messages": [],
+            "time": "9:00 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Payment Confirmed ZoTok sends an instant payment receipt to the retailer, closing the order-to-cash cycle.",
+          "data": {
+            "label": "Screen 3 · Payment Received",
+            "screenTypeLabel": "Utility Template — No Header",
+            "description": "Payment Confirmed ZoTok sends an instant payment receipt to the retailer, closing the order-to-cash cycle.",
+            "messages": [],
+            "time": "9:14 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 11,
+      "title": "Step 11",
+      "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "interactive-list",
+          "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+          "data": {
+            "label": "Screen 1 · Distributor Menu",
+            "screenTypeLabel": "Interactive List — Channel Partner Menu",
+            "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+            "messages": [
+              "Hi",
+              "Hello Shyam Distributors ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+            ],
+            "time": "10:24 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Retailer Selection Distributor picks retailers to nudge for orders and reviews order status before sending the campaign.",
+          "data": {
+            "label": "Screen 2 · Select Retailers",
+            "screenTypeLabel": "Commerce WebView — Retailer Nudge List",
+            "description": "Retailer Selection Distributor picks retailers to nudge for orders and reviews order status before sending the campaign.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-template",
+          "description": "Order Campaign Sent Selected retailers receive a WhatsApp nudge prompting them to place their next order directly through the channel.",
+          "data": {
+            "label": "Screen 3 · Order Nudge to Retailer",
+            "screenTypeLabel": "Utility Template — Image Header + CTA + Quick Reply",
+            "description": "Order Campaign Sent Selected retailers receive a WhatsApp nudge prompting them to place their next order directly through the channel.",
+            "messages": [],
+            "time": "11:02 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 12,
+      "title": "Step 12",
+      "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "interactive-list",
+          "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+          "data": {
+            "label": "Screen 1 · Distributor Menu",
+            "screenTypeLabel": "Interactive List — Channel Partner Menu",
+            "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+            "messages": [
+              "Hi",
+              "Hello Shyam Distributors ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+            ],
+            "time": "10:24 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Invoice Dashboard Distributor views all retailers with pending invoices and triggers a payment nudge to 3 retailers in one tap.",
+          "data": {
+            "label": "Screen 2 · Pending Invoices",
+            "screenTypeLabel": "Commerce WebView — Invoice Payment Tracker",
+            "description": "Invoice Dashboard Distributor views all retailers with pending invoices and triggers a payment nudge to 3 retailers in one tap.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Payment Nudge Sent Retailer receives the invoice PDF on WhatsApp with a payment reminder and a direct UPI payment link.",
+          "data": {
+            "label": "Screen 3 · Payment Reminder",
+            "screenTypeLabel": "Buyer Perspective — Invoice Nudge sent to Ganesh",
+            "description": "Payment Nudge Sent Retailer receives the invoice PDF on WhatsApp with a payment reminder and a direct UPI payment link.",
+            "messages": [],
+            "time": "11:15 AM",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "step2": {
+      "title": "Step 2",
+      "bodies": [
+        "Register Now",
+        "Open Menu"
+      ]
+    },
+    "step3": {
+      "title": "Step 3",
+      "bodies": [
+        "View Products",
+        "Price List"
+      ]
+    },
+    "step4": {
+      "title": "Step 4",
+      "bodies": [
+        "Diwali Scheme",
+        "Scheme thoda detail mein batao",
+        "Scheme thoda detail mein batao",
+        "Ramesh ji, scheme kaafi exciting hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+      ]
+    },
+    "step5": {
+      "title": "Step 5",
+      "bodies": [
+        "Register Now",
+        "Open Menu",
+        "View Products"
+      ]
+    },
+    "step7": {
+      "title": "Step 7",
+      "bodies": [
+        "Please process this order 🙏",
+        "📋 Received your order note! ZoTok AI is reading it now...",
+        "Please process this order 🙏",
+        "📋 Received your order note! ZoTok AI is reading it now..."
+      ]
+    },
+    "step8": {
+      "title": "Step 8",
+      "bodies": [
+        "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+      ]
+    },
+    "step9": {
+      "title": "Step 9",
+      "bodies": [
+        "Hi",
+        "Hello Shyam Distributors ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+      ]
+    },
+    "step11": {
+      "title": "Step 11",
+      "bodies": [
+        "Hi",
+        "Hello Shyam Distributors ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+      ]
+    },
+    "step12": {
+      "title": "Step 12",
+      "bodies": [
+        "Hi",
+        "Hello Shyam Distributors ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "Register Now",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "orient"
+  ],
+  "title": "Retailer Onboarding To Cash",
+  "description": "Retailer Onboarding To Cash",
+  "industry": []
+}

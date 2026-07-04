@@ -1,0 +1,316 @@
+{
+  "id": "journey_ms_scrap_procurement_bkp",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Recykal HO composes the broadcast A fresh PO from Tata Steel triggers a WhatsApp Marketing campaign. The procurement coordinator drafts the requirement — material grade, indicative rate, delivery terms and plant location — with variables for personalisation.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Recykal HO composes the broadcast A fresh PO from Tata Steel triggers a WhatsApp Marketing campaign. The procurement coordinator drafts the requirement — material grade, indicative rate, delivery terms and plant location — with variables for personalisation.",
+          "data": {
+            "label": "Screen 1 · Compose Broadcast",
+            "screenTypeLabel": "Campaign Module — Admin Portal (app.zotok.ai)",
+            "description": "Recykal HO composes the broadcast A fresh PO from Tata Steel triggers a WhatsApp Marketing campaign. The procurement coordinator drafts the requirement — material grade, indicative rate, delivery terms and plant location — with variables for personalisation.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "The supplier gets the broadcast One of 248 scrap aggregators receives the personalised requirement on WhatsApp. The CTA opens a form where the supplier can declare what stock they currently hold.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "The supplier gets the broadcast One of 248 scrap aggregators receives the personalised requirement on WhatsApp. The CTA opens a form where the supplier can declare what stock they currently hold.",
+          "data": {
+            "label": "Screen 1 · Broadcast Received",
+            "screenTypeLabel": "Marketing Template — Image Header + CTA",
+            "description": "The supplier gets the broadcast One of 248 scrap aggregators receives the personalised requirement on WhatsApp. The CTA opens a form where the supplier can declare what stock they currently hold.",
+            "messages": [],
+            "time": "9:41",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Structured interest capture The supplier declares grade, available quantity, yard location and expected rate, and uploads photos of the actual material — turning a vague database entry into a verified, actionable lead.",
+          "data": {
+            "label": "Screen 2 · Submit Availability",
+            "screenTypeLabel": "WebView — Material Availability Form",
+            "description": "Structured interest capture The supplier declares grade, available quantity, yard location and expected rate, and uploads photos of the actual material — turning a vague database entry into a verified, actionable lead.",
+            "messages": [],
+            "time": "9:43",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-message",
+          "description": "Instant acknowledgement ZoAi confirms receipt within the 24-hour session window — no template approval needed. The supplier knows their lead is live and a procurement executive will reach out.",
+          "data": {
+            "label": "Screen 3 · Interest Confirmed",
+            "screenTypeLabel": "Session Message — ZoAi Acknowledgement",
+            "description": "Instant acknowledgement ZoAi confirms receipt within the 24-hour session window — no template approval needed. The supplier knows their lead is live and a procurement executive will reach out.",
+            "messages": [
+              "Submitted availability for HMS 1&2 ✓",
+              "Material photos — HMS 1&2, Nagpur yard",
+              "Thank you, Om Metal Aggregators ! ✅ We have received your availability: Material: HMS 1&2 Quantity: 120 MT Location: MIDC Nagpur Our procurement executive for the Nagpur region will connect with you shortly to discuss the deal. Team, Recykal"
+            ],
+            "time": "9:44",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Broadcast replies become leads Every supplier who submits availability lands on Recykal's procurement dashboard with quantity, grade, location and material photos already attached.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Broadcast replies become leads Every supplier who submits availability lands on Recykal's procurement dashboard with quantity, grade, location and material photos already attached.",
+          "data": {
+            "label": "Screen 1 · Incoming Leads",
+            "screenTypeLabel": "Admin Dashboard — Supplier Interest",
+            "description": "Broadcast replies become leads Every supplier who submits availability lands on Recykal's procurement dashboard with quantity, grade, location and material photos already attached.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "A dedicated deal room The procurement executive creates a WhatsApp group with three participants — himself, the supplier, and ZoAi. ZoAi's presence is what gives head office visibility into every negotiation.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "A dedicated deal room The procurement executive creates a WhatsApp group with three participants — himself, the supplier, and ZoAi. ZoAi's presence is what gives head office visibility into every negotiation.",
+          "data": {
+            "label": "Screen 1 · New Group",
+            "screenTypeLabel": "WhatsApp — Group Creation",
+            "description": "A dedicated deal room The procurement executive creates a WhatsApp group with three participants — himself, the supplier, and ZoAi. ZoAi's presence is what gives head office visibility into every negotiation.",
+            "messages": [],
+            "time": "10:02",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "ZoAi sets the context The moment the group is created, ZoAi posts the requirement brief so everyone is aligned. The white top bar confirms this is a group chat — only plain session messages, no templates.",
+          "data": {
+            "label": "Screen 2 · Group Created",
+            "screenTypeLabel": "Group Chat — ZoAi Context Brief",
+            "description": "ZoAi sets the context The moment the group is created, ZoAi posts the requirement brief so everyone is aligned. The white top bar confirms this is a group chat — only plain session messages, no templates.",
+            "messages": [
+              "Welcome to the Recykal MS Scrap sourcing room. ♻ Requirement Material: MS Scrap (HMS 1&2) Quantity: 120 MT Delivery: Tata Steel Plant, Jamshedpur Indicative Rate: ₹34,500/MT Please use this group to discuss final rate, quantity and dispatch schedule. I will keep the Recykal coordination team updated.",
+              "Thank you. Material is ready at our Nagpur yard. Looking forward to it. 👍"
+            ],
+            "time": "10:03",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "The deal is negotiated in the open Rate, quantity and dispatch timeline are settled directly in the group. Because ZoAi is a participant, every message is visible to head office in real time.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "The deal is negotiated in the open Rate, quantity and dispatch timeline are settled directly in the group. Because ZoAi is a participant, every message is visible to head office in real time.",
+          "data": {
+            "label": "Screen 1 · Negotiation",
+            "screenTypeLabel": "Group Chat — Rate & Quantity Talks",
+            "description": "The deal is negotiated in the open Rate, quantity and dispatch timeline are settled directly in the group. Because ZoAi is a participant, every message is visible to head office in real time.",
+            "messages": [
+              "Hi Suresh, can you confirm the quantity ready at your Nagpur yard and your best rate?",
+              "Hello sir. I have 120 MT HMS 1&2 ready. Rate ₹34,800/MT, loading from Nagpur.",
+              "Tata's ceiling is ₹34,500. Can you do ₹34,500 if we lift all 120 MT this week?",
+              "Okay sir ₹34,500/MT works for the full 120 MT. We can dispatch within 3 days.",
+              "Noted. Capturing the agreed terms for the Recykal coordination team. 📝"
+            ],
+            "time": "10:18",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "ZoAi records the agreed terms Once the deal is closed, ZoAi posts a structured Deal Summary into the group. This becomes the single source of truth the procurement team uses to raise the PO.",
+          "data": {
+            "label": "Screen 2 · Deal Finalised",
+            "screenTypeLabel": "Group Chat — ZoAi Deal Summary",
+            "description": "ZoAi records the agreed terms Once the deal is closed, ZoAi posts a structured Deal Summary into the group. This becomes the single source of truth the procurement team uses to raise the PO.",
+            "messages": [
+              "Deal Summary ✅ Supplier: Om Metal Aggregators Material: MS Scrap HMS 1&2 Quantity: 120 MT Final Rate: ₹34,500 / MT Order Value: ₹41,40,000 Dispatch: Within 3 days Delivery: Tata Steel Plant, Jamshedpur Payment: Within 3 days of GRN Recykal will raise the Purchase Order shortly.",
+              "Confirmed sir. Thank you. 👍",
+              "Great. Raising the PO now — you will receive it on WhatsApp for acknowledgement."
+            ],
+            "time": "10:29",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "title": "Step 6",
+      "description": "Head office stays in the loop Because ZoAi sits in every negotiation group, the coordination team gets a live tracker of all deal rooms and their agreed terms — full oversight without micromanaging.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Head office stays in the loop Because ZoAi sits in every negotiation group, the coordination team gets a live tracker of all deal rooms and their agreed terms — full oversight without micromanaging.",
+          "data": {
+            "label": "Screen 1 · Negotiation Tracker",
+            "screenTypeLabel": "Admin Dashboard — HO Coordination View",
+            "description": "Head office stays in the loop Because ZoAi sits in every negotiation group, the coordination team gets a live tracker of all deal rooms and their agreed terms — full oversight without micromanaging.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 7,
+      "title": "Step 7",
+      "description": "PO lands on the supplier's WhatsApp Recykal's WABA sends a Utility template with the PO PDF attached. The supplier taps \"View PO\" to open the full order in WhatsApp's browser.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "PO lands on the supplier's WhatsApp Recykal's WABA sends a Utility template with the PO PDF attached. The supplier taps \"View PO\" to open the full order in WhatsApp's browser.",
+          "data": {
+            "label": "Screen 1 · PO Received",
+            "screenTypeLabel": "Utility Template — Document Header + CTA",
+            "description": "PO lands on the supplier's WhatsApp Recykal's WABA sends a Utility template with the PO PDF attached. The supplier taps \"View PO\" to open the full order in WhatsApp's browser.",
+            "messages": [],
+            "time": "11:05",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "The full PO, in WhatsApp The supplier reviews every line — material, quantity, rate, shipping address, bill summary and payment terms — before accepting. No app install needed.",
+          "data": {
+            "label": "Screen 2 · Review PO",
+            "screenTypeLabel": "WebView — Order Details",
+            "description": "The full PO, in WhatsApp The supplier reviews every line — material, quantity, rate, shipping address, bill summary and payment terms — before accepting. No app install needed.",
+            "messages": [],
+            "time": "11:06",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Acceptance needs verification Tapping \"Accept Order\" triggers an OTP sent to the supplier's WhatsApp. This makes the acknowledgement a verified, auditable action — not just a tap.",
+          "data": {
+            "label": "Screen 3 · Verify Order",
+            "screenTypeLabel": "WebView — OTP Verification Prompt",
+            "description": "Acceptance needs verification Tapping \"Accept Order\" triggers an OTP sent to the supplier's WhatsApp. This makes the acknowledgement a verified, auditable action — not just a tap.",
+            "messages": [],
+            "time": "11:07",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 8,
+      "title": "'+s.title+'",
+      "description": "OTP-verified approval The supplier enters the 4-digit OTP delivered to their WhatsApp and submits. The PO acknowledgement is now legally traceable to a verified number.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "OTP-verified approval The supplier enters the 4-digit OTP delivered to their WhatsApp and submits. The PO acknowledgement is now legally traceable to a verified number.",
+          "data": {
+            "label": "Screen 1 · Enter OTP",
+            "screenTypeLabel": "WebView — OTP Entry",
+            "description": "OTP-verified approval The supplier enters the 4-digit OTP delivered to their WhatsApp and submits. The PO acknowledgement is now legally traceable to a verified number.",
+            "messages": [],
+            "time": "11:08",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "The loop is closed Recykal's WABA confirms the acknowledgement back to the supplier. The PO is now live, the procurement team is notified, and the material is cleared for dispatch.",
+          "data": {
+            "label": "Screen 2 · PO Accepted",
+            "screenTypeLabel": "Utility Template — Acknowledgement Confirmed",
+            "description": "The loop is closed Recykal's WABA confirms the acknowledgement back to the supplier. The PO is now live, the procurement team is notified, and the material is cleared for dispatch.",
+            "messages": [
+              "Your OTP for PO Approval is 1533 . Valid for 10 minutes. Do not share this code. Team, Recykal"
+            ],
+            "time": "11:09",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "step2": {
+      "title": "Step 2",
+      "bodies": [
+        "Submitted availability for HMS 1&2 ✓",
+        "Material photos — HMS 1&2, Nagpur yard",
+        "Thank you, Om Metal Aggregators ! ✅ We have received your availability: Material: HMS 1&2 Quantity: 120 MT Location: MIDC Nagpur Our procurement executive for the Nagpur region will connect with you shortly to discuss the deal. Team, Recykal"
+      ]
+    },
+    "step4": {
+      "title": "Step 4",
+      "bodies": [
+        "Welcome to the Recykal MS Scrap sourcing room. ♻ Requirement Material: MS Scrap (HMS 1&2) Quantity: 120 MT Delivery: Tata Steel Plant, Jamshedpur Indicative Rate: ₹34,500/MT Please use this group to discuss final rate, quantity and dispatch schedule. I will keep the Recykal coordination team updated.",
+        "Thank you. Material is ready at our Nagpur yard. Looking forward to it. 👍"
+      ]
+    },
+    "step5": {
+      "title": "Step 5",
+      "bodies": [
+        "Hi Suresh, can you confirm the quantity ready at your Nagpur yard and your best rate?",
+        "Hello sir. I have 120 MT HMS 1&2 ready. Rate ₹34,800/MT, loading from Nagpur.",
+        "Tata's ceiling is ₹34,500. Can you do ₹34,500 if we lift all 120 MT this week?",
+        "Okay sir ₹34,500/MT works for the full 120 MT. We can dispatch within 3 days.",
+        "Noted. Capturing the agreed terms for the Recykal coordination team. 📝",
+        "Deal Summary ✅ Supplier: Om Metal Aggregators Material: MS Scrap HMS 1&2 Quantity: 120 MT Final Rate: ₹34,500 / MT Order Value: ₹41,40,000 Dispatch: Within 3 days Delivery: Tata Steel Plant, Jamshedpur Payment: Within 3 days of GRN Recykal will raise the Purchase Order shortly.",
+        "Confirmed sir. Thank you. 👍",
+        "Great. Raising the PO now — you will receive it on WhatsApp for acknowledgement."
+      ]
+    },
+    "step8": {
+      "title": "'+s.title+'",
+      "bodies": [
+        "Your OTP for PO Approval is 1533 . Valid for 10 minutes. Do not share this code. Team, Recykal"
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "Submitted availability for HMS 1&2 ✓",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "recykal"
+  ],
+  "title": "Ms Scrap Procurement Bkp",
+  "description": "Ms Scrap Procurement Bkp",
+  "industry": []
+}

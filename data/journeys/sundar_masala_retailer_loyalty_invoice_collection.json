@@ -1,0 +1,18 @@
+{
+  "id": "journey_retailer_loyalty_invoice_collection",
+  "steps": [],
+  "messages": {
+    "welcome": {
+      "title": "Welcome",
+      "body": "",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "sundar_masala"
+  ],
+  "title": "Masala Retailer Loyalty Invoice Collection",
+  "description": "Masala Retailer Loyalty Invoice Collection",
+  "industry": []
+}

@@ -1,5 +1,5 @@
 {
-  "id": "journey_defect_alert_management",
+  "id": "jk_cement_automated_collections",
   "steps": [],
   "messages": {
     "welcome": {
@@ -10,9 +10,9 @@
     }
   },
   "brands": [
-    "insightzz"
+    "jkcement"
   ],
-  "title": "Defect Alert Management",
-  "description": "Defect Alert Management",
+  "title": "Automated Collections",
+  "description": "Automated Collections",
   "industry": []
 }

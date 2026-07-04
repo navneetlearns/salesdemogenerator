@@ -1,0 +1,24 @@
+{
+  "id": "hindalco",
+  "name": "Hindalco",
+  "shortName": "Hindalco",
+  "industry": "industrial",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#1B2A4A",
+    "brand_light": "#2E4A7A",
+    "copper": "#C8860A",
+    "brandDark": "#1B2A4A",
+    "accent": "#00A884"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

@@ -1,0 +1,22 @@
+{
+  "id": "blueocean",
+  "name": "Blue Ocean Steels",
+  "shortName": "Blue",
+  "industry": "industrial",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#1B3A6B",
+    "brandDark": "#152f58",
+    "accent": "#E63946"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

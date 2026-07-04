@@ -1,5 +1,5 @@
 {
-  "id": "journey_defect_alert_management",
+  "id": "journey_retailer_loyalty_invoice_collection",
   "steps": [],
   "messages": {
     "welcome": {
@@ -10,9 +10,9 @@
     }
   },
   "brands": [
-    "insightzz"
+    "orient"
   ],
-  "title": "Defect Alert Management",
-  "description": "Defect Alert Management",
+  "title": "Retailer Loyalty Invoice Collection",
+  "description": "Retailer Loyalty Invoice Collection",
   "industry": []
 }

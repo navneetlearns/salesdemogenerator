@@ -1,0 +1,214 @@
+{
+  "id": "awl_campaigns_queries",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+          "data": {
+            "label": "Screen 1 · Diwali Festive Campaign",
+            "screenTypeLabel": "Marketing Template — Image Header + Quick Reply",
+            "description": "Festive Campaign ZoTok pushes a targeted Diwali campaign to all active retailers in the territory to drive seasonal orders and awareness.",
+            "messages": [],
+            "time": "9:45 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Product Query Retailer uses the interactive list to raise a query about a product category or pricing — no need to call a sales rep.",
+          "data": {
+            "label": "Screen 2 · Product Category Selection",
+            "screenTypeLabel": "Interactive List — Bottom Sheet Open",
+            "description": "Product Query Retailer uses the interactive list to raise a query about a product category or pricing — no need to call a sales rep.",
+            "messages": [
+              "View Products"
+            ],
+            "time": "9:46 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Instant Price List ZoAi instantly responds with the price list document for the selected category, saving hours of back-and-forth.",
+          "data": {
+            "label": "Screen 3 · Price List Response",
+            "screenTypeLabel": "Utility Template — Document Header + CTA",
+            "description": "Instant Price List ZoAi instantly responds with the price list document for the selected category, saving hours of back-and-forth.",
+            "messages": [
+              "Price List"
+            ],
+            "time": "9:47 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "Scheme Notification ZoTok pushes the latest Fortune Edible Oil Range scheme as a marketing message to retailers, driving awareness and incremental orders.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "Scheme Notification ZoTok pushes the latest Fortune Edible Oil Range scheme as a marketing message to retailers, driving awareness and incremental orders.",
+          "data": {
+            "label": "Screen 1 · Edible Oil Scheme",
+            "screenTypeLabel": "Marketing Template — Image Header + CTA Buttons",
+            "description": "Scheme Notification ZoTok pushes the latest Fortune Edible Oil Range scheme as a marketing message to retailers, driving awareness and incremental orders.",
+            "messages": [
+              "Diwali Scheme"
+            ],
+            "time": "9:48 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-message",
+          "description": "Query to ZoAi Retailer sends a scheme-related question in natural language. ZoAi picks it up instantly and starts composing a response.",
+          "data": {
+            "label": "Screen 2 · Retailer Asks — AI Typing",
+            "screenTypeLabel": "Session Message — AI Typing Indicator",
+            "description": "Query to ZoAi Retailer sends a scheme-related question in natural language. ZoAi picks it up instantly and starts composing a response.",
+            "messages": [
+              "Scheme thoda detail mein batao"
+            ],
+            "time": "9:50 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-message",
+          "description": "AI Response in Hinglish ZoAi explains the scheme in Hinglish, making it easy for the retailer to understand the offer and act on it immediately.",
+          "data": {
+            "label": "Screen 3 · AI Explains Scheme",
+            "screenTypeLabel": "Session Message — AI Hinglish Response",
+            "description": "AI Response in Hinglish ZoAi explains the scheme in Hinglish, making it easy for the retailer to understand the offer and act on it immediately.",
+            "messages": [
+              "Scheme thoda detail mein batao",
+              "Ramesh ji, scheme kaafi exciting hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+            ],
+            "time": "9:51 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Points Wallet Inquiry Ramesh asks about his points balance — ZoAi instantly explains the quarterly gift redemption tiers in Hinglish.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Points Wallet Inquiry Ramesh asks about his points balance — ZoAi instantly explains the quarterly gift redemption tiers in Hinglish.",
+          "data": {
+            "label": "Screen 1 · Retailer Scheme Query",
+            "screenTypeLabel": "AI Chat — ZoAi Hinglish Conversation",
+            "description": "Points Wallet Inquiry Ramesh asks about his points balance — ZoAi instantly explains the quarterly gift redemption tiers in Hinglish.",
+            "messages": [
+              "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+              "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?"
+            ],
+            "time": "10:12 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Credit Note Alternative ZoAi explains that points below the gift threshold are converted to a credit note adjusted against the next bill — zero confusion, zero call needed.",
+          "data": {
+            "label": "Screen 2 · Retailer Scheme Query",
+            "screenTypeLabel": "AI Chat — ZoAi Hinglish Conversation",
+            "description": "Credit Note Alternative ZoAi explains that points below the gift threshold are converted to a credit note adjusted against the next bill — zero confusion, zero call needed.",
+            "messages": [
+              "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+              "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+              "Agar points 5000 nahee hue toh kya?",
+              "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga."
+            ],
+            "time": "10:14 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Smart Escalation to Sales Executive ZoAi identifies a complex credit query, seeks confirmation, and instantly notifies the relevant SE — seamless handoff without the retailer having to call anyone.",
+          "data": {
+            "label": "Screen 3 · Retailer Scheme Query",
+            "screenTypeLabel": "AI Chat — ZoAi Hinglish Conversation",
+            "description": "Smart Escalation to Sales Executive ZoAi identifies a complex credit query, seeks confirmation, and instantly notifies the relevant SE — seamless handoff without the retailer having to call anyone.",
+            "messages": [
+              "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+              "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+              "Agar points 5000 nahee hue toh kya?",
+              "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+              "Par maine agar payment ka credit uthaya hai toh kya?",
+              "Ramesh ji, mein aapki baat sales executive se kara deti hu 😊 Kya main aapko unse connect kar dun?",
+              "Haa ji",
+              "Informed the relevant sales executive ✅ Aapko unka call bahut jaldi aayega. Koi aur help chahiye?"
+            ],
+            "time": "10:17 AM",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "step1": {
+      "title": "Step 1",
+      "bodies": [
+        "View Products",
+        "Price List"
+      ]
+    },
+    "step2": {
+      "title": "Step 2",
+      "bodies": [
+        "Diwali Scheme",
+        "Scheme thoda detail mein batao",
+        "Scheme thoda detail mein batao",
+        "Ramesh ji, scheme kaafi exciting hai! 🎉 Aap 10 cartons ka order dijiye aur hum aapko 12 cartons bhej denge — 2 cartons ekdam free! Aur upar se aapke loyalty wallet mein ₹500 worth ZoPs bhi credit kar denge! Yeh offer 31 Oct 2026 tak valid hai. Jaldi karo — stock limited hai! 🚀"
+      ]
+    },
+    "step3": {
+      "title": "Step 3",
+      "bodies": [
+        "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+        "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+        "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+        "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+        "Agar points 5000 nahee hue toh kya?",
+        "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+        "Yeh jo points wallet me jama ho rahe hai unka kya benefit hai?",
+        "Ramesh ji, every quarter ko based on points hum gifts dete hai 🎁 ✅ 5,000 points — Prestige Pressure Cooker ✅ 8,000 points — Mixer Grinder ✅ 15,000 points — Refrigerator gift mil sakta hai Aapke current points ka status check karein?",
+        "Agar points 5000 nahee hue toh kya?",
+        "Aapke points ke anusar aapko credit note mil sakta hai jo aapke bill ke against adjust keeya jayega 📄 Yeh credit note aapke agle order mein seedha discount ke roop mein apply hoga.",
+        "Par maine agar payment ka credit uthaya hai toh kya?",
+        "Ramesh ji, mein aapki baat sales executive se kara deti hu 😊 Kya main aapko unse connect kar dun?",
+        "Haa ji",
+        "Informed the relevant sales executive ✅ Aapko unka call bahut jaldi aayega. Koi aur help chahiye?"
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "View Products",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "adani_wilmar"
+  ],
+  "title": "Wilmar Campaigns Queries",
+  "description": "Wilmar Campaigns Queries",
+  "industry": []
+}

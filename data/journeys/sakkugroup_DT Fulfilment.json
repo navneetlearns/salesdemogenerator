@@ -1,0 +1,331 @@
+{
+  "id": "DT Fulfilment",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Daily Egg Price Broadcast Distributor receives daily Sakku egg rates, available stock, and a CTA to open the Distributor Menu.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Daily Egg Price Broadcast Distributor receives daily Sakku egg rates, available stock, and a CTA to open the Distributor Menu.",
+          "data": {
+            "label": "Screen 1 · Daily Price Broadcast",
+            "screenTypeLabel": "Utility Template — Daily Rate Broadcast + CTA",
+            "description": "Daily Egg Price Broadcast Distributor receives daily Sakku egg rates, available stock, and a CTA to open the Distributor Menu.",
+            "messages": [],
+            "time": "10:18 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Rate & Stock Portal Distributor reviews Layer Egg and Jumbo Egg tray rates, stock, and estimated order value before opening the menu.",
+          "data": {
+            "label": "Screen 2 · Rate & Stock View",
+            "screenTypeLabel": "Commerce WebView — Egg Rates & Stock",
+            "description": "Rate & Stock Portal Distributor reviews Layer Egg and Jumbo Egg tray rates, stock, and estimated order value before opening the menu.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Distributor Menu Opened Distributor moves from daily rates into the Sakku menu to place an egg order.",
+          "data": {
+            "label": "Screen 3 · Open Distributor Menu",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons",
+            "description": "Distributor Menu Opened Distributor moves from daily rates into the Sakku menu to place an egg order.",
+            "messages": [
+              "Opening Distributor Menu to place today's egg order."
+            ],
+            "time": "10:20 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "interactive-list",
+          "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+          "data": {
+            "label": "Screen 1 · Distributor Menu",
+            "screenTypeLabel": "Interactive List — Distributor Menu",
+            "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+            "messages": [
+              "Hi",
+              "Hello Shyam Distributors ! 👋 Welcome to Sakku Distributor Menu . Use the menu below to check rates, place egg orders, view invoices, repeat orders, view ledger, report damage, and see schemes."
+            ],
+            "time": "10:24 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Rate Board Distributor reviews daily Layer Egg and Jumbo Egg rates before opening the ordering workflow.",
+          "data": {
+            "label": "Screen 2 · Rate",
+            "screenTypeLabel": "Commerce WebView — Daily Egg Rate Board",
+            "description": "Rate Board Distributor reviews daily Layer Egg and Jumbo Egg rates before opening the ordering workflow.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Invoice Upload Distributor uploads the invoice PDF; ZoAi pre-populates the fields from the confirmed order, saving time.",
+          "data": {
+            "label": "Screen 3 · Menu Shortcuts",
+            "screenTypeLabel": "Commerce WebView — Distributor Self-Service",
+            "description": "Invoice Upload Distributor uploads the invoice PDF; ZoAi pre-populates the fields from the confirmed order, saving time.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "interactive-list",
+          "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+          "data": {
+            "label": "Screen 1 · Place Order",
+            "screenTypeLabel": "Interactive List — Distributor Menu",
+            "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+            "messages": [
+              "Hi",
+              "Hello Shyam Distributors ! 👋 Welcome to Sakku Distributor Menu . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+            ],
+            "time": "10:24 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Cart & Quantity Selection Distributor selects Layer Egg Trays and Jumbo Egg Trays, checks stock, and confirms the cart.",
+          "data": {
+            "label": "Screen 2 · Quantity Selection",
+            "screenTypeLabel": "Commerce WebView — Egg Order Cart",
+            "description": "Cart & Quantity Selection Distributor selects Layer Egg Trays and Jumbo Egg Trays, checks stock, and confirms the cart.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Order Confirmation Sakku Group confirms the egg order and shares order status on WhatsApp.",
+          "data": {
+            "label": "Screen 3 · Order Confirmation",
+            "screenTypeLabel": "Utility Template — Order Confirmation + CTA",
+            "description": "Order Confirmation Sakku Group confirms the egg order and shares order status on WhatsApp.",
+            "messages": [],
+            "time": "11:02 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "Invoice & Payment Distributor receives invoice INV-SKK-10245 with Layer Egg Trays, quantity 500, and Pay via UPI CTA.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Invoice & Payment Distributor receives invoice INV-SKK-10245 with Layer Egg Trays, quantity 500, and Pay via UPI CTA.",
+          "data": {
+            "label": "Screen 1 · Invoice Shared",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons",
+            "description": "Invoice & Payment Distributor receives invoice INV-SKK-10245 with Layer Egg Trays, quantity 500, and Pay via UPI CTA.",
+            "messages": [],
+            "time": "11:00 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-template",
+          "description": "Pay via UPI Distributor taps Pay via UPI to complete invoice payment without leaving WhatsApp.",
+          "data": {
+            "label": "Screen 2 · Pay via UPI",
+            "screenTypeLabel": "Utility Template — Image Header (UPI QR) + CTA Buttons",
+            "description": "Pay via UPI Distributor taps Pay via UPI to complete invoice payment without leaving WhatsApp.",
+            "messages": [],
+            "time": "9:00 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Payment Confirmed ZoTok sends an instant payment receipt to the distributor, closing the order-to-cash cycle.",
+          "data": {
+            "label": "Screen 3 · Payment Received",
+            "screenTypeLabel": "Utility Template — No Header",
+            "description": "Payment Confirmed ZoTok sends an instant payment receipt to the distributor, closing the order-to-cash cycle.",
+            "messages": [],
+            "time": "9:14 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "interactive-list",
+          "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+          "data": {
+            "label": "Screen 1 · Distributor Menu",
+            "screenTypeLabel": "Interactive List — Distributor Menu",
+            "description": "Distributor Menu Distributor accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+            "messages": [
+              "Hi",
+              "Hello Shyam Distributors ! 👋 Welcome to Sakku Distributor Menu . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+            ],
+            "time": "10:24 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Invoice Dashboard Sakku Group views distributor accounts with pending invoices and triggers payment nudges in one tap.",
+          "data": {
+            "label": "Screen 2 · Pending Invoice",
+            "screenTypeLabel": "Commerce WebView — Invoice Payment Tracker",
+            "description": "Invoice Dashboard Sakku Group views distributor accounts with pending invoices and triggers payment nudges in one tap.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Friendly Reminder Sent Distributor receives a friendly pending-payment reminder with Pay Now and View Ledger actions.",
+          "data": {
+            "label": "Screen 3 · Friendly Reminder",
+            "screenTypeLabel": "Distributor Perspective — Pending Payment Follow-up",
+            "description": "Friendly Reminder Sent Distributor receives a friendly pending-payment reminder with Pay Now and View Ledger actions.",
+            "messages": [],
+            "time": "11:15 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "title": "Step 6",
+      "description": "Customer asks for dispatch and order status Sri Lakshmi Traders requests the latest dispatch update for order ORD-SKK-10245 from the same Sakku WhatsApp thread.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Customer asks for dispatch and order status Sri Lakshmi Traders requests the latest dispatch update for order ORD-SKK-10245 from the same Sakku WhatsApp thread.",
+          "data": {
+            "label": "Screen 1 - Status Request",
+            "screenTypeLabel": "WhatsApp Chat - Customer Requests Dispatch & Order Status",
+            "description": "Customer asks for dispatch and order status Sri Lakshmi Traders requests the latest dispatch update for order ORD-SKK-10245 from the same Sakku WhatsApp thread.",
+            "messages": [
+              "Hi Sakku Group, please share dispatch and order status for ORD-SKK-10245 . We need Hyderabad delivery confirmation.",
+              "Thanks, Sri Lakshmi Traders. Checking your Sakku egg order now."
+            ],
+            "time": "12:10 PM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Dispatch tracker Sakku Group opens the order status view, confirms products, truck number, delivery location, and ETA before replying.",
+          "data": {
+            "label": "Screen 2 - Dispatch Lookup",
+            "screenTypeLabel": "Commerce WebView - Order Status & Dispatch Tracker",
+            "description": "Dispatch tracker Sakku Group opens the order status view, confirms products, truck number, delivery location, and ETA before replying.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Status reply sent Customer receives an exact order-status and dispatch reply with products, vehicle, location, and ETA.",
+          "data": {
+            "label": "Screen 3 - Status Reply",
+            "screenTypeLabel": "WhatsApp Template - Dispatch Status Reply",
+            "description": "Status reply sent Customer receives an exact order-status and dispatch reply with products, vehicle, location, and ETA.",
+            "messages": [],
+            "time": "12:13 PM",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "step1": {
+      "title": "Step 1",
+      "bodies": [
+        "Opening Distributor Menu to place today's egg order."
+      ]
+    },
+    "step2": {
+      "title": "Step 2",
+      "bodies": [
+        "Hi",
+        "Hello Shyam Distributors ! 👋 Welcome to Sakku Distributor Menu . Use the menu below to check rates, place egg orders, view invoices, repeat orders, view ledger, report damage, and see schemes."
+      ]
+    },
+    "step3": {
+      "title": "Step 3",
+      "bodies": [
+        "Hi",
+        "Hello Shyam Distributors ! 👋 Welcome to Sakku Distributor Menu . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+      ]
+    },
+    "step5": {
+      "title": "Step 5",
+      "bodies": [
+        "Hi",
+        "Hello Shyam Distributors ! 👋 Welcome to Sakku Distributor Menu . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+      ]
+    },
+    "step6": {
+      "title": "Step 6",
+      "bodies": [
+        "Hi Sakku Group, please share dispatch and order status for ORD-SKK-10245 . We need Hyderabad delivery confirmation.",
+        "Thanks, Sri Lakshmi Traders. Checking your Sakku egg order now."
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "Opening Distributor Menu to place today's egg order.",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "sakkugroup"
+  ],
+  "title": "Dt Fulfilment",
+  "description": "Dt Fulfilment",
+  "industry": []
+}

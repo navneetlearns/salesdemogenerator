@@ -30,13 +30,35 @@ Core Handlebars templates are intentionally stable. Brand onboarding should pref
 
 ## Active Brands
 
+23 brands live across 6 industries:
+
 | Brand | Industry | Journeys | Status |
 |-------|----------|----------|--------|
-| JK Cement | Building Materials | 10 journeys | Complete |
-| Sundaram Store | General | 10 journeys | Complete (clone pattern from JK Cement) |
-| Haldiram | Food & Beverages | 10 journeys | Complete |
+| JK Cement | Cement | 10 journeys | Complete |
+| Sundaram Store | General | 10 journeys | Complete |
+| Haldiram's | FMCG | 10 journeys | Complete |
+| Adani Wilmar | FMCG | 7 journeys | Imported |
+| Banas Dairy | FMCG | 10 journeys | Imported |
+| Sunder Masala | FMCG | 5 journeys | Imported |
+| Vini Cosmetics | FMCG | 7 journeys | Imported |
+| Atharva Food Products | FMCG | 1 journey | Imported |
+| BlueOcean Steels | Industrial | 6 journeys | Imported |
+| Hindalco | Industrial | 1 journey | Imported |
+| Orient Electric | Industrial | 10 journeys | Imported |
+| Mukund Magnum | Industrial | 1 journey | Imported |
+| Recykal | Industrial | 3 journeys | Imported |
+| Sintex | Industrial | 1 journey | Imported |
+| Freyr Solar Connect | Industrial | 1 journey | Imported |
+| Savera Pipes | Industrial | 1 journey | Imported |
+| Insightzz | Pharma | 1 journey | Imported |
+| Zydus Wellness | Pharma | 1 journey | Imported |
+| Lucky Seeds | Agri | 1 journey | Imported |
+| PM Cona | General | 1 journey | Imported |
+| SakkuGroup | General | 2 journeys | Imported |
 
-All 3 live brands now have the full canonical journey set: `order_to_cash`, `automated_collections`, `dealer_engagement`, `field_ops_expense`, `retailer_loyalty`, `retailer_onboarding`, `campaigns_queries`, `dt_fulfillment_payment`, `retailer_activation`, `post_order_communication`. (Updated July 3 from outdated "6 standard" / "3 exclusive" wording — Phase 7 + post_order_communication were added June 20.)
+**Total: 23 brands, ~97 journey files**
+
+Build auto-discovers brands from `data/brands/*.json`. Industry dropdown in the wizard loads live from Supabase REST API. See `docs/superpowers/plans/2026-07-04-tracing-visualdiff-legacy-import.md`.
 
 ## Migration Workspace (July 3, 2026)
 

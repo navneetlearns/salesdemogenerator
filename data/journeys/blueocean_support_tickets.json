@@ -1,0 +1,187 @@
+{
+  "id": "journey_support_tickets",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Customer Self-Service via @zoai Rakesh types @zoai what is my current outstanding? directly in the group. No phone call, no chasing the coordinator — same handle used for enquiries, now used for account queries too.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Customer Self-Service via @zoai Rakesh types @zoai what is my current outstanding? directly in the group. No phone call, no chasing the coordinator — same handle used for enquiries, now used for account queries too.",
+          "data": {
+            "label": "Screen 1 · Outstanding Query",
+            "screenTypeLabel": "WhatsApp Group — Customer @zoai Self-Service",
+            "description": "Customer Self-Service via @zoai Rakesh types @zoai what is my current outstanding? directly in the group. No phone call, no chasing the coordinator — same handle used for enquiries, now used for account queries too.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "ZoAi Owns Information Lookups End-to-End ZoAi pulls outstanding from the same Sheets + SAP layer the BOS team uses — total ₹8,42,500 across two invoices, with due dates and last payment. This is the kind of bounded, factual task we confidently let AI handle without human involvement.",
+          "data": {
+            "label": "Screen 2 · ZoAi Outstanding Reply",
+            "screenTypeLabel": "WhatsApp Group — ZoAi Info Lookup (Sheets + SAP)",
+            "description": "ZoAi Owns Information Lookups End-to-End ZoAi pulls outstanding from the same Sheets + SAP layer the BOS team uses — total ₹8,42,500 across two invoices, with due dates and last payment. This is the kind of bounded, factual task we confidently let AI handle without human involvement.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "No @zoai Tag — No ZoAi Response Rakesh sends a plain group message to the team. Because there is no @zoai mention, ZoAi stays silent. The message is visible to every member — it is Priya who notices it and takes action.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "No @zoai Tag — No ZoAi Response Rakesh sends a plain group message to the team. Because there is no @zoai mention, ZoAi stays silent. The message is visible to every member — it is Priya who notices it and takes action.",
+          "data": {
+            "label": "Screen 1 · Damage Reported",
+            "screenTypeLabel": "WhatsApp Group — Plain Message · No @zoai Tag",
+            "description": "No @zoai Tag — No ZoAi Response Rakesh sends a plain group message to the team. Because there is no @zoai mention, ZoAi stays silent. The message is visible to every member — it is Priya who notices it and takes action.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Priya Decides · @zoai Just Executes Priya reads the message, responds with empathy, and then uses @zoai as a logging tool — replying to Rakesh's original message so the context is clear. ZoAi creates the ticket instantly. No form, no portal login — one line in the group.",
+          "data": {
+            "label": "Screen 2 · Priya Steps In · Ticket Created",
+            "screenTypeLabel": "WhatsApp Group — Human-Led · Priya Tags @zoai",
+            "description": "Priya Decides · @zoai Just Executes Priya reads the message, responds with empathy, and then uses @zoai as a logging tool — replying to Rakesh's original message so the context is clear. ZoAi creates the ticket instantly. No form, no portal login — one line in the group.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Source-of-Truth — Human Authored, ZoAi Persisted TKT-2026-00342 lands in the same Sheets layer the rest of BOS runs on. The footer trail is deliberate: \"Logged by ZoAi on instruction from Priya Nair\" — the team made the call, ZoAi only wrote the row. The internal WMS reads from this sheet to assign and track work.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Source-of-Truth — Human Authored, ZoAi Persisted TKT-2026-00342 lands in the same Sheets layer the rest of BOS runs on. The footer trail is deliberate: \"Logged by ZoAi on instruction from Priya Nair\" — the team made the call, ZoAi only wrote the row. The internal WMS reads from this sheet to assign and track work.",
+          "data": {
+            "label": "Screen 1 · Support Ticket Sheet",
+            "screenTypeLabel": "Google Sheets — BOS Support Tickets Live",
+            "description": "Source-of-Truth — Human Authored, ZoAi Persisted TKT-2026-00342 lands in the same Sheets layer the rest of BOS runs on. The footer trail is deliberate: \"Logged by ZoAi on instruction from Priya Nair\" — the team made the call, ZoAi only wrote the row. The internal WMS reads from this sheet to assign and track work.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "Sheet is the Contract — WMS is the Work Surface BOS team can work from the Sheet or the WMS — both stay in sync. The customer never sees either; they only see ZoAi's updates in their group. ZoAi sits in the pipes, not in the decisions.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Sheet is the Contract — WMS is the Work Surface BOS team can work from the Sheet or the WMS — both stay in sync. The customer never sees either; they only see ZoAi's updates in their group. ZoAi sits in the pipes, not in the decisions.",
+          "data": {
+            "label": "How Tickets Flow — Sheet + WMS",
+            "screenTypeLabel": "Process Architecture — Humans Decide · ZoAi Relays",
+            "description": "Sheet is the Contract — WMS is the Work Surface BOS team can work from the Sheet or the WMS — both stay in sync. The customer never sees either; they only see ZoAi's updates in their group. ZoAi sits in the pipes, not in the decisions.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "Team Works in WMS — One Click Syncs to Customer Suresh updates the ticket status and adds a note in the internal WMS. Clicking \"Save & Sync\" triggers ZoAi to auto-post the update into the customer's WhatsApp group — no manual messaging needed.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Team Works in WMS — One Click Syncs to Customer Suresh updates the ticket status and adds a note in the internal WMS. Clicking \"Save & Sync\" triggers ZoAi to auto-post the update into the customer's WhatsApp group — no manual messaging needed.",
+          "data": {
+            "label": "Screen 1 · Internal WMS",
+            "screenTypeLabel": "Admin Panel — wms.blueocean.internal · Ticket Updated",
+            "description": "Team Works in WMS — One Click Syncs to Customer Suresh updates the ticket status and adds a note in the internal WMS. Clicking \"Save & Sync\" triggers ZoAi to auto-post the update into the customer's WhatsApp group — no manual messaging needed.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Customer Hears Back in the Same Thread ZoAi auto-posts the WMS update into the group within seconds of Suresh saving. No manual WhatsApp message, no separate email — the entire conversation stays in one place where the customer already is.",
+          "data": {
+            "label": "Screen 2 · Customer Group Update",
+            "screenTypeLabel": "WhatsApp Group — ZoAi Relays WMS Update",
+            "description": "Customer Hears Back in the Same Thread ZoAi auto-posts the WMS update into the group within seconds of Suresh saving. No manual WhatsApp message, no separate email — the entire conversation stays in one place where the customer already is.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "title": "Step 6",
+      "description": "Sheet Updated — Ticket Closed · SLA Met in 28 Hours Priya marks the ticket Resolved — the same Google Sheet that logged the ticket now shows its closure. Row 4 turns green, resolution date is stamped, and the SLA is recorded. This feeds the team's monthly support report automatically.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Sheet Updated — Ticket Closed · SLA Met in 28 Hours Priya marks the ticket Resolved — the same Google Sheet that logged the ticket now shows its closure. Row 4 turns green, resolution date is stamped, and the SLA is recorded. This feeds the team's monthly support report automatically.",
+          "data": {
+            "label": "Screen 1 · Support Ticket Sheet — Resolved",
+            "screenTypeLabel": "Google Sheets — BOS Support Tickets Live · Status Updated",
+            "description": "Sheet Updated — Ticket Closed · SLA Met in 28 Hours Priya marks the ticket Resolved — the same Google Sheet that logged the ticket now shows its closure. Row 4 turns green, resolution date is stamped, and the SLA is recorded. This feeds the team's monthly support report automatically.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Same Group · Same Thread · Full Lifecycle From outstanding query to damage report to ticket to resolution — all in one WhatsApp group. ZoAi closes the loop, Priya adds the human touch. The customer felt looked after throughout, not chased across channels.",
+          "data": {
+            "label": "Screen 2 · Group Closure",
+            "screenTypeLabel": "WhatsApp Group — ZoAi Closes Loop · Team Signs Off",
+            "description": "Same Group · Same Thread · Full Lifecycle From outstanding query to damage report to ticket to resolution — all in one WhatsApp group. ZoAi closes the loop, Priya adds the human touch. The customer felt looked after throughout, not chased across channels.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "welcome": {
+      "title": "Step 1",
+      "body": "Step 1",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "blueocean"
+  ],
+  "title": "Support Tickets",
+  "description": "Support Tickets",
+  "industry": []
+}

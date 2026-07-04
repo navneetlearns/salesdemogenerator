@@ -1,0 +1,30 @@
+{
+  "id": "freyr",
+  "name": "Freyr Solar Connect",
+  "shortName": "Freyr",
+  "industry": "industrial",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#F15A24",
+    "brandLight": "#F47040",
+    "accent": "#FDB813",
+    "waTop": "#075E54",
+    "waTeal": "#00A884",
+    "waGreen": "#25D366",
+    "chatBg": "#ECE5DD",
+    "sndr": "#DCF8C6",
+    "rcvr": "#FFFFFF",
+    "sw": "256px",
+    "brandDark": "#F15A24"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

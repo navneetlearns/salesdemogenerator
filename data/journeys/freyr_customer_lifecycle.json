@@ -3,13 +3,18 @@
   "title": "Customer Lifecycle",
   "description": "Solar customer journey: discovery, consideration, estimation, installation, and support via WhatsApp",
   "industry": "industrial",
-  "brands": ["freyr"],
+  "brands": [
+    "freyr"
+  ],
   "steps": [
     {
       "num": 1,
       "title": "Discovery",
       "description": "Campaign template reaches potential solar customer",
-      "tags": ["discovery", "solar"],
+      "tags": [
+        "discovery",
+        "solar"
+      ],
       "screens": [
         {
           "type": "whatsapp-template",
@@ -18,7 +23,12 @@
             "label": "Screen 1 - Campaign Template",
             "header": "Go Solar with Freyr",
             "body": "Thinking about solar? Get a free rooftop assessment. Reply YES to schedule.",
-            "buttons": [{"label": "Schedule Assessment", "url": "/assess"}],
+            "buttons": [
+              {
+                "label": "Schedule Assessment",
+                "url": "/assess"
+              }
+            ],
             "time": "9:00 AM"
           }
         }
@@ -28,7 +38,10 @@
       "num": 2,
       "title": "Consideration & Estimation",
       "description": "AI qualification and solar system sizing",
-      "tags": ["consideration", "estimation"],
+      "tags": [
+        "consideration",
+        "estimation"
+      ],
       "screens": [
         {
           "type": "pwa-webview",
@@ -45,7 +58,10 @@
       "num": 3,
       "title": "Purchase & Installation",
       "description": "Quote approved, installation scheduled",
-      "tags": ["purchase", "installation"],
+      "tags": [
+        "purchase",
+        "installation"
+      ],
       "screens": [
         {
           "type": "whatsapp-document",
@@ -53,7 +69,12 @@
           "data": {
             "documentName": "Solar_Quote.pdf",
             "body": "3 kW system: Rs 2.1L (after subsidy). Installation: 3 days. Warranty: 25 years.",
-            "buttons": [{"label": "Approve Quote", "url": "/quote/123"}]
+            "buttons": [
+              {
+                "label": "Approve Quote",
+                "url": "/quote/123"
+              }
+            ]
           }
         }
       ]
@@ -62,7 +83,10 @@
       "num": 4,
       "title": "Support & Monitoring",
       "description": "Post-installation support and generation monitoring",
-      "tags": ["support", "monitoring"],
+      "tags": [
+        "support",
+        "monitoring"
+      ],
       "screens": [
         {
           "type": "whatsapp-message",
@@ -86,19 +110,27 @@
     },
     "step1": {
       "title": "Discovery",
-      "bodies": ["Thinking about solar? Get a free rooftop assessment. Reply YES to schedule."]
+      "bodies": [
+        "Thinking about solar? Get a free rooftop assessment. Reply YES to schedule."
+      ]
     },
     "step2": {
       "title": "Consideration & Estimation",
-      "bodies": ["Roof area: 800 sq ft. Recommended: 3 kW system."]
+      "bodies": [
+        "Roof area: 800 sq ft. Recommended: 3 kW system."
+      ]
     },
     "step3": {
       "title": "Purchase & Installation",
-      "bodies": ["3 kW system: Rs 2.1L after subsidy. Installation in 3 days."]
+      "bodies": [
+        "3 kW system: Rs 2.1L after subsidy. Installation in 3 days."
+      ]
     },
     "step4": {
       "title": "Support & Monitoring",
-      "bodies": ["Your 3 kW system generated 14.2 kWh today!"]
+      "bodies": [
+        "Your 3 kW system generated 14.2 kWh today!"
+      ]
     }
   }
 }

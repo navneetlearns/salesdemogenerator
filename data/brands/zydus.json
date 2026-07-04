@@ -1,0 +1,30 @@
+{
+  "id": "zydus",
+  "name": "Zydus Wellness",
+  "shortName": "Zydus",
+  "industry": "pharma",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#0072CE",
+    "brandLight": "#1a85d8",
+    "accent": "#00A859",
+    "waTop": "#075E54",
+    "waTeal": "#00A884",
+    "waGreen": "#25D366",
+    "chatBg": "#ECE5DD",
+    "sender": "#DCF8C6",
+    "receiver": "#FFFFFF",
+    "sidebar_w": "256px",
+    "brandDark": "#0072CE"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

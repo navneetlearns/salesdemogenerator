@@ -1,0 +1,22 @@
+{
+  "id": "atharva",
+  "name": "Atharva Food Products",
+  "shortName": "Atharva",
+  "industry": "fmcg",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#B62127",
+    "brandDark": "#8a0e13",
+    "accent": "#C8860A"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

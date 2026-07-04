@@ -1,0 +1,521 @@
+{
+  "id": "journey_ms_scrap_marketplace",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Outbound nudge to sellers without an active listing A generic Utility template sent to any seller whose listing has expired or has never been created. Body has three bullets that lay out the listing process. Two Quick Reply buttons: “List New Stock” starts the listing flow, “View Menu” opens the always-available menu.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Outbound nudge to sellers without an active listing A generic Utility template sent to any seller whose listing has expired or has never been created. Body has three bullets that lay out the listing process. Two Quick Reply buttons: “List New Stock” starts the listing flow, “View Menu” opens the always-available menu.",
+          "data": {
+            "label": "Screen 1 · Nudge to List",
+            "screenTypeLabel": "WhatsApp DM — Utility template + Quick Reply menu",
+            "description": "Outbound nudge to sellers without an active listing A generic Utility template sent to any seller whose listing has expired or has never been created. Body has three bullets that lay out the listing process. Two Quick Reply buttons: “List New Stock” starts the listing flow, “View Menu” opens the always-available menu.",
+            "messages": [],
+            "time": "09:32",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Seller replies without following the menu strictly The seller doesn’t use either button. He sends one photo, gives a loose quantity, and a Hindi voice note for the rate. ZoAi asks the one missing piece (the rate) and confirms it has enough to build a draft listing.",
+          "data": {
+            "label": "Screen 2 · Seller Responds Loosely",
+            "screenTypeLabel": "WhatsApp DM — Seller doesn't follow process strictly",
+            "description": "Seller replies without following the menu strictly The seller doesn’t use either button. He sends one photo, gives a loose quantity, and a Hindi voice note for the rate. ZoAi asks the one missing piece (the rate) and confirms it has enough to build a draft listing.",
+            "messages": [
+              "Haan haan list karna hai 🙏",
+              "Yeh photo dekh lijiye. 8-10 ton scrap hai HMS, aaj sham tak load karna hai.",
+              "Ji Suresh ji 👋 photo mil gayi. Rate kya rakhna chahte hain? Bazaar abhi ₹34,400–34,600 per MT chal raha hai.",
+              "Samajh gaya 👍 ek minute, draft listing taiyaar kar raha hoon…"
+            ],
+            "time": "09:38",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-template",
+          "description": "Draft listing sent back as a WhatsApp template The draft uses an image header (the seller’s own photo), a structured body with the parsed fields and a footer noting that the rate was parsed from the voice note. Two buttons: “Review and Edit” opens the listing in a WebView for changes, “Confirm” publishes the listing as-is.",
+          "data": {
+            "label": "Screen 3 · Draft Listing · Review & Publish",
+            "screenTypeLabel": "WhatsApp DM — ZoAi-built draft + Reply Buttons",
+            "description": "Draft listing sent back as a WhatsApp template The draft uses an image header (the seller’s own photo), a structured body with the parsed fields and a footer noting that the rate was parsed from the voice note. Two buttons: “Review and Edit” opens the listing in a WebView for changes, “Confirm” publishes the listing as-is.",
+            "messages": [
+              "Suresh ji draft taiyaar hai 👇 review kar ke confirm kar dijiye."
+            ],
+            "time": "09:39",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "Publish confirmation with the menu CTA on the same template One Utility template covers both: image header is the seller’s own stock photo, body shows the new Listing ID and 6-hour validity, and the “View Menu” CTA at the bottom opens the Interactive List.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "interactive-list",
+          "description": "Publish confirmation with the menu CTA on the same template One Utility template covers both: image header is the seller’s own stock photo, body shows the new Listing ID and 6-hour validity, and the “View Menu” CTA at the bottom opens the Interactive List.",
+          "data": {
+            "label": "Screen 1 · Published + Menu Available",
+            "screenTypeLabel": "WhatsApp DM — Confirmation + Interactive List intro",
+            "description": "Publish confirmation with the menu CTA on the same template One Utility template covers both: image header is the seller’s own stock photo, body shows the new Listing ID and 6-hour validity, and the “View Menu” CTA at the bottom opens the Interactive List.",
+            "messages": [
+              "Publish Now"
+            ],
+            "time": "09:41",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Interactive List menu — three sections, eight rows The bottom sheet groups actions in three blocks: Current Listing (View / Edit / Deactivate), Order History (Recent Orders, Pending Dispatches) and Financials (Past Invoices, Payment Status). Eight rows total. Tapping any row sends a routed message back to the WABA which opens the corresponding WebView or action.",
+          "data": {
+            "label": "Screen 2 · Menu Open (Bottom Sheet)",
+            "screenTypeLabel": "WhatsApp Interactive List — Listing + History sections",
+            "description": "Interactive List menu — three sections, eight rows The bottom sheet groups actions in three blocks: Current Listing (View / Edit / Deactivate), Order History (Recent Orders, Pending Dispatches) and Financials (Past Invoices, Payment Status). Eight rows total. Tapping any row sends a routed message back to the WABA which opens the corresponding WebView or action.",
+            "messages": [
+              "Listing published · RCKL-LST-9847"
+            ],
+            "time": "09:41",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Recent orders shown as cards inside an embedded WebView Each card leads with the buyer name, the Recykal sub-PO ID below it, the status badge at top-right, and a 3-column strip with order value, quantity and the relevant date. Same card shape is reused for Invoices and Payments rows from the menu.",
+          "data": {
+            "label": "Screen 3 · Recent Orders WebView",
+            "screenTypeLabel": "Embedded Browser — Seller's order history",
+            "description": "Recent orders shown as cards inside an embedded WebView Each card leads with the buyer name, the Recykal sub-PO ID below it, the status badge at top-right, and a 3-column strip with order value, quantity and the relevant date. Same card shape is reused for Invoices and Payments rows from the menu.",
+            "messages": [],
+            "time": "9:42",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Renewal nudge sent 1 hour before listing expiry A Utility template fires 1 hour before the 6-hour listing window closes. Three Quick Reply buttons cover the three possible outcomes: extend the listing, edit qty/rate, or deactivate. Required to keep listings fresh under the 6-hour auto-expiry rule.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Renewal nudge sent 1 hour before listing expiry A Utility template fires 1 hour before the 6-hour listing window closes. Three Quick Reply buttons cover the three possible outcomes: extend the listing, edit qty/rate, or deactivate. Required to keep listings fresh under the 6-hour auto-expiry rule.",
+          "data": {
+            "label": "Screen 1 · Renewal Nudge Template",
+            "screenTypeLabel": "WhatsApp DM — Utility template + 3 Quick Reply",
+            "description": "Renewal nudge sent 1 hour before listing expiry A Utility template fires 1 hour before the 6-hour listing window closes. Three Quick Reply buttons cover the three possible outcomes: extend the listing, edit qty/rate, or deactivate. Required to keep listings fresh under the 6-hour auto-expiry rule.",
+            "messages": [],
+            "time": "14:44",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Listing extended in one tap The Extend button resets the validity clock for another 6 hours. ZoAi confirms the new expiry timestamp and posts a buyer-interest signal so the seller knows the listing is being viewed.",
+          "data": {
+            "label": "Screen 2 · Listing Extended",
+            "screenTypeLabel": "WhatsApp DM — One-tap confirmation",
+            "description": "Listing extended in one tap The Extend button resets the validity clock for another 6 hours. ZoAi confirms the new expiry timestamp and posts a buyer-interest signal so the seller knows the listing is being viewed.",
+            "messages": [
+              "Extend 6 hrs",
+              "Done ✅ Listing extended. 📋 RCKL-LST-9821 ⏱ Now valid till 9:44 PM today Buyer ke match aate hi aapko alert milega 💪",
+              "📈 FYI: 3 buyers viewed your listing in the last hour. Tata Steel is one of them."
+            ],
+            "time": "14:44",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "Buyer-side flow shown as a 4-box diagram The Recykal Marketplace UI for matching and awarding is built and owned by Recykal’s product team — not in scope for this demo. The four boxes show how a buyer requirement flows into matching, allocation, and the WhatsApp handoff that fires the eight Accept / Reject templates to selected sellers. Quantities and chips are illustrative.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Buyer-side flow shown as a 4-box diagram The Recykal Marketplace UI for matching and awarding is built and owned by Recykal’s product team — not in scope for this demo. The four boxes show how a buyer requirement flows into matching, allocation, and the WhatsApp handoff that fires the eight Accept / Reject templates to selected sellers. Quantities and chips are illustrative.",
+          "data": {
+            "label": "Flow Diagram · Buyer-side on Recykal App",
+            "screenTypeLabel": "Recykal Marketplace UI is Recykal's own product — shown here as a flow, not as screens",
+            "description": "Buyer-side flow shown as a 4-box diagram The Recykal Marketplace UI for matching and awarding is built and owned by Recykal’s product team — not in scope for this demo. The four boxes show how a buyer requirement flows into matching, allocation, and the WhatsApp handoff that fires the eight Accept / Reject templates to selected sellers. Quantities and chips are illustrative.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "Award template with two outcomes only The sub-PO PDF is the Document header. Body carries the full agreed terms (qty, rate, buyer, payment). Two Quick Reply buttons: Accept or Reject. There is no counter-offer path; price was set when the seller listed the stock.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Award template with two outcomes only The sub-PO PDF is the Document header. Body carries the full agreed terms (qty, rate, buyer, payment). Two Quick Reply buttons: Accept or Reject. There is no counter-offer path; price was set when the seller listed the stock.",
+          "data": {
+            "label": "Screen 1 · Award Template",
+            "screenTypeLabel": "WhatsApp DM — Utility template + Accept / Reject",
+            "description": "Award template with two outcomes only The sub-PO PDF is the Document header. Body carries the full agreed terms (qty, rate, buyer, payment). Two Quick Reply buttons: Accept or Reject. There is no counter-offer path; price was set when the seller listed the stock.",
+            "messages": [],
+            "time": "15:08",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "OTP-secured acceptance inside a WebView modal Tapping Accept opens a WebView modal with a 4-digit OTP sent to the seller’s registered phone. The order summary stays visible above the modal so the seller is confirming exactly the terms on screen. The “Confirm and Accept PO” button submits the OTP.",
+          "data": {
+            "label": "Screen 2 · OTP Modal",
+            "screenTypeLabel": "WebView Modal — OTP-secured acceptance",
+            "description": "OTP-secured acceptance inside a WebView modal Tapping Accept opens a WebView modal with a 4-digit OTP sent to the seller’s registered phone. The order summary stays visible above the modal so the seller is confirming exactly the terms on screen. The “Confirm and Accept PO” button submits the OTP.",
+            "messages": [],
+            "time": "3:09",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Acceptance recorded with the next steps spelled out On OTP verification the modal flips to “Order Accepted” with three confirmation lines: signed PDF saved to the seller’s records, buyer notified of acceptance, and transaction group queued. “View Contract” opens the signed PDF.",
+          "data": {
+            "label": "Screen 3 · Acceptance Recorded",
+            "screenTypeLabel": "WebView Modal — Success state",
+            "description": "Acceptance recorded with the next steps spelled out On OTP verification the modal flips to “Order Accepted” with three confirmation lines: signed PDF saved to the seller’s records, buyer notified of acceptance, and transaction group queued. “View Contract” opens the signed PDF.",
+            "messages": [],
+            "time": "3:10",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "title": "Step 6",
+      "description": "Signed contract delivered to the seller The follow-up Utility template carries the signed sub-PO PDF. Body names the seller (Om Metal) and the buyer (Tata Steel) explicitly — Recykal is the facilitator and is not on the contract or the invoice chain. The “View Contract” button opens the PDF.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Signed contract delivered to the seller The follow-up Utility template carries the signed sub-PO PDF. Body names the seller (Om Metal) and the buyer (Tata Steel) explicitly — Recykal is the facilitator and is not on the contract or the invoice chain. The “View Contract” button opens the PDF.",
+          "data": {
+            "label": "Screen 1 · Contract Confirmed DM",
+            "screenTypeLabel": "WhatsApp DM — Signed Sub-PO + Single CTA",
+            "description": "Signed contract delivered to the seller The follow-up Utility template carries the signed sub-PO PDF. Body names the seller (Om Metal) and the buyer (Tata Steel) explicitly — Recykal is the facilitator and is not on the contract or the invoice chain. The “View Contract” button opens the PDF.",
+            "messages": [],
+            "time": "15:11",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Buyer-side status board updated as each seller accepts As acceptances come in, the Awards page on the Recykal app updates the status pill from “Awaiting” to “Accepted” and notes the auto-created transaction group against each sub-PO. The header counter shows the running “accepted vs awaiting” split for the requirement.",
+          "data": {
+            "label": "Screen 2 · Buyer-side Mirror",
+            "screenTypeLabel": "Recykal Marketplace — Award status updated",
+            "description": "Buyer-side status board updated as each seller accepts As acceptances come in, the Awards page on the Recykal app updates the status pill from “Awaiting” to “Accepted” and notes the auto-created transaction group against each sub-PO. The header counter shows the running “accepted vs awaiting” split for the requirement.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 7,
+      "title": "Step 7",
+      "description": "3-member execution group, auto-created on acceptance Members: seller, Recykal facilitator (Rahul), ZoAi. The buyer is intentionally not in this group — they continue interacting via the Recykal app. The amber note in the group settings makes the room’s purpose explicit so it is not used as a negotiation thread.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "3-member execution group, auto-created on acceptance Members: seller, Recykal facilitator (Rahul), ZoAi. The buyer is intentionally not in this group — they continue interacting via the Recykal app. The amber note in the group settings makes the room’s purpose explicit so it is not used as a negotiation thread.",
+          "data": {
+            "label": "Screen 1 · Group Auto-Created",
+            "screenTypeLabel": "WhatsApp — 3-member execution group (not negotiation)",
+            "description": "3-member execution group, auto-created on acceptance Members: seller, Recykal facilitator (Rahul), ZoAi. The buyer is intentionally not in this group — they continue interacting via the Recykal app. The amber note in the group settings makes the room’s purpose explicit so it is not used as a negotiation thread.",
+            "messages": [],
+            "time": "15:12",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "ZoAi welcome makes the tagging rules explicit Three bot messages: the locked-in deal terms, “How I work” explaining that ZoAi only acts on @zoai mentions in a reply, and the list of records ZoAi can create vs which ones it mirrors automatically from the buyer app. The example line shows the multi-message stitching pattern.",
+          "data": {
+            "label": "Screen 2 · ZoAi Execution Checklist",
+            "screenTypeLabel": "Group Chat — Welcome + 6-step process",
+            "description": "ZoAi welcome makes the tagging rules explicit Three bot messages: the locked-in deal terms, “How I work” explaining that ZoAi only acts on @zoai mentions in a reply, and the list of records ZoAi can create vs which ones it mirrors automatically from the buyer app. The example line shows the multi-message stitching pattern.",
+            "messages": [
+              "Welcome to the execution room for RCKL-4471-01 . ⚙️ What’s locked in Seller: Om Metal Aggregators Buyer: Tata Steel, Jamshedpur Material: MS Scrap HMS 1&2 · 8 MT Rate: ₹34,500/MT · Total ₹2,76,000 Deliver by: 31 May 2026",
+              "How I work in this group 👀 I read every message and categorise it — but I do not act on my own. ✋ To create a record (dispatch note, debit note, etc.), reply to the relevant message(s) with @zoai followed by what you want. 🧵 You can stitch multiple messages: reply to one with @zoai and list the others in the same reply. Example: reply to a weighbridge photo with @zoai create dispatch note — vehicle and LR in next 2 messages",
+              "Records you can ask me to create 1️⃣ Dispatch note — from weighbridge + vehicle + LR 2️⃣ GRN summary — I post automatically from buyer app 3️⃣ Quality report — I post automatically from buyer app 4️⃣ Debit note — when there is a quality shortfall 5️⃣ Invoice — auto on QC ack, mirrored here 6️⃣ Close-out — once payment is received 📌 Pricing and quantity are locked. For any change, contact Rahul off-channel.",
+              "Samajh gaya 🙏 vehicle kal subah lagaa denge, weighbridge ke baad slip yahin daal dunga."
+            ],
+            "time": "15:13",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 8,
+      "title": "Step 8",
+      "description": "Seller drops 3 raw messages; ZoAi stays silent Weighbridge slip photo, vehicle/driver text, and the LR PDF land in the group as plain messages. ZoAi reads and categorises each one but does not post anything yet — nothing is created until a Recykal team member tags it with @zoai .",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Seller drops 3 raw messages; ZoAi stays silent Weighbridge slip photo, vehicle/driver text, and the LR PDF land in the group as plain messages. ZoAi reads and categorises each one but does not post anything yet — nothing is created until a Recykal team member tags it with @zoai .",
+          "data": {
+            "label": "Screen 1 · Weighbridge + Vehicle",
+            "screenTypeLabel": "Group Chat — Seller drops raw evidence",
+            "description": "Seller drops 3 raw messages; ZoAi stays silent Weighbridge slip photo, vehicle/driver text, and the LR PDF land in the group as plain messages. ZoAi reads and categorises each one but does not post anything yet — nothing is created until a Recykal team member tags it with @zoai .",
+            "messages": [
+              "Good morning sir 🙏 vehicle load ho gaya, weighbridge slip bhej raha hoon.",
+              "Vehicle: MH-31-AB-4521 Driver: Ramesh Yadav Phone: +91 97xxxxxx48 Net wt: 8.04 MT · Tare 12.6 / Gross 20.64 Leaving Nagpur yard now, ETA Jamshedpur 27 May evening"
+            ],
+            "time": "09:18",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Rahul tags @zoai on the weighbridge photo; ZoAi stitches all 3 messages Rahul replies to the weighbridge photo with one @zoai mention and points to the next two messages in the reply text. ZoAi treats this as a single multi-message intent, extracts vehicle/driver and LR from the referenced messages, creates the dispatch note record and posts the structured summary back — quoting Rahul’s trigger so the cause is visible.",
+          "data": {
+            "label": "Screen 2 · Rahul tags @zoai · ZoAi creates dispatch note",
+            "screenTypeLabel": "Group Chat — Tagged reply triggers a stitched extraction",
+            "description": "Rahul tags @zoai on the weighbridge photo; ZoAi stitches all 3 messages Rahul replies to the weighbridge photo with one @zoai mention and points to the next two messages in the reply text. ZoAi treats this as a single multi-message intent, extracts vehicle/driver and LR from the referenced messages, creates the dispatch note record and posts the structured summary back — quoting Rahul’s trigger so the cause is visible.",
+            "messages": [
+              "Vehicle MH-31-AB-4521, Driver Ramesh Yadav +91 97xxxxxx48, net wt 8.04 MT…",
+              "@zoai create dispatch note — vehicle & LR are in the next 2 messages",
+              "✅ Dispatch note created · RCKL-DSP-4471-01 Stitched from 3 messages (weighbridge, vehicle/driver, LR PDF): ⚖️ Net weight: 8.04 MT · slip NGP-WB-3387 🚚 Vehicle: MH-31-AB-4521 👨‍✈️ Driver: Ramesh Yadav · +91 97xxxxxx48 📄 LR: OM-2926 (attached) 📅 ETA Jamshedpur: 27 May, evening Variance vs PO: +0.04 MT (within ±1% tolerance). Pushed to control tower; buyer notification queued."
+            ],
+            "time": "09:21",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Dispatch notification to the buyer on WhatsApp The buyer receives a Utility template DM with the Dispatch Note PDF and a single CTA to open the Recykal app for the GRN step. The buyer does not enter the seller’s execution group at any point.",
+          "data": {
+            "label": "Screen 3 · Dispatch Confirmation DM",
+            "screenTypeLabel": "Buyer Notification — Recykal app + WhatsApp ping",
+            "description": "Dispatch notification to the buyer on WhatsApp The buyer receives a Utility template DM with the Dispatch Note PDF and a single CTA to open the Recykal app for the GRN step. The buyer does not enter the seller’s execution group at any point.",
+            "messages": [],
+            "time": "09:21",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 9,
+      "title": "Step 9",
+      "description": "GRN auto-mirrored from buyer app (no @zoai tag needed) The GRN event is mirroring an external system action, not creating a record from scratch — so ZoAi posts the GRN ID, net received weight and variance into the group automatically. Creating records like dispatch notes, debit notes etc. still requires an explicit @zoai mention from a team member.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "GRN auto-mirrored from buyer app (no @zoai tag needed) The GRN event is mirroring an external system action, not creating a record from scratch — so ZoAi posts the GRN ID, net received weight and variance into the group automatically. Creating records like dispatch notes, debit notes etc. still requires an explicit @zoai mention from a team member.",
+          "data": {
+            "label": "Screen 1 · GRN Posted in Group",
+            "screenTypeLabel": "Group Chat — Buyer's GRN mirrored by ZoAi",
+            "description": "GRN auto-mirrored from buyer app (no @zoai tag needed) The GRN event is mirroring an external system action, not creating a record from scratch — so ZoAi posts the GRN ID, net received weight and variance into the group automatically. Creating records like dispatch notes, debit notes etc. still requires an explicit @zoai mention from a team member.",
+            "messages": [
+              "✅ GRN received · Tata Steel marked in Recykal app 📋 GRN No: TS-GRN-22841 ⚖️ Net weight received: 7.98 MT 📅 27 May 2026, 6:38 PM 🚪 Gate 3, Jamshedpur Plant 0.06 MT variance from dispatch — within ±1% tolerance. Next: quality report from Tata Steel QC within 24 hr.",
+              "Thank you sir 🙏 quality bhi sahi rahega, photos lete waqt sab clean tha.",
+              "👍 Ab quality report ka wait karte hain. Kal subah tak update karenge."
+            ],
+            "time": "18:42",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Quality report auto-mirrored; debit note created only after @zoai tag ZoAi posts the QC report automatically (buyer-app event). It does not draft the debit note on its own. Rahul replies to the quality message with @zoai draft debit note — only then does ZoAi create TS-DN-1147 and post the PDF, quoting Rahul’s trigger. Seller acknowledges in-thread, leaving the audit trail.",
+          "data": {
+            "label": "Screen 2 · Quality Report + Debit Note Draft",
+            "screenTypeLabel": "Group Chat — ZoAi posts QC summary & debit note",
+            "description": "Quality report auto-mirrored; debit note created only after @zoai tag ZoAi posts the QC report automatically (buyer-app event). It does not draft the debit note on its own. Rahul replies to the quality message with @zoai draft debit note — only then does ZoAi create TS-DN-1147 and post the PDF, quoting Rahul’s trigger. Seller acknowledges in-thread, leaving the audit trail.",
+            "messages": [
+              "📊 Quality report · Tata Steel QC (auto-mirrored from buyer app) ✅ Grade accepted: HMS 1&2 ⚖️ Net received: 7.98 MT ⚠️ Moisture content: 0.4% (above 0.2% spec) ⚠️ Non-ferrous contamination: 0.08 MT ✅ Accepted weight: 7.90 MT",
+              "@zoai draft debit note for the 0.08 MT contamination",
+              "✅ Debit note drafted · TS-DN-1147 Against 0.08 MT contamination @ ₹34,500/MT Debit amount: ₹2,760 Net payable: ₹2,72,550 + GST",
+              "Acknowledged sir. 0.08 MT ke liye debit note acceptable hai 👍"
+            ],
+            "time": "11:14",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 10,
+      "title": "Step 10",
+      "description": "Direct invoice generated, Recykal not on the document Seller is Om Metal, buyer is Tata Steel. The amber callout makes the separation explicit. Line value reflects the QC-accepted weight (7.90 MT) and the debit note is netted off before tax. Recykal charges its platform fee on a separate document, not on the trade invoice.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Direct invoice generated, Recykal not on the document Seller is Om Metal, buyer is Tata Steel. The amber callout makes the separation explicit. Line value reflects the QC-accepted weight (7.90 MT) and the debit note is netted off before tax. Recykal charges its platform fee on a separate document, not on the trade invoice.",
+          "data": {
+            "label": "Screen 1 · Auto-Generated Invoice (Seller → Buyer)",
+            "screenTypeLabel": "Recykal Marketplace — Direct invoice, Recykal not on the bill",
+            "description": "Direct invoice generated, Recykal not on the document Seller is Om Metal, buyer is Tata Steel. The amber callout makes the separation explicit. Line value reflects the QC-accepted weight (7.90 MT) and the debit note is netted off before tax. Recykal charges its platform fee on a separate document, not on the trade invoice.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Invoice delivered to the seller on WhatsApp GST-compliant tax invoice PDF arrives as a Document header. Body lists the parties, line value, GST split, total and due date. Payment will be credited directly buyer → seller into the seller’s registered bank account.",
+          "data": {
+            "label": "Screen 2 · Invoice Delivered on WhatsApp",
+            "screenTypeLabel": "Seller WhatsApp DM — Invoice template with PDF",
+            "description": "Invoice delivered to the seller on WhatsApp GST-compliant tax invoice PDF arrives as a Document header. Body lists the parties, line value, GST split, total and due date. Payment will be credited directly buyer → seller into the seller’s registered bank account.",
+            "messages": [
+              "Suresh ji invoice approved aur dispatched. ₹3,21,609 ka payment 30 May tak aapke ICICI account me aa jaayega. Payment milte hi notification milegi."
+            ],
+            "time": "12:20",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 11,
+      "title": "'+s.title+'",
+      "description": "Recykal HO control tower — single live ops view One screen for live listings, active awards and every running transaction group with a milestone progress bar. KPIs at the top, expiring-listing alerts in the middle, sub-PO milestones below. The page is fed by WhatsApp events and Recykal app actions; HO does not need to read individual group chats.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Recykal HO control tower — single live ops view One screen for live listings, active awards and every running transaction group with a milestone progress bar. KPIs at the top, expiring-listing alerts in the middle, sub-PO milestones below. The page is fed by WhatsApp events and Recykal app actions; HO does not need to read individual group chats.",
+          "data": {
+            "label": "Screen 1 · Live Control Tower",
+            "screenTypeLabel": "Recykal HO — Single dashboard, every group, every milestone",
+            "description": "Recykal HO control tower — single live ops view One screen for live listings, active awards and every running transaction group with a milestone progress bar. KPIs at the top, expiring-listing alerts in the middle, sub-PO milestones below. The page is fed by WhatsApp events and Recykal app actions; HO does not need to read individual group chats.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Deal closed, rating prompt, group archived On final payment ZoAi posts a closing summary (qty, value, lead time, QC outcome) into the group. A rating prompt fires to the buyer; the rating feeds the next match cycle for this seller. The group is marked read-only after 24 hours; messages and PDFs remain searchable.",
+          "data": {
+            "label": "Screen 2 · Deal Closed · Group Archived · Rating Prompt",
+            "screenTypeLabel": "Group Chat — ZoAi closing summary + buyer rating",
+            "description": "Deal closed, rating prompt, group archived On final payment ZoAi posts a closing summary (qty, value, lead time, QC outcome) into the group. A rating prompt fires to the buyer; the rating feeds the next match cycle for this seller. The group is marked read-only after 24 hours; messages and PDFs remain searchable.",
+            "messages": [
+              "🎉 Deal closed — final summary 📋 RCKL-SPO-4471-01 🏢 Om Metal → 🏭 Tata Steel 📦 7.90 MT MS Scrap HMS 1&2 (after QC) 💰 ₹3,21,609 credited to Om Metal · 30 May, 10:52 AM ⏱ Lead time: contract → payment = 6 days ⭐ Quality & on-time: 96% (no delay, debit note ₹2,760 only) Group will be archived in 24 hrs. PDFs and chat will remain searchable in your records.",
+              "Suresh ji 🙏 thank you. Rating prompt Tata Steel ko bheja gaya hai — unki rating aapke next match score me reflect hogi. Aapko bhi Recykal ke experience ke baare me feedback dena ho to reply karke bata dijiye — phone call set up kar dunga.",
+              "Bahut shukriya team 🙏 process bahut smooth tha. Next listing aaj shaam tak daal raha hoon.",
+              "🙏 Thank you Suresh ji. Looking forward to the next one!"
+            ],
+            "time": "11:08",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "step1": {
+      "title": "Step 1",
+      "bodies": [
+        "Haan haan list karna hai 🙏",
+        "Yeh photo dekh lijiye. 8-10 ton scrap hai HMS, aaj sham tak load karna hai.",
+        "Ji Suresh ji 👋 photo mil gayi. Rate kya rakhna chahte hain? Bazaar abhi ₹34,400–34,600 per MT chal raha hai.",
+        "Samajh gaya 👍 ek minute, draft listing taiyaar kar raha hoon…",
+        "Suresh ji draft taiyaar hai 👇 review kar ke confirm kar dijiye."
+      ]
+    },
+    "step2": {
+      "title": "Step 2",
+      "bodies": [
+        "Publish Now",
+        "Listing published · RCKL-LST-9847"
+      ]
+    },
+    "step3": {
+      "title": "Step 3",
+      "bodies": [
+        "Extend 6 hrs",
+        "Done ✅ Listing extended. 📋 RCKL-LST-9821 ⏱ Now valid till 9:44 PM today Buyer ke match aate hi aapko alert milega 💪",
+        "📈 FYI: 3 buyers viewed your listing in the last hour. Tata Steel is one of them."
+      ]
+    },
+    "step7": {
+      "title": "Step 7",
+      "bodies": [
+        "Welcome to the execution room for RCKL-4471-01 . ⚙️ What’s locked in Seller: Om Metal Aggregators Buyer: Tata Steel, Jamshedpur Material: MS Scrap HMS 1&2 · 8 MT Rate: ₹34,500/MT · Total ₹2,76,000 Deliver by: 31 May 2026",
+        "How I work in this group 👀 I read every message and categorise it — but I do not act on my own. ✋ To create a record (dispatch note, debit note, etc.), reply to the relevant message(s) with @zoai followed by what you want. 🧵 You can stitch multiple messages: reply to one with @zoai and list the others in the same reply. Example: reply to a weighbridge photo with @zoai create dispatch note — vehicle and LR in next 2 messages",
+        "Records you can ask me to create 1️⃣ Dispatch note — from weighbridge + vehicle + LR 2️⃣ GRN summary — I post automatically from buyer app 3️⃣ Quality report — I post automatically from buyer app 4️⃣ Debit note — when there is a quality shortfall 5️⃣ Invoice — auto on QC ack, mirrored here 6️⃣ Close-out — once payment is received 📌 Pricing and quantity are locked. For any change, contact Rahul off-channel.",
+        "Samajh gaya 🙏 vehicle kal subah lagaa denge, weighbridge ke baad slip yahin daal dunga."
+      ]
+    },
+    "step8": {
+      "title": "Step 8",
+      "bodies": [
+        "Good morning sir 🙏 vehicle load ho gaya, weighbridge slip bhej raha hoon.",
+        "Vehicle: MH-31-AB-4521 Driver: Ramesh Yadav Phone: +91 97xxxxxx48 Net wt: 8.04 MT · Tare 12.6 / Gross 20.64 Leaving Nagpur yard now, ETA Jamshedpur 27 May evening",
+        "Vehicle MH-31-AB-4521, Driver Ramesh Yadav +91 97xxxxxx48, net wt 8.04 MT…",
+        "@zoai create dispatch note — vehicle & LR are in the next 2 messages",
+        "✅ Dispatch note created · RCKL-DSP-4471-01 Stitched from 3 messages (weighbridge, vehicle/driver, LR PDF): ⚖️ Net weight: 8.04 MT · slip NGP-WB-3387 🚚 Vehicle: MH-31-AB-4521 👨‍✈️ Driver: Ramesh Yadav · +91 97xxxxxx48 📄 LR: OM-2926 (attached) 📅 ETA Jamshedpur: 27 May, evening Variance vs PO: +0.04 MT (within ±1% tolerance). Pushed to control tower; buyer notification queued."
+      ]
+    },
+    "step9": {
+      "title": "Step 9",
+      "bodies": [
+        "✅ GRN received · Tata Steel marked in Recykal app 📋 GRN No: TS-GRN-22841 ⚖️ Net weight received: 7.98 MT 📅 27 May 2026, 6:38 PM 🚪 Gate 3, Jamshedpur Plant 0.06 MT variance from dispatch — within ±1% tolerance. Next: quality report from Tata Steel QC within 24 hr.",
+        "Thank you sir 🙏 quality bhi sahi rahega, photos lete waqt sab clean tha.",
+        "👍 Ab quality report ka wait karte hain. Kal subah tak update karenge.",
+        "📊 Quality report · Tata Steel QC (auto-mirrored from buyer app) ✅ Grade accepted: HMS 1&2 ⚖️ Net received: 7.98 MT ⚠️ Moisture content: 0.4% (above 0.2% spec) ⚠️ Non-ferrous contamination: 0.08 MT ✅ Accepted weight: 7.90 MT",
+        "@zoai draft debit note for the 0.08 MT contamination",
+        "✅ Debit note drafted · TS-DN-1147 Against 0.08 MT contamination @ ₹34,500/MT Debit amount: ₹2,760 Net payable: ₹2,72,550 + GST",
+        "Acknowledged sir. 0.08 MT ke liye debit note acceptable hai 👍"
+      ]
+    },
+    "step10": {
+      "title": "Step 10",
+      "bodies": [
+        "Suresh ji invoice approved aur dispatched. ₹3,21,609 ka payment 30 May tak aapke ICICI account me aa jaayega. Payment milte hi notification milegi."
+      ]
+    },
+    "step11": {
+      "title": "'+s.title+'",
+      "bodies": [
+        "🎉 Deal closed — final summary 📋 RCKL-SPO-4471-01 🏢 Om Metal → 🏭 Tata Steel 📦 7.90 MT MS Scrap HMS 1&2 (after QC) 💰 ₹3,21,609 credited to Om Metal · 30 May, 10:52 AM ⏱ Lead time: contract → payment = 6 days ⭐ Quality & on-time: 96% (no delay, debit note ₹2,760 only) Group will be archived in 24 hrs. PDFs and chat will remain searchable in your records.",
+        "Suresh ji 🙏 thank you. Rating prompt Tata Steel ko bheja gaya hai — unki rating aapke next match score me reflect hogi. Aapko bhi Recykal ke experience ke baare me feedback dena ho to reply karke bata dijiye — phone call set up kar dunga.",
+        "Bahut shukriya team 🙏 process bahut smooth tha. Next listing aaj shaam tak daal raha hoon.",
+        "🙏 Thank you Suresh ji. Looking forward to the next one!"
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "Haan haan list karna hai 🙏",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "recykal"
+  ],
+  "title": "Ms Scrap Marketplace",
+  "description": "Ms Scrap Marketplace",
+  "industry": []
+}

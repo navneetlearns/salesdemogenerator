@@ -1,0 +1,467 @@
+{
+  "id": "jk_cement_order_to_cash",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Menu Navigation Dealer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-template",
+          "description": "Menu Navigation Dealer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+          "data": {
+            "label": "Screen 1 · Self Service Menu",
+            "screenTypeLabel": "Session Interactive Message — Reply Button",
+            "description": "Menu Navigation Dealer selects 'Order Now' from the self-service menu to begin placing an order — entirely within WhatsApp.",
+            "messages": [
+              "Hi"
+            ],
+            "time": "9:22 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Product Categories ZoTok opens the catalog category list for the Dealer to choose the product category they want to order from.",
+          "data": {
+            "label": "Screen 2 · Browse Products",
+            "screenTypeLabel": "Interactive List — Bottom Sheet Open",
+            "description": "Product Categories ZoTok opens the catalog category list for the Dealer to choose the product category they want to order from.",
+            "messages": [
+              "Open Menu"
+            ],
+            "time": "9:23 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Catalog View Dealer browses the JK Cement product catalog with images, pricing, and quantity selectors directly in WhatsApp.",
+          "data": {
+            "label": "Screen 3 · Product Selection",
+            "screenTypeLabel": "Interactive List — Bottom Sheet Open",
+            "description": "Catalog View Dealer browses the JK Cement product catalog with images, pricing, and quantity selectors directly in WhatsApp.",
+            "messages": [
+              "View Products"
+            ],
+            "time": "9:46 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "WebView Catalog Dealer browses the full JK Cement product catalog inside WhatsApp's native browser with real product images and pricing.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "WebView Catalog Dealer browses the full JK Cement product catalog inside WhatsApp's native browser with real product images and pricing.",
+          "data": {
+            "label": "Screen 1 · Browse Products Catalog",
+            "screenTypeLabel": "Commerce WebView — Catalog Browse",
+            "description": "WebView Catalog Dealer browses the full JK Cement product catalog inside WhatsApp's native browser with real product images and pricing.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Cart Review Dealer reviews selected items, quantities, and total order value in the cart before submitting the order.",
+          "data": {
+            "label": "Screen 2 · Cart Review",
+            "screenTypeLabel": "Commerce WebView — Cart",
+            "description": "Cart Review Dealer reviews selected items, quantities, and total order value in the cart before submitting the order.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Order Confirmed ZoTok sends an automated order confirmation to the Dealer with the order ID, SKU list, and total value.",
+          "data": {
+            "label": "Screen 3 · Order Received",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons",
+            "description": "Order Confirmed ZoTok sends an automated order confirmation to the Dealer with the order ID, SKU list, and total value.",
+            "messages": [],
+            "time": "10:28 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Handwritten Order Dealer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-message",
+          "description": "Handwritten Order Dealer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+          "data": {
+            "label": "Screen 1 · Dealer Sends Order Note",
+            "screenTypeLabel": "Session Message — Handwritten Note + AI Acknowledgement",
+            "description": "Handwritten Order Dealer photographs a handwritten order note and sends it directly to the ZoTok channel on WhatsApp.",
+            "messages": [
+              "Please process this order 🙏",
+              "📋 Received your order note! ZoTok AI is reading it now..."
+            ],
+            "time": "10:15 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-template",
+          "description": "AI Extracts Order ZoAi reads the image and extracts a structured draft order with items and quantities for Dealer review.",
+          "data": {
+            "label": "Screen 2 · Draft Order",
+            "screenTypeLabel": "Interactive Template — Image Header + CTA Buttons",
+            "description": "AI Extracts Order ZoAi reads the image and extracts a structured draft order with items and quantities for Dealer review.",
+            "messages": [
+              "Please process this order 🙏",
+              "📋 Received your order note! ZoTok AI is reading it now..."
+            ],
+            "time": "10:16 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Review & Checkout Dealer reviews the AI-generated cart in a WebView and proceeds to checkout with a single tap.",
+          "data": {
+            "label": "Screen 3 · Cart & Checkout",
+            "screenTypeLabel": "Commerce WebView — Cart Review & Checkout",
+            "description": "Review & Checkout Dealer reviews the AI-generated cart in a WebView and proceeds to checkout with a single tap.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "Back Office Order Dashboard JK Cement's fulfilment team sees all incoming dealer orders on the ZoTok portal. They select JKO-48291 from Sharma Cement Stores (₹35,080 · 4 SKUs) to review and process.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Back Office Order Dashboard JK Cement's fulfilment team sees all incoming dealer orders on the ZoTok portal. They select JKO-48291 from Sharma Cement Stores (₹35,080 · 4 SKUs) to review and process.",
+          "data": {
+            "label": "Screen 1 · Orders to Process",
+            "screenTypeLabel": "Admin Portal — Order Dashboard (app.zotok.ai)",
+            "description": "Back Office Order Dashboard JK Cement's fulfilment team sees all incoming dealer orders on the ZoTok portal. They select JKO-48291 from Sharma Cement Stores (₹35,080 · 4 SKUs) to review and process.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Order Review & Approval The back-office reviews JKO-48291 — 4 JK Cement SKUs, 27 units, ₹35,080. Quantities can be edited inline and new SKUs added via the “+ Add” button. One tap on “Accept Order” triggers the ERP, generates the invoice, and auto-sends the WhatsApp order confirmation to Sharma Cement Stores.",
+          "data": {
+            "label": "Screen 2 · Order Review & Accept",
+            "screenTypeLabel": "Admin Portal — Order Detail & Approval (app.zotok.ai)",
+            "description": "Order Review & Approval The back-office reviews JKO-48291 — 4 JK Cement SKUs, 27 units, ₹35,080. Quantities can be edited inline and new SKUs added via the “+ Add” button. One tap on “Accept Order” triggers the ERP, generates the invoice, and auto-sends the WhatsApp order confirmation to Sharma Cement Stores.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "Order Confirmed Notification JK Cement's ERP triggers a WhatsApp confirmation once the order is approved. The previous \"Order Received\" message is shown faded for context. The single CTA links to read-only order details.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Order Confirmed Notification JK Cement's ERP triggers a WhatsApp confirmation once the order is approved. The previous \"Order Received\" message is shown faded for context. The single CTA links to read-only order details.",
+          "data": {
+            "label": "Screen 1 · Order Confirmed",
+            "screenTypeLabel": "Utility Template — Document Header + CTA URL",
+            "description": "Order Confirmed Notification JK Cement's ERP triggers a WhatsApp confirmation once the order is approved. The previous \"Order Received\" message is shown faded for context. The single CTA links to read-only order details.",
+            "messages": [],
+            "time": "11:05 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Confirmed Order Details — Read Only Once confirmed, the dealer sees a locked view: the green \"Approved\" status badge, a lock banner, and all items are display-only. The \"Update order\" button is replaced with \"Download Order PDF\" — no edits are possible.",
+          "data": {
+            "label": "Screen 2 · Order Details — Read Only (PWA)",
+            "screenTypeLabel": "Commerce WebView — PWA Confirmed Order (Locked)",
+            "description": "Confirmed Order Details — Read Only Once confirmed, the dealer sees a locked view: the green \"Approved\" status badge, a lock banner, and all items are display-only. The \"Update order\" button is replaced with \"Download Order PDF\" — no edits are possible.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "title": "Step 6",
+      "description": "ZoTok × SAP Integration Once the dealer's order is confirmed on WhatsApp and approved in the ZoTok PWA, it is pushed to SAP via ZoTok's integration layer. The JSON payload flows through the API Gateway → Payload Transformation → SAP Adapter, triggering the full order-to-bill cycle in SAP SD/FI — from sales order creation and credit check through delivery, picking, and billing document generation. OData callbacks flow back to ZoTok to update the dealer via WhatsApp.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "ZoTok × SAP Integration Once the dealer's order is confirmed on WhatsApp and approved in the ZoTok PWA, it is pushed to SAP via ZoTok's integration layer. The JSON payload flows through the API Gateway → Payload Transformation → SAP Adapter, triggering the full order-to-bill cycle in SAP SD/FI — from sales order creation and credit check through delivery, picking, and billing document generation. OData callbacks flow back to ZoTok to update the dealer via WhatsApp.",
+          "data": {
+            "label": "ZoTok × SAP Integration Architecture",
+            "screenTypeLabel": "Architecture Diagram — WhatsApp Order → SAP Billing Cycle",
+            "description": "ZoTok × SAP Integration Once the dealer's order is confirmed on WhatsApp and approved in the ZoTok PWA, it is pushed to SAP via ZoTok's integration layer. The JSON payload flows through the API Gateway → Payload Transformation → SAP Adapter, triggering the full order-to-bill cycle in SAP SD/FI — from sales order creation and credit check through delivery, picking, and billing document generation. OData callbacks flow back to ZoTok to update the dealer via WhatsApp.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 7,
+      "title": "Step 7",
+      "description": "New Invoice Notification When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "New Invoice Notification When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.",
+          "data": {
+            "label": "Screen 1 · New Invoice",
+            "screenTypeLabel": "Utility Template — Document Header + Quick Reply",
+            "description": "New Invoice Notification When the order is billed in SAP, ZoTok instantly sends the invoice PDF to the dealer on WhatsApp. The message highlights the 2.5% cash discount window (7 days) and the full due date — prompting early payment.",
+            "messages": [],
+            "time": "12:30 PM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Dispatch Notification Once the order ships from the warehouse, ZoTok sends the dispatch note PDF with transporter and vehicle details so the dealer can track their delivery.",
+          "data": {
+            "label": "Screen 2 · Dispatch Notification",
+            "screenTypeLabel": "Utility Template — Document Header + CTA URL",
+            "description": "Dispatch Notification Once the order ships from the warehouse, ZoTok sends the dispatch note PDF with transporter and vehicle details so the dealer can track their delivery.",
+            "messages": [],
+            "time": "12:32 PM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 8,
+      "title": "Step 8",
+      "description": "Cash Discount Reminder (Auto) ZoTok automatically sends this reminder 1 day before the 7-day cash discount deadline. Dealers who haven't paid yet see exactly how much they stand to save — creating urgency without being pushy.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Cash Discount Reminder (Auto) ZoTok automatically sends this reminder 1 day before the 7-day cash discount deadline. Dealers who haven't paid yet see exactly how much they stand to save — creating urgency without being pushy.",
+          "data": {
+            "label": "Screen 1 · Cash Discount Expiring",
+            "screenTypeLabel": "Utility Template — Document Header + Quick Reply (Auto-reminder)",
+            "description": "Cash Discount Reminder (Auto) ZoTok automatically sends this reminder 1 day before the 7-day cash discount deadline. Dealers who haven't paid yet see exactly how much they stand to save — creating urgency without being pushy.",
+            "messages": [],
+            "time": "10:00 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Due Date Reminder (Auto) ZoTok sends this automated nudge 3 days before the invoice due date to dealers with outstanding payments. The message references future order supply — a strong motivator for timely settlement.",
+          "data": {
+            "label": "Screen 2 · Payment Due Soon",
+            "screenTypeLabel": "Utility Template — Document Header + Quick Reply (Auto-reminder)",
+            "description": "Due Date Reminder (Auto) ZoTok sends this automated nudge 3 days before the invoice due date to dealers with outstanding payments. The message references future order supply — a strong motivator for timely settlement.",
+            "messages": [],
+            "time": "9:00 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 9,
+      "title": "Step 9",
+      "description": "Payment Received Notification ZoTok receives the bank transfer from JK Cement's ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Payment Received Notification ZoTok receives the bank transfer from JK Cement's ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.",
+          "data": {
+            "label": "Screen 1 · Payment Received",
+            "screenTypeLabel": "Utility Template — Document Header + Quick Reply",
+            "description": "Payment Received Notification ZoTok receives the bank transfer from JK Cement's ERP and notifies the dealer via WhatsApp with the payment receipt PDF. Since no invoice clearing document exists yet, ZoTok prompts the dealer to submit division-wise settlement details.",
+            "messages": [],
+            "time": "2:44 PM",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "Division Selection Dealer taps \"Submit details\" and ZoTok presents an interactive list with division-wise outstanding balances. The dealer selects Grey Cement Division (₹45,200 outstanding, closest match to the ₹1,00,000 payment) and taps Send.",
+          "data": {
+            "label": "Screen 2 · Division Selection",
+            "screenTypeLabel": "Interactive List — Session Message (24-hr window)",
+            "description": "Division Selection Dealer taps \"Submit details\" and ZoTok presents an interactive list with division-wise outstanding balances. The dealer selects Grey Cement Division (₹45,200 outstanding, closest match to the ₹1,00,000 payment) and taps Send.",
+            "messages": [
+              "Submit details"
+            ],
+            "time": "2:46 PM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-template",
+          "description": "Settlement Confirmation ZoTok instantly confirms the dealer's division selection. Once JK Cement's finance team posts the settlement (typically 2–3 business days), ZoTok sends the final notification with a Download Ledger CTA for the dealer's account statement.",
+          "data": {
+            "label": "Screen 3 · Settlement Confirmation",
+            "screenTypeLabel": "Session Message + Utility Template — Image Header + CTA",
+            "description": "Settlement Confirmation ZoTok instantly confirms the dealer's division selection. Once JK Cement's finance team posts the settlement (typically 2–3 business days), ZoTok sends the final notification with a Download Ledger CTA for the dealer's account statement.",
+            "messages": [
+              "Thanks Sharma Cement Stores for submitting details and choosing Grey Cement Division for settling the amount. You will receive the notification once the payment is settled with the respective divisions."
+            ],
+            "time": "10:14 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 10,
+      "title": "Step 10",
+      "description": "Credit Note Issued When SAP FI raises a credit note (scheme incentive or return refund), the event triggers ZoTok via webhook. ZoTok instantly sends the PDF with credit details. The dealer can view the note or tap Download Ledger to get a full statement.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Credit Note Issued When SAP FI raises a credit note (scheme incentive or return refund), the event triggers ZoTok via webhook. ZoTok instantly sends the PDF with credit details. The dealer can view the note or tap Download Ledger to get a full statement.",
+          "data": {
+            "label": "Screen 1 · Credit Note Issued",
+            "screenTypeLabel": "Utility Template — Document Header + CTA + Quick Reply",
+            "description": "Credit Note Issued When SAP FI raises a credit note (scheme incentive or return refund), the event triggers ZoTok via webhook. ZoTok instantly sends the PDF with credit details. The dealer can view the note or tap Download Ledger to get a full statement.",
+            "messages": [],
+            "time": "11:15 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Ledger on WhatsApp The dealer taps \"Download Ledger\" which sends a reply. ZoAi detects the intent and instantly responds with the ledger PDF and a View Ledger link — no app login needed.",
+          "data": {
+            "label": "Screen 2 · Ledger Statement",
+            "screenTypeLabel": "ZoAi Session Message — Document Header + View Ledger Link",
+            "description": "Ledger on WhatsApp The dealer taps \"Download Ledger\" which sends a reply. ZoAi detects the intent and instantly responds with the ledger PDF and a View Ledger link — no app login needed.",
+            "messages": [
+              "Download Ledger"
+            ],
+            "time": "11:17 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Ledger in Embedded Browser The dealer taps View Ledger to open the account statement inside WhatsApp's browser. Filter by Payment, Debit Note, Credit Note, or Sales. Download the PDF directly from here.",
+          "data": {
+            "label": "Screen 3 · Ledger Page",
+            "screenTypeLabel": "Commerce WebView — Dealer Ledger Statement",
+            "description": "Ledger in Embedded Browser The dealer taps View Ledger to open the account statement inside WhatsApp's browser. Filter by Payment, Debit Note, Credit Note, or Sales. Download the PDF directly from here.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 11,
+      "title": "Step 11",
+      "description": "Navigation Drawer Dealer taps the JK Cement logo (hamburger) in the header — the side navigation drawer slides in, giving access to Dashboard, Order History, Invoices, Payments, and Ledger from a single portal.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Navigation Drawer Dealer taps the JK Cement logo (hamburger) in the header — the side navigation drawer slides in, giving access to Dashboard, Order History, Invoices, Payments, and Ledger from a single portal.",
+          "data": {
+            "label": "Screen 1 · Navigation Menu",
+            "screenTypeLabel": "Embedded WhatsApp Web App — Self Service Side Drawer",
+            "description": "Navigation Drawer Dealer taps the JK Cement logo (hamburger) in the header — the side navigation drawer slides in, giving access to Dashboard, Order History, Invoices, Payments, and Ledger from a single portal.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Order History — PWA Dealer sees their full order history with status filters. The JK Cement logo in the header doubles as a hamburger menu — tapping it opens the navigation drawer to access other modules.",
+          "data": {
+            "label": "Screen 2 · Order History",
+            "screenTypeLabel": "Embedded WhatsApp Web App — Order Dashboard",
+            "description": "Order History — PWA Dealer sees their full order history with status filters. The JK Cement logo in the header doubles as a hamburger menu — tapping it opens the navigation drawer to access other modules.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "step1": {
+      "title": "Step 1",
+      "bodies": [
+        "Hi",
+        "Open Menu",
+        "View Products"
+      ]
+    },
+    "step3": {
+      "title": "Step 3",
+      "bodies": [
+        "Please process this order 🙏",
+        "📋 Received your order note! ZoTok AI is reading it now...",
+        "Please process this order 🙏",
+        "📋 Received your order note! ZoTok AI is reading it now..."
+      ]
+    },
+    "step9": {
+      "title": "Step 9",
+      "bodies": [
+        "Submit details",
+        "Thanks Sharma Cement Stores for submitting details and choosing Grey Cement Division for settling the amount. You will receive the notification once the payment is settled with the respective divisions."
+      ]
+    },
+    "step10": {
+      "title": "Step 10",
+      "bodies": [
+        "Download Ledger"
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "Hi",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "jkcement"
+  ],
+  "title": "Order To Cash",
+  "description": "Order To Cash",
+  "industry": []
+}

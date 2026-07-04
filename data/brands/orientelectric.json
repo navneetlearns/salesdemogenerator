@@ -1,0 +1,22 @@
+{
+  "id": "orientelectric",
+  "name": "Orient Electric",
+  "shortName": "Orient",
+  "industry": "industrial",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#E30613",
+    "brandDark": "#B30510",
+    "accent": "#1C1C1C"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

@@ -1,0 +1,22 @@
+{
+  "id": "sakkugroup",
+  "name": "Sakku Brand Fulfilment",
+  "shortName": "Sakku",
+  "industry": "general",
+  "assets": {
+    "logo": "logo.png",
+    "logoDark": "logo_dark.png",
+    "favicon": "favicon.png",
+    "heroBanner": "hero_banner.png"
+  },
+  "colors": {
+    "brand": "#163A63",
+    "brandDark": "#0F2744",
+    "accent": "#D6B06A"
+  },
+  "fonts": [
+    "-apple-system"
+  ],
+  "dealerStoreName": "Main Dealer",
+  "secondaryDealers": []
+}

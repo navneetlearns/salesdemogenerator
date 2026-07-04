@@ -1,0 +1,277 @@
+{
+  "id": "journey_dt_fulfillment_payment",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Order Alert to Fullfilment The Fullfilment's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Order Alert to Fullfilment The Fullfilment's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+          "data": {
+            "label": "Screen 1 · DT Receives Order",
+            "screenTypeLabel": "Utility Template — Text Header + CTA Buttons",
+            "description": "Order Alert to Fullfilment The Fullfilment's ZoTok channel receives the retailer's order as a WhatsApp message for review and confirmation.",
+            "messages": [],
+            "time": "10:18 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Order Review Portal Fullfilment reviews the full order details in the ZoTok portal — items, quantities, pricing, and retailer info.",
+          "data": {
+            "label": "Screen 2 · DT Order Review",
+            "screenTypeLabel": "Commerce WebView — Order Review & Edit",
+            "description": "Order Review Portal Fullfilment reviews the full order details in the ZoTok portal — items, quantities, pricing, and retailer info.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Order Accepted Fullfilment confirms the order. The retailer is automatically notified with an order acceptance message.",
+          "data": {
+            "label": "Screen 3 · DT Accepts Order",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons",
+            "description": "Order Accepted Fullfilment confirms the order. The retailer is automatically notified with an order acceptance message.",
+            "messages": [
+              "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+            ],
+            "time": "10:20 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "interactive-list",
+          "description": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+          "data": {
+            "label": "Screen 1 · Fullfilment Menu",
+            "screenTypeLabel": "Interactive List — Channel Partner Menu",
+            "description": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+            "messages": [
+              "Hi",
+              "Hello Shyam Fullfilments ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+            ],
+            "time": "10:24 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Fulfilment List Fullfilment views pending orders on the ZoTok portal and selects HDIN-3892 to process and invoice.",
+          "data": {
+            "label": "Screen 2 · Orders to Process",
+            "screenTypeLabel": "Commerce WebView — Orders Pending Billing",
+            "description": "Fulfilment List Fullfilment views pending orders on the ZoTok portal and selects HDIN-3892 to process and invoice.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Invoice Upload Fullfilment uploads the invoice PDF; ZoAi pre-populates the fields from the confirmed order, saving time.",
+          "data": {
+            "label": "Screen 3 · Upload Invoice",
+            "screenTypeLabel": "Commerce WebView — Invoice Upload & AI Parse",
+            "description": "Invoice Upload Fullfilment uploads the invoice PDF; ZoAi pre-populates the fields from the confirmed order, saving time.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+          "data": {
+            "label": "Screen 1 · Invoice Shared",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons",
+            "description": "Invoice on WhatsApp Retailer receives the invoice PDF directly on WhatsApp with a payment link and UPI QR code.",
+            "messages": [],
+            "time": "11:00 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-template",
+          "description": "UPI Payment Retailer scans the QR code or taps 'Pay Now' to complete payment via UPI — without leaving WhatsApp.",
+          "data": {
+            "label": "Screen 2 · Payment Reminder",
+            "screenTypeLabel": "Utility Template — Image Header (UPI QR) + CTA Buttons",
+            "description": "UPI Payment Retailer scans the QR code or taps 'Pay Now' to complete payment via UPI — without leaving WhatsApp.",
+            "messages": [],
+            "time": "9:00 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Payment Confirmed ZoTok sends an instant payment receipt to the retailer, closing the order-to-cash cycle.",
+          "data": {
+            "label": "Screen 3 · Payment Received",
+            "screenTypeLabel": "Utility Template — No Header",
+            "description": "Payment Confirmed ZoTok sends an instant payment receipt to the retailer, closing the order-to-cash cycle.",
+            "messages": [],
+            "time": "9:14 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "interactive-list",
+          "description": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+          "data": {
+            "label": "Screen 1 · Fullfilment Menu",
+            "screenTypeLabel": "Interactive List — Channel Partner Menu",
+            "description": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+            "messages": [
+              "Hi",
+              "Hello Shyam Fullfilments ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+            ],
+            "time": "10:24 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Retailer Selection Fullfilment picks retailers to nudge for orders and reviews order status before sending the campaign.",
+          "data": {
+            "label": "Screen 2 · Select Retailers",
+            "screenTypeLabel": "Commerce WebView — Retailer Nudge List",
+            "description": "Retailer Selection Fullfilment picks retailers to nudge for orders and reviews order status before sending the campaign.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-template",
+          "description": "Order Campaign Sent Selected retailers receive a WhatsApp nudge prompting them to place their next order directly through the channel.",
+          "data": {
+            "label": "Screen 3 · Order Nudge to Retailer",
+            "screenTypeLabel": "Utility Template — Image Header + CTA + Quick Reply",
+            "description": "Order Campaign Sent Selected retailers receive a WhatsApp nudge prompting them to place their next order directly through the channel.",
+            "messages": [],
+            "time": "11:02 AM",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "interactive-list",
+          "description": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+          "data": {
+            "label": "Screen 1 · Fullfilment Menu",
+            "screenTypeLabel": "Interactive List — Channel Partner Menu",
+            "description": "Fullfilment Menu Fullfilment accesses their self-service menu to manage order fulfilment, invoicing, and collections.",
+            "messages": [
+              "Hi",
+              "Hello Shyam Fullfilments ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+            ],
+            "time": "10:24 AM",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Invoice Dashboard Fullfilment views all retailers with pending invoices and triggers a payment nudge to 3 retailers in one tap.",
+          "data": {
+            "label": "Screen 2 · Pending Invoices",
+            "screenTypeLabel": "Commerce WebView — Invoice Payment Tracker",
+            "description": "Invoice Dashboard Fullfilment views all retailers with pending invoices and triggers a payment nudge to 3 retailers in one tap.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Payment Nudge Sent Retailer receives the invoice PDF on WhatsApp with a payment reminder and a direct UPI payment link.",
+          "data": {
+            "label": "Screen 3 · Payment Reminder",
+            "screenTypeLabel": "Buyer Perspective — Invoice Nudge sent to Ganesh",
+            "description": "Payment Nudge Sent Retailer receives the invoice PDF on WhatsApp with a payment reminder and a direct UPI payment link.",
+            "messages": [],
+            "time": "11:15 AM",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "step1": {
+      "title": "Step 1",
+      "bodies": [
+        "Order accepted ✅ All items verified. Dispatching by 19 April 2026."
+      ]
+    },
+    "step2": {
+      "title": "Step 2",
+      "bodies": [
+        "Hi",
+        "Hello Shyam Fullfilments ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+      ]
+    },
+    "step4": {
+      "title": "Step 4",
+      "bodies": [
+        "Hi",
+        "Hello Shyam Fullfilments ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+      ]
+    },
+    "step5": {
+      "title": "Step 5",
+      "bodies": [
+        "Hi",
+        "Hello Shyam Fullfilments ! 👋 Welcome to Orient Electric Partner Portal . Use the menu below to manage your orders, invoices, sales team, and campaigns."
+      ]
+    },
+    "welcome": {
+      "title": "Step 1",
+      "body": "Order accepted ✅ All items verified. Dispatching by 19 April 2026.",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "orient"
+  ],
+  "title": "Dt Fulfillment Payment",
+  "description": "Dt Fulfillment Payment",
+  "industry": []
+}

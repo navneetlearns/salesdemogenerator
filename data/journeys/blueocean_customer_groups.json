@@ -1,0 +1,207 @@
+{
+  "id": "journey_customer_groups",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "Adding Team Members Priya Nair (coordinator) creates the dedicated customer group. She adds Rajesh Shah (customer), Amit Joshi (mapped sales person), Suresh Patil (manager), and ZoAi bot — the AI agent that will process all enquiries automatically.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Adding Team Members Priya Nair (coordinator) creates the dedicated customer group. She adds Rajesh Shah (customer), Amit Joshi (mapped sales person), Suresh Patil (manager), and ZoAi bot — the AI agent that will process all enquiries automatically.",
+          "data": {
+            "label": "Screen 1 · Add Participants",
+            "screenTypeLabel": "Group Setup — Contact Picker",
+            "description": "Adding Team Members Priya Nair (coordinator) creates the dedicated customer group. She adds Rajesh Shah (customer), Amit Joshi (mapped sales person), Suresh Patil (manager), and ZoAi bot — the AI agent that will process all enquiries automatically.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-message",
+          "description": "Group Live — ZoAi Introduces Itself The group is created with all 5 members. ZoAi automatically sends a welcome message explaining how to use the group for enquiries. No manual setup required — ZoAi is active and listening from day one.",
+          "data": {
+            "label": "Screen 2 · Group Created",
+            "screenTypeLabel": "WhatsApp Group Chat — Session Messages",
+            "description": "Group Live — ZoAi Introduces Itself The group is created with all 5 members. ZoAi automatically sends a welcome message explaining how to use the group for enquiries. No manual setup required — ZoAi is active and listening from day one.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "Customer Drops the Requirement Rajesh Shah (customer) sends a free-text enquiry — SS 304 coils, 2mm × 1250mm, 5 MT, delivery Bhiwandi by next Wednesday. This is unstructured text, just as it would happen in any WhatsApp group today.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-message",
+          "description": "Customer Drops the Requirement Rajesh Shah (customer) sends a free-text enquiry — SS 304 coils, 2mm × 1250mm, 5 MT, delivery Bhiwandi by next Wednesday. This is unstructured text, just as it would happen in any WhatsApp group today.",
+          "data": {
+            "label": "Screen 1 · Customer Enquiry",
+            "screenTypeLabel": "WhatsApp Group — Session Message",
+            "description": "Customer Drops the Requirement Rajesh Shah (customer) sends a free-text enquiry — SS 304 coils, 2mm × 1250mm, 5 MT, delivery Bhiwandi by next Wednesday. This is unstructured text, just as it would happen in any WhatsApp group today.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "One Action — @zoai Trigger Priya long-presses Rajesh's message, taps Reply, and types @zoai enquiry . That's it. ZoAi reads the quoted message, extracts all structured data (material, grade, dimensions, quantity, delivery), and immediately begins processing — no form to fill, no email to send.",
+          "data": {
+            "label": "Screen 2 · Coordinator Tags @zoai",
+            "screenTypeLabel": "WhatsApp Group — Reply + @zoai Trigger",
+            "description": "One Action — @zoai Trigger Priya long-presses Rajesh's message, taps Reply, and types @zoai enquiry . That's it. ZoAi reads the quoted message, extracts all structured data (material, grade, dimensions, quantity, delivery), and immediately begins processing — no form to fill, no email to send.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "Structured Data Written to Sheet ZoAi's NLU engine parses Rajesh's free-text message and extracts: material (SS 304 Coil), dimensions (2mm × 1250mm), quantity (5 MT), delivery location (Bhiwandi), and required-by date (20-May-2026). A new row is automatically inserted into the Enquiries Google Sheet — no coordinator needed to manually type this.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Structured Data Written to Sheet ZoAi's NLU engine parses Rajesh's free-text message and extracts: material (SS 304 Coil), dimensions (2mm × 1250mm), quantity (5 MT), delivery location (Bhiwandi), and required-by date (20-May-2026). A new row is automatically inserted into the Enquiries Google Sheet — no coordinator needed to manually type this.",
+          "data": {
+            "label": "Screen 1 · Enquiry Sheet Updated",
+            "screenTypeLabel": "Google Sheets — Enquiries Log",
+            "description": "Structured Data Written to Sheet ZoAi's NLU engine parses Rajesh's free-text message and extracts: material (SS 304 Coil), dimensions (2mm × 1250mm), quantity (5 MT), delivery location (Bhiwandi), and required-by date (20-May-2026). A new row is automatically inserted into the Enquiries Google Sheet — no coordinator needed to manually type this.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Instant Acknowledgement in Group ZoAi replies in the group within seconds — confirming the enquiry reference number and summarising the structured details back to the customer. The customer gets a confirmation and the coordinator doesn't need to type a single word.",
+          "data": {
+            "label": "Screen 2 · Group Acknowledgement",
+            "screenTypeLabel": "WhatsApp Group — ZoAi Session Reply",
+            "description": "Instant Acknowledgement in Group ZoAi replies in the group within seconds — confirming the enquiry reference number and summarising the structured details back to the customer. The customer gets a confirmation and the coordinator doesn't need to type a single word.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "Zero Manual Steps — Fully Automated From the moment Priya tags @zoai, the entire quote preparation, routing, approval, and PDF generation happens automatically. The team focuses on the approval decision — everything else is handled by ZoTok + Google Sheets automation.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Zero Manual Steps — Fully Automated From the moment Priya tags @zoai, the entire quote preparation, routing, approval, and PDF generation happens automatically. The team focuses on the approval decision — everything else is handled by ZoTok + Google Sheets automation.",
+          "data": {
+            "label": "Internal Process — Behind the Scenes",
+            "screenTypeLabel": "Automation Flow — ZoTok × Google Sheets",
+            "description": "Zero Manual Steps — Fully Automated From the moment Priya tags @zoai, the entire quote preparation, routing, approval, and PDF generation happens automatically. The team focuses on the approval decision — everything else is handled by ZoTok + Google Sheets automation.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "Sheet Updated — ZoAi Triggers Delivery Suresh Patil approves the quote in the ZoTok admin portal. The sheet status updates to \"Quote Approved\", Quote No QT-2026-01129 is written, and the PDF URL is attached. ZoAi detects this status change via a sheet webhook and immediately prepares to send the quote PDF back into the customer group.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Sheet Updated — ZoAi Triggers Delivery Suresh Patil approves the quote in the ZoTok admin portal. The sheet status updates to \"Quote Approved\", Quote No QT-2026-01129 is written, and the PDF URL is attached. ZoAi detects this status change via a sheet webhook and immediately prepares to send the quote PDF back into the customer group.",
+          "data": {
+            "label": "Quote Approved — Sheet Updated",
+            "screenTypeLabel": "Google Sheets — Enquiries Log (Updated)",
+            "description": "Sheet Updated — ZoAi Triggers Delivery Suresh Patil approves the quote in the ZoTok admin portal. The sheet status updates to \"Quote Approved\", Quote No QT-2026-01129 is written, and the PDF URL is attached. ZoAi detects this status change via a sheet webhook and immediately prepares to send the quote PDF back into the customer group.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "title": "Step 6",
+      "description": "Group Notification + Review Link ZoAi sends the PDF in the customer group (within 24hr session window — no template approval needed) along with a short review URL. It also informs Rajesh that a formal approval message has been sent directly to his WhatsApp from Blue Ocean's official business account.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-message",
+          "description": "Group Notification + Review Link ZoAi sends the PDF in the customer group (within 24hr session window — no template approval needed) along with a short review URL. It also informs Rajesh that a formal approval message has been sent directly to his WhatsApp from Blue Ocean's official business account.",
+          "data": {
+            "label": "Screen 1 · Quote PDF Sent to Group",
+            "screenTypeLabel": "WhatsApp Group — Session Message (Document + Text)",
+            "description": "Group Notification + Review Link ZoAi sends the PDF in the customer group (within 24hr session window — no template approval needed) along with a short review URL. It also informs Rajesh that a formal approval message has been sent directly to his WhatsApp from Blue Ocean's official business account.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Official WABA Utility Template — Sent to Customer's WhatsApp Simultaneously, Blue Ocean's official WhatsApp Business Account sends a formal Utility Template directly to Rajesh's personal WhatsApp. The document header carries the quote PDF; the body confirms all key details; CTA buttons let Rajesh approve or reject with a single tap — no reply typing needed.",
+          "data": {
+            "label": "Screen 2 · WABA Utility Template (DM)",
+            "screenTypeLabel": "Utility Template — Document Header + CTA Buttons",
+            "description": "Official WABA Utility Template — Sent to Customer's WhatsApp Simultaneously, Blue Ocean's official WhatsApp Business Account sends a formal Utility Template directly to Rajesh's personal WhatsApp. The document header carries the quote PDF; the body confirms all key details; CTA buttons let Rajesh approve or reject with a single tap — no reply typing needed.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 7,
+      "title": "Step 7",
+      "description": "Order Confirmed — Full Cycle Complete Rajesh types the confirmation keyword in the group. ZoAi detects it, logs the order confirmation against QT-2026-01129, updates the sheet status to \"Booking In Progress\", and replies in the group. From free-text enquiry to confirmed order — entirely within WhatsApp, with minimal team effort.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Order Confirmed — Full Cycle Complete Rajesh types the confirmation keyword in the group. ZoAi detects it, logs the order confirmation against QT-2026-01129, updates the sheet status to \"Booking In Progress\", and replies in the group. From free-text enquiry to confirmed order — entirely within WhatsApp, with minimal team effort.",
+          "data": {
+            "label": "Screen 1 · Order Confirmed",
+            "screenTypeLabel": "WhatsApp Group — Customer Confirmation + ZoAi Capture",
+            "description": "Order Confirmed — Full Cycle Complete Rajesh types the confirmation keyword in the group. ZoAi detects it, logs the order confirmation against QT-2026-01129, updates the sheet status to \"Booking In Progress\", and replies in the group. From free-text enquiry to confirmed order — entirely within WhatsApp, with minimal team effort.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "welcome": {
+      "title": "Step 1",
+      "body": "Step 1",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "blueocean"
+  ],
+  "title": "Customer Groups",
+  "description": "Customer Groups",
+  "industry": []
+}

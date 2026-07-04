@@ -1,0 +1,223 @@
+{
+  "id": "journey_sales_to_cash",
+  "steps": [
+    {
+      "num": 1,
+      "title": "Step 1",
+      "description": "",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "",
+          "data": {
+            "label": "Step 1 · Architecture",
+            "screenTypeLabel": "TallyPrime × ZoTok × WhatsApp Integration",
+            "description": "",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "title": "Step 2",
+      "description": "Invoice Auto-Delivered from TallyPrime — Zero Manual Touch The moment a Sales Invoice voucher is saved in TallyPrime, a webhook fires to ZoTok. The Meta-approved utility template fills with TallyPrime data (invoice no, amount, due date) and lands on Vikram's WhatsApp — no email chase, no PDF attachment forwarding.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "Invoice Auto-Delivered from TallyPrime — Zero Manual Touch The moment a Sales Invoice voucher is saved in TallyPrime, a webhook fires to ZoTok. The Meta-approved utility template fills with TallyPrime data (invoice no, amount, due date) and lands on Vikram's WhatsApp — no email chase, no PDF attachment forwarding.",
+          "data": {
+            "label": "Screen 1 · Invoice Delivered",
+            "screenTypeLabel": "WABA Utility Template — Document Header + Quick Reply",
+            "description": "Invoice Auto-Delivered from TallyPrime — Zero Manual Touch The moment a Sales Invoice voucher is saved in TallyPrime, a webhook fires to ZoTok. The Meta-approved utility template fills with TallyPrime data (invoice no, amount, due date) and lands on Vikram's WhatsApp — no email chase, no PDF attachment forwarding.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-document",
+          "description": "Dispatch Event → Same Customer Thread When a Delivery Note voucher is confirmed in TallyPrime, a second webhook fires. The dispatch template — with transporter, vehicle, ETA — lands in the same WhatsApp thread Vikram already has open. One continuous timeline, not a separate email or call.",
+          "data": {
+            "label": "Screen 2 · Dispatch Note",
+            "screenTypeLabel": "WABA Utility Template — Document Header + CTA URL + Quick Reply",
+            "description": "Dispatch Event → Same Customer Thread When a Delivery Note voucher is confirmed in TallyPrime, a second webhook fires. The dispatch template — with transporter, vehicle, ETA — lands in the same WhatsApp thread Vikram already has open. One continuous timeline, not a separate email or call.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "title": "Step 3",
+      "description": "TallyPrime-Driven Cash Discount Offer The day after dispatch, ZoTok reads the payment terms configured in TallyPrime and triggers a proactive discount offer. Vikram sees a clear \"save ₹5,400 if you pay early\" — a one-tap incentive that improves BOS cashflow without any sales rep chasing. The discount is automatically reconciled in TallyPrime when he pays within the window.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "TallyPrime-Driven Cash Discount Offer The day after dispatch, ZoTok reads the payment terms configured in TallyPrime and triggers a proactive discount offer. Vikram sees a clear \"save ₹5,400 if you pay early\" — a one-tap incentive that improves BOS cashflow without any sales rep chasing. The discount is automatically reconciled in TallyPrime when he pays within the window.",
+          "data": {
+            "label": "Screen 1 · Cash Discount Offer",
+            "screenTypeLabel": "WABA Utility Template — Text Header + Quick Reply",
+            "description": "TallyPrime-Driven Cash Discount Offer The day after dispatch, ZoTok reads the payment terms configured in TallyPrime and triggers a proactive discount offer. Vikram sees a clear \"save ₹5,400 if you pay early\" — a one-tap incentive that improves BOS cashflow without any sales rep chasing. The discount is automatically reconciled in TallyPrime when he pays within the window.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Automated Reminder Before Due Date Two days before the invoice due date, ZoTok reads the bill reference due date from TallyPrime and triggers a friendly automated reminder. Vikram never forgets — Pay Now is one tap, and if he has questions, Talk to Amit opens a direct chat with his sales executive. Cashflow improves without uncomfortable phone calls.",
+          "data": {
+            "label": "Screen 2 · Payment Reminder",
+            "screenTypeLabel": "WABA Utility Template — Text Header + Quick Reply",
+            "description": "Automated Reminder Before Due Date Two days before the invoice due date, ZoTok reads the bill reference due date from TallyPrime and triggers a friendly automated reminder. Vikram never forgets — Pay Now is one tap, and if he has questions, Talk to Amit opens a direct chat with his sales executive. Cashflow improves without uncomfortable phone calls.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "title": "Step 4",
+      "description": "TallyPrime Receipt Entry → Instant Acknowledgement The moment a Receipt voucher is saved in TallyPrime against Vikram's ledger, a webhook fires to ZoTok. The utility template fills with TallyPrime data — UTR, amount, date, cash discount auto-applied — and lands on his WhatsApp in seconds. No manual receipt emails, no delay.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "TallyPrime Receipt Entry → Instant Acknowledgement The moment a Receipt voucher is saved in TallyPrime against Vikram's ledger, a webhook fires to ZoTok. The utility template fills with TallyPrime data — UTR, amount, date, cash discount auto-applied — and lands on his WhatsApp in seconds. No manual receipt emails, no delay.",
+          "data": {
+            "label": "Screen 1 · Payment Received",
+            "screenTypeLabel": "WABA Utility Template — Text Header + CTA URL",
+            "description": "TallyPrime Receipt Entry → Instant Acknowledgement The moment a Receipt voucher is saved in TallyPrime against Vikram's ledger, a webhook fires to ZoTok. The utility template fills with TallyPrime data — UTR, amount, date, cash discount auto-applied — and lands on his WhatsApp in seconds. No manual receipt emails, no delay.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "interactive-list",
+          "description": "One-tap Account Snapshot — Always Available Tapping \"View Ledger\" triggers an interactive list (session message within the 24hr window). Vikram picks from invoices, payments, credit notes, or outstanding — everything from a single menu. No calls to the accounts team, no waiting.",
+          "data": {
+            "label": "Screen 2 · Account Snapshot",
+            "screenTypeLabel": "Interactive List — Session Message (24hr window)",
+            "description": "One-tap Account Snapshot — Always Available Tapping \"View Ledger\" triggers an interactive list (session message within the 24hr window). Vikram picks from invoices, payments, credit notes, or outstanding — everything from a single menu. No calls to the accounts team, no waiting.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Ledger Always One Tap Away — No Calls, No Emails The ledger is a live view of Vikram's TallyPrime account, synced in real time via ZoTok and rendered inside WhatsApp's built-in browser. He can see every debit, credit, and cash discount. The ₹5,400 cash discount appears as a separate credit line — full transparency, zero reconciliation disputes.",
+          "data": {
+            "label": "Screen 3 · Ledger WebView",
+            "screenTypeLabel": "zonodigital.com — Dealer Account Statement",
+            "description": "Ledger Always One Tap Away — No Calls, No Emails The ledger is a live view of Vikram's TallyPrime account, synced in real time via ZoTok and rendered inside WhatsApp's built-in browser. He can see every debit, credit, and cash discount. The ₹5,400 cash discount appears as a separate credit line — full transparency, zero reconciliation disputes.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "title": "Step 5",
+      "description": "TallyPrime Credit Note → Instant WhatsApp Notification A Credit Note voucher is saved in TallyPrime → ZoTok webhook fires → WABA utility template with red PDF icon lands on Vikram's WhatsApp in seconds. Red PDF icon distinguishes credit/return documents from pink invoices at a glance. Note: demo shows both CTA URL and Quick Reply buttons to illustrate the flow — production templates use one button type only.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "whatsapp-document",
+          "description": "TallyPrime Credit Note → Instant WhatsApp Notification A Credit Note voucher is saved in TallyPrime → ZoTok webhook fires → WABA utility template with red PDF icon lands on Vikram's WhatsApp in seconds. Red PDF icon distinguishes credit/return documents from pink invoices at a glance. Note: demo shows both CTA URL and Quick Reply buttons to illustrate the flow — production templates use one button type only.",
+          "data": {
+            "label": "Screen 1 · Credit Note",
+            "screenTypeLabel": "WABA Utility Template — Document Header (Red PDF) + Buttons",
+            "description": "TallyPrime Credit Note → Instant WhatsApp Notification A Credit Note voucher is saved in TallyPrime → ZoTok webhook fires → WABA utility template with red PDF icon lands on Vikram's WhatsApp in seconds. Red PDF icon distinguishes credit/return documents from pink invoices at a glance. Note: demo shows both CTA URL and Quick Reply buttons to illustrate the flow — production templates use one button type only.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "whatsapp-message",
+          "description": "Quick Reply → ZoAi → Ledger PDF in Seconds Vikram taps \"Download Ledger\" → the keyword enters the 24hr session window → ZoAi detects it and responds instantly with the PDF statement. No template approval needed for session messages. The ledger includes the credit note row, so Vikram sees a complete picture before his next order.",
+          "data": {
+            "label": "Screen 2 · ZoAi Sends Ledger",
+            "screenTypeLabel": "Session Message — Quick Reply → ZoAi (24hr window)",
+            "description": "Quick Reply → ZoAi → Ledger PDF in Seconds Vikram taps \"Download Ledger\" → the keyword enters the 24hr session window → ZoAi detects it and responds instantly with the PDF statement. No template approval needed for session messages. The ledger includes the credit note row, so Vikram sees a complete picture before his next order.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Credit Note Reflected Instantly — One Source of Truth The credit note row (CN-2026-00088 · ₹4,800 CR) appears immediately after TallyPrime saves the Credit Note voucher. The closing balance of ₹4,800 CR carries forward to the next invoice — Vikram sees exactly what will be offset. No reconciliation calls, no email attachments, no disputes.",
+          "data": {
+            "label": "Screen 3 · Ledger Updated",
+            "screenTypeLabel": "zonodigital.com — Credit Note Reflected",
+            "description": "Credit Note Reflected Instantly — One Source of Truth The credit note row (CN-2026-00088 · ₹4,800 CR) appears immediately after TallyPrime saves the Credit Note voucher. The closing balance of ₹4,800 CR carries forward to the next invoice — Vikram sees exactly what will be offset. No reconciliation calls, no email attachments, no disputes.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "title": "Step 6",
+      "description": "Navigation Drawer — Everything One Tap Away Vikram taps the VP avatar in the header — the side navigation drawer slides in, giving access to Orders, Invoices, Payments, Credit Notes, Ledger, and Rate Card from a single portal. No app download, no login screen, no email chain.",
+      "tags": [],
+      "screens": [
+        {
+          "type": "pwa-webview",
+          "description": "Navigation Drawer — Everything One Tap Away Vikram taps the VP avatar in the header — the side navigation drawer slides in, giving access to Orders, Invoices, Payments, Credit Notes, Ledger, and Rate Card from a single portal. No app download, no login screen, no email chain.",
+          "data": {
+            "label": "Screen 1 · Navigation Drawer",
+            "screenTypeLabel": "Embedded WhatsApp Web App — Self-Service Side Drawer",
+            "description": "Navigation Drawer — Everything One Tap Away Vikram taps the VP avatar in the header — the side navigation drawer slides in, giving access to Orders, Invoices, Payments, Credit Notes, Ledger, and Rate Card from a single portal. No app download, no login screen, no email chain.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        },
+        {
+          "type": "pwa-webview",
+          "description": "Full Order History — No Rep Calls Required Vikram taps \"Orders\" in the drawer and sees every order, status, and delivery date in one scrollable list. SO-2026-00789 (SS 316 Plates, 2MT) shows \"Delivered\" — the complete sales-to-cash journey from invoice to delivery is visible in one thread. No phone call to BOS, no email chain.",
+          "data": {
+            "label": "Screen 2 · Orders Dashboard",
+            "screenTypeLabel": "Embedded WhatsApp Web App — Order History",
+            "description": "Full Order History — No Rep Calls Required Vikram taps \"Orders\" in the drawer and sees every order, status, and delivery date in one scrollable list. SO-2026-00789 (SS 316 Plates, 2MT) shows \"Delivered\" — the complete sales-to-cash journey from invoice to delivery is visible in one thread. No phone call to BOS, no email chain.",
+            "messages": [],
+            "time": "",
+            "cta": []
+          }
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "welcome": {
+      "title": "Step 1",
+      "body": "Step 1",
+      "time": "",
+      "cta": ""
+    }
+  },
+  "brands": [
+    "blueocean"
+  ],
+  "title": "Sales To Cash",
+  "description": "Sales To Cash",
+  "industry": []
+}

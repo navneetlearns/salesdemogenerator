@@ -1,5 +1,5 @@
 {
-  "id": "journey_defect_alert_management",
+  "id": "vini_retailer_loyalty",
   "steps": [],
   "messages": {
     "welcome": {
@@ -10,9 +10,9 @@
     }
   },
   "brands": [
-    "insightzz"
+    "vn_fogg"
   ],
-  "title": "Defect Alert Management",
-  "description": "Defect Alert Management",
+  "title": "Fogg Retailer Loyalty",
+  "description": "Fogg Retailer Loyalty",
   "industry": []
 }
