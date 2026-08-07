@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Campaign: WhatsApp Settings &amp; Template List</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;display:flex;min-height:100vh;}
+.preview-pane{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 24px;gap:16px;overflow-y:auto;}
+.spec-pane{width:360px;background:#fff;border-left:1px solid #e0e0e0;overflow-y:auto;flex-shrink:0;}
+.pane-head{padding:18px 20px 14px;border-bottom:1px solid #f0f0f0;}
+.pane-head h2{font-size:14px;font-weight:700;color:#111;}
+.pane-head p{font-size:11.5px;color:#888;margin-top:3px;}
+.spec-section{padding:14px 20px;border-bottom:1px solid #f5f5f5;}
+.spec-section h3{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.spec-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:12px;}
+.spec-row .lbl{color:#888;flex-shrink:0;width:140px;}
+.spec-row .val{color:#111;font-weight:500;text-align:right;word-break:break-all;}
+.spec-row .val.code{font-family:monospace;font-size:11px;background:#f5f5f5;padding:1px 5px;border-radius:3px;}
+.checklist{list-style:none;font-size:12px;display:flex;flex-direction:column;gap:5px;}
+.checklist li{padding:2px 0;color:#333;line-height:1.5;}
+.checklist li::before{content:'✓ ';color:#22C55E;font-weight:700;}
+.checklist li.warn::before{content:'⚠ ';color:#E65100;}
+.preview-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;align-self:flex-start;}
+
+/* Portal shell */
+.portal-wrap{width:100%;max-width:960px;border-radius:10px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);}
+.browser-chrome{background:#e8e8e8;padding:8px 14px;display:flex;align-items:center;gap:10px;border:1px solid #d0d0d0;border-bottom:none;border-radius:10px 10px 0 0;}
+.tls{display:flex;gap:5px;}.tl{width:11px;height:11px;border-radius:50%;}
+.tl-r{background:#ff5f57;}.tl-a{background:#febc2e;}.tl-g{background:#28c840;}
+.url-bar{flex:1;background:#fff;border-radius:5px;padding:4px 12px;font-size:12px;color:#555;text-align:center;border:1px solid #ddd;}
+.portal-body{display:flex;height:700px;border:1px solid #d0d0d0;border-top:none;border-radius:0 0 10px 10px;overflow:hidden;}
+.nav-left{width:48px;background:#132c45;display:flex;flex-direction:column;align-items:center;padding:12px 0;flex-shrink:0;gap:4px;}
+.nav-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.nav-icon.settings-active{background:rgba(255,255,255,.15);}
+.nav-spacer{flex:1;}
+.nav-avatar{width:28px;height:28px;border-radius:50%;background:#0058d9;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.nav-sub{width:68px;background:#fff;border-right:1px solid #eee;display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;}
+.nav-sub-top{flex:1;padding:6px 0;}
+.nav-sub-item{padding:8px 4px;text-align:center;font-size:9.5px;color:#595959;cursor:pointer;line-height:1.3;}
+.nav-sub-item.active{color:#32a7e8;font-weight:600;}
+.nav-sub-div{height:1px;background:#f0f0f0;margin:4px 10px;}
+.nav-sub-bottom{padding:8px 4px;text-align:center;border-top:1px solid #f0f0f0;}
+.powered-by{font-size:6px;color:#595959;display:block;margin-bottom:4px;}
+.zotok-logo{width:36px;height:12px;background:#ecf0f5;border-radius:3px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#0058d9;}
+.content-area{flex:1;background:#ecf0f5;display:flex;flex-direction:column;overflow:hidden;}
+.content-scroll{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+
+/* WABA card */
+.waba-card{background:#fff;border-radius:10px;overflow:hidden;border:1px solid #eee;}
+.waba-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #eee;}
+.waba-name{font-size:15px;font-weight:700;color:#000;}
+.waba-default-badge{background:#e8f0fe;color:#1a73e8;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:8px;}
+.waba-actions{display:flex;align-items:center;gap:8px;}
+.btn-link{color:#32a7e8;font-size:12.5px;font-weight:500;cursor:pointer;background:none;border:none;}
+.waba-details{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:0;}
+.waba-field{padding:12px 16px;border-right:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;}
+.waba-field:nth-child(3n){border-right:none;}
+.waba-field:nth-last-child(-n+3){border-bottom:none;}
+.waba-field-label{font-size:11.5px;color:#595959;margin-bottom:4px;}
+.waba-field-value{font-size:14px;font-weight:600;color:#000;}
+.status-active{display:inline-flex;align-items:center;gap:4px;background:#e8f5e9;color:#135439;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px;}
+.quality-green{color:#22a567;font-weight:600;}
+.other-details-link{padding:10px 16px;border-top:1px solid #f0f0f0;}
+
+/* Templates card */
+.templates-card{background:#fff;border-radius:10px;overflow:hidden;border:1px solid #eee;flex:1;}
+.templates-header{padding:10px 16px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:0;}
+.tmpl-tab{padding:8px 16px;font-size:13px;font-weight:500;color:#595959;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;}
+.tmpl-tab.active{color:#fff;background:#32a7e8;border-radius:4px 4px 0 0;}
+.tmpl-toolbar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid #eee;}
+.tmpl-search{flex:1;border:1px solid #d9d9d9;border-radius:6px;padding:7px 10px 7px 28px;font-size:12px;color:#262626;background:#fff url("data:image/svg+xml,%3Csvg width='12' height='12' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='8' stroke='%238c8c8c' stroke-width='2'/%3E%3Cpath d='M21 21l-4.35-4.35' stroke='%238c8c8c' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 8px center;}
+.tmpl-date{border:1px solid #d9d9d9;border-radius:6px;padding:7px 10px;font-size:12px;color:#262626;background:#fff;}
+.tmpl-add-btn{background:#32a7e8;color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.pagination{font-size:12px;color:#8c8c8c;margin-left:auto;}
+
+/* Table */
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px;}
+.tbl th{padding:9px 12px;text-align:left;font-weight:500;color:#8c8c8c;font-size:11.5px;border-bottom:1px solid #eee;white-space:nowrap;}
+.tbl td{padding:10px 12px;border-bottom:1px solid #f5f5f5;color:#333;vertical-align:top;}
+.tbl tr:nth-child(even) td{background:#fafcff;}
+.tmpl-name{font-weight:600;color:#262626;font-size:13px;}
+.tmpl-new-badge{background:#e8f0fe;color:#1a73e8;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;margin-left:4px;}
+.tmpl-category{font-size:11px;color:#595959;margin-top:2px;}
+.tmpl-body-preview{font-size:11px;color:#595959;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.status-modified{display:inline-flex;align-items:center;background:#fff8e1;color:#734d00;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.status-rejected{display:inline-flex;align-items:center;background:#fce8e8;color:#631805;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.status-active-badge{display:inline-flex;align-items:center;background:#e8f5e9;color:#135439;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.lang-text{font-size:12px;color:#262626;}
+.act-view{color:#32a7e8;font-size:12px;font-weight:500;cursor:pointer;background:none;border:none;}
+.more-badge{background:#f0f0f0;color:#595959;font-size:9px;font-weight:600;padding:1px 5px;border-radius:8px;margin-left:4px;}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PREVIEW PANE ═══════════════════ -->
+<div class="preview-pane">
+  <div class="preview-label">Settings → WhatsApp: WABA Details + Template List</div>
+
+  <div class="portal-wrap">
+    <div class="browser-chrome">
+      <div class="tls"><div class="tl tl-r"></div><div class="tl tl-a"></div><div class="tl tl-g"></div></div>
+      <div class="url-bar">🔒 app.zotok.ai/settings/whatsapp</div>
+    </div>
+
+    <div class="portal-body">
+      <!-- Left nav (Settings active) -->
+      <div class="nav-left">
+        <div class="nav-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/></svg>
+        </div>
+        <div class="nav-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="rgba(255,255,255,.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-spacer"></div>
+        <div class="nav-icon settings-active">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="#fff" stroke-width="1.8"/></svg>
+        </div>
+        <div class="nav-avatar">Z</div>
+      </div>
+
+      <!-- Settings sub-nav -->
+      <div class="nav-sub">
+        <div class="nav-sub-top">
+          <div class="nav-sub-item">Account</div>
+          <div class="nav-sub-item">My Team</div>
+          <div class="nav-sub-item active">WhatsApp</div>
+          <div class="nav-sub-item">Chat Widget</div>
+          <div class="nav-sub-item">Apps</div>
+          <div class="nav-sub-div"></div>
+          <div class="nav-sub-item">CFA's</div>
+          <div class="nav-sub-item">Divisions</div>
+          <div class="nav-sub-item">Notification</div>
+          <div class="nav-sub-div"></div>
+          <div class="nav-sub-item">Bank Details</div>
+          <div class="nav-sub-item">Apps &amp; Consent</div>
+          <div class="nav-sub-item">Config Settings</div>
+          <div class="nav-sub-item">GST portal</div>
+        </div>
+        <div class="nav-sub-bottom">
+          <span class="powered-by">Powered By</span>
+          <div class="zotok-logo">ZoTok</div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="content-area">
+        <div class="content-scroll">
+
+          <!-- WABA details card -->
+          <div class="waba-card">
+            <div class="waba-header">
+              <div>
+                <span class="waba-name">Hero Motors Ltd</span>
+                <span class="waba-default-badge">Default</span>
+              </div>
+              <div class="waba-actions">
+                <button class="btn-link">Refresh</button>
+                <button class="btn-link">Actions ▾</button>
+              </div>
+            </div>
+            <div class="waba-details">
+              <div class="waba-field">
+                <div class="waba-field-label">WABA ID</div>
+                <div class="waba-field-value">3984937483747834</div>
+              </div>
+              <div class="waba-field">
+                <div class="waba-field-label">WhatsApp Number</div>
+                <div class="waba-field-value">+91 75683 70625</div>
+              </div>
+              <div class="waba-field">
+                <div class="waba-field-label">Message Limit</div>
+                <div class="waba-field-value">500 / day</div>
+              </div>
+              <div class="waba-field">
+                <div class="waba-field-label">Quality Rating</div>
+                <div class="waba-field-value quality-green">● Green</div>
+              </div>
+              <div class="waba-field">
+                <div class="waba-field-label">Service Provider</div>
+                <div class="waba-field-value">Redington Group</div>
+              </div>
+              <div class="waba-field">
+                <div class="waba-field-label">Status</div>
+                <div class="waba-field-value">
+                  <span class="status-active">● Active Now</span>
+                </div>
+              </div>
+            </div>
+            <div class="other-details-link">
+              <button class="btn-link">Other details →</button>
+            </div>
+          </div>
+
+          <!-- Templates card -->
+          <div class="templates-card">
+            <!-- Sub-tabs -->
+            <div class="templates-header">
+              <div style="display:flex;border-bottom:none;gap:0;">
+                <div class="tmpl-tab active">Custom Templates</div>
+                <div class="tmpl-tab">Default Templates</div>
+              </div>
+            </div>
+
+            <!-- Toolbar -->
+            <div class="tmpl-toolbar">
+              <input class="tmpl-search" placeholder="Search">
+              <input class="tmpl-date" placeholder="DD/MM/YYYY - DD/MM/YYYY" style="font-size:11px;width:150px;">
+              <button class="tmpl-add-btn">+ Add Template</button>
+              <span class="pagination">1 - 20 of 100 · 20/page</span>
+            </div>
+
+            <!-- Showing results label + filter tabs -->
+            <div style="padding:6px 16px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:12px;font-size:12px;">
+              <span style="color:#262626;">Showing Results for <strong>"test"</strong></span>
+              <button class="btn-link" style="font-size:12px;">Templates</button>
+              <span style="color:#454545;cursor:pointer;">Consumption Metrics</span>
+            </div>
+
+            <!-- Table -->
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th style="width:36px;">S.no</th>
+                  <th>Template Name</th>
+                  <th>Language</th>
+                  <th>Preview</th>
+                  <th>Status</th>
+                  <th>Last Edited</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="color:#8c8c8c;">1</td>
+                  <td>
+                    <div class="tmpl-name">new_order_created <span class="tmpl-new-badge">New</span></div>
+                    <div class="tmpl-category">Utility</div>
+                  </td>
+                  <td><span class="lang-text">English</span></td>
+                  <td><div class="tmpl-body-preview">Hi {{1}}, We're thrilled to welcome you to Zotok! Thank you for choosing us. 😄</div></td>
+                  <td><span class="status-modified">Modified</span> <span class="more-badge">+2</span></td>
+                  <td style="color:#262626;font-size:12px;">5 days ago</td>
+                  <td><button class="act-view">View</button></td>
+                </tr>
+                <tr>
+                  <td style="color:#8c8c8c;">2</td>
+                  <td>
+                    <div class="tmpl-name">scheduled_report_zono_digital <span class="tmpl-new-badge">New</span></div>
+                    <div class="tmpl-category">Marketing</div>
+                  </td>
+                  <td><span class="lang-text">English</span></td>
+                  <td><div class="tmpl-body-preview">Hi {{1}}, We're thrilled to welcome you to Zotok! Thank you for choosing us. 😄</div></td>
+                  <td><span class="status-rejected">Rejected</span> <span class="more-badge">+2</span></td>
+                  <td style="color:#595959;font-size:12px;">3 weeks ago</td>
+                  <td><button class="act-view">View</button></td>
+                </tr>
+                <tr>
+                  <td style="color:#8c8c8c;">3</td>
+                  <td>
+                    <div class="tmpl-name">new_order_created <span class="tmpl-new-badge">New</span></div>
+                    <div class="tmpl-category">Utility</div>
+                  </td>
+                  <td><span class="lang-text">Hindi</span></td>
+                  <td><div class="tmpl-body-preview">{{1}} - - - 🛒 नया ऑर्डर बनाया गया 🎉 आपका ऑर्डर सबमिट करने के लिए तैयार है</div></td>
+                  <td><span class="status-active-badge">Active</span> <span class="more-badge">+2</span></td>
+                  <td style="color:#262626;font-size:12px;">5 days ago</td>
+                  <td><button class="act-view">View</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="padding:10px 16px;font-size:12px;color:#8c8c8c;display:flex;justify-content:space-between;border-top:1px solid #eee;">
+              <span>Showing 1–3 of 100</span>
+              <span>← 1 2 3 … 5 →</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════ SPEC PANE ═══════════════════ -->
+<div class="spec-pane">
+  <div class="pane-head">
+    <h2>WhatsApp Settings + Template List</h2>
+    <p>Settings → WhatsApp · 1280×832 · WABA card + templates table</p>
+  </div>
+
+  <div class="spec-section">
+    <h3>When to Use</h3>
+    <p style="font-size:12px;color:#555;line-height:1.6;">Show this screen when depicting how an admin views their connected WhatsApp Business Account (WABA) details, or manages their approved/pending templates. This is the management hub for WhatsApp configuration.</p>
+  </div>
+
+  <div class="spec-section">
+    <h3>WABA Details Card</h3>
+    <div class="spec-row"><span class="lbl">Business name</span><span class="val">Large header, 15px, weight 700</span></div>
+    <div class="spec-row"><span class="lbl">Default badge</span><span class="val code">bg #e8f0fe, text #1a73e8</span></div>
+    <div class="spec-row"><span class="lbl">Fields grid</span><span class="val">3-column grid: WABA ID, WA Number, Message Limit, Quality Rating, Service Provider, Status</span></div>
+    <div class="spec-row"><span class="lbl">Quality Rating Green</span><span class="val code">color #22a567 with ● dot</span></div>
+    <div class="spec-row"><span class="lbl">Status Active badge</span><span class="val code">bg #e8f5e9, text #135439</span></div>
+    <div class="spec-row"><span class="lbl">Actions</span><span class="val">Refresh | Actions dropdown (with danger actions: Disconnect, Lock, Delete)</span></div>
+    <div class="spec-row"><span class="lbl">Other details link</span><span class="val code">color #32a7e8</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Actions Dropdown Menu Items</h3>
+    <ul class="checklist">
+      <li>View Other Details</li>
+      <li>Make as Default</li>
+      <li>Enable MM Lite</li>
+      <li>Add Banner Image</li>
+      <li>Download</li>
+      <li>Share</li>
+      <li class="warn"><strong style="color:#dd360c;">Disconnect</strong> — danger color #dd360c</li>
+      <li class="warn"><strong style="color:#dd360c;">Lock</strong> — danger color #dd360c</li>
+      <li class="warn"><strong style="color:#dd360c;">Delete</strong> — danger color #dd360c</li>
+    </ul>
+  </div>
+
+  <div class="spec-section">
+    <h3>Templates Table</h3>
+    <div class="spec-row"><span class="lbl">Tabs</span><span class="val">Default Templates / Custom Templates</span></div>
+    <div class="spec-row"><span class="lbl">Active tab style</span><span class="val code">bg #32a7e8, white text, rounded top</span></div>
+    <div class="spec-row"><span class="lbl">Toolbar</span><span class="val">Search + Date filter + Add Template button + pagination</span></div>
+    <div class="spec-row"><span class="lbl">Add Template btn</span><span class="val code">bg #32a7e8, white text</span></div>
+    <div class="spec-row"><span class="lbl">Columns</span><span class="val">S.no, Template Name, Language, Preview, Status, Last Edited, Actions</span></div>
+    <div class="spec-row"><span class="lbl">Actions</span><span class="val code">View (color #32a7e8)</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Template Status Badges</h3>
+    <div class="spec-row"><span class="lbl">Modified</span><span class="val code">bg #fff8e1, text #734d00 (amber)</span></div>
+    <div class="spec-row"><span class="lbl">Rejected</span><span class="val code">bg #fce8e8, text #631805 (red)</span></div>
+    <div class="spec-row"><span class="lbl">Active</span><span class="val code">bg #e8f5e9, text #135439 (green)</span></div>
+    <div class="spec-row"><span class="lbl">Pending / New</span><span class="val code">bg #e8f0fe, text #1a73e8 (blue)</span></div>
+    <div class="spec-row"><span class="lbl">+N badge</span><span class="val">Shows additional language versions: +2</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Sample Templates (from Figma)</h3>
+    <div class="spec-row"><span class="lbl">new_order_created</span><span class="val">Utility · English · Modified</span></div>
+    <div class="spec-row"><span class="lbl">scheduled_report_zono_digital</span><span class="val">Marketing · English · Rejected</span></div>
+    <div class="spec-row"><span class="lbl">new_order_created</span><span class="val">Utility · Hindi · Active</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Compliance Notes</h3>
+    <ul class="checklist">
+      <li>Admin UI — Meta rules apply to template content, not to this table UI</li>
+      <li>Template status comes from Meta's approval API</li>
+      <li class="warn">Rejected templates cannot be used in campaigns — show as disabled in campaign wizard</li>
+      <li class="warn">Message Limit (500/day) applies to all template sends combined — relevant for campaign scheduling</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

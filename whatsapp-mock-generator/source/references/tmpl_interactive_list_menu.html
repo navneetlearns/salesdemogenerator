@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Interactive List Message (Menu)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-session  { background: #2E7D32; color: #fff; }
+  .badge-no-approval { background: #4a3800; color: #FFD54F; border: 1px solid #FFD54F55; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .page-sub { font-size: 12px; color: #666; margin-top: 2px; }
+
+  /* ── Layout ── */
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    width: 420px; flex-shrink: 0; padding: 32px 28px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .preview-label {
+    font-size: 11px; color: #555; text-transform: uppercase;
+    letter-spacing: .5px; align-self: flex-start;
+  }
+  .preview-sub-label {
+    font-size: 11px; color: #444; margin-top: 4px; align-self: flex-start;
+  }
+
+  /* ── Chat bubble (what appears in the conversation) ── */
+  .chat-mock {
+    width: 100%; background: #ECE5DD; border-radius: 12px; padding: 12px 10px 10px;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .wa-sender-name {
+    font-size: 13px; font-weight: 700; color: #00A884;
+    margin-bottom: 4px; padding-left: 2px;
+  }
+
+  /* List message bubble in chat */
+  .wa-list-msg {
+    background: #fff; border-radius: 8px 0 8px 8px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.12);
+    width: 100%;
+  }
+  .wa-list-body {
+    padding: 10px 12px 6px;
+    font-size: 13.5px; color: #111B21; line-height: 1.55;
+  }
+  .wa-list-footer {
+    font-size: 11.5px; color: #667781; padding: 2px 12px 6px;
+  }
+  .wa-list-time {
+    font-size: 11px; color: #667781; text-align: right; padding: 0 12px 4px;
+  }
+  /* The "Menu" button that opens the modal */
+  .wa-list-btn-divider { border: none; border-top: 1px solid #f0f0f0; }
+  .wa-list-open-btn {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; padding: 11px 12px;
+    font-size: 14px; font-weight: 600; color: #00A884;
+    background: none; border: none; cursor: pointer;
+  }
+  .wa-list-open-btn svg { flex-shrink: 0; }
+
+  /* ── Modal (bottom sheet) ── */
+  .modal-wrap {
+    width: 100%; background: #fff; border-radius: 16px 16px 0 0;
+    overflow: hidden; box-shadow: 0 -4px 24px rgba(0,0,0,.25);
+  }
+  /* Drag handle */
+  .modal-handle {
+    display: flex; justify-content: center; padding: 10px 0 4px;
+    background: #fff;
+  }
+  .modal-handle-bar {
+    width: 36px; height: 4px; background: #ddd; border-radius: 2px;
+  }
+  /* Modal top bar */
+  .modal-topbar {
+    display: flex; align-items: center; padding: 6px 16px 10px;
+    background: #fff; border-bottom: 1px solid #f0f0f0;
+  }
+  .modal-close {
+    font-size: 18px; color: #555; cursor: pointer;
+    width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .modal-title {
+    flex: 1; text-align: center; font-size: 17px;
+    font-weight: 700; color: #111B21;
+  }
+  .modal-title-spacer { width: 28px; flex-shrink: 0; }
+
+  /* Section label */
+  .modal-section-label {
+    font-size: 13px; color: #667781; padding: 10px 16px 6px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  /* List rows */
+  .modal-row {
+    padding: 12px 16px; border-bottom: 1px solid #f2f2f2; cursor: pointer;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+  }
+  .modal-row:hover { background: #fafafa; }
+  .modal-row:last-child { border-bottom: none; }
+  .modal-row-text { flex: 1; }
+  .modal-row-title {
+    font-size: 14.5px; font-weight: 600; color: #111B21; line-height: 1.3;
+  }
+  .modal-row-title.warn { color: #E65100; }
+  .modal-row-desc {
+    font-size: 13px; color: #667781; margin-top: 2px; line-height: 1.4;
+  }
+  .modal-row-radio {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 2px solid #ccc; flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* Send button */
+  .modal-send-wrap { padding: 12px 16px 8px; background: #fff; }
+  .modal-send-btn {
+    width: 100%; padding: 14px; background: #25D366; color: #fff;
+    font-size: 16px; font-weight: 700; border: none; border-radius: 28px;
+    cursor: pointer; letter-spacing: .2px;
+  }
+  .modal-send-btn:hover { background: #20ba5a; }
+
+  /* Modal footer */
+  .modal-footer {
+    padding: 4px 16px 12px; display: flex; align-items: center;
+    justify-content: center; gap: 6px;
+    font-size: 11.5px; color: #667781; background: #fff;
+  }
+  .modal-footer a { color: #00A884; text-decoration: none; }
+  .modal-footer-logo {
+    width: 16px; height: 16px; background: #00A884; border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: #fff; font-weight: 800; flex-shrink: 0;
+  }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 40px; overflow-y: auto; }
+  .spec-section { margin-bottom: 28px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .6px; margin-bottom: 12px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  .meta-grid { display: grid; grid-template-columns: 160px 1fr; gap: 8px 12px; }
+  .meta-key { font-size: 12px; color: #666; }
+  .meta-val { font-size: 12px; color: #ccc; line-height: 1.5; }
+  .meta-val code {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 4px;
+    padding: 1px 6px; font-size: 11px; color: #4CAF50; font-family: monospace;
+  }
+  .tag {
+    display: inline-block; border-radius: 10px; padding: 2px 8px;
+    font-size: 11px; font-weight: 600;
+  }
+  .tag-session    { background: #2E7D32; color: #fff; }
+  .tag-interactive { background: #1565C0; color: #fff; }
+  .tag-warn       { background: #bf360c; color: #fff; }
+  .tag-ok         { background: #1B5E20; color: #aed581; }
+
+  /* Row spec table */
+  .row-table { width: 100%; border-collapse: collapse; }
+  .row-table th {
+    font-size: 11px; color: #555; font-weight: 600; text-align: left;
+    padding: 6px 10px; border-bottom: 1px solid #2a2a3e;
+    text-transform: uppercase; letter-spacing: .4px;
+  }
+  .row-table td {
+    font-size: 12px; color: #ccc; padding: 7px 10px;
+    border-bottom: 1px solid #1a1a2e; vertical-align: top;
+  }
+  .row-table tr:last-child td { border-bottom: none; }
+  .row-table .chars-ok   { color: #4CAF50; }
+  .row-table .chars-warn { color: #FF5722; font-weight: 700; }
+
+  .check-list { display: flex; flex-direction: column; gap: 7px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12.5px; color: #aaa; line-height: 1.4;
+  }
+  .pass { color: #4CAF50; flex-shrink: 0; }
+  .warn { color: #FF5722; flex-shrink: 0; }
+
+  .callout-warn {
+    background: #1a0800; border-left: 3px solid #FF5722;
+    border-radius: 0 6px 6px 0; padding: 10px 14px;
+    font-size: 12px; color: #FF8A65; line-height: 1.6;
+  }
+
+  .body-preview {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 13px; color: #ccc; line-height: 1.8;
+    white-space: pre-wrap; font-family: monospace;
+  }
+  .body-preview .var  { color: #4CAF50; font-weight: 700; }
+
+  .usage-block {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 12px; color: #aaa; line-height: 1.7;
+    font-family: monospace; overflow-x: auto; white-space: pre;
+  }
+  .u-tag  { color: #f06292; }
+  .u-attr { color: #64B5F6; }
+  .u-val  { color: #a5d6a7; }
+  .u-cmt  { color: #444; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="page-badge badge-session">Interactive</span>
+  <span class="page-badge badge-no-approval">No Approval Needed</span>
+  <div>
+    <div class="page-title">Interactive List Message — Menu</div>
+    <div class="page-sub">tmpl_interactive_list_menu · Session message · Only within 24-hour customer service window</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Preview ── -->
+  <div class="preview-pane">
+
+    <!-- Step 1: Chat bubble -->
+    <div class="preview-label">Step 1 — List Message in Chat</div>
+    <div class="preview-sub-label">What the user sees before tapping "Menu"</div>
+    <div class="chat-mock">
+      <div class="wa-sender-name">Lucky Seeds</div>
+      <div class="wa-list-msg">
+        <div class="wa-list-body">
+          Welcome to Lucky Seeds! 🌱<br><br>
+          We're here to help you quickly find what you need. Please choose an option:
+        </div>
+        <div class="wa-list-time">10:33 AM ✓✓</div>
+        <hr class="wa-list-btn-divider">
+        <button class="wa-list-open-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A884" stroke-width="2.5">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+          Menu
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Modal -->
+    <div class="preview-label" style="margin-top:8px">Step 2 — List Picker Modal</div>
+    <div class="preview-sub-label">Bottom sheet shown when user taps "Menu"</div>
+    <div class="modal-wrap">
+      <div class="modal-handle">
+        <div class="modal-handle-bar"></div>
+      </div>
+      <div class="modal-topbar">
+        <div class="modal-close">✕</div>
+        <div class="modal-title">Menu</div>
+        <div class="modal-title-spacer"></div>
+      </div>
+      <div class="modal-section-label">Choose any of the below</div>
+
+      <div class="modal-row">
+        <div class="modal-row-text">
+          <div class="modal-row-title">View Catalogue</div>
+          <div class="modal-row-desc">Browse SKF bearings, seals &amp; lubricants</div>
+        </div>
+        <div class="modal-row-radio"></div>
+      </div>
+      <div class="modal-row">
+        <div class="modal-row-text">
+          <div class="modal-row-title">I am a Mechanic</div>
+          <div class="modal-row-desc">Get fitting guides &amp; product usage tips</div>
+        </div>
+        <div class="modal-row-radio"></div>
+      </div>
+      <div class="modal-row">
+        <div class="modal-row-text">
+          <div class="modal-row-title">I am a Dealer</div>
+          <div class="modal-row-desc">Explore offers, pricing &amp; product lines</div>
+        </div>
+        <div class="modal-row-radio"></div>
+      </div>
+      <div class="modal-row">
+        <div class="modal-row-text">
+          <!-- ⚠️ 25 chars — 1 over the 24-char limit. Flag in spec. -->
+          <div class="modal-row-title warn" title="⚠️ 25 chars — exceeds 24-char limit">Get estimate or quotation</div>
+          <div class="modal-row-desc">Share quantity to receive instant quote</div>
+        </div>
+        <div class="modal-row-radio"></div>
+      </div>
+      <div class="modal-row">
+        <div class="modal-row-text">
+          <div class="modal-row-title">Request Support</div>
+          <div class="modal-row-desc">Ask questions or raise a service request</div>
+        </div>
+        <div class="modal-row-radio"></div>
+      </div>
+      <div class="modal-row">
+        <div class="modal-row-text">
+          <div class="modal-row-title">Product Knowledge</div>
+          <div class="modal-row-desc">Ask anything about SKF products &amp; get instant answers</div>
+        </div>
+        <div class="modal-row-radio"></div>
+      </div>
+
+      <div class="modal-send-wrap">
+        <button class="modal-send-btn">Send</button>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+
+  </div><!-- /preview-pane -->
+
+  <!-- ── Spec ── -->
+  <div class="spec-pane">
+
+    <div class="spec-section">
+      <div class="spec-section-title">Message Type & Metadata</div>
+      <div class="meta-grid">
+        <div class="meta-key">Type</div>
+        <div class="meta-val"><span class="tag tag-interactive">Interactive</span> &nbsp;<span class="tag tag-session">Session only</span> &nbsp;— sent within 24hr customer service window. No Meta approval required.</div>
+        <div class="meta-key">Template Name</div>
+        <div class="meta-val"><code>interactive_list_menu</code></div>
+        <div class="meta-key">Header</div>
+        <div class="meta-val">Text only — no media allowed in list message header. Max 60 chars.</div>
+        <div class="meta-key">Body</div>
+        <div class="meta-val">Required. Plain text intro. Max 4096 chars.</div>
+        <div class="meta-key">Footer</div>
+        <div class="meta-key">Button label</div>
+        <div class="meta-val"><code>"Menu"</code> — 4 / 20 chars ✓ &nbsp;(opens the list picker modal)</div>
+        <div class="meta-key">Sections</div>
+        <div class="meta-val">1 section — "Choose any of the below" (23 chars, max 24 ✓)</div>
+        <div class="meta-key">Total rows</div>
+        <div class="meta-val">6 rows (max 10 across all sections ✓)</div>
+        <div class="meta-key">Trigger</div>
+        <div class="meta-val">Sent after user messages the business (within 24hr window) — e.g. reply to campaign "Order Now"</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">⚠️ Compliance Issue — Row Title Character Limit</div>
+      <div class="callout-warn">
+        <strong>"Get estimate or quotation"</strong> = 25 characters — exceeds the <strong>24-char row title limit</strong>.<br><br>
+        Suggested fix: <strong>"Get Estimate or Quote"</strong> = 21 chars ✓<br>
+        Or: <strong>"Get a Quotation"</strong> = 15 chars ✓
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Row Title &amp; Description Char Counts</div>
+      <table class="row-table">
+        <tr>
+          <th>#</th>
+          <th>Row Title</th>
+          <th>Title chars (max 24)</th>
+          <th>Description (max 72)</th>
+          <th>Desc chars</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>View Catalogue</td>
+          <td class="chars-ok">14 ✓</td>
+          <td>Browse SKF bearings, seals &amp; lubricants</td>
+          <td class="chars-ok">39 ✓</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>I am a Mechanic</td>
+          <td class="chars-ok">15 ✓</td>
+          <td>Get fitting guides &amp; product usage tips</td>
+          <td class="chars-ok">39 ✓</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>I am a Dealer</td>
+          <td class="chars-ok">13 ✓</td>
+          <td>Explore offers, pricing &amp; product lines</td>
+          <td class="chars-ok">39 ✓</td>
+        </tr>
+        <tr style="background:#1a0800">
+          <td>4</td>
+          <td style="color:#FF8A65">Get estimate or quotation</td>
+          <td class="chars-warn">25 ✗ OVER</td>
+          <td>Share quantity to receive instant quote</td>
+          <td class="chars-ok">39 ✓</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Request Support</td>
+          <td class="chars-ok">15 ✓</td>
+          <td>Ask questions or raise a service request</td>
+          <td class="chars-ok">40 ✓</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Product Knowledge</td>
+          <td class="chars-ok">17 ✓</td>
+          <td>Ask anything about SKF products &amp; get instant answers</td>
+          <td class="chars-ok">53 ✓</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Message Body Text</div>
+      <div class="body-preview">Welcome to <span class="var">{{brand}}</span>! 🌱
+
+We're here to help you quickly find what you need. Please choose an option:</div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Meta Compliance Checklist</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">✓</span> Interactive List Message — no Meta template approval required (session only)</div>
+        <div class="check-item"><span class="pass">✓</span> Header is text only — no media in list message headers</div>
+        <div class="check-item"><span class="pass">✓</span> Button label "Menu" = 4 chars, max 20 ✓</div>
+        <div class="check-item"><span class="pass">✓</span> Section title "Choose any of the below" = 23 chars, max 24 ✓</div>
+        <div class="check-item"><span class="pass">✓</span> Total rows = 6, max 10 ✓</div>
+        <div class="check-item"><span class="pass">✓</span> All descriptions under 72 chars ✓</div>
+        <div class="check-item"><span class="pass">✓</span> Footer is plain text, no emojis, under 60 chars ✓</div>
+        <div class="check-item"><span class="warn">✗</span> Row 4 "Get estimate or quotation" = 25 chars — <strong>exceeds 24-char row title limit</strong>. Must be shortened before build.</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">HTML Snippet — Copy Into Screen Generator</div>
+      <div class="usage-block"><span class="u-cmt">&lt;!-- Step 1: List Message in chat (shows the "Menu" button) --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-list-msg"</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-list-body"</span>&gt;
+    Welcome to Lucky Seeds! 🌱&lt;<span class="u-tag">br</span>&gt;&lt;<span class="u-tag">br</span>&gt;
+    We're here to help you quickly find what you need.
+    Please choose an option:
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-list-footer"</span>&gt;  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-list-time"</span>&gt;10:33 AM&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">hr</span> <span class="u-attr">class</span>=<span class="u-val">"wa-list-btn-divider"</span>&gt;
+  &lt;<span class="u-tag">button</span> <span class="u-attr">class</span>=<span class="u-val">"wa-list-open-btn"</span>&gt;☰ Menu&lt;/<span class="u-tag">button</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- Step 2: Modal (shown when user taps "Menu") --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-wrap"</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-handle"</span>&gt;&lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-handle-bar"</span>&gt;&lt;/<span class="u-tag">div</span>&gt;&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-topbar"</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-close"</span>&gt;✕&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-title"</span>&gt;Menu&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-title-spacer"</span>&gt;&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-section-label"</span>&gt;Choose any of the below&lt;/<span class="u-tag">div</span>&gt;
+
+  <span class="u-cmt">&lt;!-- Rows: title max 24 chars | description max 72 chars --&gt;</span>
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-row"</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-row-text"</span>&gt;
+      &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-row-title"</span>&gt;View Catalogue&lt;/<span class="u-tag">div</span>&gt;
+      &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-row-desc"</span>&gt;Browse products&lt;/<span class="u-tag">div</span>&gt;
+    &lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-row-radio"</span>&gt;&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+  <span class="u-cmt">&lt;!-- Repeat for each row... --&gt;</span>
+
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-send-wrap"</span>&gt;
+    &lt;<span class="u-tag">button</span> <span class="u-attr">class</span>=<span class="u-val">"modal-send-btn"</span>&gt;Send&lt;/<span class="u-tag">button</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"modal-footer"</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;</div>
+    </div>
+
+  </div><!-- /spec-pane -->
+</div>
+
+</body>
+</html>

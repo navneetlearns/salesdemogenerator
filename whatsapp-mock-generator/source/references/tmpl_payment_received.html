@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Payment Received Template</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+
+  .page-header { background: #0d0d1a; border-bottom: 1px solid #2a2a3e; padding: 16px 32px; display: flex; align-items: center; gap: 12px; }
+  .page-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; letter-spacing: .4px; text-transform: uppercase; }
+  .badge-utility { background: #1565C0; color: #fff; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .page-sub { font-size: 12px; color: #666; margin-top: 2px; }
+
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  .preview-pane { width: 380px; flex-shrink: 0; padding: 40px 32px; border-right: 1px solid #2a2a3e; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .preview-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; }
+  .chat-mock {
+    width: 305px; background: #ECE5DD; border-radius: 12px; padding: 12px 10px 6px;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .wa-sender-name { font-size: 13px; font-weight: 700; color: #00A884; margin-bottom: 4px; padding-left: 2px; }
+
+  .wa-tmpl { background: #fff; border-radius: 8px 0px 8px 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+
+  /* Image header — payment confirmation banner */
+  .wa-hdr-img {
+    width: 100%; height: 130px; overflow: hidden;
+    background: linear-gradient(135deg, #0a3d2e 0%, #1a5c42 60%, #0d4535 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    position: relative;
+  }
+  .wa-hdr-img::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 60%, rgba(0,200,120,.2) 0%, transparent 65%);
+  }
+
+  .wa-tmpl-body { padding: 10px 12px 6px; font-size: 13.5px; color: #111B21; line-height: 1.6; }
+  .wa-tmpl-signoff { font-size: 13.5px; color: #111B21; padding: 8px 12px 0; line-height: 1.5; }
+  .wa-tmpl-time { font-size: 11px; color: #667781; text-align: right; padding: 2px 12px 8px; }
+
+  .spec-pane { flex: 1; padding: 32px 40px; overflow-y: auto; }
+  .spec-section { margin-bottom: 28px; }
+  .spec-section-title { font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid #2a2a3e; }
+  .meta-grid { display: grid; grid-template-columns: 160px 1fr; gap: 8px 12px; }
+  .meta-key { font-size: 12px; color: #666; }
+  .meta-val { font-size: 12px; color: #ccc; }
+  .meta-val code { background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 4px; padding: 1px 6px; font-size: 11px; color: #4CAF50; font-family: monospace; }
+  .tag { display: inline-block; border-radius: 10px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+  .tag-utility { background: #1565C0; color: #fff; }
+  .tag-img    { background: #6A1B9A; color: #fff; }
+  .tag-none   { background: #333; color: #aaa; }
+  .body-preview { background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px; padding: 14px 16px; font-size: 13px; color: #ccc; line-height: 1.8; white-space: pre-wrap; font-family: monospace; }
+  .body-preview .var  { color: #4CAF50; font-weight: 700; }
+  .body-preview .bold { color: #fff; font-weight: 700; }
+  .check-list { display: flex; flex-direction: column; gap: 7px; }
+  .check-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: #aaa; line-height: 1.4; }
+  .pass { color: #4CAF50; flex-shrink: 0; }
+  .warn { color: #FF8A65; flex-shrink: 0; }
+  .usage-block { background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px; padding: 14px 16px; font-size: 12px; color: #aaa; line-height: 1.7; font-family: monospace; overflow-x: auto; white-space: pre; }
+  .u-tag  { color: #f06292; }
+  .u-attr { color: #64B5F6; }
+  .u-val  { color: #a5d6a7; }
+  .u-cmt  { color: #444; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="page-badge badge-utility">Utility</span>
+  <div>
+    <div class="page-title">Payment Received Template</div>
+    <div class="page-sub">tmpl_payment_received · WhatsApp Business Platform · Requires Meta Approval</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Preview ── -->
+  <div class="preview-pane">
+    <div class="preview-label">Rendered Preview</div>
+    <div class="chat-mock">
+      <div class="wa-sender-name">Zotok AI</div>
+      <div class="wa-tmpl">
+
+        <!-- IMAGE HEADER: payment confirmation banner -->
+        <div class="wa-hdr-img">
+          <!-- Checkmark shield SVG -->
+          <svg width="52" height="48" viewBox="0 0 52 48" fill="none">
+            <path d="M26 4L6 12v16c0 10.5 8.5 20.5 20 24 11.5-3.5 20-13.5 20-24V12L26 4z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+            <path d="M17 24l6 6 12-12" stroke="rgba(0,255,150,0.9)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="26" cy="25" r="10" fill="rgba(0,200,100,0.15)"/>
+          </svg>
+          <div style="color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;text-shadow:0 1px 4px rgba(0,0,0,.5);position:relative;">PAYMENT CONFIRMATION</div>
+        </div>
+
+        <!-- BODY -->
+        <div class="wa-tmpl-body">
+          Your payment has been received and confirmed. We will update your ledger shortly.<br><br>
+          📄 <strong>Your Payment Details:</strong><br>
+          📅 <strong>Date:</strong> 31/01/2026<br>
+          💰 <strong>Amount Received:</strong> ₹7,950<br>
+          🏦 <strong>Bank Transaction ID:</strong> 429217890442<br>
+          🪪 <strong>UPI ID:</strong> — HDFC780000<br>
+          ✅ <strong>UPI Transaction ID:</strong> T24101819374961073853
+        </div>
+        <div class="wa-tmpl-signoff">Team,<br>Company Name</div>
+        <div class="wa-tmpl-time">2:34 PM ✓✓</div>
+
+        <!-- No CTA buttons on this template -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Spec ── -->
+  <div class="spec-pane">
+
+    <div class="spec-section">
+      <div class="spec-section-title">Component Summary</div>
+      <div class="meta-grid">
+        <div class="meta-key">Template Category</div><div class="meta-val"><span class="tag tag-utility">Utility</span></div>
+        <div class="meta-key">Header Type</div><div class="meta-val"><span class="tag tag-img">Image</span> — shield/checkmark banner, "PAYMENT CONFIRMATION" baked into image</div>
+        <div class="meta-key">Body Variables</div><div class="meta-val">{{1}} Date · {{2}} Amount · {{3}} Bank Txn ID · {{4}} UPI ID · {{5}} UPI Txn ID · {{6}} Team Name</div>
+        <div class="meta-key">Footer</div><div class="meta-val">None</div>
+        <div class="meta-key">Buttons</div><div class="meta-val"><span class="tag tag-none">None</span> — payment confirmation is terminal, no action needed</div>
+        <div class="meta-key">Triggered by</div><div class="meta-val">Payment recorded in system (UPI/bank transfer confirmed)</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Body Template</div>
+      <div class="body-preview">Your payment has been received and confirmed.
+We will update your ledger shortly.
+
+📄 <span class="bold">Your Payment Details:</span>
+📅 <span class="bold">Date:</span> <span class="var">{{1}}</span>
+💰 <span class="bold">Amount Received:</span> ₹<span class="var">{{2}}</span>
+🏦 <span class="bold">Bank Transaction ID:</span> <span class="var">{{3}}</span>
+🪪 <span class="bold">UPI ID:</span> — <span class="var">{{4}}</span>
+✅ <span class="bold">UPI Transaction ID:</span> <span class="var">{{5}}</span>
+
+Team,
+<span class="var">{{6}}</span></div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Char Count Validation</div>
+      <div class="meta-grid">
+        <div class="meta-key">Header</div><div class="meta-val">Image (no char limit)</div>
+        <div class="meta-key">Body (template)</div><div class="meta-val">~175 chars + variable values · within 1024 ✓</div>
+        <div class="meta-key">Footer</div><div class="meta-val">None</div>
+        <div class="meta-key">Buttons</div><div class="meta-val">None — no char validation needed</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Compliance Checklist</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">✓</span> Image header only — no text overlay via CSS (text baked into the image asset)</div>
+        <div class="check-item"><span class="pass">✓</span> Single header type — image only</div>
+        <div class="check-item"><span class="pass">✓</span> Body uses bold formatting — no divider lines, no tables, no HR rules</div>
+        <div class="check-item"><span class="pass">✓</span> No buttons — appropriate for terminal confirmation messages</div>
+        <div class="check-item"><span class="pass">✓</span> Variables do not start or end the body text</div>
+        <div class="check-item"><span class="pass">✓</span> No consecutive variables ({{1}}{{2}})</div>
+        <div class="check-item"><span class="warn">⚠</span> UPI Transaction ID variable can be very long — test field truncation in Meta template manager</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">HTML Snippet</div>
+      <div class="usage-block"><span class="u-cmt">&lt;!-- Receiver bubble (customer's DM) --&gt;</span>
+<span class="u-tag">&lt;div</span> <span class="u-attr">class</span>=<span class="u-val">"msw"</span><span class="u-tag">&gt;</span>
+  <span class="u-tag">&lt;div</span> <span class="u-attr">class</span>=<span class="u-val">"mr"</span> <span class="u-attr">style</span>=<span class="u-val">"max-width:240px;padding:0 0 4px;"</span><span class="u-tag">&gt;</span>
+    <span class="u-cmt">&lt;!-- Image header --&gt;</span>
+    <span class="u-tag">&lt;div</span> <span class="u-attr">style</span>=<span class="u-val">"height:120px;background:linear-gradient(135deg,#0a3d2e,#1a5c42);
+           display:flex;flex-direction:column;align-items:center;justify-content:center;"</span><span class="u-tag">&gt;</span>
+      <span class="u-cmt">&lt;!-- Shield SVG + PAYMENT CONFIRMATION text --&gt;</span>
+    <span class="u-tag">&lt;/div&gt;</span>
+    <span class="u-cmt">&lt;!-- Body --&gt;</span>
+    <span class="u-tag">&lt;div</span> <span class="u-attr">class</span>=<span class="u-val">"mbody"</span> <span class="u-attr">style</span>=<span class="u-val">"padding:8px 10px 4px;"</span><span class="u-tag">&gt;</span>
+      Your payment has been received...&lt;br&gt;
+      ...payment fields...
+    <span class="u-tag">&lt;/div&gt;</span>
+    <span class="u-cmt">&lt;!-- No buttons --&gt;</span>
+    <span class="u-tag">&lt;span</span> <span class="u-attr">class</span>=<span class="u-val">"mtime"</span><span class="u-tag">&gt;</span>2:34 PM ✓✓<span class="u-tag">&lt;/span&gt;</span>
+  <span class="u-tag">&lt;/div&gt;</span>
+<span class="u-tag">&lt;/div&gt;</span></div>
+    </div>
+
+  </div><!-- /spec-pane -->
+
+</div><!-- /layout -->
+</body>
+</html>

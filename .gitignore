@@ -27,3 +27,7 @@ desktop.ini
 
 # Vercel deployment config (per-brand)
 .vercel/
+
+# python caches
+__pycache__/
+*.pyc

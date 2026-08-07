@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Order Confirmed Template</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+
+  .page-header { background: #0d0d1a; border-bottom: 1px solid #2a2a3e; padding: 16px 32px; display: flex; align-items: center; gap: 12px; }
+  .page-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; letter-spacing: .4px; text-transform: uppercase; }
+  .badge-utility { background: #1565C0; color: #fff; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .page-sub { font-size: 12px; color: #666; margin-top: 2px; }
+
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  .preview-pane { width: 380px; flex-shrink: 0; padding: 40px 32px; border-right: 1px solid #2a2a3e; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .preview-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; }
+  .chat-mock {
+    width: 305px; background: #ECE5DD; border-radius: 12px; padding: 12px 10px 6px;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .wa-sender-name { font-size: 13px; font-weight: 700; color: #00A884; margin-bottom: 4px; padding-left: 2px; }
+
+  /* Template card */
+  .wa-tmpl { background: #fff; border-radius: 8px 0px 8px 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+
+  /* Image header — gift box banner */
+  .wa-hdr-img {
+    width: 100%; height: 130px; overflow: hidden;
+    background: linear-gradient(135deg, #0d2137 0%, #1a3a5c 60%, #0f2d4a 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    position: relative;
+  }
+  .wa-hdr-img::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 70%, rgba(255,140,0,.18) 0%, transparent 70%);
+  }
+
+  /* Body */
+  .wa-tmpl-body { padding: 10px 12px 6px; font-size: 13.5px; color: #111B21; line-height: 1.6; }
+  .wa-tmpl-signoff { font-size: 13.5px; color: #111B21; padding: 8px 12px 0; line-height: 1.5; }
+  .wa-tmpl-time { font-size: 11px; color: #667781; text-align: right; padding: 2px 12px 8px; }
+
+  /* Buttons: CTA URL */
+  .wa-tmpl-btns { border-top: 1px solid #f0f0f0; }
+  .wa-cta-btn { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; padding: 10px 12px; text-align: center; font-size: 14px; font-weight: 500; color: #00A884; cursor: pointer; border-bottom: 1px solid #f0f0f0; background: none; border-left: none; border-right: none; border-top: none; }
+  .wa-cta-btn:last-child { border-bottom: none; }
+
+  /* Group variant — short URLs */
+  .group-note { background: #f5f5f5; border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+  .group-note-title { font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+  .short-url-line { font-size: 13px; color: #00A884; line-height: 1.8; }
+
+  /* Spec pane */
+  .spec-pane { flex: 1; padding: 32px 40px; overflow-y: auto; }
+  .spec-section { margin-bottom: 28px; }
+  .spec-section-title { font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid #2a2a3e; }
+  .meta-grid { display: grid; grid-template-columns: 160px 1fr; gap: 8px 12px; }
+  .meta-key { font-size: 12px; color: #666; }
+  .meta-val { font-size: 12px; color: #ccc; }
+  .meta-val code { background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 4px; padding: 1px 6px; font-size: 11px; color: #4CAF50; font-family: monospace; }
+  .tag { display: inline-block; border-radius: 10px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+  .tag-utility { background: #1565C0; color: #fff; }
+  .tag-img    { background: #6A1B9A; color: #fff; }
+  .tag-cta    { background: #E65100; color: #fff; }
+  .tag-group  { background: #2E7D32; color: #fff; }
+  .body-preview { background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px; padding: 14px 16px; font-size: 13px; color: #ccc; line-height: 1.8; white-space: pre-wrap; font-family: monospace; }
+  .body-preview .var  { color: #4CAF50; font-weight: 700; }
+  .body-preview .bold { color: #fff; font-weight: 700; }
+  .btn-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 6px; margin-bottom: 6px; }
+  .btn-label { font-size: 13px; color: #ccc; }
+  .btn-meta  { font-size: 11px; display: flex; gap: 8px; }
+  .btn-type  { color: #FF8A65; }
+  .btn-chars { color: #888; }
+  .check-list { display: flex; flex-direction: column; gap: 7px; }
+  .check-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: #aaa; line-height: 1.4; }
+  .pass { color: #4CAF50; flex-shrink: 0; }
+  .warn { color: #FF8A65; flex-shrink: 0; }
+  .usage-block { background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px; padding: 14px 16px; font-size: 12px; color: #aaa; line-height: 1.7; font-family: monospace; overflow-x: auto; white-space: pre; }
+  .u-tag  { color: #f06292; }
+  .u-attr { color: #64B5F6; }
+  .u-val  { color: #a5d6a7; }
+  .u-cmt  { color: #444; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="page-badge badge-utility">Utility</span>
+  <div>
+    <div class="page-title">Order Confirmed Template</div>
+    <div class="page-sub">tmpl_order_confirmed · WhatsApp Business Platform · Requires Meta Approval</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Preview ── -->
+  <div class="preview-pane">
+    <div class="preview-label">DM Rendered Preview</div>
+    <div class="chat-mock">
+      <div class="wa-sender-name">Zotok AI</div>
+      <div class="wa-tmpl">
+
+        <!-- IMAGE HEADER: gift box + "ORDER CONFIRMED" text baked into image -->
+        <div class="wa-hdr-img">
+          <!-- Gift box SVG -->
+          <svg width="52" height="44" viewBox="0 0 52 44" fill="none">
+            <rect x="5" y="16" width="42" height="26" rx="2.5" fill="rgba(255,255,255,0.18)"/>
+            <rect x="2" y="10" width="48" height="8" rx="2" fill="rgba(255,255,255,0.28)"/>
+            <path d="M26 10V42" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+            <path d="M26 10C26 10 19 1 13 4C10 5.5 11.5 10 13 10" stroke="rgba(255,200,80,0.8)" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M26 10C26 10 33 1 39 4C42 5.5 40.5 10 39 10" stroke="rgba(255,200,80,0.8)" stroke-width="1.8" stroke-linecap="round"/>
+            <rect x="22" y="10" width="8" height="6" rx="1" fill="rgba(255,200,80,0.6)"/>
+          </svg>
+          <div style="color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;text-shadow:0 1px 4px rgba(0,0,0,.5);position:relative;">ORDER CONFIRMED</div>
+        </div>
+
+        <!-- BODY -->
+        <div class="wa-tmpl-body">
+          Thanks for your confirmation!<br>Here are your order details:<br><br>
+          🪪 <strong>Order ID:</strong> BSPB-59<br>
+          📦 <strong>Total SKUs:</strong> 14<br>
+          💰 <strong>Total Order Value:</strong> ₹10,798<br>
+          💵 <strong>Net Order Value:</strong> ₹10,798
+        </div>
+        <div class="wa-tmpl-signoff">Team,<br>Company Name</div>
+        <div class="wa-tmpl-time">12:54 PM ✓✓</div>
+
+        <!-- CTA BUTTONS (DM only — not allowed in groups) -->
+        <div class="wa-tmpl-btns">
+          <button class="wa-cta-btn">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 2h4v4M14 2L8 8" stroke="#00A884" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1V9" stroke="#00A884" stroke-width="1.5" stroke-linecap="round"/></svg>
+            View Order Summary
+          </button>
+          <button class="wa-cta-btn">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 2h4v4M14 2L8 8" stroke="#00A884" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1V9" stroke="#00A884" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Raise an Issue
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:16px;"></div>
+    <div class="preview-label">Group Message Variant (short URLs)</div>
+    <div class="group-note">
+      <div class="group-note-title">No buttons in groups — use short URLs</div>
+      <div class="short-url-line">
+        ↗ View Order Summary - zotok.ai/ord/{{order_id}}<br>
+        ↗ Raise an Issue - zotok.ai/issue/new
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Spec ── -->
+  <div class="spec-pane">
+
+    <div class="spec-section">
+      <div class="spec-section-title">Component Summary</div>
+      <div class="meta-grid">
+        <div class="meta-key">Template Category</div><div class="meta-val"><span class="tag tag-utility">Utility</span></div>
+        <div class="meta-key">Header Type</div><div class="meta-val"><span class="tag tag-img">Image</span> — gift box banner, "ORDER CONFIRMED" baked into image</div>
+        <div class="meta-key">Body Variables</div><div class="meta-val">{{1}} Order ID · {{2}} SKUs · {{3}} Total Value · {{4}} Net Value · {{5}} Team Name</div>
+        <div class="meta-key">Footer</div><div class="meta-val">None</div>
+        <div class="meta-key">Buttons (DM)</div><div class="meta-val"><span class="tag tag-cta">CTA URL</span> — View Order Summary + Raise an Issue</div>
+        <div class="meta-key">Buttons (Group)</div><div class="meta-val"><span class="tag tag-group">Short URLs</span> — plain text links replace buttons</div>
+        <div class="meta-key">Triggered by</div><div class="meta-val">Retailer submits order via PWA or ZoAi processes @zoai order</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Body Template</div>
+      <div class="body-preview">Thanks for your confirmation!
+Here are your order details:
+
+🪪 <span class="bold">Order ID:</span> <span class="var">{{1}}</span>
+📦 <span class="bold">Total SKUs:</span> <span class="var">{{2}}</span>
+💰 <span class="bold">Total Order Value:</span> ₹<span class="var">{{3}}</span>
+💵 <span class="bold">Net Order Value:</span> ₹<span class="var">{{4}}</span>
+
+Team,
+<span class="var">{{5}}</span></div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Char Count Validation</div>
+      <div class="meta-grid">
+        <div class="meta-key">Header</div><div class="meta-val">Image (no char limit)</div>
+        <div class="meta-key">Body (template)</div><div class="meta-val">~140 chars + variable values · well within 1024 ✓</div>
+        <div class="meta-key">Footer</div><div class="meta-val">None</div>
+        <div class="meta-key">Button 1</div><div class="meta-val">"View Order Summary" — 19 chars ✓ (limit 25)</div>
+        <div class="meta-key">Button 2</div><div class="meta-val">"Raise an Issue" — 15 chars ✓ (limit 25)</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Buttons</div>
+      <div class="btn-row">
+        <div class="btn-label">View Order Summary</div>
+        <div class="btn-meta"><span class="btn-type">CTA URL</span><span class="btn-chars">19 chars ✓</span></div>
+      </div>
+      <div class="btn-row">
+        <div class="btn-label">Raise an Issue</div>
+        <div class="btn-meta"><span class="btn-type">CTA URL</span><span class="btn-chars">15 chars ✓</span></div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Compliance Checklist</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">✓</span> Image header only — no text overlay via CSS (text baked into the image asset)</div>
+        <div class="check-item"><span class="pass">✓</span> Single header type — image only, no document alongside</div>
+        <div class="check-item"><span class="pass">✓</span> Body uses bold (*bold*) formatting only — no divider lines, no tables</div>
+        <div class="check-item"><span class="pass">✓</span> CTA buttons — same type (URL), no Quick Reply mixed in</div>
+        <div class="check-item"><span class="pass">✓</span> No emojis in button labels</div>
+        <div class="check-item"><span class="pass">✓</span> Variables do not start or end the body</div>
+        <div class="check-item"><span class="warn">⚠</span> Group chats: CTA buttons are NOT rendered — replace with short URLs in caption</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">HTML Snippet — DM Template Message</div>
+      <div class="usage-block"><span class="u-cmt">&lt;!-- Receiver bubble (customer's DM) --&gt;</span>
+<span class="u-tag">&lt;div</span> <span class="u-attr">class</span>=<span class="u-val">"msw"</span><span class="u-tag">&gt;</span>
+  <span class="u-tag">&lt;div</span> <span class="u-attr">class</span>=<span class="u-val">"mr"</span> <span class="u-attr">style</span>=<span class="u-val">"max-width:240px;padding:0 0 4px;"</span><span class="u-tag">&gt;</span>
+    <span class="u-cmt">&lt;!-- Image header --&gt;</span>
+    <span class="u-tag">&lt;div</span> <span class="u-attr">style</span>=<span class="u-val">"height:120px;background:linear-gradient(135deg,#0d2137,#1a3a5c);
+           display:flex;flex-direction:column;align-items:center;justify-content:center;
+           border-radius:8px 0 0 0;"</span><span class="u-tag">&gt;</span>
+      <span class="u-cmt">&lt;!-- Gift box SVG + ORDER CONFIRMED text --&gt;</span>
+    <span class="u-tag">&lt;/div&gt;</span>
+    <span class="u-cmt">&lt;!-- Body --&gt;</span>
+    <span class="u-tag">&lt;div</span> <span class="u-attr">class</span>=<span class="u-val">"mbody"</span> <span class="u-attr">style</span>=<span class="u-val">"padding:8px 10px 4px;"</span><span class="u-tag">&gt;</span>
+      Thanks for your confirmation!&lt;br&gt;
+      ...order fields...
+    <span class="u-tag">&lt;/div&gt;</span>
+    <span class="u-cmt">&lt;!-- CTA buttons (DM only) --&gt;</span>
+    <span class="u-tag">&lt;div</span> <span class="u-attr">style</span>=<span class="u-val">"border-top:1px solid #f0f0f0;"</span><span class="u-tag">&gt;</span>
+      <span class="u-tag">&lt;div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-cta-btn"</span><span class="u-tag">&gt;</span>↗ View Order Summary<span class="u-tag">&lt;/div&gt;</span>
+      <span class="u-tag">&lt;div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-cta-btn"</span><span class="u-tag">&gt;</span>↗ Raise an Issue<span class="u-tag">&lt;/div&gt;</span>
+    <span class="u-tag">&lt;/div&gt;</span>
+  <span class="u-tag">&lt;/div&gt;</span>
+<span class="u-tag">&lt;/div&gt;</span>
+
+<span class="u-cmt">&lt;!-- Group variant: replace buttons with short URL lines in body --&gt;</span>
+<span class="u-cmt">&lt;!-- Add inside mbody: --&gt;</span>
+↗ View Order Summary - zotok.ai/ord/{{order_id}}
+↗ Raise an Issue - zotok.ai/issue/new</div>
+    </div>
+
+  </div><!-- /spec-pane -->
+
+</div><!-- /layout -->
+</body>
+</html>

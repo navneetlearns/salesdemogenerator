@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — ZoAi Bot Response Pattern</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-session { background: #2E7D32; color: #fff; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .page-sub { font-size: 12px; color: #666; margin-top: 2px; }
+
+  /* ── Layout ── */
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    width: 380px; flex-shrink: 0; padding: 40px 32px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .preview-label {
+    font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px;
+  }
+
+  /* Chat mock — no phone frame, just the chat background area */
+  .chat-mock {
+    width: 300px; background: #ECE5DD; border-radius: 12px; padding: 12px 10px 10px;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .wa-sender-name {
+    font-size: 13px; font-weight: 700; color: #00A884; margin-bottom: 2px; padding-left: 2px;
+  }
+
+  /* ── WhatsApp Template Component ── */
+  .wa-tmpl {
+    background: #fff;
+    border-radius: 8px 0px 8px 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  }
+
+  /* Document header bar — standard pink SVG icon */
+  .wa-hdr-doc-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px; background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .doc-icon-wrap {
+    width: 34px; height: 40px; background: #F06292; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; position: relative;
+  }
+  .doc-icon-wrap::after {
+    content: ''; position: absolute; top: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid; border-width: 0 8px 8px 0;
+    border-color: transparent #fff transparent transparent;
+  }
+  .doc-icon-wrap svg { color: #fff; }
+  .doc-meta { flex: 1; overflow: hidden; }
+  .doc-filename { font-size: 12.5px; font-weight: 600; color: #111B21; }
+  .doc-fileinfo { font-size: 11px; color: #667781; margin-top: 1px; }
+  .doc-download {
+    width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    color: #555;
+  }
+
+  /* Template body */
+  .wa-tmpl-body {
+    padding: 10px 12px 6px;
+    font-size: 13px; color: #111B21; line-height: 1.5;
+  }
+  .wa-tmpl-time {
+    font-size: 11px; color: #667781;
+    text-align: right; padding: 2px 12px 8px;
+  }
+
+  /* Buttons */
+  .wa-tmpl-btns { border-top: 1px solid #f0f0f0; }
+  .wa-cta-btn {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; padding: 9px 12px; text-align: center;
+    font-size: 13px; font-weight: 500; color: #00A884; cursor: pointer;
+    border-bottom: 1px solid #f0f0f0; background: none;
+    border-left: none; border-right: none; border-top: none;
+  }
+  .wa-cta-btn:last-child { border-bottom: none; }
+  .wa-qr-btn {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; padding: 9px 12px; text-align: center;
+    font-size: 13px; font-weight: 500; color: #00A884; cursor: pointer;
+    border-bottom: 1px solid #f0f0f0; background: none;
+    border-left: none; border-right: none; border-top: none;
+  }
+  .wa-qr-btn:last-child { border-bottom: none; }
+  .cta-icon { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* Sent bubble (right-aligned) */
+  .msg-sender-wrap {
+    display: flex; justify-content: flex-end; margin: 0;
+  }
+  .msg-sender {
+    background: #DCF8C6; border-radius: 8px 0 8px 8px;
+    padding: 7px 10px 4px; max-width: 220px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  }
+  .msg-body { font-size: 13.5px; color: #111B21; line-height: 1.45; }
+  .msg-time { font-size: 10.5px; color: #667781; float: right; margin-top: 2px; margin-left: 8px; }
+  .msg-tick { color: #53bdeb; }
+
+  /* Received bubble (left-aligned) — for ZoAi session response */
+  .msg-receiver-wrap {
+    display: flex; justify-content: flex-start; margin: 0;
+  }
+  .msg-receiver {
+    background: #fff; border-radius: 0 8px 8px 8px;
+    padding: 7px 10px 4px; max-width: 240px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  }
+
+  /* Step label inside preview */
+  .bubble-label {
+    font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
+    color: #999; text-align: center; padding: 2px 0 1px;
+  }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 40px; overflow-y: auto; }
+  .spec-section { margin-bottom: 28px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .6px; margin-bottom: 12px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  .meta-grid { display: grid; grid-template-columns: 150px 1fr; gap: 8px 12px; }
+  .meta-key { font-size: 12px; color: #666; }
+  .meta-val { font-size: 12px; color: #ccc; }
+  .meta-val code {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 4px;
+    padding: 1px 6px; font-size: 11px; color: #4CAF50; font-family: monospace;
+  }
+  .tag {
+    display: inline-block; border-radius: 10px; padding: 2px 8px;
+    font-size: 11px; font-weight: 600;
+  }
+  .tag-session  { background: #2E7D32; color: #fff; }
+  .tag-utility  { background: #1565C0; color: #fff; }
+  .tag-cta      { background: #E65100; color: #fff; }
+  .tag-qr       { background: #37474F; color: #fff; }
+
+  .bullet-list { display: flex; flex-direction: column; gap: 8px; }
+  .bullet-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 12.5px; color: #aaa; line-height: 1.5;
+  }
+  .bullet-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #4CAF50;
+    flex-shrink: 0; margin-top: 5px;
+  }
+  .bullet-item strong { color: #fff; }
+
+  .three-bubble-table {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .tbt-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 6px;
+    padding: 10px 14px;
+  }
+  .tbt-num {
+    width: 22px; height: 22px; border-radius: 50%; background: #2a2a3e;
+    font-size: 11px; font-weight: 700; color: #ccc;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .tbt-body { flex: 1; }
+  .tbt-title { font-size: 12.5px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+  .tbt-desc  { font-size: 12px; color: #888; line-height: 1.5; }
+
+  .info-box {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 12px 16px; font-size: 12.5px; color: #aaa; line-height: 1.7;
+  }
+  .info-box strong { color: #fff; }
+  .info-box code {
+    background: #111; border: 1px solid #2a2a3e; border-radius: 4px;
+    padding: 1px 5px; font-size: 11px; color: #4CAF50; font-family: monospace;
+  }
+
+  .warn-box {
+    background: #1a1200; border: 1px solid #4a3300; border-radius: 8px;
+    padding: 12px 16px; font-size: 12.5px; color: #e0c060; line-height: 1.7;
+  }
+  .warn-box strong { color: #FFD54F; }
+  .warn-box code {
+    background: #111; border: 1px solid #4a3300; border-radius: 4px;
+    padding: 1px 5px; font-size: 11px; color: #FFB300; font-family: monospace;
+  }
+
+  .check-list { display: flex; flex-direction: column; gap: 7px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12.5px; color: #aaa; line-height: 1.4;
+  }
+  .pass { color: #4CAF50; flex-shrink: 0; }
+
+  .usage-block {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 12px; color: #aaa; line-height: 1.7;
+    font-family: monospace; overflow-x: auto; white-space: pre;
+  }
+  .u-tag  { color: #f06292; }
+  .u-attr { color: #64B5F6; }
+  .u-val  { color: #a5d6a7; }
+  .u-cmt  { color: #444; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="page-badge badge-session">Session</span>
+  <div>
+    <div class="page-title">ZoAi Bot Response Pattern</div>
+    <div class="page-sub">tmpl_zoai_bot_response · ZoAi Conversational Flow · No Meta Approval Needed</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Preview ── -->
+  <div class="preview-pane">
+    <div class="preview-label">Rendered Preview — 3-Bubble Sequence</div>
+
+    <!-- Chat sequence — no phone frame, just the chat-mock background -->
+    <div class="chat-mock">
+
+      <!-- Bubble 1: Received template (initial message with Quick Reply buttons) -->
+      <div class="bubble-label">1 · received template</div>
+      <div style="display:flex; flex-direction:column; gap:0;">
+        <div class="wa-sender-name" style="font-size:12px;">Zotok AI</div>
+        <div class="wa-tmpl">
+          <div class="wa-tmpl-body" style="font-size:12.5px;">
+            Your credit note <strong>OE-CN-2147</strong> has been issued.<br>
+            Tap below to take action.
+          </div>
+          <div class="wa-tmpl-time" style="font-size:10px;">11:15 AM ✓✓</div>
+          <div class="wa-tmpl-btns">
+            <button class="wa-cta-btn" style="font-size:12px;">
+              <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="#00A884" stroke-width="2.5">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+                <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              View Credit Note
+            </button>
+            <button class="wa-qr-btn" style="font-size:12px;">
+              <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="#00A884" stroke-width="2.5">
+                <polyline points="9 17 4 12 9 7"/>
+                <path d="M20 18v-2a4 4 0 00-4-4H4"/>
+              </svg>
+              Download Ledger
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bubble 2: Sent reply (dealer taps Quick Reply) -->
+      <div class="bubble-label" style="margin-top:4px;">2 · sent reply</div>
+      <div class="msg-sender-wrap">
+        <div class="msg-sender">
+          <div class="msg-body">Download Ledger</div>
+          <span class="msg-time">11:16 AM <span class="msg-tick">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Bubble 3: ZoAi session response with document -->
+      <div class="bubble-label" style="margin-top:4px;">3 · zoai session response</div>
+      <div style="display:flex; flex-direction:column; gap:0;">
+        <div class="wa-sender-name" style="font-size:12px;">Zotok AI</div>
+        <div class="wa-tmpl">
+          <div class="wa-hdr-doc-bar">
+            <div class="doc-icon-wrap">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14 2 14 8 20 8" fill="none" stroke="white" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="doc-meta">
+              <div class="doc-filename" style="font-size:11.5px;">Ledger_OE-Apr2026.pdf</div>
+              <div class="doc-fileinfo" style="font-size:10px;">Apr 2026 · 2.1 MB · pdf</div>
+            </div>
+            <div class="doc-download">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+          </div>
+          <div class="wa-tmpl-body" style="font-size:12.5px;">
+            Here is your ledger statement for Apr 2026. Tap View Ledger to see your account.
+          </div>
+          <div class="wa-tmpl-time" style="font-size:10px;">11:16 AM ✓✓</div>
+          <div class="wa-tmpl-btns">
+            <button class="wa-cta-btn" style="font-size:12px;">
+              <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="#00A884" stroke-width="2.5">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+                <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              View Ledger
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="font-size:11px;color:#444;text-align:center;max-width:260px;line-height:1.5;margin-top:4px">
+      Bubble 1 = approved template · Bubble 2 = dealer reply · Bubble 3 = ZoAi session message (no approval needed)
+    </div>
+  </div>
+
+  <!-- ── Spec ── -->
+  <div class="spec-pane">
+
+    <div class="spec-section">
+      <div class="spec-section-title">Pattern Overview</div>
+      <div class="meta-grid">
+        <div class="meta-key">Type</div>
+        <div class="meta-val"><span class="tag tag-session">Session Message</span> &nbsp;— ZoAi responds within the 24hr window; no template approval needed for Bubble 3</div>
+        <div class="meta-key">Bubble 1</div>
+        <div class="meta-val"><span class="tag tag-utility">Utility Template</span> &nbsp;— requires Meta approval; sent as outbound business-initiated message</div>
+        <div class="meta-key">Bubble 2</div>
+        <div class="meta-val">Dealer taps Quick Reply button → WhatsApp sends that button label as a text message</div>
+        <div class="meta-key">Bubble 3</div>
+        <div class="meta-val"><span class="tag tag-session">ZoAi Session</span> &nbsp;— ZoAi detects the keyword intent, responds with document/link/data within 24hr window</div>
+        <div class="meta-key">Trigger</div>
+        <div class="meta-val">Dealer taps Quick Reply → sends keyword → ZoAi intent detection → responds within 24hr window</div>
+        <div class="meta-key">Use Cases</div>
+        <div class="meta-val">Ledger download, document on demand, contextual follow-ups, AI-driven guided journeys</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">When to Use This Pattern</div>
+      <div class="bullet-list">
+        <div class="bullet-item">
+          <div class="bullet-dot"></div>
+          <div><strong>Template has a Quick Reply button that triggers a follow-up action.</strong> The button label becomes the user's reply text, which ZoAi listens for and matches to an intent.</div>
+        </div>
+        <div class="bullet-item">
+          <div class="bullet-dot"></div>
+          <div><strong>ZoAi responds with a document, link, or structured data.</strong> The response is a session message — no new template approval needed as long as the dealer replied within the last 24 hours.</div>
+        </div>
+        <div class="bullet-item">
+          <div class="bullet-dot"></div>
+          <div><strong>The response must arrive within the 24hr session window.</strong> If the window has expired, ZoAi must use a pre-approved template to re-engage the dealer first.</div>
+        </div>
+        <div class="bullet-item">
+          <div class="bullet-dot"></div>
+          <div><strong>Use for contextual follow-ups</strong> — e.g., dealer taps "Know Product" → ZoAi sends a catalog link; dealer taps "Download Ledger" → ZoAi sends the ledger PDF; dealer taps "Raise an Issue" → ZoAi opens a ticket form.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">3-Bubble Structure</div>
+      <div class="three-bubble-table">
+        <div class="tbt-row">
+          <div class="tbt-num">1</div>
+          <div class="tbt-body">
+            <div class="tbt-title">Received Template (Business-Initiated)</div>
+            <div class="tbt-desc">A pre-approved WhatsApp Business template sent by ZoTok. Contains a Quick Reply button (e.g., "Download Ledger"). Requires Meta approval. Aligned left in the chat (receiver bubble style). Sender name shown above as "Zotok AI".</div>
+          </div>
+        </div>
+        <div class="tbt-row">
+          <div class="tbt-num">2</div>
+          <div class="tbt-body">
+            <div class="tbt-title">Sent Reply (Dealer Tap)</div>
+            <div class="tbt-desc">When the dealer taps a Quick Reply button, WhatsApp sends that button's label text as a plain sent message. Aligned right (sender bubble, background #DCF8C6). Opens the 24hr session window — ZoAi can now respond freely without a new template.</div>
+          </div>
+        </div>
+        <div class="tbt-row">
+          <div class="tbt-num">3</div>
+          <div class="tbt-body">
+            <div class="tbt-title">Received ZoAi Session Response</div>
+            <div class="tbt-desc">ZoAi detects the intent from the Quick Reply text and responds with the appropriate content — a document, a URL button, a form link, or a plain message. This is a session message within the 24hr window: no Meta approval needed. Aligned left (receiver bubble). Can include a document header + CTA button.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Auto-Scroll Setup — Critical Implementation Note</div>
+      <div class="warn-box">
+        <p style="margin-bottom:8px"><strong>When a screen uses this 3-bubble pattern, the chat area must scroll to the bottom</strong> so ZoAi's response (Bubble 3) is visible on load — otherwise the user only sees the initial template and the sent reply, and the ZoAi response is hidden below the fold.</p>
+        <p style="margin-bottom:10px;">Follow these two steps in the journey HTML:</p>
+        <p style="margin-bottom:4px;"><strong>Step A — Add an ID to the chat area element for that screen:</strong></p>
+        <p style="margin-bottom:10px; font-family:monospace; font-size:11.5px; color:#FFB300;">&lt;div class="chat-area" <strong>id="s3s2-chat"</strong>&gt;</p>
+        <p style="margin-bottom:4px;"><strong>Step B — In <code>showDesktopStep(n)</code>, add a scroll after the scale call:</strong></p>
+        <p style="font-family:monospace; font-size:11.5px; color:#FFB300; line-height:1.8;">if (n === 3) &#123;<br>
+&nbsp;&nbsp;setTimeout(scaleStep3Desktop, 10);<br>
+&nbsp;&nbsp;setTimeout(function() &#123;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var c = document.getElementById('s3s2-chat');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (c) c.scrollTop = c.scrollHeight;<br>
+&nbsp;&nbsp;&#125;, 80);<br>
+&#125;</p>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Meta Compliance</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">✓</span> Bubble 3 (ZoAi response) is a session message — no Meta template approval required</div>
+        <div class="check-item"><span class="pass">✓</span> Bubble 3 may include a document header, body text, and CTA buttons freely — session messages are not restricted by template rules</div>
+        <div class="check-item"><span class="pass">✓</span> Bubble 1 (the initial template with Quick Reply) DOES require Meta approval — submit it in the template manager before using</div>
+        <div class="check-item"><span class="pass">✓</span> Quick Reply labels on Bubble 1: max 3 buttons, 25 chars each, no emojis in button titles</div>
+        <div class="check-item"><span class="pass">✓</span> "Download Ledger" = 15 chars ✓ · "View Credit Note" = 16 chars ✓ · both under 25 ✓</div>
+        <div class="check-item"><span class="pass">✓</span> ZoAi must respond within 24 hours of the dealer's last message to use session messages</div>
+        <div class="check-item"><span class="pass">✓</span> If the 24hr window has expired, ZoAi must send a pre-approved template to re-open the session</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">HTML Snippet — Copy Into Screen Generator</div>
+      <div class="usage-block"><span class="u-cmt">&lt;!-- ZoAi Bot Response Pattern — 3-Bubble Sequence              --&gt;
+&lt;!-- Bubble 1: received template | 2: sent reply | 3: ZoAi session --&gt;</span>
+
+<span class="u-cmt">&lt;!-- ① Received Template (business-initiated, approved, aligned left) --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-sender-name"</span>&gt;Zotok AI&lt;/<span class="u-tag">div</span>&gt;
+&lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl"</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-body"</span>&gt;
+    Your credit note &lt;<span class="u-tag">strong</span>&gt;OE-CN-2147&lt;/<span class="u-tag">strong</span>&gt; has been issued.
+    Tap below to take action.
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-time"</span>&gt;11:15 AM ✓✓&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-btns"</span>&gt;
+    &lt;<span class="u-tag">button</span> <span class="u-attr">class</span>=<span class="u-val">"wa-cta-btn"</span>&gt;↗ View Credit Note&lt;/<span class="u-tag">button</span>&gt;
+    &lt;<span class="u-tag">button</span> <span class="u-attr">class</span>=<span class="u-val">"wa-qr-btn"</span>&gt;↩ Download Ledger&lt;/<span class="u-tag">button</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- ② Sent reply — dealer taps Quick Reply, WA sends label as text --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"msg-sender-wrap"</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"msg-sender"</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"msg-body"</span>&gt;Download Ledger&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">span</span> <span class="u-attr">class</span>=<span class="u-val">"msg-time"</span>&gt;11:16 AM &lt;<span class="u-tag">span</span> <span class="u-attr">class</span>=<span class="u-val">"msg-tick"</span>&gt;✓✓&lt;/<span class="u-tag">span</span>&gt;&lt;/<span class="u-tag">span</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- ③ ZoAi session response — no approval needed, within 24hr window --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-sender-name"</span>&gt;Zotok AI&lt;/<span class="u-tag">div</span>&gt;
+&lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl"</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-hdr-doc-bar"</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"doc-icon-wrap"</span>&gt;...&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"doc-meta"</span>&gt;
+      &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"doc-filename"</span>&gt;Ledger_OE-Apr2026.pdf&lt;/<span class="u-tag">div</span>&gt;
+      &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"doc-fileinfo"</span>&gt;Apr 2026 · 2.1 MB · pdf&lt;/<span class="u-tag">div</span>&gt;
+    &lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"doc-download"</span>&gt;↓&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-body"</span>&gt;
+    Here is your ledger statement for Apr 2026.
+    Tap View Ledger to see your account.
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-time"</span>&gt;11:16 AM ✓✓&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-btns"</span>&gt;
+    &lt;<span class="u-tag">button</span> <span class="u-attr">class</span>=<span class="u-val">"wa-cta-btn"</span>&gt;↗ View Ledger&lt;/<span class="u-tag">button</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- AUTO-SCROLL: add id="sNsM-chat" to chat-area div above,
+     then in showDesktopStep(n): setTimeout(function() {
+       var c = document.getElementById('sNsM-chat');
+       if (c) c.scrollTop = c.scrollHeight;
+     }, 80);                                                          --&gt;</span></div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

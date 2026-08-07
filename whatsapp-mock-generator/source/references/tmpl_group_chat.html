@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — WhatsApp Group Chat Screen</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-wa    { background: #0a3a2a; color: #25D366; border: 1px solid #25D36644; }
+  .badge-group { background: #1a1a5c; color: #82b1ff; border: 1px solid #1565C055; }
+  .badge-note  { background: #2a2000; color: #FFD54F; border: 1px solid #FFD54F44; }
+  .page-title  { font-size: 18px; font-weight: 700; }
+  .page-sub    { font-size: 12px; color: #666; margin-top: 2px; }
+
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    width: 440px; flex-shrink: 0; padding: 32px 28px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .preview-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; align-self: flex-start; }
+
+  /* ══════════════════════════════
+     PHONE FRAME
+  ══════════════════════════════ */
+  .phone-frame {
+    width: 310px;
+    border-radius: 40px;
+    border: 8px solid #1a1a1a;
+    box-shadow: 0 24px 64px rgba(0,0,0,.5);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    height: 620px;
+  }
+
+  /* ── Status bar — white background ── */
+  .status-bar {
+    background: #fff;
+    padding: 9px 16px 5px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .status-time { font-size: 13px; font-weight: 600; color: #111; }
+  .status-icons { display: flex; align-items: center; gap: 5px; }
+
+  /* Battery with number (iOS 16+ style) */
+  .battery-pct {
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid #111; border-radius: 3.5px;
+    padding: 1px 4px; font-size: 9.5px; font-weight: 700; color: #111;
+    height: 15px; min-width: 26px; position: relative;
+  }
+  .battery-pct::after {
+    content: ''; position: absolute; right: -4px; top: 50%;
+    transform: translateY(-50%);
+    width: 2px; height: 6px; background: #111; border-radius: 0 1px 1px 0;
+  }
+
+  /* ── Group top bar — WHITE, dark icons/text ── */
+  .wa-topbar {
+    background: #fff;
+    border-bottom: 1px solid #ebebeb;
+    padding: 6px 12px 8px;
+    display: flex; align-items: center; gap: 8px;
+    flex-shrink: 0;
+  }
+  .wa-back {
+    display: flex; align-items: center; margin-right: 2px;
+    color: #007AFF; /* iOS blue back arrow */
+  }
+  /* Group avatar — scenic landscape circle */
+  .group-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    overflow: hidden; flex-shrink: 0;
+    position: relative;
+    background: linear-gradient(180deg, #b8dcf0 0%, #87ceeb 38%, #6db56d 65%, #3a7a2a 100%);
+  }
+  .group-avatar::before {
+    content: ''; position: absolute;
+    width: 20px; height: 9px; background: #fff; border-radius: 5px;
+    top: 10px; left: 50%; transform: translateX(-50%);
+    box-shadow: -6px 3px 0 -1px #fff, 6px 3px 0 -1px #fff;
+  }
+  .wa-group-info { flex: 1; min-width: 0; }
+  .wa-group-name {
+    font-size: 14.5px; font-weight: 600; color: #111;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .wa-actions { display: flex; align-items: center; gap: 16px; }
+
+  /* ── Chat area ── */
+  .chat-area {
+    flex: 1; overflow-y: auto;
+    padding: 10px 10px 8px;
+    background-color: #ECE5DD;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.13'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    display: flex; flex-direction: column; gap: 8px;
+  }
+
+  /* ── Receiver bubble (group member) ── */
+  .msg-receiver-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+  .msg-receiver {
+    background: #fff;
+    border-radius: 0 10px 10px 10px;
+    padding: 7px 11px 5px;
+    max-width: 258px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.09);
+    position: relative;
+  }
+  /* Left tail */
+  .msg-receiver::before {
+    content: ''; position: absolute;
+    top: 0; left: -7px;
+    border-width: 0 8px 8px 0;
+    border-style: solid;
+    border-color: transparent #fff transparent transparent;
+  }
+  /* Sender name — first line inside bubble, green */
+  .sender-name {
+    font-size: 12.5px; font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .msg-body {
+    font-size: 13.5px; color: #111B21; line-height: 1.45;
+  }
+  .msg-time {
+    font-size: 10.5px; color: #667781;
+    text-align: right; margin-top: 3px; display: block;
+  }
+
+  /* ── Sender bubble (You) ── */
+  .msg-sender-wrap { display: flex; flex-direction: column; align-items: flex-end; }
+  .sender-you-label {
+    font-size: 12.5px; font-weight: 700;
+    margin-bottom: 3px; padding-right: 2px;
+  }
+  .msg-sender {
+    background: #DCF8C6;
+    border-radius: 10px 0 10px 10px;
+    padding: 7px 11px 5px;
+    max-width: 258px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.09);
+    position: relative;
+  }
+  /* Right tail */
+  .msg-sender::after {
+    content: ''; position: absolute;
+    top: 0; right: -7px;
+    border-width: 0 0 8px 8px;
+    border-style: solid;
+    border-color: transparent transparent transparent #DCF8C6;
+  }
+  .msg-tick { color: #53bdeb; font-size: 10.5px; }
+
+  /* ── Input bar ── */
+  .input-bar {
+    background: #f0f0f0; padding: 6px 8px;
+    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  }
+  .input-field {
+    flex: 1; background: #fff; border-radius: 22px;
+    padding: 7px 14px; font-size: 13px; color: #8696a0;
+    display: flex; align-items: center;
+    box-shadow: 0 1px 2px rgba(0,0,0,.06);
+  }
+  .input-icons { display: flex; align-items: center; gap: 12px; color: #54656f; }
+
+  /* ══════════════════════════════
+     SPEC PANE
+  ══════════════════════════════ */
+  .spec-pane {
+    flex: 1; padding: 32px 36px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 26px;
+  }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .5px; margin-bottom: 10px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  .spec-table { width: 100%; border-collapse: collapse; }
+  .spec-table th {
+    font-size: 11px; font-weight: 600; color: #666; text-align: left;
+    padding: 5px 8px; background: #12121f; border-bottom: 1px solid #2a2a3e;
+  }
+  .spec-table td {
+    font-size: 12px; padding: 7px 8px; border-bottom: 1px solid #1e1e30;
+    color: #ccc; vertical-align: top;
+  }
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table td:first-child { color: #888; width: 200px; }
+  .mono  { font-family: 'SF Mono','Fira Code',monospace; font-size: 11px; color: #64B5F6; }
+  .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 5px; vertical-align: middle; border: 1px solid rgba(255,255,255,.1); }
+
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
+  .check-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: #bbb; line-height: 1.4; }
+  .check-ok   { color: #66BB6A; flex-shrink: 0; }
+  .check-info { color: #64B5F6; flex-shrink: 0; }
+  .check-warn { color: #FFD54F; flex-shrink: 0; }
+  .check-err  { color: #EF5350; flex-shrink: 0; }
+
+  .note-box { border-radius: 6px; padding: 12px 14px; font-size: 12px; line-height: 1.6; }
+  .note-box.yellow { background: #2a2000; border: 1px solid #FFD54F33; color: #FFD54F; }
+  .note-box.blue   { background: #0d1b2a; border: 1px solid #1565C055; color: #90CAF9; }
+
+  /* Member color palette */
+  .c-m1  { color: #E91E63; }
+  .c-m2  { color: #9C27B0; }
+  .c-you { color: #2E7D32; }
+</style>
+</head>
+<body>
+
+<!-- ── Page header ── -->
+<div class="page-header">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="page-badge badge-wa">WhatsApp Group</span>
+      <span class="page-badge badge-group">Session Message</span>
+      <span class="page-badge badge-note">No Templates</span>
+    </div>
+    <div class="page-title" style="margin-top:6px;">WhatsApp Group Chat Screen</div>
+    <div class="page-sub">
+      White top bar · group name header · sender name inside each bubble · no business templates
+      &nbsp;·&nbsp; <span style="color:#64B5F6;">tmpl_group_chat.html</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ══════════════════════════════
+       PREVIEW PANE
+  ══════════════════════════════ -->
+  <div class="preview-pane">
+    <div class="preview-label">Live Preview</div>
+
+    <div class="phone-frame">
+
+      <!-- Status bar — WHITE bg, dark text -->
+      <div class="status-bar">
+        <span class="status-time">23:59</span>
+        <div class="status-icons">
+          <!-- Signal bars -->
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+            <rect x="0"  y="8"  width="3" height="4"  rx=".5" fill="#111"/>
+            <rect x="4"  y="5"  width="3" height="7"  rx=".5" fill="#111"/>
+            <rect x="8"  y="2"  width="3" height="10" rx=".5" fill="#111"/>
+            <rect x="12" y="0"  width="3" height="12" rx=".5" fill="#111"/>
+          </svg>
+          <!-- WiFi -->
+          <svg width="16" height="12" viewBox="0 0 24 18" fill="none">
+            <path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111"/>
+            <path d="M5.6 9.4a9 9 0 0112.8 0"  stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M2 5.8A14 14 0 0122 5.8"   stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+          <!-- Battery 100 -->
+          <div class="battery-pct">100</div>
+        </div>
+      </div>
+
+      <!-- Group top bar — WHITE bg, dark icons -->
+      <div class="wa-topbar">
+        <!-- Back arrow — iOS blue -->
+        <div class="wa-back">
+          <svg width="9" height="16" viewBox="0 0 10 17" fill="none">
+            <path d="M9 1L1 8.5L9 16" stroke="#007AFF" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <!-- Group avatar — scenic landscape -->
+        <div class="group-avatar"></div>
+
+        <!-- Group name -->
+        <div class="wa-group-info">
+          <div class="wa-group-name">Company Name Here</div>
+        </div>
+
+        <!-- Action icons — dark -->
+        <div class="wa-actions">
+          <!-- Video call -->
+          <svg width="21" height="15" viewBox="0 0 24 17" fill="none">
+            <rect x="1" y="1" width="15" height="15" rx="2" stroke="#111" stroke-width="2"/>
+            <path d="M16 6l7-4v13l-7-4V6z" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+          <!-- Phone -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3-8.57A2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"
+                  stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ── Chat area ── -->
+      <div class="chat-area">
+
+        <!-- Message 1 — Member 1 (receiver, left) -->
+        <div class="msg-receiver-wrap">
+          <div class="msg-receiver">
+            <div class="sender-name c-m1">Member 1</div>
+            <div class="msg-body">
+              Hello <strong>Aditya Ram</strong> 👋<br>
+              Welcome to The Whole Truth Foods –<br>
+              Retail Partner Hub 🍎<br>
+              Please choose an option:
+            </div>
+            <span class="msg-time">12:54 PM</span>
+          </div>
+        </div>
+
+        <!-- Message 2 — You (sender, right) -->
+        <div class="msg-sender-wrap">
+          <div class="sender-you-label c-you">You (Name)</div>
+          <div class="msg-sender">
+            <div class="msg-body">
+              Hello <strong>Aditya Ram</strong> 👋<br>
+              Welcome to The Whole Truth Foods –<br>
+              Retail Partner Hub 🍎<br>
+              Please choose an option:
+            </div>
+            <span class="msg-time">12:54 PM <span class="msg-tick">✓✓</span></span>
+          </div>
+        </div>
+
+        <!-- Message 3 — Member 2 (receiver, left) -->
+        <div class="msg-receiver-wrap">
+          <div class="msg-receiver">
+            <div class="sender-name c-m2">Member 2</div>
+            <div class="msg-body">
+              Hello <strong>Aditya Ram</strong> 👋<br>
+              Welcome to The Whole Truth Foods –<br>
+              Retail Partner Hub 🍎<br>
+              Please choose an option:
+            </div>
+            <span class="msg-time">12:54 PM</span>
+          </div>
+        </div>
+
+      </div><!-- /chat-area -->
+
+      <!-- Input bar -->
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/>
+          <path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <div class="input-field">Type a message</div>
+        <div class="input-icons">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"
+                  stroke="#54656f" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="12" cy="13" r="4" stroke="#54656f" stroke-width="1.8"/>
+          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/>
+            <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"
+                  stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+    </div><!-- /phone-frame -->
+  </div><!-- /preview-pane -->
+
+
+  <!-- ══════════════════════════════
+       SPEC PANE
+  ══════════════════════════════ -->
+  <div class="spec-pane">
+
+    <!-- Group vs DM differences -->
+    <div>
+      <div class="spec-section-title">Group Chat — Key Differences from DM</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>DM (1:1 Business)</th><th>WhatsApp Group</th></tr></thead>
+        <tr>
+          <td>Top bar background</td>
+          <td><span class="swatch" style="background:#075E54;"></span><span class="mono">#075E54</span> dark teal</td>
+          <td><span class="swatch" style="background:#fff;border:1px solid #555;"></span><span class="mono">#FFFFFF</span> white — dark icons</td>
+        </tr>
+        <tr>
+          <td>Top bar title</td>
+          <td>Business name, white text</td>
+          <td>Group name, dark <span class="mono">#111111</span> text</td>
+        </tr>
+        <tr>
+          <td>Back arrow color</td>
+          <td>White</td>
+          <td>iOS blue <span class="mono">#007AFF</span></td>
+        </tr>
+        <tr>
+          <td>Action icons</td>
+          <td>White (video, phone)</td>
+          <td>Dark <span class="mono">#111111</span> (video, phone)</td>
+        </tr>
+        <tr>
+          <td>Status bar</td>
+          <td>White bg OR green (matches topbar)</td>
+          <td>White bg, dark text/icons</td>
+        </tr>
+        <tr>
+          <td>Business message templates</td>
+          <td>Allowed (Marketing / Utility)</td>
+          <td><strong style="color:#EF5350;">Not allowed</strong> — groups only receive plain session messages</td>
+        </tr>
+        <tr>
+          <td>Sender name in bubble</td>
+          <td>Not shown (1:1 chat, context is clear)</td>
+          <td>Shown as first line inside each receiver bubble, colored</td>
+        </tr>
+        <tr>
+          <td>Your sent message name</td>
+          <td>No label</td>
+          <td>"You (Name)" label shown <em>above</em> the green bubble</td>
+        </tr>
+        <tr>
+          <td>Avatar</td>
+          <td>Business profile picture</td>
+          <td>Group profile picture (set by group admin)</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Bubble anatomy -->
+    <div>
+      <div class="spec-section-title">Bubble Anatomy</div>
+      <table class="spec-table">
+        <thead><tr><th>Part</th><th>Receiver (group member)</th><th>Sender (you)</th></tr></thead>
+        <tr>
+          <td>Shape</td>
+          <td>0px top-left, 10px others · left tail triangle</td>
+          <td>10px top-right = 0, others 10px · right tail triangle</td>
+        </tr>
+        <tr>
+          <td>Background</td>
+          <td><span class="swatch" style="background:#fff;border:1px solid #555;"></span><span class="mono">#FFFFFF</span></td>
+          <td><span class="swatch" style="background:#DCF8C6;"></span><span class="mono">#DCF8C6</span></td>
+        </tr>
+        <tr>
+          <td>Sender name line</td>
+          <td>First line inside bubble · 12.5px bold · unique color per member</td>
+          <td>"You (Name)" label sits <em>above</em> bubble (outside) · same color system</td>
+        </tr>
+        <tr>
+          <td>Message body</td>
+          <td>13.5px · <span class="mono">#111B21</span> · <code>&lt;strong&gt;</code> for *bold* text</td>
+          <td>Same</td>
+        </tr>
+        <tr>
+          <td>Timestamp</td>
+          <td>10.5px · <span class="mono">#667781</span> · right-aligned</td>
+          <td>Same + blue ✓✓ double tick</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Member color palette -->
+    <div>
+      <div class="spec-section-title">Sender Name Color Palette</div>
+      <table class="spec-table">
+        <thead><tr><th>Role</th><th>Color</th><th>CSS</th></tr></thead>
+        <tr><td>Member 1</td><td><span style="color:#E91E63;">■ Pink</span></td><td><span class="mono">#E91E63</span></td></tr>
+        <tr><td>Member 2</td><td><span style="color:#9C27B0;">■ Purple</span></td><td><span class="mono">#9C27B0</span></td></tr>
+        <tr><td>Member 3</td><td><span style="color:#1565C0;">■ Blue</span></td><td><span class="mono">#1565C0</span></td></tr>
+        <tr><td>Member 4</td><td><span style="color:#E65100;">■ Orange</span></td><td><span class="mono">#E65100</span></td></tr>
+        <tr><td>You / Self</td><td><span style="color:#2E7D32;">■ Green</span></td><td><span class="mono">#2E7D32</span></td></tr>
+        <tr><td>ZoTok bot / Business</td><td><span style="color:#00897B;">■ Teal</span></td><td><span class="mono">#00897B</span></td></tr>
+      </table>
+      <div style="font-size:11px; color:#555; margin-top:8px;">
+        Assign colors sequentially to members. Never reuse the same color for two different members in the same group.
+      </div>
+    </div>
+
+    <!-- Top bar spec -->
+    <div>
+      <div class="spec-section-title">Top Bar — Color Tokens</div>
+      <table class="spec-table">
+        <tr><td>Background</td><td><span class="swatch" style="background:#fff;border:1px solid #555;"></span><span class="mono">#FFFFFF</span> — contrast with DM (<span class="mono">#075E54</span>)</td></tr>
+        <tr><td>Bottom border</td><td><span class="mono">#EBEBEB</span> 1px solid</td></tr>
+        <tr><td>Back arrow</td><td><span class="mono">#007AFF</span> iOS system blue</td></tr>
+        <tr><td>Group name</td><td><span class="mono">#111111</span> 14.5px font-weight 600</td></tr>
+        <tr><td>Video / Phone icons</td><td><span class="mono">#111111</span></td></tr>
+        <tr><td>Group avatar size</td><td>38px circle — group profile picture</td></tr>
+      </table>
+    </div>
+
+    <!-- No templates warning -->
+    <div class="note-box yellow">
+      <strong>⚠ No WhatsApp Business Templates in Groups:</strong><br>
+      WhatsApp Business API templates (Marketing / Utility / Authentication) <strong>cannot be sent to groups</strong>.
+      Groups only support plain session messages (text, media, documents). There are no Quick Reply buttons,
+      CTA buttons, or structured template components in group messages. All group messages are plain
+      conversational text with optional rich media (images, PDFs, voice notes).
+    </div>
+
+    <!-- Use case -->
+    <div class="note-box blue">
+      <strong>ZoTok Use Case — Retailer Partner Hubs:</strong><br>
+      ZoTok uses WhatsApp Groups to create Retailer Partner Hubs — a shared space where the distributor's
+      sales team (multiple members) and the retailer communicate together. The group acts as a
+      persistent order room: any member can post updates, share invoices (as PDFs), or send voice notes.
+      ZoTok's AI bot participates in the group and responds to queries from any member.
+    </div>
+
+    <!-- Checklist -->
+    <div>
+      <div class="spec-section-title">Checklist</div>
+      <div class="checklist">
+        <div class="check-item"><span class="check-ok">✓</span> Top bar is WHITE — not dark green. Status bar also white.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Back arrow is iOS blue (#007AFF), not white.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Group name shown in dark text (#111), not white.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Sender name is the FIRST LINE inside each receiver bubble (not above it).</div>
+        <div class="check-item"><span class="check-ok">✓</span> "You (Name)" label is ABOVE the green sender bubble (outside the bubble).</div>
+        <div class="check-item"><span class="check-ok">✓</span> Each member gets a unique color — assigned sequentially, never repeated.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Bold text (*Aditya Ram*) rendered with &lt;strong&gt; inside .msg-body.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Battery shows number ("100") in box — iOS 16+ style.</div>
+        <div class="check-item"><span class="check-err">✗</span> Do NOT add Quick Reply buttons or CTA buttons to group messages.</div>
+        <div class="check-item"><span class="check-err">✗</span> Do NOT use the dark green #075E54 header — that is only for DM screens.</div>
+        <div class="check-item"><span class="check-warn">⚠</span> Only show sender label above a bubble when the sender changes — don't repeat it for consecutive messages from the same member.</div>
+      </div>
+    </div>
+
+  </div><!-- /spec-pane -->
+</div><!-- /layout -->
+
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Ledger Statement WebView</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-webview { background: #00695C; color: #fff; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .page-sub { font-size: 12px; color: #666; margin-top: 2px; }
+
+  /* ── Layout ── */
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    width: 380px; flex-shrink: 0; padding: 40px 32px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .preview-label {
+    font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px;
+  }
+
+  /* ── Ledger card (browser content area, no phone frame) ── */
+  .ledger-card {
+    width: 300px; background: #fff; border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.28); overflow: hidden;
+  }
+
+  /* URL bar */
+  .url-bar {
+    background: #f0f0f0; border-radius: 20px;
+    padding: 8px 14px; margin: 10px 10px 0;
+    text-align: center; font-size: 12px;
+    color: #1a73e8; font-family: -apple-system, sans-serif;
+  }
+
+  /* Dealer header row */
+  .dealer-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px; border-bottom: 1px solid #f0f0f0;
+  }
+  .dealer-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #e0e0e0; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #555;
+  }
+  .dealer-info { flex: 1; min-width: 0; }
+  .dealer-name { font-size: 13.5px; font-weight: 700; color: #111; }
+  .dealer-sub { font-size: 10.5px; color: #888; margin-top: 1px; }
+  .dealer-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .dealer-actions svg { color: #555; }
+
+  /* Filter pills row */
+  .filter-row {
+    display: flex; gap: 6px; padding: 8px 14px;
+    overflow-x: auto; border-bottom: 1px solid #f0f0f0;
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .pill-active {
+    background: #111; color: #fff; border-radius: 20px;
+    padding: 4px 12px; font-size: 11px; font-weight: 600;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .pill-inactive {
+    border: 1px solid #ccc; border-radius: 20px;
+    padding: 4px 10px; font-size: 11px; color: #444;
+    white-space: nowrap; flex-shrink: 0; background: #fff;
+  }
+
+  /* Table header */
+  .tbl-header {
+    display: grid; grid-template-columns: 1fr 70px 70px;
+    padding: 8px 14px; font-size: 11px; font-weight: 700;
+    color: #444; border-bottom: 1px solid #e0e0e0;
+  }
+  .tbl-header .col-r { text-align: right; }
+
+  /* Row base */
+  .tbl-row {
+    display: grid; grid-template-columns: 1fr 70px 70px;
+    padding: 10px 14px; border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+  }
+  .tbl-row:last-child { border-bottom: none; }
+  .row-opening { background: #FFF8E1; }
+  .row-closing { background: #f5f5f5; border-bottom: none; }
+
+  .row-date { font-size: 12px; font-weight: 700; color: #111; }
+  .row-desc { font-size: 11px; color: #555; margin-top: 2px; }
+  .col-r { text-align: right; }
+  .col-debit { font-size: 11.5px; font-weight: 700; color: #E53935; }
+  .col-credit { font-size: 11.5px; font-weight: 700; color: #2E7D32; }
+  .col-nil { font-size: 11.5px; color: #bbb; }
+  .closing-label { font-size: 12px; font-weight: 700; color: #111; }
+  .closing-sub { font-size: 10px; color: #777; margin-top: 1px; }
+  .closing-amount {
+    grid-column: 2 / 4; text-align: right;
+    font-size: 12px; font-weight: 700; color: #E53935;
+  }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 40px; overflow-y: auto; }
+  .spec-section { margin-bottom: 28px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .6px; margin-bottom: 12px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  .meta-grid { display: grid; grid-template-columns: 160px 1fr; gap: 8px 12px; }
+  .meta-key { font-size: 12px; color: #666; }
+  .meta-val { font-size: 12px; color: #ccc; }
+  .meta-val code {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 4px;
+    padding: 1px 6px; font-size: 11px; color: #4CAF50; font-family: monospace;
+  }
+  .tag {
+    display: inline-block; border-radius: 10px; padding: 2px 8px;
+    font-size: 11px; font-weight: 600;
+  }
+  .tag-webview { background: #00695C; color: #fff; }
+  .tag-none    { background: #37474F; color: #fff; }
+
+  .check-list { display: flex; flex-direction: column; gap: 7px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12.5px; color: #aaa; line-height: 1.4;
+  }
+  .pass { color: #4CAF50; flex-shrink: 0; }
+
+  .body-preview {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 13px; color: #ccc; line-height: 1.8;
+    white-space: pre-wrap; font-family: monospace;
+  }
+  .body-preview .var   { color: #4CAF50; font-weight: 700; }
+  .body-preview .bold  { color: #fff; font-weight: 700; }
+
+  .usage-block {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 12px; color: #aaa; line-height: 1.7;
+    font-family: monospace; overflow-x: auto; white-space: pre;
+  }
+  .u-tag  { color: #f06292; }
+  .u-attr { color: #64B5F6; }
+  .u-val  { color: #a5d6a7; }
+  .u-cmt  { color: #444; }
+
+  .color-swatch {
+    display: inline-block; width: 12px; height: 12px; border-radius: 2px;
+    vertical-align: middle; margin-right: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="page-badge badge-webview">WebView</span>
+  <div>
+    <div class="page-title">Ledger Statement — WebView</div>
+    <div class="page-sub">tmpl_ledger_webview &nbsp;·&nbsp; Embedded Browser &nbsp;·&nbsp; zonodigital.com &nbsp;·&nbsp; No Meta Approval</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Preview ── -->
+  <div class="preview-pane">
+    <div class="preview-label">Rendered Preview</div>
+
+    <div class="ledger-card">
+
+      <!-- 1. Browser URL bar -->
+      <div class="url-bar">zonodigital.com</div>
+
+      <!-- 2. Dealer header row -->
+      <div class="dealer-header">
+        <div class="dealer-avatar">RE</div>
+        <div class="dealer-info">
+          <div class="dealer-name">Ramesh Electricals</div>
+          <div class="dealer-sub">Ledger &nbsp;·&nbsp; 01 Apr 2026 to 26 Apr 2026</div>
+        </div>
+        <div class="dealer-actions">
+          <!-- Calendar icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <!-- Download icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 3. Filter pills row -->
+      <div class="filter-row">
+        <div class="pill-active">All</div>
+        <div class="pill-inactive">Payment</div>
+        <div class="pill-inactive">Debit Note</div>
+        <div class="pill-inactive">Credit Note</div>
+        <div class="pill-inactive">Sales</div>
+      </div>
+
+      <!-- 4. Table header -->
+      <div class="tbl-header">
+        <div>Ledger</div>
+        <div class="col-r">Debit</div>
+        <div class="col-r">Credit</div>
+      </div>
+
+      <!-- 5. Opening Balance row -->
+      <div class="tbl-row row-opening">
+        <div>
+          <div class="row-date">01 Apr</div>
+          <div class="row-desc">Opening Balance</div>
+        </div>
+        <div class="col-r col-debit">₹18,42,160</div>
+        <div class="col-r col-nil">—</div>
+      </div>
+
+      <!-- 6. Transaction rows -->
+      <div class="tbl-row">
+        <div>
+          <div class="row-date">22 Apr</div>
+          <div class="row-desc">OE-INV-7821 &nbsp;·&nbsp; Invoice</div>
+        </div>
+        <div class="col-r col-debit">₹78,840</div>
+        <div class="col-r col-nil">—</div>
+      </div>
+
+      <div class="tbl-row">
+        <div>
+          <div class="row-date">26 Apr</div>
+          <div class="row-desc">OE-CN-2147 &nbsp;·&nbsp; Credit Note</div>
+        </div>
+        <div class="col-r col-nil">—</div>
+        <div class="col-r col-credit">₹7,840</div>
+      </div>
+
+      <div class="tbl-row">
+        <div>
+          <div class="row-date">25 Apr</div>
+          <div class="row-desc">UPI-9321840234 &nbsp;·&nbsp; Payment</div>
+        </div>
+        <div class="col-r col-nil">—</div>
+        <div class="col-r col-credit">₹40,000</div>
+      </div>
+
+      <!-- 7. Closing Balance row -->
+      <div class="tbl-row row-closing">
+        <div>
+          <div class="closing-label">Closing Balance</div>
+          <div class="closing-sub">(To Pay)</div>
+        </div>
+        <div class="closing-amount">₹19,73,160</div>
+      </div>
+
+    </div>
+
+    <div style="font-size:11px;color:#444;text-align:center;max-width:260px;line-height:1.5;margin-top:4px">
+      WebView — no Meta approval needed.<br>Opened via "View Ledger" CTA in ZoAi session message.
+    </div>
+  </div>
+
+  <!-- ── Spec ── -->
+  <div class="spec-pane">
+
+    <!-- 1. WebView Metadata -->
+    <div class="spec-section">
+      <div class="spec-section-title">WebView Metadata</div>
+      <div class="meta-grid">
+        <div class="meta-key">Type</div>
+        <div class="meta-val">Embedded Browser WebView</div>
+        <div class="meta-key">URL Domain</div>
+        <div class="meta-val"><code>zonodigital.com</code></div>
+        <div class="meta-key">Meta Approval</div>
+        <div class="meta-val"><span class="tag tag-none">Not Required</span></div>
+        <div class="meta-key">Opened Via</div>
+        <div class="meta-val">"View Ledger" CTA button in ZoAi session message</div>
+        <div class="meta-key">Sub-type</div>
+        <div class="meta-val"><code>ledger</code> — alongside catalog-browse, catalog-cart, web-form</div>
+        <div class="meta-key">Date Range</div>
+        <div class="meta-val">Passed as URL param — e.g. <code>?from=2026-04-01&amp;to=2026-04-26</code></div>
+        <div class="meta-key">Auth</div>
+        <div class="meta-val">Phone number pre-filled via <code>?wa=91XXXXXXXXXX</code></div>
+      </div>
+    </div>
+
+    <!-- 2. Color Tokens -->
+    <div class="spec-section">
+      <div class="spec-section-title">Color Tokens</div>
+      <div class="meta-grid">
+        <div class="meta-key">Opening Balance bg</div>
+        <div class="meta-val"><span class="color-swatch" style="background:#FFF8E1;border:1px solid #e0e0e0;"></span><code>#FFF8E1</code> — warm yellow tint</div>
+        <div class="meta-key">Closing Balance bg</div>
+        <div class="meta-val"><span class="color-swatch" style="background:#f5f5f5;border:1px solid #e0e0e0;"></span><code>#f5f5f5</code> — light grey</div>
+        <div class="meta-key">Debit amount</div>
+        <div class="meta-val"><span class="color-swatch" style="background:#E53935;"></span><code>#E53935</code> — red</div>
+        <div class="meta-key">Credit amount</div>
+        <div class="meta-val"><span class="color-swatch" style="background:#2E7D32;"></span><code>#2E7D32</code> — green</div>
+        <div class="meta-key">Active filter pill</div>
+        <div class="meta-val"><span class="color-swatch" style="background:#111;"></span><code>#111</code> bg, white text</div>
+        <div class="meta-key">Inactive filter pill</div>
+        <div class="meta-val"><code>border:1px solid #ccc</code>, <code>#444</code> text, white bg</div>
+        <div class="meta-key">URL bar text</div>
+        <div class="meta-val"><span class="color-swatch" style="background:#1a73e8;"></span><code>#1a73e8</code> — Google blue</div>
+        <div class="meta-key">Table header text</div>
+        <div class="meta-val"><code>#444</code></div>
+        <div class="meta-key">Row separator</div>
+        <div class="meta-val"><code>border-bottom: 1px solid #f0f0f0</code></div>
+        <div class="meta-key">Missing value marker</div>
+        <div class="meta-val"><code>—</code> in <code>#bbb</code> grey</div>
+      </div>
+    </div>
+
+    <!-- 3. Table Layout Rules -->
+    <div class="spec-section">
+      <div class="spec-section-title">Table Layout Rules</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">✓</span> 3-column CSS grid: <code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#4CAF50;font-family:monospace">grid-template-columns: 1fr 70px 70px</code></div>
+        <div class="check-item"><span class="pass">✓</span> Debit and Credit columns right-aligned: <code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#4CAF50;font-family:monospace">text-align:right</code></div>
+        <div class="check-item"><span class="pass">✓</span> Debit = red <code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#4CAF50;font-family:monospace">#E53935</code>, Credit = green <code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#4CAF50;font-family:monospace">#2E7D32</code>, missing = <code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#4CAF50;font-family:monospace">—</code> in <code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#4CAF50;font-family:monospace">#bbb</code></div>
+        <div class="check-item"><span class="pass">✓</span> Row types: Opening Balance (<code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#4CAF50;font-family:monospace">#FFF8E1</code>), transactions (white), Closing Balance (<code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#4CAF50;font-family:monospace">#f5f5f5</code>)</div>
+        <div class="check-item"><span class="pass">✓</span> Closing Balance amount spans cols 2–3: <code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#4CAF50;font-family:monospace">grid-column: 2 / 4</code></div>
+        <div class="check-item"><span class="pass">✓</span> Never use HTML <code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#f06292;font-family:monospace">&lt;table&gt;</code> — use CSS grid divs only</div>
+        <div class="check-item"><span class="pass">✓</span> Row height auto (content-driven) — no fixed heights</div>
+        <div class="check-item"><span class="pass">✓</span> Each row: date line 12px bold + desc line 11px <code style="background:#0d0d1a;border:1px solid #2a2a3e;border-radius:3px;padding:1px 5px;font-size:11px;color:#4CAF50;font-family:monospace">#555</code></div>
+      </div>
+    </div>
+
+    <!-- 4. Filter Pills -->
+    <div class="spec-section">
+      <div class="spec-section-title">Filter Pills</div>
+      <div class="meta-grid">
+        <div class="meta-key">Options</div>
+        <div class="meta-val">All (default active), Payment, Debit Note, Credit Note, Sales</div>
+        <div class="meta-key">Active pill</div>
+        <div class="meta-val"><code>background:#111;color:#fff;border-radius:20px;padding:5px 13px;font-size:11px;font-weight:600</code></div>
+        <div class="meta-key">Inactive pill</div>
+        <div class="meta-val"><code>border:1px solid #ccc;border-radius:20px;padding:5px 11px;font-size:11px;color:#444</code></div>
+        <div class="meta-key">Container</div>
+        <div class="meta-val"><code>display:flex;gap:7px;overflow-x:auto</code> — hides scrollbar on WebKit</div>
+        <div class="meta-key">Overflow</div>
+        <div class="meta-val">Scrollable on small viewports — use <code>white-space:nowrap;flex-shrink:0</code> on each pill</div>
+      </div>
+    </div>
+
+    <!-- 5. Browser Chrome -->
+    <div class="spec-section">
+      <div class="spec-section-title">Browser Chrome</div>
+      <div class="meta-grid">
+        <div class="meta-key">URL pill</div>
+        <div class="meta-val"><code>background:#f0f0f0;border-radius:20px;padding:6px 14px;text-align:center;font-size:12px;color:#1a73e8</code></div>
+        <div class="meta-key">URL pill placement</div>
+        <div class="meta-val">Margin <code>10px 10px 0</code> — sits above the card content, below the outer card border-radius</div>
+        <div class="meta-key">Bottom nav (journey files)</div>
+        <div class="meta-val">Back (‹), Forward (›), Share, New Tab ([1]), Menu (···) — inline SVG icons</div>
+        <div class="meta-key">Title bar (journey files)</div>
+        <div class="meta-val">"Done" left · "WhatsApp" centred · "···" right — matches in-app browser chrome</div>
+        <div class="meta-key">Note</div>
+        <div class="meta-val">This reference shows content area only — add browser chrome wrapper from <code>tmpl_web_form.html</code> in journey files</div>
+      </div>
+    </div>
+
+    <!-- 6. HTML Snippet -->
+    <div class="spec-section">
+      <div class="spec-section-title">HTML Snippet — Copy Into Screen Generator</div>
+      <div class="usage-block"><span class="u-cmt">&lt;!-- Ledger WebView — content area (wrap in browser chrome from tmpl_web_form.html) --&gt;
+&lt;!-- No Meta approval · No template rules · Pure web design                     --&gt;</span>
+
+<span class="u-cmt">&lt;!-- 1. URL bar --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"background:#f0f0f0;border-radius:20px;padding:8px 14px;margin:10px 10px 0;text-align:center;font-size:12px;color:#1a73e8;"</span>&gt;
+  zonodigital.com
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- 2. Dealer header row --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #f0f0f0;"</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"width:34px;height:34px;border-radius:50%;background:#e0e0e0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#555;flex-shrink:0;"</span>&gt;RE&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"flex:1;min-width:0;"</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:13.5px;font-weight:700;color:#111;"</span>&gt;Ramesh Electricals&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:10.5px;color:#888;margin-top:1px;"</span>&gt;Ledger · 01 Apr 2026 to 26 Apr 2026&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"display:flex;gap:8px;"</span>&gt;[Calendar SVG] [Download SVG]&lt;/<span class="u-tag">div</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- 3. Filter pills --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"display:flex;gap:6px;padding:8px 14px;overflow-x:auto;border-bottom:1px solid #f0f0f0;"</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"background:#111;color:#fff;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;white-space:nowrap;"</span>&gt;All&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"border:1px solid #ccc;border-radius:20px;padding:4px 10px;font-size:11px;color:#444;white-space:nowrap;"</span>&gt;Payment&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"border:1px solid #ccc;border-radius:20px;padding:4px 10px;font-size:11px;color:#444;white-space:nowrap;"</span>&gt;Debit Note&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"border:1px solid #ccc;border-radius:20px;padding:4px 10px;font-size:11px;color:#444;white-space:nowrap;"</span>&gt;Credit Note&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"border:1px solid #ccc;border-radius:20px;padding:4px 10px;font-size:11px;color:#444;white-space:nowrap;"</span>&gt;Sales&lt;/<span class="u-tag">div</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- 4. Table header (3-col CSS grid — never &lt;table&gt;) --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"display:grid;grid-template-columns:1fr 70px 70px;padding:8px 14px;font-size:11px;font-weight:700;color:#444;border-bottom:1px solid #e0e0e0;"</span>&gt;
+  &lt;<span class="u-tag">div</span>&gt;Ledger&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"text-align:right;"</span>&gt;Debit&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"text-align:right;"</span>&gt;Credit&lt;/<span class="u-tag">div</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- 5. Opening Balance row --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"display:grid;grid-template-columns:1fr 70px 70px;padding:10px 14px;background:#FFF8E1;border-bottom:1px solid #e0e0e0;align-items:center;"</span>&gt;
+  &lt;<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:12px;font-weight:700;color:#111;"</span>&gt;01 Apr&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:11px;color:#555;margin-top:2px;"</span>&gt;Opening Balance&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"text-align:right;font-size:11.5px;font-weight:700;color:#E53935;"</span>&gt;₹18,42,160&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"text-align:right;font-size:11.5px;color:#bbb;"</span>&gt;—&lt;/<span class="u-tag">div</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- 6. Transaction row (repeat for each entry) --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"display:grid;grid-template-columns:1fr 70px 70px;padding:10px 14px;border-bottom:1px solid #f0f0f0;align-items:center;"</span>&gt;
+  &lt;<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:12px;font-weight:700;color:#111;"</span>&gt;22 Apr&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:11px;color:#555;margin-top:2px;"</span>&gt;OE-INV-7821 · Invoice&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"text-align:right;font-size:11.5px;font-weight:700;color:#E53935;"</span>&gt;₹78,840&lt;/<span class="u-tag">div</span>&gt;  <span class="u-cmt">&lt;!-- Debit --&gt;</span>
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"text-align:right;font-size:11.5px;color:#bbb;"</span>&gt;—&lt;/<span class="u-tag">div</span>&gt;                       <span class="u-cmt">&lt;!-- No credit --&gt;</span>
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- Credit row example --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"display:grid;grid-template-columns:1fr 70px 70px;padding:10px 14px;border-bottom:1px solid #f0f0f0;align-items:center;"</span>&gt;
+  &lt;<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:12px;font-weight:700;color:#111;"</span>&gt;25 Apr&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:11px;color:#555;margin-top:2px;"</span>&gt;UPI-9321840234 · Payment&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"text-align:right;font-size:11.5px;color:#bbb;"</span>&gt;—&lt;/<span class="u-tag">div</span>&gt;                       <span class="u-cmt">&lt;!-- No debit --&gt;</span>
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"text-align:right;font-size:11.5px;font-weight:700;color:#2E7D32;"</span>&gt;₹40,000&lt;/<span class="u-tag">div</span>&gt; <span class="u-cmt">&lt;!-- Credit --&gt;</span>
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- 7. Closing Balance row — amount spans cols 2+3 --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"display:grid;grid-template-columns:1fr 70px 70px;padding:10px 14px;background:#f5f5f5;align-items:center;"</span>&gt;
+  &lt;<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:12px;font-weight:700;color:#111;"</span>&gt;Closing Balance&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:10px;color:#777;margin-top:1px;"</span>&gt;(To Pay)&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"grid-column:2/4;text-align:right;font-size:12px;font-weight:700;color:#E53935;"</span>&gt;₹19,73,160&lt;/<span class="u-tag">div</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

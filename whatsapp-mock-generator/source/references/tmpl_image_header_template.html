@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Template: Image Header + Quick Reply Button</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-tmpl { background: #1a1a5c; color: #82b1ff; border: 1px solid #1565C055; }
+  .badge-marketing { background: #3a1a00; color: #FFB74D; border: 1px solid #E6510044; }
+  .badge-approval { background: #2a0000; color: #EF9A9A; border: 1px solid #B71C1C44; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .page-sub { font-size: 12px; color: #666; margin-top: 2px; }
+
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  .preview-pane {
+    width: 440px; flex-shrink: 0; padding: 32px 28px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .preview-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; align-self: flex-start; }
+
+  /* Phone frame — shows only bottom portion (chat + input) */
+  .phone-frame {
+    width: 305px;
+    border-radius: 38px;
+    border: 8px solid #1a1a1a;
+    box-shadow: 0 24px 64px rgba(0,0,0,.55);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    height: 560px;
+    background: #ECE5DD;
+  }
+
+  /* Status bar */
+  .status-bar {
+    background: #075E54; padding: 8px 14px 5px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .status-time { font-size: 13px; font-weight: 600; color: #fff; }
+  .status-icons { display: flex; align-items: center; gap: 5px; }
+
+  /* Top bar */
+  .wa-topbar {
+    background: #075E54; padding: 6px 10px 8px;
+    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  }
+  .wa-back { color: #fff; display: flex; align-items: center; padding-right: 2px; }
+  .wa-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, #66BB6A, #2E7D32);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .wa-contact { flex: 1; }
+  .wa-contact-name { font-size: 14px; font-weight: 600; color: #fff; }
+  .wa-contact-status { font-size: 11px; color: rgba(255,255,255,.75); }
+  .wa-actions { display: flex; align-items: center; gap: 14px; }
+
+  /* Chat area */
+  .chat-area {
+    flex: 1; padding: 10px 8px;
+    background-color: #ECE5DD;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.13'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    overflow-y: auto;
+    display: flex; align-items: flex-end;
+  }
+
+  /* Template message */
+  .wa-tmpl {
+    background: #fff;
+    border-radius: 8px 0 8px 8px;
+    max-width: 260px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+  }
+
+  /* Image header */
+  .wa-hdr-img {
+    width: 100%; height: 140px; overflow: hidden;
+    position: relative;
+    background: linear-gradient(180deg, #c8e6f5 0%, #a8d4ed 38%, #7ab84e 65%, #4a8c2a 100%);
+  }
+  /* Cloud */
+  .wa-hdr-img::before {
+    content: '';
+    position: absolute;
+    top: 30px; left: 50%; transform: translateX(-50%);
+    width: 64px; height: 30px; background: #fff; border-radius: 15px;
+    box-shadow: -18px 8px 0 -4px #fff, 18px 8px 0 -4px #fff, 0 -10px 0 0 #fff;
+  }
+
+  .wa-tmpl-body {
+    padding: 9px 11px 4px;
+    font-size: 13.5px; color: #111B21; line-height: 1.5;
+  }
+  .wa-tmpl-time {
+    padding: 0 11px 8px;
+    font-size: 11px; color: #667781;
+    text-align: right;
+  }
+
+  /* Button divider */
+  .wa-tmpl-btns { border-top: 1px solid #f0f0f0; }
+  .wa-qr-btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    width: 100%; padding: 10px 12px;
+    font-size: 14px; font-weight: 500; color: #00A884;
+    background: none; border: none; border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+  }
+  .wa-qr-btn:last-child { border-bottom: none; }
+
+  /* ZoTok footer below template */
+  .zotok-footer {
+    margin-top: 4px;
+    padding: 4px 8px;
+    font-size: 10px; color: #8696a0; text-align: center;
+  }
+
+  /* Input bar */
+  .input-bar {
+    background: #f0f0f0; padding: 6px 8px;
+    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  }
+  .input-field {
+    flex: 1; background: #fff; border-radius: 22px;
+    padding: 7px 14px; font-size: 13px; color: #8696a0;
+    display: flex; align-items: center;
+  }
+  .input-icons { display: flex; align-items: center; gap: 12px; color: #54656f; }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 36px; overflow-y: auto; display: flex; flex-direction: column; gap: 24px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .5px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #2a2a3e;
+  }
+  .spec-table { width: 100%; border-collapse: collapse; }
+  .spec-table th { font-size: 11px; font-weight: 600; color: #666; text-align: left; padding: 5px 8px; background: #12121f; border-bottom: 1px solid #2a2a3e; }
+  .spec-table td { font-size: 12px; padding: 6px 8px; border-bottom: 1px solid #1e1e30; color: #ccc; vertical-align: top; }
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table td:first-child { color: #888; width: 180px; }
+  .mono { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px; color: #64B5F6; }
+  .val-green { color: #66BB6A; }
+  .val-red { color: #EF5350; }
+  .val-yellow { color: #FFD54F; }
+
+  .body-preview {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 6px;
+    padding: 14px 16px; font-size: 12.5px; color: #E0E0E0; line-height: 1.7;
+    white-space: pre-wrap;
+  }
+  .body-var { color: #FFB74D; background: #2a1800; padding: 0 3px; border-radius: 3px; }
+
+  .checklist { display: flex; flex-direction: column; gap: 7px; }
+  .check-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: #bbb; line-height: 1.4; }
+  .check-ok { color: #66BB6A; flex-shrink: 0; }
+  .check-info { color: #64B5F6; flex-shrink: 0; }
+  .check-warn { color: #FFD54F; flex-shrink: 0; }
+  .check-err { color: #EF5350; flex-shrink: 0; }
+
+  .code-block {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 6px;
+    padding: 14px 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px;
+    color: #a8d8ff; line-height: 1.6; overflow-x: auto; white-space: pre;
+  }
+  .c-tag { color: #f6c90e; }
+  .c-attr { color: #79c0ff; }
+  .c-val { color: #a5d6ff; }
+  .c-cmt { color: #4a5568; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="page-badge badge-tmpl">Template</span>
+      <span class="page-badge badge-marketing">Marketing</span>
+      <span class="page-badge badge-approval">Approval Required</span>
+    </div>
+    <div class="page-title" style="margin-top:6px;">Template — Image Header + Body + Quick Reply Button</div>
+    <div class="page-sub">Marketing template · image header · body text · quick reply button(s) &nbsp;·&nbsp; <span style="color:#64B5F6;">tmpl_image_header_template.html</span></div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <div class="preview-pane">
+    <div class="preview-label">Live Preview</div>
+
+    <div class="phone-frame">
+
+      <!-- Status bar -->
+      <div class="status-bar">
+        <span class="status-time">23:59</span>
+        <div class="status-icons">
+          <svg width="15" height="11" viewBox="0 0 15 11" fill="none">
+            <rect x="0" y="7" width="3" height="4" rx=".5" fill="#fff"/>
+            <rect x="4" y="4.5" width="3" height="6.5" rx=".5" fill="#fff"/>
+            <rect x="8" y="2" width="3" height="9" rx=".5" fill="#fff"/>
+            <rect x="12" y="0" width="3" height="11" rx=".5" fill="#fff"/>
+          </svg>
+          <svg width="15" height="11" viewBox="0 0 24 18" fill="none">
+            <path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#fff"/>
+            <path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#fff" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+            <path d="M2 5.8A14 14 0 0122 5.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+          </svg>
+          <svg width="22" height="12" viewBox="0 0 22 12" fill="none">
+            <rect x="0" y="1" width="18" height="10" rx="2" stroke="#fff" stroke-width="1.5"/>
+            <rect x="1.5" y="2.5" width="14.5" height="7" rx="1" fill="#fff"/>
+            <path d="M19 4v4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Top bar -->
+      <div class="wa-topbar">
+        <div class="wa-back">
+          <svg width="10" height="17" viewBox="0 0 10 17" fill="none">
+            <path d="M9 1L1 8.5L9 16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="wa-avatar">🌿</div>
+        <div class="wa-contact">
+          <div class="wa-contact-name">SKF Bearings</div>
+          <div class="wa-contact-status">ZoTok Business</div>
+        </div>
+        <div class="wa-actions">
+          <svg width="20" height="14" viewBox="0 0 24 17" fill="none">
+            <rect x="1" y="1" width="15" height="15" rx="2" stroke="#fff" stroke-width="2"/>
+            <path d="M16 6l7-4v13l-7-4V6z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3-8.57A2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Chat area with template message -->
+      <div class="chat-area">
+        <div>
+          <div class="wa-tmpl">
+            <!-- Image header -->
+            <div class="wa-hdr-img"></div>
+            <!-- Body -->
+            <div class="wa-tmpl-body">
+              Hi, SKF is launching a new product range this festive season — hit your target and unlock exciting rewards like bikes, gadgets &amp; more!
+            </div>
+            <div class="wa-tmpl-time">12:51 pm</div>
+            <!-- Quick reply buttons -->
+            <div class="wa-tmpl-btns">
+              <div class="wa-qr-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 15L3 9l6-6M3 9h18" stroke="#00A884" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Know Product
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input bar -->
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.8"/>
+          <path d="M12 8v8M8 12h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <div class="input-field">Type a message</div>
+        <div class="input-icons">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke="#54656f" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="12" cy="13" r="4" stroke="#54656f" stroke-width="1.8"/>
+          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" stroke="#54656f" stroke-width="1.8"/>
+            <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" stroke="#54656f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Spec pane -->
+  <div class="spec-pane">
+
+    <div>
+      <div class="spec-section-title">Template Metadata</div>
+      <table class="spec-table">
+        <tr><td>Template Type</td><td>Marketing</td></tr>
+        <tr><td>Approval Required</td><td><span class="val-red">Yes</span> — must be submitted via Meta Business Manager</td></tr>
+        <tr><td>Header Type</td><td>Image (single — no other header element allowed)</td></tr>
+        <tr><td>Header Image</td><td>Landscape creative (1.91:1 ratio recommended). Shown at full width, ~140px tall.</td></tr>
+        <tr><td>Button Type</td><td>Quick Reply — message sent back to business when tapped</td></tr>
+        <tr><td>Max Buttons</td><td>3 quick reply buttons (25 chars each)</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Template Structure</div>
+      <table class="spec-table">
+        <thead><tr><th>Component</th><th>Rule</th><th>Value in PNG</th></tr></thead>
+        <tr><td>Header</td><td>Image only. No text overlaid. No combined types.</td><td>Sky/cloud/hill landscape illustration</td></tr>
+        <tr><td>Body</td><td>Plain text + *bold* _italic_. No HR, no tables. Max 1024 chars.</td><td>"Hi, SKF is launching a new product range this festive season..." (94 chars ✓)</td></tr>
+        <tr><td>Footer</td><td>Optional. Plain text. Max 60 chars. No emoji.</td><td>Not shown in PNG (omitted)</td></tr>
+        <tr><td>Button 1</td><td>Quick Reply. Max 25 chars.</td><td>"Know Product" (12 chars ✓)</td></tr>
+        <tr><td>ZoTok footer</td><td>Below template card. "Managed by ZoTok powered by Zono" = 32 chars ✓</td><td>Shown in small grey text below card</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Body — Parameterized Version</div>
+      <div class="body-preview">Hi <span class="body-var">{{1}}</span>, <span class="body-var">{{2}}</span> is launching a new product range this festive season — hit your target and unlock exciting rewards like bikes, gadgets &amp; more!</div>
+      <table class="spec-table" style="margin-top:10px;">
+        <thead><tr><th>Variable</th><th>Value</th><th>Rule</th></tr></thead>
+        <tr><td><span class="mono">{{1}}</span></td><td>Retailer first name (e.g., "Aditya")</td><td>Cannot start body</td></tr>
+        <tr><td><span class="mono">{{2}}</span></td><td>Brand name (e.g., "SKF")</td><td>No consecutive variables</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Quick Reply Button Variants</div>
+      <table class="spec-table">
+        <thead><tr><th>Buttons (up to 3)</th><th>Length</th><th>Result</th></tr></thead>
+        <tr><td>Know Product</td><td>12 chars ✓</td><td>Sends "Know Product" as message → triggers product catalogue flow</td></tr>
+        <tr><td>Ask Me a Question</td><td>17 chars ✓</td><td>Triggers AI chatbot conversation</td></tr>
+        <tr><td>Book Scheme</td><td>11 chars ✓</td><td>Opens scheme booking flow</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Rendering Details</div>
+      <table class="spec-table">
+        <tr><td>Image header height</td><td>~140px in chat bubble (aspect ratio preserved, width = full template width)</td></tr>
+        <tr><td>Template card width</td><td>Max 260px in chat</td></tr>
+        <tr><td>Border radius</td><td>8px top-left, 0 top-right, 8px bottom (message tail side = 0)</td></tr>
+        <tr><td>Quick reply icon</td><td>Reply arrow (↩) — SVG inline, color #00A884</td></tr>
+        <tr><td>Button text color</td><td><span class="mono">#00A884</span> (WhatsApp teal)</td></tr>
+        <tr><td>Button border</td><td>1px solid #f0f0f0 between buttons (no outer border on buttons)</td></tr>
+        <tr><td>ZoTok footer</td><td>10px / #8696a0 / centered / outside template card</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Checklist</div>
+      <div class="checklist">
+        <div class="check-item"><span class="check-ok">✓</span> Header is image only — no text overlay, no combined header types</div>
+        <div class="check-item"><span class="check-ok">✓</span> Body has no HR dividers, no tables, no markdown beyond *bold* and _italic_</div>
+        <div class="check-item"><span class="check-ok">✓</span> Buttons are Quick Reply type — all buttons must be same type (no mixing with CTA)</div>
+        <div class="check-item"><span class="check-ok">✓</span> "Know Product" = 12 chars ≤ 25 char limit ✓</div>
+        <div class="check-item"><span class="check-ok">✓</span> ZoTok footer shown below template card (outside the card), not inside</div>
+        <div class="check-item"><span class="check-warn">⚠</span> Template requires Meta approval before sending — submit via Business Manager</div>
+        <div class="check-item"><span class="check-warn">⚠</span> Image must be uploaded to Meta during template creation — URL is stored by Meta</div>
+        <div class="check-item"><span class="check-err">✗</span> Do NOT overlay text on image header (no CSS .title/.subtitle on image)</div>
+        <div class="check-item"><span class="check-err">✗</span> Do NOT use HR lines or table rows in body — use line breaks + labeled text</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">HTML Snippet</div>
+      <div class="code-block"><span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"wa-tmpl"</span><span class="c-tag">&gt;</span>
+  <span class="c-cmt">&lt;!-- Image header — full width, no text --&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"wa-hdr-img"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;img</span> <span class="c-attr">src</span>=<span class="c-val">"campaign.jpg"</span> <span class="c-attr">alt</span>=<span class="c-val">"campaign"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-cmt">&lt;!-- Body --&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"wa-tmpl-body"</span><span class="c-tag">&gt;</span>
+    Hi, SKF is launching a new product range this festive season...
+  <span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"wa-tmpl-time"</span><span class="c-tag">&gt;</span>12:51 pm<span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-cmt">&lt;!-- Quick reply buttons --&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"wa-tmpl-btns"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"wa-qr-btn"</span><span class="c-tag">&gt;</span>↩ Know Product<span class="c-tag">&lt;/div&gt;</span>
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"wa-qr-btn"</span><span class="c-tag">&gt;</span>↩ Ask Me a Question<span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span>
+<span class="c-cmt">&lt;!-- ZoTok managed footer (outside card) --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"zotok-footer"</span><span class="c-tag">&gt;</span>Managed by ZoTok powered by Zono<span class="c-tag">&lt;/div&gt;</span></div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

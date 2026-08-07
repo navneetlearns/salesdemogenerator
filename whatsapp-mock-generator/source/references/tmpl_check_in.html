@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Field Sales Customer Check-In / Check-Out</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-group { background: #1a1a5c; color: #82b1ff; border: 1px solid #1565C055; }
+  .badge-ops   { background: #1a1200; color: #FFD54F; border: 1px solid #FFD54F44; }
+  .badge-zoai  { background: #001a18; color: #80CBC4; border: 1px solid #00897B55; }
+  .page-title  { font-size: 18px; font-weight: 700; }
+  .page-sub    { font-size: 12px; color: #666; margin-top: 2px; }
+
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane (wider — two phones) ── */
+  .preview-pane {
+    width: 520px; flex-shrink: 0; padding: 32px 20px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .preview-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; align-self: flex-start; }
+  .phones-row    { display: flex; gap: 16px; align-items: flex-start; }
+
+  /* ── Group chat phone ── */
+  .phone-frame {
+    width: 230px; border-radius: 36px; border: 7px solid #1a1a1a;
+    box-shadow: 0 20px 50px rgba(0,0,0,.5);
+    overflow: hidden; display: flex; flex-direction: column; height: 500px;
+  }
+
+  /* White status bar */
+  .status-bar {
+    background: #fff; padding: 8px 12px 4px;
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  }
+  .status-time { font-size: 12px; font-weight: 600; color: #111; }
+  .status-icons { display: flex; align-items: center; gap: 4px; }
+  .battery-box {
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid #111; border-radius: 3px;
+    padding: 1px 3px; font-size: 9px; font-weight: 700; color: #111;
+    height: 14px; min-width: 22px; position: relative;
+  }
+  .battery-box::after {
+    content: ''; position: absolute; right: -3.5px; top: 50%;
+    transform: translateY(-50%);
+    width: 2px; height: 5px; background: #111; border-radius: 0 1px 1px 0;
+  }
+
+  /* White group top bar */
+  .g-topbar {
+    background: #fff; border-bottom: 1px solid #ebebeb;
+    padding: 5px 8px 6px; display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+  }
+  .g-back { display: flex; align-items: center; flex-shrink: 0; }
+  .g-ava  {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: linear-gradient(135deg, #C8860A, #1B2A4A);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 800; color: #fff; flex-shrink: 0;
+  }
+  .g-info    { flex: 1; min-width: 0; }
+  .g-name    { font-size: 12px; font-weight: 600; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .g-sub     { font-size: 9.5px; color: #667781; }
+  .g-acts    { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+  /* Chat area */
+  .chat-area {
+    flex: 1; overflow-y: auto; padding: 6px;
+    background-color: #ECE5DD;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.13'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    display: flex; flex-direction: column; gap: 3px;
+  }
+
+  .date-pill {
+    background: rgba(255,255,255,.8); border-radius: 8px;
+    padding: 2px 8px; font-size: 9px; color: #667781; align-self: center; margin: 2px 0 4px;
+  }
+
+  /* Sender bubble */
+  .msw { display: flex; flex-direction: column; align-items: flex-end; margin-bottom: 1px; }
+  .ms  {
+    background: #DCF8C6; border-radius: 8px 8px 0 8px;
+    padding: 5px 8px 3px; max-width: 185px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1); position: relative;
+  }
+  .ms::after {
+    content: ''; position: absolute; top: 0; right: -6px;
+    border-width: 0 0 7px 7px; border-style: solid;
+    border-color: transparent transparent transparent #DCF8C6;
+  }
+  .you-label { font-size: 10px; font-weight: 700; margin-bottom: 2px; padding-right: 2px; color: #2E7D32; }
+
+  /* Receiver bubble */
+  .mrw { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 1px; }
+  .mr  {
+    background: #fff; border-radius: 0 8px 8px 8px;
+    padding: 5px 8px 3px; max-width: 185px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1); position: relative;
+  }
+  .mr::before {
+    content: ''; position: absolute; top: 0; left: -6px;
+    border-width: 0 7px 7px 0; border-style: solid;
+    border-color: transparent #fff transparent transparent;
+  }
+  .sname  { font-size: 10px; font-weight: 700; margin-bottom: 2px; }
+  .mbody  { font-size: 11.5px; color: #111B21; line-height: 1.45; }
+  .mtime  { font-size: 9px; color: #667781; text-align: right; display: block; margin-top: 2px; }
+  .mtick  { color: #53bdeb; }
+
+  /* Location share bubble */
+  .loc-thumb {
+    border-radius: 5px; overflow: hidden; margin-bottom: 3px; background: #d4e8d0;
+  }
+
+  /* Input bar */
+  .ibar {
+    background: #f0f0f0; padding: 5px 7px;
+    display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+  }
+  .ifield {
+    flex: 1; background: #fff; border-radius: 20px;
+    padding: 5px 12px; font-size: 11px; color: #8696a0;
+  }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 40px; overflow-y: auto; display: flex; flex-direction: column; gap: 26px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .5px; margin-bottom: 10px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  .meta-grid { display: grid; grid-template-columns: 180px 1fr; gap: 8px 12px; }
+  .meta-key  { font-size: 12px; color: #666; }
+  .meta-val  { font-size: 12px; color: #ccc; }
+  .meta-val code {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 4px;
+    padding: 1px 6px; font-size: 11px; color: #4CAF50; font-family: monospace;
+  }
+  .tag { display: inline-block; border-radius: 10px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+  .tag-group { background: #1a1a5c; color: #82b1ff; }
+  .tag-none  { background: #333; color: #aaa; }
+
+  .body-preview {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 12.5px; color: #ccc; line-height: 1.9;
+    white-space: pre-wrap; font-family: 'SF Mono','Fira Code',monospace;
+  }
+  .body-preview .var  { color: #4CAF50; font-weight: 700; }
+  .body-preview .bold { color: #fff; font-weight: 700; }
+
+  .check-list  { display: flex; flex-direction: column; gap: 7px; }
+  .check-item  { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: #aaa; line-height: 1.4; }
+  .pass  { color: #4CAF50; flex-shrink: 0; }
+  .warn  { color: #FF8A65; flex-shrink: 0; }
+  .info  { color: #64B5F6; flex-shrink: 0; }
+
+  .note-box {
+    border-radius: 6px; padding: 12px 14px; font-size: 12px; line-height: 1.6;
+  }
+  .note-box.yellow { background: #2a2000; border: 1px solid #FFD54F33; color: #FFD54F; }
+  .note-box.blue   { background: #0d1b2a; border: 1px solid #1565C055; color: #90CAF9; }
+
+  .vs-table { width: 100%; border-collapse: collapse; }
+  .vs-table th { font-size: 11px; font-weight: 600; color: #666; text-align: left; padding: 5px 10px; background: #12121f; border-bottom: 1px solid #2a2a3e; }
+  .vs-table td { font-size: 12px; padding: 7px 10px; border-bottom: 1px solid #1e1e30; color: #ccc; }
+  .vs-table tr:last-child td { border-bottom: none; }
+  .vs-table td:first-child { color: #888; width: 140px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="page-badge badge-group">WhatsApp Group</span>
+      <span class="page-badge badge-ops">Field Ops</span>
+      <span class="page-badge badge-zoai">ZoAi Command</span>
+    </div>
+    <div class="page-title" style="margin-top:6px;">Field Sales Customer Check-In / Check-Out</div>
+    <div class="page-sub">
+      SE sends location + @zoai check-in at retailer · ZoAi logs visit · Session message only · No Meta approval
+      &nbsp;·&nbsp; <span style="color:#64B5F6;">tmpl_check_in.html</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Preview Pane ── -->
+  <div class="preview-pane">
+    <div class="preview-label">Screen A — Check-In · Screen B — Check-Out</div>
+    <div class="phones-row">
+
+      <!-- Phone A: Check-In -->
+      <div>
+        <div style="font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.5px;text-align:center;margin-bottom:8px;">Check-In</div>
+        <div class="phone-frame">
+          <div class="status-bar">
+            <span class="status-time">10:14</span>
+            <div class="status-icons">
+              <svg width="14" height="10" viewBox="0 0 16 12" fill="none"><rect x="0" y="8" width="3" height="4" rx=".5" fill="#111"/><rect x="4" y="5" width="3" height="7" rx=".5" fill="#111"/><rect x="8" y="2" width="3" height="10" rx=".5" fill="#111"/><rect x="12" y="0" width="3" height="12" rx=".5" fill="#111"/></svg>
+              <svg width="13" height="10" viewBox="0 0 24 18" fill="none"><path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111"/><path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+              <div class="battery-box">86</div>
+            </div>
+          </div>
+          <div class="g-topbar">
+            <div class="g-back"><svg width="8" height="13" viewBox="0 0 10 17" fill="none"><path d="M9 1L1 8.5L9 16" stroke="#007AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="g-ava">SMN</div>
+            <div class="g-info">
+              <div class="g-name">Savera x Manish Nagar</div>
+              <div class="g-sub">Ravi Singh, Deepak Sharma, ZoAi</div>
+            </div>
+            <div class="g-acts">
+              <svg width="18" height="12" viewBox="0 0 24 17" fill="none"><rect x="1" y="3" width="14" height="11" rx="2" stroke="#333" stroke-width="1.6"/><path d="M15 7l6-4v11l-6-4V7z" stroke="#333" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              <svg width="3" height="14" viewBox="0 0 4 18" fill="none"><circle cx="2" cy="2" r="1.5" fill="#333"/><circle cx="2" cy="9" r="1.5" fill="#333"/><circle cx="2" cy="16" r="1.5" fill="#333"/></svg>
+            </div>
+          </div>
+          <div class="chat-area">
+            <div class="date-pill">Today</div>
+
+            <!-- SE sends live location -->
+            <div class="msw">
+              <div class="you-label">You (Ravi Singh)</div>
+              <div class="ms" style="padding:4px 4px 3px;max-width:170px;">
+                <div class="loc-thumb">
+                  <svg width="162" height="68" viewBox="0 0 162 68" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+                    <rect width="162" height="68" fill="#d4e8d0"/>
+                    <line x1="0" y1="34" x2="162" y2="34" stroke="#b8d4b4" stroke-width="5"/>
+                    <line x1="81" y1="0" x2="81" y2="68" stroke="#b8d4b4" stroke-width="5"/>
+                    <line x1="0" y1="17" x2="162" y2="17" stroke="#c5dcc2" stroke-width="1.5" opacity=".7"/>
+                    <line x1="0" y1="51" x2="162" y2="51" stroke="#c5dcc2" stroke-width="1.5" opacity=".7"/>
+                    <line x1="40" y1="0" x2="40" y2="68" stroke="#c5dcc2" stroke-width="1.5" opacity=".7"/>
+                    <line x1="121" y1="0" x2="121" y2="68" stroke="#c5dcc2" stroke-width="1.5" opacity=".7"/>
+                    <circle cx="81" cy="34" r="6" fill="#E53935" opacity=".9"/>
+                    <circle cx="81" cy="34" r="12" fill="#E53935" opacity=".2"/>
+                    <text x="81" y="58" text-anchor="middle" font-size="7" fill="#555" font-family="sans-serif">Sharma Pipes, Manish Nagar</text>
+                  </svg>
+                </div>
+                <div style="font-size:10px;color:#667781;text-align:right;padding:1px 4px 1px;">10:14 AM <span style="color:#53bdeb;">✓✓</span></div>
+              </div>
+            </div>
+
+            <!-- SE sends @zoai check-in command -->
+            <div class="msw">
+              <div class="you-label">You (Ravi Singh)</div>
+              <div class="ms">
+                <div class="mbody">@zoai check-in<br>Sharma Pipes, Manish Nagar</div>
+                <span class="mtime">10:14 AM <span class="mtick">✓✓</span></span>
+              </div>
+            </div>
+
+            <!-- ZoAi confirms check-in -->
+            <div class="mrw">
+              <div class="mr">
+                <div class="sname" style="color:#00897B;">ZoAi 🤖</div>
+                <div class="mbody">
+                  Checked In ✅<br><br>
+                  <strong>Customer:</strong> Sharma Pipes<br>
+                  <strong>Address:</strong> Manish Nagar, Nagpur<br>
+                  <strong>Time:</strong> 10:14 AM<br>
+                  <strong>Lat &amp; Lon:</strong> 21.1501, 79.0834<br><br>
+                  Location saved and added to customer details.
+                </div>
+                <span class="mtime">10:14 AM</span>
+              </div>
+            </div>
+          </div>
+          <div class="ibar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.6"/><path d="M8 12h8M12 8v8" stroke="#54656f" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <div class="ifield">Type a message</div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 013 3v7a3 3 0 01-6 0V4a3 3 0 013-3z" stroke="#54656f" stroke-width="1.5"/><path d="M19 11a7 7 0 01-14 0M12 20v3M8 23h8" stroke="#54656f" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone B: Check-Out -->
+      <div>
+        <div style="font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.5px;text-align:center;margin-bottom:8px;">Check-Out</div>
+        <div class="phone-frame">
+          <div class="status-bar">
+            <span class="status-time">10:58</span>
+            <div class="status-icons">
+              <svg width="14" height="10" viewBox="0 0 16 12" fill="none"><rect x="0" y="8" width="3" height="4" rx=".5" fill="#111"/><rect x="4" y="5" width="3" height="7" rx=".5" fill="#111"/><rect x="8" y="2" width="3" height="10" rx=".5" fill="#111"/><rect x="12" y="0" width="3" height="12" rx=".5" fill="#111"/></svg>
+              <svg width="13" height="10" viewBox="0 0 24 18" fill="none"><path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111"/><path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+              <div class="battery-box">81</div>
+            </div>
+          </div>
+          <div class="g-topbar">
+            <div class="g-back"><svg width="8" height="13" viewBox="0 0 10 17" fill="none"><path d="M9 1L1 8.5L9 16" stroke="#007AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="g-ava">SMN</div>
+            <div class="g-info">
+              <div class="g-name">Savera x Manish Nagar</div>
+              <div class="g-sub">Ravi Singh, Deepak Sharma, ZoAi</div>
+            </div>
+            <div class="g-acts">
+              <svg width="18" height="12" viewBox="0 0 24 17" fill="none"><rect x="1" y="3" width="14" height="11" rx="2" stroke="#333" stroke-width="1.6"/><path d="M15 7l6-4v11l-6-4V7z" stroke="#333" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              <svg width="3" height="14" viewBox="0 0 4 18" fill="none"><circle cx="2" cy="2" r="1.5" fill="#333"/><circle cx="2" cy="9" r="1.5" fill="#333"/><circle cx="2" cy="16" r="1.5" fill="#333"/></svg>
+            </div>
+          </div>
+          <div class="chat-area">
+            <div class="date-pill">Today</div>
+
+            <!-- Earlier check-in confirmed (greyed summary) -->
+            <div class="mrw">
+              <div class="mr" style="opacity:.55;">
+                <div class="sname" style="color:#00897B;">ZoAi 🤖</div>
+                <div class="mbody" style="font-size:10.5px;">Checked In ✅ Sharma Pipes · 10:14 AM</div>
+                <span class="mtime">10:14 AM</span>
+              </div>
+            </div>
+
+            <!-- SE sends @zoai check-out command -->
+            <div class="msw">
+              <div class="you-label">You (Ravi Singh)</div>
+              <div class="ms">
+                <div class="mbody">@zoai check-out</div>
+                <span class="mtime">10:58 AM <span class="mtick">✓✓</span></span>
+              </div>
+            </div>
+
+            <!-- ZoAi confirms check-out with visit summary -->
+            <div class="mrw">
+              <div class="mr">
+                <div class="sname" style="color:#00897B;">ZoAi 🤖</div>
+                <div class="mbody">
+                  Checked Out ✅<br><br>
+                  <strong>Customer:</strong> Sharma Pipes<br>
+                  <strong>Visit Duration:</strong> 44 mins<br>
+                  <strong>Check-Out Time:</strong> 10:58 AM<br>
+                  <strong>Order:</strong> #SVR-1042 · ₹7,850<br><br>
+                  Visit logged successfully.
+                </div>
+                <span class="mtime">10:58 AM</span>
+              </div>
+            </div>
+          </div>
+          <div class="ibar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.6"/><path d="M8 12h8M12 8v8" stroke="#54656f" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <div class="ifield">Type a message</div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 013 3v7a3 3 0 01-6 0V4a3 3 0 013-3z" stroke="#54656f" stroke-width="1.5"/><path d="M19 11a7 7 0 01-14 0M12 20v3M8 23h8" stroke="#54656f" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /preview-pane -->
+
+  <!-- ── Spec Pane ── -->
+  <div class="spec-pane">
+
+    <div>
+      <div class="spec-section-title">Component Summary</div>
+      <div class="meta-grid">
+        <div class="meta-key">Message Type</div><div class="meta-val"><span class="tag tag-group">Group Session Message</span> — no Meta approval needed</div>
+        <div class="meta-key">Header</div><div class="meta-val"><span class="tag tag-none">None</span></div>
+        <div class="meta-key">Footer</div><div class="meta-val"><span class="tag tag-none">None</span></div>
+        <div class="meta-key">Buttons</div><div class="meta-val"><span class="tag tag-none">None</span> — text-only ZoAi reply</div>
+        <div class="meta-key">Trigger (Check-In)</div><div class="meta-val">SE shares live location + sends <code>@zoai check-in [retailer name]</code></div>
+        <div class="meta-key">Trigger (Check-Out)</div><div class="meta-val">SE sends <code>@zoai check-out</code> when leaving retailer</div>
+        <div class="meta-key">Who sends</div><div class="meta-val">ZoAi 🤖 (bot in group) replies in the same group thread</div>
+        <div class="meta-key">Logged to</div><div class="meta-val">Field ops activity timeline at <code>fieldops.zotok.ai</code> — see <code>tmpl_fieldops_activity_timeline.html</code></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">ZoAi Response Body — Check-In</div>
+      <div class="body-preview">Checked In ✅
+
+<span class="bold">Customer:</span> <span class="var">{{1}}</span>
+<span class="bold">Address:</span> <span class="var">{{2}}</span>
+<span class="bold">Time:</span> <span class="var">{{3}}</span>
+<span class="bold">Lat &amp; Lon:</span> <span class="var">{{4}}</span>, <span class="var">{{5}}</span>
+
+Location saved and added to customer details.</div>
+      <div style="margin-top:8px;font-size:11.5px;color:#666;">
+        {{1}} Customer name · {{2}} Address · {{3}} Time · {{4}} Latitude · {{5}} Longitude
+      </div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">ZoAi Response Body — Check-Out</div>
+      <div class="body-preview">Checked Out ✅
+
+<span class="bold">Customer:</span> <span class="var">{{1}}</span>
+<span class="bold">Visit Duration:</span> <span class="var">{{2}}</span> mins
+<span class="bold">Check-Out Time:</span> <span class="var">{{3}}</span>
+<span class="bold">Order:</span> <span class="var">{{4}}</span> · ₹<span class="var">{{5}}</span>
+
+Visit logged successfully.</div>
+      <div style="margin-top:8px;font-size:11.5px;color:#666;">
+        {{1}} Customer name · {{2}} Duration · {{3}} Time · {{4}} Order ref (or "—" if none) · {{5}} Order value (or "—")
+      </div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Check-In vs Check-Out Differences</div>
+      <table class="vs-table">
+        <tr><th>Field</th><th>Check-In</th><th>Check-Out</th></tr>
+        <tr><td>Header text</td><td>Checked In ✅</td><td>Checked Out ✅</td></tr>
+        <tr><td>Location shared</td><td>Yes — live location bubble before command</td><td>No — command only</td></tr>
+        <tr><td>Shows GPS coords</td><td>Yes — Lat &amp; Lon from location share</td><td>No</td></tr>
+        <tr><td>Shows duration</td><td>No</td><td>Yes — calculated from check-in time</td></tr>
+        <tr><td>Shows order</td><td>No</td><td>Yes — if order placed during visit</td></tr>
+        <tr><td>Confirmation line</td><td>"Location saved and added to customer details."</td><td>"Visit logged successfully."</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Char Count Validation</div>
+      <div class="meta-grid">
+        <div class="meta-key">Header</div><div class="meta-val">None</div>
+        <div class="meta-key">Check-In body</div><div class="meta-val">~115 chars + variable values · well within 1024 ✓</div>
+        <div class="meta-key">Check-Out body</div><div class="meta-val">~110 chars + variable values · well within 1024 ✓</div>
+        <div class="meta-key">Footer</div><div class="meta-val">None</div>
+        <div class="meta-key">Buttons</div><div class="meta-val">None</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Compliance Checklist</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">✓</span> Group session message — no Meta template approval required</div>
+        <div class="check-item"><span class="pass">✓</span> No header, footer, or buttons — plain text ZoAi reply only</div>
+        <div class="check-item"><span class="pass">✓</span> No divider lines or tables — uses bold labels + line breaks</div>
+        <div class="check-item"><span class="pass">✓</span> Sender name shown as first line inside receiver bubble (ZoAi 🤖) in teal #00897B</div>
+        <div class="check-item"><span class="pass">✓</span> White group top bar (#FFFFFF) with dark text (#111111) and iOS blue back arrow</div>
+        <div class="check-item"><span class="pass">✓</span> Battery shown as number in bordered box — correct for group screens</div>
+        <div class="check-item"><span class="info">ℹ</span> Check-in precedes @zoai command — SE must first share live location (map bubble), then send the command</div>
+        <div class="check-item"><span class="info">ℹ</span> Different from Clock-In (tmpl_clock_in.html) — Clock-In logs SE attendance at office; Check-In logs a retailer/customer visit</div>
+        <div class="check-item"><span class="warn">⚠</span> Check-Out order field shows "—" if no order was placed during the visit — handle gracefully in ZoAi response logic</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Relationship to Other Templates</div>
+      <div class="note-box blue">
+        <strong>Check-In → Activity Timeline:</strong> Each ZoAi check-in confirmation is automatically logged as an event on the field ops activity timeline (<code>tmpl_fieldops_activity_timeline.html</code>). The timeline groups all events (check-in, orders, notes) under a retailer header card for that visit.
+      </div>
+      <div class="note-box yellow" style="margin-top:10px;">
+        <strong>Not the same as Clock-In:</strong> <code>tmpl_clock_in.html</code> covers SE attendance — logging arrival at office or field start of day. Check-In/Out is per-retailer visit tracking within the field day. Both use @zoai commands in the same group.
+      </div>
+    </div>
+
+  </div><!-- /spec-pane -->
+
+</div><!-- /layout -->
+</body>
+</html>

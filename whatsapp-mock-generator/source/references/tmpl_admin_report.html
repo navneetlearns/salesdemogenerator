@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Admin Report (Sales Team Activity)</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; min-height: 100vh; }
+
+/* ── Two-pane layout ── */
+.preview-pane { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px 32px; gap: 20px; overflow-y: auto; }
+.spec-pane { width: 360px; background: #fff; border-left: 1px solid #e0e0e0; overflow-y: auto; flex-shrink: 0; }
+.pane-head { padding: 18px 20px 14px; border-bottom: 1px solid #f0f0f0; }
+.pane-head h2 { font-size: 14px; font-weight: 700; color: #111; }
+.pane-head p { font-size: 11.5px; color: #888; margin-top: 3px; }
+.spec-section { padding: 14px 20px; border-bottom: 1px solid #f5f5f5; }
+.spec-section h3 { font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+.spec-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 7px; font-size: 12px; }
+.spec-row .lbl { color: #888; flex-shrink: 0; width: 130px; }
+.spec-row .val { color: #111; font-weight: 500; text-align: right; word-break: break-all; }
+.spec-row .val.code { font-family: monospace; font-size: 11px; background: #f5f5f5; padding: 1px 5px; border-radius: 3px; }
+.tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+.tag-ok { background: #e8f5e9; color: #2E7D32; }
+.tag-note { background: #fff3e0; color: #E65100; }
+.checklist { list-style: none; font-size: 12px; display: flex; flex-direction: column; gap: 5px; }
+.checklist li { padding: 2px 0; color: #333; line-height: 1.5; }
+.checklist li::before { content: '✓ '; color: #22C55E; font-weight: 700; }
+.checklist li.warn::before { content: '⚠ '; color: #E65100; }
+.snippet { background: #1e1e1e; color: #d4d4d4; font-family: monospace; font-size: 11px; padding: 12px; border-radius: 6px; overflow-x: auto; white-space: pre; line-height: 1.55; margin-top: 6px; }
+.s-tag { color: #f06292; }
+.s-attr { color: #64B5F6; }
+.s-val { color: #a5d6a7; }
+.s-cmt { color: #555; }
+.preview-label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .5px; align-self: flex-start; }
+
+/* ── Admin Report UI ── */
+.admin-wrap { width: 100%; max-width: 860px; }
+.browser-chrome { background: #e8e8e8; border-radius: 10px 10px 0 0; padding: 8px 14px; display: flex; align-items: center; gap: 10px; border: 1px solid #d0d0d0; border-bottom: none; }
+.tls { display: flex; gap: 5px; }
+.tl { width: 11px; height: 11px; border-radius: 50%; }
+.url-bar { flex: 1; background: #fff; border-radius: 5px; padding: 4px 12px; font-size: 12px; color: #555; text-align: center; border: 1px solid #ddd; }
+.admin-card { background: #fff; border-radius: 0 0 12px 12px; border: 1px solid #d0d0d0; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.07); }
+
+/* KPI cards */
+.rpt-kpi-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.rpt-kpi { flex: 1; border: 1.5px solid #e0eaf4; border-top: 3px solid #2196F3; border-radius: 8px; padding: 10px 14px; min-width: 0; }
+.rpt-kpi-lbl { font-size: 10.5px; color: #888; margin-bottom: 4px; white-space: nowrap; }
+.rpt-kpi-val { font-size: 20px; font-weight: 700; color: #111; }
+
+/* Data table */
+.rpt-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.rpt-tbl th { padding: 8px 10px; text-align: left; font-weight: 500; color: #888; font-size: 11px; border-bottom: 1px solid #e8e8e8; white-space: nowrap; }
+.rpt-tbl th .sort { color: #ccc; margin-left: 2px; }
+.rpt-tbl td { padding: 9px 10px; border-bottom: 1px solid #f5f5f5; color: #333; white-space: nowrap; }
+.rpt-tbl tr:nth-child(even) td { background: #fafcff; }
+.se-link { color: #1a73e8; cursor: pointer; }
+.rpt-tbl tfoot td { font-weight: 600; color: #333; background: #f8f8f8; border-top: 2px solid #e0e0e0; font-size: 11px; }
+.rpt-tbl tfoot .green { color: #22a567; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PREVIEW PANE ═══════════════════ -->
+<div class="preview-pane">
+  <div class="preview-label">Admin Report — Sales Team Activity</div>
+
+  <div class="admin-wrap">
+    <!-- Browser chrome -->
+    <div class="browser-chrome">
+      <div class="tls">
+        <div class="tl" style="background:#ff5f57;"></div>
+        <div class="tl" style="background:#febc2e;"></div>
+        <div class="tl" style="background:#28c840;"></div>
+      </div>
+      <div class="url-bar">🔒 app.zotok.ai</div>
+    </div>
+
+    <!-- Report card -->
+    <div class="admin-card">
+      <div style="padding: 14px 18px;">
+
+        <!-- Title + controls -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div style="font-size:18px;font-weight:700;color:#111;">Sales Team Activity</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-size:11px;color:#aaa;">Last updated at 9th Apr, 2026 09:38:33 am</div>
+            <div style="border:1px solid #ddd;border-radius:7px;padding:5px 10px;font-size:11.5px;color:#555;display:flex;align-items:center;gap:5px;">
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="13" rx="2" stroke="#888" stroke-width="1.3"/><path d="M5 1v2M11 1v2M1 6h14" stroke="#888" stroke-width="1.3" stroke-linecap="round"/></svg>
+              05 Apr – 07 Apr 2026 ▾
+            </div>
+            <div style="background:#2196F3;color:#fff;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px;cursor:pointer;">
+              <svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M12 9v2a1 1 0 01-1 1H3a1 1 0 01-1-1V9M7 9V2M4 6l3 3 3-3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Download
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI cards -->
+        <div class="rpt-kpi-row">
+          <div class="rpt-kpi">
+            <div class="rpt-kpi-lbl">Total Salespersons</div>
+            <div class="rpt-kpi-val">6</div>
+          </div>
+          <div class="rpt-kpi">
+            <div class="rpt-kpi-lbl">Total Customers</div>
+            <div class="rpt-kpi-val">21</div>
+          </div>
+          <div class="rpt-kpi">
+            <div class="rpt-kpi-lbl">Total Orders</div>
+            <div class="rpt-kpi-val">12</div>
+          </div>
+          <div class="rpt-kpi">
+            <div class="rpt-kpi-lbl">Total Order Value</div>
+            <div class="rpt-kpi-val" style="font-size:17px;">₹19.72K
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" style="vertical-align:middle;"><circle cx="8" cy="8" r="6.5" stroke="#aaa" stroke-width="1.3"/><text x="8" y="12" text-anchor="middle" font-size="9" fill="#aaa" font-family="sans-serif">i</text></svg>
+            </div>
+          </div>
+          <div class="rpt-kpi">
+            <div class="rpt-kpi-lbl">Total Payments Collected</div>
+            <div class="rpt-kpi-val" style="font-size:17px;">₹147.05K
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" style="vertical-align:middle;"><circle cx="8" cy="8" r="6.5" stroke="#aaa" stroke-width="1.3"/><text x="8" y="12" text-anchor="middle" font-size="9" fill="#aaa" font-family="sans-serif">i</text></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:6px;font-size:11.5px;color:#555;">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8l4 4" stroke="#bbb" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          1 – 6 of 6 &nbsp;
+          <span style="border:1px solid #ddd;border-radius:5px;padding:2px 8px;">20 / page ∨</span>
+        </div>
+
+        <!-- Data table -->
+        <table class="rpt-tbl">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Salesperson Name</th>
+              <th>Customers <span class="sort">⇅</span></th>
+              <th>CheckIns <span class="sort">⇅</span></th>
+              <th>Number of Orders <span class="sort">⇅</span></th>
+              <th>Total SKU</th>
+              <th>Order Value <span class="sort">⇅</span></th>
+              <th>Payments Collected by UPI</th>
+              <th>Payments collected by Cash</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:#888;">1</td><td><span class="se-link">Ravi Singh</span></td><td>3</td><td>3</td><td>2</td><td>5</td><td>₹14,850</td><td>₹9,250</td><td>₹0</td>
+            </tr>
+            <tr>
+              <td style="color:#888;">2</td><td><span class="se-link">Sachin MAH</span></td><td>1</td><td>1</td><td>0</td><td>0</td><td>₹0</td><td>₹0</td><td>₹0</td>
+            </tr>
+            <tr>
+              <td style="color:#888;">3</td><td><span class="se-link">Vaasu</span></td><td>3</td><td>3</td><td>0</td><td>0</td><td>₹0</td><td>₹1,00,000</td><td>₹0</td>
+            </tr>
+            <tr>
+              <td style="color:#888;">4</td><td><span class="se-link">Govind Savera</span></td><td>1</td><td>1</td><td>0</td><td>0</td><td>₹0</td><td>₹0</td><td>₹0</td>
+            </tr>
+            <tr>
+              <td style="color:#888;">5</td><td><span class="se-link">Raja Ganesan Nagpur</span></td><td>11</td><td>16</td><td>8</td><td>17</td><td>₹0</td><td>₹31,000</td><td>₹0</td>
+            </tr>
+            <tr>
+              <td style="color:#888;">6</td><td><span class="se-link">Nagesh</span></td><td>5</td><td>6</td><td>4</td><td>5</td><td>₹19,720</td><td>₹16,052</td><td>₹0</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2"></td>
+              <td>21<br><span style="font-size:10px;color:#888;font-weight:400;">Total Customers</span></td>
+              <td>0<br><span style="font-size:10px;color:#888;font-weight:400;">Total CheckIns</span></td>
+              <td>12<br><span style="font-size:10px;color:#888;font-weight:400;">Total Orders</span></td>
+              <td>21<br><span style="font-size:10px;color:#888;font-weight:400;">Total SKUs</span></td>
+              <td class="green">₹19,720<br><span style="font-size:10px;color:#888;font-weight:400;">Total Order Value</span></td>
+              <td>₹1,47,052<br><span style="font-size:10px;color:#888;font-weight:400;">Total Pmts by UPI</span></td>
+              <td>₹0<br><span style="font-size:10px;color:#888;font-weight:400;">Total Pmts by Cash</span></td>
+            </tr>
+          </tfoot>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div><!-- /preview-pane -->
+
+
+<!-- ═══════════════════ SPEC PANE ═══════════════════ -->
+<div class="spec-pane">
+  <div class="pane-head">
+    <h2>Admin Report — Sales Team Activity</h2>
+    <p>tmpl_admin_report · Desktop web UI · app.zotok.ai</p>
+  </div>
+
+  <!-- When to use -->
+  <div class="spec-section">
+    <h3>When to Use</h3>
+    <p style="font-size:12px;color:#555;line-height:1.6;">Use when a journey step shows head office or area management reviewing team-wide field performance — check-ins, orders, SKUs, and payment collections across all sales executives, filterable by date range.</p>
+  </div>
+
+  <!-- Layout tokens -->
+  <div class="spec-section">
+    <h3>Layout</h3>
+    <div class="spec-row"><span class="lbl">URL</span><span class="val code">app.zotok.ai</span></div>
+    <div class="spec-row"><span class="lbl">Container max-width</span><span class="val">860px</span></div>
+    <div class="spec-row"><span class="lbl">Card border-radius</span><span class="val">0 0 12px 12px</span></div>
+    <div class="spec-row"><span class="lbl">Card box-shadow</span><span class="val code">0 4px 24px rgba(0,0,0,.07)</span></div>
+    <div class="spec-row"><span class="lbl">No sidebar</span><span class="val">Report panel fills full width</span></div>
+  </div>
+
+  <!-- KPI cards -->
+  <div class="spec-section">
+    <h3>KPI Card Strip</h3>
+    <div class="spec-row"><span class="lbl">Border top</span><span class="val code">3px solid #2196F3</span></div>
+    <div class="spec-row"><span class="lbl">Border sides/bottom</span><span class="val code">1.5px solid #e0eaf4</span></div>
+    <div class="spec-row"><span class="lbl">Label font</span><span class="val">10.5px · #888</span></div>
+    <div class="spec-row"><span class="lbl">Value font</span><span class="val">20px · 700 · #111</span></div>
+    <div class="spec-row"><span class="lbl">ⓘ icon</span><span class="val">SVG circle with "i" · shown on monetary KPIs</span></div>
+    <p style="font-size:11.5px;color:#888;margin-top:8px;line-height:1.5;">Adapt card labels and values to the report type. Always include a date range filter and Download button in the title row.</p>
+  </div>
+
+  <!-- Table spec -->
+  <div class="spec-section">
+    <h3>Data Table</h3>
+    <div class="spec-row"><span class="lbl">Header font</span><span class="val">11px · #888 · font-weight 500</span></div>
+    <div class="spec-row"><span class="lbl">Row font</span><span class="val">12px · #333</span></div>
+    <div class="spec-row"><span class="lbl">Even rows</span><span class="val code">background: #fafcff</span></div>
+    <div class="spec-row"><span class="lbl">Footer row bg</span><span class="val code">#f8f8f8 · border-top 2px #e0e0e0</span></div>
+    <div class="spec-row"><span class="lbl">SE name link</span><span class="val code">color: #1a73e8</span></div>
+    <div class="spec-row"><span class="lbl">Positive total</span><span class="val code">color: #22a567 (green)</span></div>
+    <div class="spec-row"><span class="lbl">Sort indicator</span><span class="val">⇅ in #ccc on sortable headers</span></div>
+  </div>
+
+  <!-- Standard columns -->
+  <div class="spec-section">
+    <h3>Standard Columns</h3>
+    <ul class="checklist">
+      <li>S.No — row number, grey text</li>
+      <li>Salesperson Name — blue clickable link</li>
+      <li>Customers — unique customer count</li>
+      <li>CheckIns — total check-in events</li>
+      <li>Number of Orders — orders placed</li>
+      <li>Total SKU — line items across orders</li>
+      <li>Order Value — green when positive</li>
+      <li>Payments Collected by UPI</li>
+      <li>Payments Collected by Cash</li>
+    </ul>
+  </div>
+
+  <!-- Compliance checklist -->
+  <div class="spec-section">
+    <h3>Checklist</h3>
+    <ul class="checklist">
+      <li>Browser chrome: macOS traffic lights + URL bar</li>
+      <li>URL always shows <code style="font-size:10.5px;background:#f5f5f5;padding:1px 4px;border-radius:3px;">app.zotok.ai</code></li>
+      <li>Download button: <code style="font-size:10.5px;background:#f5f5f5;padding:1px 4px;border-radius:3px;">#2196F3</code> blue</li>
+      <li>Date range filter with calendar icon and ▾ dropdown caret</li>
+      <li>Pagination: prev/next chevrons + "1 – N of N" + page size pill</li>
+      <li>Footer totals row with sub-labels below each total</li>
+      <li class="warn">No sidebar navigation on this screen — report fills full card width</li>
+      <li class="warn">Do not add left icon rail or sub-nav menu to report screens</li>
+    </ul>
+  </div>
+
+  <!-- HTML snippet -->
+  <div class="spec-section">
+    <h3>HTML Snippet</h3>
+    <div class="snippet"><span class="s-cmt">&lt;!-- Browser chrome --&gt;</span>
+<span class="s-tag">&lt;div</span> <span class="s-attr">class</span>=<span class="s-val">"browser-chrome"</span><span class="s-tag">&gt;</span>
+  <span class="s-cmt">&lt;!-- traffic lights --&gt;</span>
+  <span class="s-tag">&lt;div</span> <span class="s-attr">class</span>=<span class="s-val">"url-bar"</span><span class="s-tag">&gt;</span>🔒 app.zotok.ai<span class="s-tag">&lt;/div&gt;</span>
+<span class="s-tag">&lt;/div&gt;</span>
+
+<span class="s-cmt">&lt;!-- Report card --&gt;</span>
+<span class="s-tag">&lt;div</span> <span class="s-attr">class</span>=<span class="s-val">"admin-card"</span><span class="s-tag">&gt;</span>
+  <span class="s-tag">&lt;div</span> <span class="s-attr">style</span>=<span class="s-val">"padding:14px 18px;"</span><span class="s-tag">&gt;</span>
+
+    <span class="s-cmt">&lt;!-- Title + date filter + download --&gt;</span>
+    <span class="s-tag">&lt;div</span> <span class="s-attr">style</span>=<span class="s-val">"display:flex;align-items:center;
+           justify-content:space-between;margin-bottom:12px;"</span><span class="s-tag">&gt;</span>
+      <span class="s-tag">&lt;div</span> <span class="s-attr">style</span>=<span class="s-val">"font-size:18px;font-weight:700;"</span><span class="s-tag">&gt;</span>Report Title<span class="s-tag">&lt;/div&gt;</span>
+      <span class="s-cmt">&lt;!-- date filter pill + download btn --&gt;</span>
+    <span class="s-tag">&lt;/div&gt;</span>
+
+    <span class="s-cmt">&lt;!-- KPI cards --&gt;</span>
+    <span class="s-tag">&lt;div</span> <span class="s-attr">class</span>=<span class="s-val">"rpt-kpi-row"</span><span class="s-tag">&gt;</span>
+      <span class="s-tag">&lt;div</span> <span class="s-attr">class</span>=<span class="s-val">"rpt-kpi"</span><span class="s-tag">&gt;</span>
+        <span class="s-tag">&lt;div</span> <span class="s-attr">class</span>=<span class="s-val">"rpt-kpi-lbl"</span><span class="s-tag">&gt;</span>Label<span class="s-tag">&lt;/div&gt;</span>
+        <span class="s-tag">&lt;div</span> <span class="s-attr">class</span>=<span class="s-val">"rpt-kpi-val"</span><span class="s-tag">&gt;</span>Value<span class="s-tag">&lt;/div&gt;</span>
+      <span class="s-tag">&lt;/div&gt;</span>
+      <span class="s-cmt">&lt;!-- repeat for each KPI --&gt;</span>
+    <span class="s-tag">&lt;/div&gt;</span>
+
+    <span class="s-cmt">&lt;!-- Pagination --&gt;</span>
+    <span class="s-cmt">&lt;!-- Data table --&gt;</span>
+    <span class="s-tag">&lt;table</span> <span class="s-attr">class</span>=<span class="s-val">"rpt-tbl"</span><span class="s-tag">&gt;</span>
+      <span class="s-tag">&lt;thead&gt;&lt;tr&gt;</span>
+        <span class="s-tag">&lt;th&gt;</span>S.No<span class="s-tag">&lt;/th&gt;</span>
+        <span class="s-tag">&lt;th&gt;</span>Salesperson Name<span class="s-tag">&lt;/th&gt;</span>
+        <span class="s-cmt">&lt;!-- ...column headers... --&gt;</span>
+      <span class="s-tag">&lt;/tr&gt;&lt;/thead&gt;</span>
+      <span class="s-tag">&lt;tbody&gt;</span>
+        <span class="s-tag">&lt;tr&gt;</span>
+          <span class="s-tag">&lt;td</span> <span class="s-attr">style</span>=<span class="s-val">"color:#888;"</span><span class="s-tag">&gt;</span>1<span class="s-tag">&lt;/td&gt;</span>
+          <span class="s-tag">&lt;td&gt;&lt;span</span> <span class="s-attr">class</span>=<span class="s-val">"se-link"</span><span class="s-tag">&gt;</span>Name<span class="s-tag">&lt;/span&gt;&lt;/td&gt;</span>
+          <span class="s-cmt">&lt;!-- ...data cells... --&gt;</span>
+        <span class="s-tag">&lt;/tr&gt;</span>
+      <span class="s-tag">&lt;/tbody&gt;</span>
+      <span class="s-tag">&lt;tfoot&gt;&lt;tr&gt;</span>
+        <span class="s-tag">&lt;td</span> <span class="s-attr">colspan</span>=<span class="s-val">"2"</span><span class="s-tag">&gt;&lt;/td&gt;</span>
+        <span class="s-tag">&lt;td&gt;</span>Total<span class="s-tag">&lt;br&gt;</span>
+          <span class="s-tag">&lt;span</span> <span class="s-attr">style</span>=<span class="s-val">"font-size:10px;color:#888;"</span><span class="s-tag">&gt;</span>Label<span class="s-tag">&lt;/span&gt;</span>
+        <span class="s-tag">&lt;/td&gt;</span>
+      <span class="s-tag">&lt;/tr&gt;&lt;/tfoot&gt;</span>
+    <span class="s-tag">&lt;/table&gt;</span>
+
+  <span class="s-tag">&lt;/div&gt;</span>
+<span class="s-tag">&lt;/div&gt;</span></div>
+  </div>
+
+</div><!-- /spec-pane -->
+
+</body>
+</html>

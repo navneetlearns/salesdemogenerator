@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Campaign: New Message Template Builder</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;display:flex;min-height:100vh;}
+.preview-pane{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 24px;gap:16px;overflow-y:auto;}
+.spec-pane{width:360px;background:#fff;border-left:1px solid #e0e0e0;overflow-y:auto;flex-shrink:0;}
+.pane-head{padding:18px 20px 14px;border-bottom:1px solid #f0f0f0;}
+.pane-head h2{font-size:14px;font-weight:700;color:#111;}
+.pane-head p{font-size:11.5px;color:#888;margin-top:3px;}
+.spec-section{padding:14px 20px;border-bottom:1px solid #f5f5f5;}
+.spec-section h3{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.spec-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:12px;}
+.spec-row .lbl{color:#888;flex-shrink:0;width:140px;}
+.spec-row .val{color:#111;font-weight:500;text-align:right;word-break:break-all;}
+.spec-row .val.code{font-family:monospace;font-size:11px;background:#f5f5f5;padding:1px 5px;border-radius:3px;}
+.checklist{list-style:none;font-size:12px;display:flex;flex-direction:column;gap:5px;}
+.checklist li{padding:2px 0;color:#333;line-height:1.5;}
+.checklist li::before{content:'✓ ';color:#22C55E;font-weight:700;}
+.checklist li.warn::before{content:'⚠ ';color:#E65100;}
+.snippet{background:#1e1e1e;color:#d4d4d4;font-family:monospace;font-size:11px;padding:12px;border-radius:6px;overflow-x:auto;white-space:pre;line-height:1.55;margin-top:6px;}
+.preview-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;align-self:flex-start;}
+
+/* Portal shell */
+.portal-wrap{width:100%;max-width:960px;border-radius:10px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);}
+.browser-chrome{background:#e8e8e8;padding:8px 14px;display:flex;align-items:center;gap:10px;border:1px solid #d0d0d0;border-bottom:none;border-radius:10px 10px 0 0;}
+.tls{display:flex;gap:5px;}.tl{width:11px;height:11px;border-radius:50%;}
+.tl-r{background:#ff5f57;}.tl-a{background:#febc2e;}.tl-g{background:#28c840;}
+.url-bar{flex:1;background:#fff;border-radius:5px;padding:4px 12px;font-size:12px;color:#555;text-align:center;border:1px solid #ddd;}
+.portal-body{display:flex;height:800px;border:1px solid #d0d0d0;border-top:none;border-radius:0 0 10px 10px;overflow:hidden;}
+.nav-left{width:48px;background:#132c45;display:flex;flex-direction:column;align-items:center;padding:12px 0;flex-shrink:0;gap:4px;}
+.nav-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.nav-icon.settings-active{background:rgba(255,255,255,.15);}
+.nav-spacer{flex:1;}
+.nav-avatar{width:28px;height:28px;border-radius:50%;background:#0058d9;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.nav-sub{width:68px;background:#fff;border-right:1px solid #eee;display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;}
+.nav-sub-top{flex:1;padding:6px 0;}
+.nav-sub-item{padding:8px 4px;text-align:center;font-size:9.5px;color:#595959;cursor:pointer;line-height:1.3;}
+.nav-sub-item.active{color:#32a7e8;font-weight:600;}
+.nav-sub-div{height:1px;background:#f0f0f0;margin:4px 10px;}
+.nav-sub-bottom{padding:8px 4px;text-align:center;border-top:1px solid #f0f0f0;}
+.powered-by{font-size:6px;color:#595959;display:block;margin-bottom:4px;}
+.zotok-logo{width:36px;height:12px;background:#ecf0f5;border-radius:3px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#0058d9;}
+.content-area{flex:1;background:#ecf0f5;display:flex;flex-direction:column;overflow:hidden;}
+
+/* Page nav */
+.page-nav{background:#fff;border-bottom:1px solid #eee;padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.page-title{font-size:15px;font-weight:600;color:#262626;}
+.btn-primary{background:#32a7e8;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-cancel{background:none;border:none;color:#32a7e8;font-size:13px;font-weight:500;cursor:pointer;margin-right:12px;}
+
+/* Builder layout: form-left + preview-right */
+.builder-layout{flex:1;display:flex;overflow:hidden;}
+.builder-form{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;}
+.builder-preview{width:220px;background:#fff;border-left:1px solid #eee;overflow-y:auto;padding:14px;flex-shrink:0;}
+
+/* Form cards */
+.form-card{background:#fff;border-radius:10px;padding:14px 16px;}
+.fc-title{font-size:14px;font-weight:600;color:#262626;margin-bottom:3px;}
+.fc-desc{font-size:12px;color:#8c8c8c;margin-bottom:12px;line-height:1.5;}
+.fc-label{font-size:12px;font-weight:600;color:#262626;margin-bottom:5px;display:block;}
+.fc-input{width:100%;border:1px solid #d9d9d9;border-radius:6px;padding:8px 10px;font-size:13px;color:#262626;background:#fff;outline:none;}
+.fc-input::placeholder{color:#8c8c8c;}
+.fc-select{width:100%;border:1px solid #d9d9d9;border-radius:6px;padding:8px 10px;font-size:13px;color:#262626;background:#fff;outline:none;cursor:pointer;}
+.fc-row{margin-bottom:12px;}
+.char-count{text-align:right;font-size:10px;color:#8c8c8c;margin-top:2px;}
+.fc-hint{font-size:10.5px;color:#8c8c8c;margin-top:3px;}
+
+/* Header type toggles */
+.header-types{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.header-type{padding:6px 12px;border-radius:6px;border:1.5px solid #d9d9d9;font-size:12px;cursor:pointer;color:#262626;}
+.header-type.active{border-color:#32a7e8;color:#32a7e8;background:#f0f8ff;}
+
+/* Upload area */
+.upload-area{border:2px dashed #d9d9d9;border-radius:8px;padding:14px;text-align:center;background:#fafafa;}
+.upload-area-title{font-size:12px;font-weight:500;color:#1f1f1f;margin-bottom:3px;}
+.upload-area-hint{font-size:10px;color:#8c8c8c;}
+.upload-area-cta{font-size:11px;color:#595959;margin-top:5px;}
+.upload-area-cta span{color:#32a7e8;cursor:pointer;}
+
+/* Body editor */
+.body-toolbar{display:flex;align-items:center;gap:8px;padding:6px 10px;background:#f5f5f5;border-radius:6px 6px 0 0;border:1px solid #d9d9d9;border-bottom:none;}
+.toolbar-btn{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:4px;cursor:pointer;font-size:13px;font-weight:700;color:#262626;}
+.toolbar-btn:hover{background:#e0e0e0;}
+.add-var-btn{margin-left:auto;color:#32a7e8;font-size:12px;font-weight:500;cursor:pointer;background:none;border:none;}
+.body-textarea{width:100%;border:1px solid #d9d9d9;border-radius:0 0 6px 6px;padding:10px;font-size:13px;color:#262626;min-height:80px;outline:none;resize:none;font-family:inherit;line-height:1.5;}
+.body-hint{font-size:11px;color:#8c8c8c;margin-top:4px;}
+.body-hint span{color:#32a7e8;}
+
+/* Variables table */
+.var-grid{display:flex;flex-direction:column;gap:6px;}
+.var-row{display:flex;align-items:center;gap:6px;}
+.var-tag{background:#e8f0fe;color:#0049b5;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;flex-shrink:0;min-width:44px;text-align:center;}
+.var-select{flex:1;border:1px solid #d9d9d9;border-radius:6px;padding:7px 8px;font-size:11.5px;color:#262626;background:#fff;}
+.var-sample{flex:1;border:1px solid #d9d9d9;border-radius:6px;padding:7px 8px;font-size:11.5px;color:#8c8c8c;background:#fff;}
+.var-hint{font-size:10.5px;color:#8c8c8c;margin-top:3px;line-height:1.4;}
+
+/* Button rows */
+.btn-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.btn-type-tag{background:#f5f5f5;color:#262626;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;border:1px solid #e0e0e0;}
+.add-btn-link{color:#32a7e8;font-size:13px;font-weight:500;cursor:pointer;background:none;border:none;display:flex;align-items:center;gap:4px;}
+
+/* Note bar */
+.note-bar{background:#fff8e1;border:1px solid #ffe58f;border-radius:6px;padding:8px 12px;font-size:11.5px;color:#454545;line-height:1.5;}
+
+/* Submit footer */
+.submit-footer{background:#fff;border-top:1px solid #eee;padding:12px 20px;display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-shrink:0;}
+
+/* Preview panel */
+.preview-panel-title{font-size:11px;font-weight:700;color:#8c8c8c;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.wa-preview{background:#ece5dd;border-radius:8px;padding:10px;min-height:320px;}
+.wa-biz-bar{background:#32a7e8;border-radius:6px 6px 0 0;color:#fff;font-size:11px;font-weight:700;padding:6px 10px;display:flex;align-items:center;gap:6px;}
+.wa-biz-logo{width:18px;height:18px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#32a7e8;}
+.wa-msg-card{background:#fff;border-radius:0 8px 8px 8px;overflow:hidden;max-width:92%;box-shadow:0 1px 2px rgba(0,0,0,.1);margin-top:6px;}
+.wa-img-ph{background:#d0d8dd;height:72px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#8a9da8;}
+.wa-msg-inner{padding:7px 9px;}
+.wa-hi{font-size:11.5px;color:#262626;}
+.wa-var{color:#0049b5;font-weight:600;}
+.wa-body{font-size:11.5px;color:#1f1f1f;line-height:1.45;margin:4px 0;}
+.wa-footer{font-size:9.5px;color:#667781;margin-bottom:5px;}
+.wa-btn-row{border-top:1px solid #f0f0f0;padding:5px 0 2px;text-align:center;color:#00a884;font-size:10.5px;font-weight:500;}
+.wa-input-bar{background:#f0f0f0;border-radius:0 0 8px 8px;padding:5px 9px;font-size:10px;color:#8696a0;margin-top:6px;}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PREVIEW PANE ═══════════════════ -->
+<div class="preview-pane">
+  <div class="preview-label">Settings → WhatsApp → New Message Template</div>
+
+  <div class="portal-wrap">
+    <div class="browser-chrome">
+      <div class="tls"><div class="tl tl-r"></div><div class="tl tl-a"></div><div class="tl tl-g"></div></div>
+      <div class="url-bar">🔒 app.zotok.ai/settings/whatsapp/templates/new</div>
+    </div>
+
+    <div class="portal-body">
+      <!-- Left nav (Settings active) -->
+      <div class="nav-left">
+        <div class="nav-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/></svg>
+        </div>
+        <div class="nav-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="rgba(255,255,255,.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-spacer"></div>
+        <div class="nav-icon settings-active">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="#fff" stroke-width="1.8"/></svg>
+        </div>
+        <div class="nav-avatar">Z</div>
+      </div>
+
+      <!-- Settings sub-nav -->
+      <div class="nav-sub">
+        <div class="nav-sub-top">
+          <div class="nav-sub-item">Account</div>
+          <div class="nav-sub-item">My Team</div>
+          <div class="nav-sub-item active">WhatsApp</div>
+          <div class="nav-sub-item">Chat Widget</div>
+          <div class="nav-sub-item">Apps</div>
+          <div class="nav-sub-div"></div>
+          <div class="nav-sub-item">CFA's</div>
+          <div class="nav-sub-item">Divisions</div>
+          <div class="nav-sub-item">Notification</div>
+          <div class="nav-sub-div"></div>
+          <div class="nav-sub-item">Bank Details</div>
+          <div class="nav-sub-item">Apps &amp; Consent</div>
+          <div class="nav-sub-item">Config Settings</div>
+          <div class="nav-sub-item">GST portal</div>
+        </div>
+        <div class="nav-sub-bottom">
+          <span class="powered-by">Powered By</span>
+          <div class="zotok-logo">ZoTok</div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="content-area">
+        <div class="page-nav">
+          <div class="page-title">New Message Template</div>
+          <div style="display:flex;align-items:center;">
+            <button class="btn-cancel">Cancel</button>
+            <button class="btn-primary">Submit for Approval</button>
+          </div>
+        </div>
+
+        <div class="builder-layout">
+          <!-- Form -->
+          <div class="builder-form">
+
+            <!-- Name/Category/Language -->
+            <div class="form-card">
+              <div class="fc-row">
+                <label class="fc-label">Name</label>
+                <div style="font-size:12px;color:#8c8c8c;margin-bottom:6px;">Name your message template</div>
+                <input class="fc-input" value="summer_deal" placeholder="e.g. summer_deal">
+                <div class="char-count">88/88</div>
+              </div>
+              <div class="fc-row">
+                <label class="fc-label">Category</label>
+                <div style="font-size:12px;color:#8c8c8c;margin-bottom:6px;">Choose a message template category.</div>
+                <select class="fc-select"><option>Utility</option><option>Marketing</option><option>Authentication</option></select>
+              </div>
+              <div class="fc-row" style="margin-bottom:0;">
+                <label class="fc-label">Language</label>
+                <div style="font-size:12px;color:#8c8c8c;margin-bottom:6px;">Choose language for your message template.</div>
+                <select class="fc-select"><option>English</option><option>Hindi</option><option>Marathi</option></select>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div class="form-card">
+              <div class="fc-title">Header</div>
+              <div class="fc-desc">Add a title or choose which type of media you'll use for this header.</div>
+              <div class="header-types">
+                <div class="header-type">None</div>
+                <div class="header-type">Text</div>
+                <div class="header-type active">Image</div>
+                <div class="header-type">Video</div>
+                <div class="header-type">Document</div>
+                <div class="header-type">Location</div>
+              </div>
+              <div class="upload-area">
+                <div class="upload-area-title">Upload File</div>
+                <div class="upload-area-cta"><span>Drop file here</span> or <span>Browse</span></div>
+                <div class="upload-area-hint">JPG, PNG, PDF up to 5 MB</div>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="form-card">
+              <div class="fc-title">Body</div>
+              <div class="fc-desc">Enter the text for your message in the language that you've selected.</div>
+              <div class="body-toolbar">
+                <div class="toolbar-btn"><strong>B</strong></div>
+                <div class="toolbar-btn"><em>I</em></div>
+                <div class="toolbar-btn"><s>S</s></div>
+                <div class="toolbar-btn">😊</div>
+                <button class="add-var-btn">+ Add Variable</button>
+              </div>
+              <textarea class="body-textarea">Hey **{{customer_contact_name}}**, Exclusive deal just for you! 🎉
+
+Enjoy 10% off on new products.
+Offer valid till 31st March only.
+
+Hurry Now! 🚀
+
+Team,
+{{seller_firm_name}}</textarea>
+              <div style="display:flex;justify-content:space-between;margin-top:3px;">
+                <div class="body-hint">Use <span>/</span> to use variables</div>
+                <div style="font-size:10px;color:#8c8c8c;">281/1024</div>
+              </div>
+              <div style="margin-top:12px;">
+                <div class="fc-label">Selected Variables</div>
+                <div class="var-grid">
+                  <div class="var-row">
+                    <div class="var-tag">{{1}}</div>
+                    <select class="var-select"><option>Customer Contact Name</option></select>
+                    <input class="var-sample" placeholder="Ex: Arjun Kumar" value="Arjun Kumar">
+                  </div>
+                  <div class="var-row">
+                    <div class="var-tag">{{2}}</div>
+                    <select class="var-select"><option>Seller Firm Name</option></select>
+                    <input class="var-sample" placeholder="Ex: Zotok" value="Zotok">
+                  </div>
+                </div>
+                <div class="var-hint">Enter a sample value for your variables to give context for WhatsApp's template review.</div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="form-card">
+              <div class="fc-title">Footer</div>
+              <div class="fc-desc">Add a short line of text to the bottom of your message template.</div>
+              <input class="fc-input" placeholder="Enter text in english (max 60 chars)">
+              <div class="char-count">0/60</div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="form-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <div class="fc-title">Buttons</div>
+                <span style="background:#f0f0f0;color:#8c8c8c;font-size:10px;padding:2px 8px;border-radius:8px;">Optional</span>
+              </div>
+              <div class="fc-desc">Create buttons that let customers respond to your message or take action.</div>
+              <!-- URL button row -->
+              <div class="btn-row">
+                <div class="btn-type-tag">URL</div>
+                <input class="fc-input" value="View Catalogue" style="flex:1;font-size:12px;padding:6px 8px;">
+                <input class="fc-input" placeholder="Enter URL" style="flex:1;font-size:12px;padding:6px 8px;">
+              </div>
+              <!-- Quick reply row -->
+              <div class="btn-row">
+                <div class="btn-type-tag">Quick Reply</div>
+                <input class="fc-input" value="Know More" style="flex:1;font-size:12px;padding:6px 8px;">
+              </div>
+              <button class="add-btn-link">
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#32a7e8" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="#32a7e8" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Add Button
+              </button>
+            </div>
+
+            <div class="note-bar">
+              Note: Once you submit this template, it will be sent to Meta for verification. Approval typically takes 1–2 business days.
+            </div>
+
+          </div><!-- /builder-form -->
+
+          <!-- Live preview -->
+          <div class="builder-preview">
+            <div class="preview-panel-title">Preview</div>
+            <div class="wa-preview">
+              <div class="wa-biz-bar">
+                <div class="wa-biz-logo">Z</div>
+                ZöTok
+              </div>
+              <div class="wa-msg-card">
+                <div class="wa-img-ph">📷 Image Header</div>
+                <div class="wa-msg-inner">
+                  <div class="wa-hi">Hey <span class="wa-var">Arjun Kumar</span></div>
+                  <div class="wa-body">Exclusive deal just for you! 🎉<br>Enjoy 10% off on new products.<br>Offer valid till 31st March only.<br><br>Hurry Now! 🚀<br><br>Team,<br><span style="color:#1e855a;">Zotok</span></div>
+                  <div class="wa-footer">Managed by ZoTok powered by Zono</div>
+                </div>
+                <div class="wa-btn-row">↗ View Catalogue</div>
+                <div class="wa-btn-row">↩ Know More</div>
+              </div>
+              <div class="wa-input-bar">Type message here…</div>
+            </div>
+
+            <div style="margin-top:12px;padding:8px;background:#f5f5f5;border-radius:6px;">
+              <div style="font-size:10px;color:#8c8c8c;font-weight:600;text-transform:uppercase;margin-bottom:5px;">Dev Mode</div>
+              <div style="font-size:10px;color:#595959;line-height:1.5;">Template JSON visible here for API integration reference.</div>
+            </div>
+          </div>
+
+        </div><!-- /builder-layout -->
+      </div><!-- /content-area -->
+    </div><!-- /portal-body -->
+  </div><!-- /portal-wrap -->
+</div>
+
+
+<!-- ═══════════════════ SPEC PANE ═══════════════════ -->
+<div class="spec-pane">
+  <div class="pane-head">
+    <h2>New Message Template Builder</h2>
+    <p>Settings → WhatsApp → New Message Template · 1280×1900</p>
+  </div>
+
+  <div class="spec-section">
+    <h3>When to Use</h3>
+    <p style="font-size:12px;color:#555;line-height:1.6;">Show this screen when depicting how an admin creates a custom WhatsApp message template from scratch. This is under Settings → WhatsApp, not within the campaign wizard.</p>
+  </div>
+
+  <div class="spec-section">
+    <h3>Navigation Context</h3>
+    <div class="spec-row"><span class="lbl">Active left nav</span><span class="val">Settings icon (gear)</span></div>
+    <div class="spec-row"><span class="lbl">Active sub-nav item</span><span class="val code">WhatsApp</span></div>
+    <div class="spec-row"><span class="lbl">Settings sub-nav items</span><span class="val">Account, My Team, WhatsApp, Chat Widget, Apps, CFA's, Divisions, Notification, Bank Details, Apps & Consent, Config Settings, GST portal</span></div>
+    <div class="spec-row"><span class="lbl">URL</span><span class="val code">app.zotok.ai/settings/whatsapp/templates/new</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Template Sections (Form)</h3>
+    <ul class="checklist">
+      <li><strong>Name</strong> — snake_case, max 88 chars (e.g. "summer_deal")</li>
+      <li><strong>Category</strong> — dropdown: Utility / Marketing / Authentication</li>
+      <li><strong>Language</strong> — dropdown: English / Hindi / Marathi / etc.</li>
+      <li><strong>Header</strong> — type selector: None / Text / Image / Video / Document / Location. Image = upload box</li>
+      <li><strong>Body</strong> — rich text area with B/I/S/emoji toolbar + Add Variable. Char counter: 281/1024</li>
+      <li><strong>Footer</strong> — plain text, max 60 chars, no emojis</li>
+      <li><strong>Buttons</strong> — Add Button → URL type or Quick Reply type</li>
+    </ul>
+  </div>
+
+  <div class="spec-section">
+    <h3>Body Variable Mapping</h3>
+    <div class="spec-row"><span class="lbl">Variable format</span><span class="val">{{customer_contact_name}} in body editor</span></div>
+    <div class="spec-row"><span class="lbl">Var tag bg</span><span class="val code">#e8f0fe</span></div>
+    <div class="spec-row"><span class="lbl">Var tag text</span><span class="val code">#0049b5</span></div>
+    <div class="spec-row"><span class="lbl">CRM field options</span><span class="val">Customer Contact Name, Seller Firm Name, Zotok, etc.</span></div>
+    <div class="spec-row"><span class="lbl">Sample value field</span><span class="val">Real name shown in preview</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Button Types &amp; Limits</h3>
+    <div class="spec-row"><span class="lbl">URL button label</span><span class="val">max 25 chars, no emojis</span></div>
+    <div class="spec-row"><span class="lbl">Quick Reply label</span><span class="val">max 25 chars, no emojis</span></div>
+    <div class="spec-row"><span class="lbl">Max buttons</span><span class="val">2 CTA URL + 1 phone OR 3 Quick Reply</span></div>
+    <div class="spec-row"><span class="lbl">Button type tag bg</span><span class="val code">#f5f5f5</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Live Preview Panel</h3>
+    <div class="spec-row"><span class="lbl">Width</span><span class="val">220px, right side</span></div>
+    <div class="spec-row"><span class="lbl">Preview bg</span><span class="val code">#ece5dd</span></div>
+    <div class="spec-row"><span class="lbl">Variable color</span><span class="val code">#0049b5 in preview</span></div>
+    <div class="spec-row"><span class="lbl">Dev Mode toggle</span><span class="val">Shows API JSON for template — below preview</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Page Actions</h3>
+    <div class="spec-row"><span class="lbl">Cancel</span><span class="val code">text link, color #32a7e8</span></div>
+    <div class="spec-row"><span class="lbl">Submit for Approval</span><span class="val code">bg #32a7e8, white text</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Meta Compliance (Template Rules)</h3>
+    <ul class="checklist">
+      <li>Footer: plain text only, max 60 chars, no emojis, no variables</li>
+      <li>Body: no divider lines, no tables, no HTML</li>
+      <li>Header: ONE type only — Image OR Text OR Document, never combined</li>
+      <li>Buttons: ONE type per template — all URL or all Quick Reply</li>
+      <li class="warn">Warn on submit: template goes to Meta for verification</li>
+      <li class="warn">Variables cannot be consecutive ({{1}}{{2}}) or start/end the body</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

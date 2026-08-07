@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Field Ops Activity Timeline (Mobile PWA)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-pwa  { background: #1a1a5c; color: #82b1ff; border: 1px solid #1565C055; }
+  .badge-ops  { background: #1a1200; color: #FFD54F; border: 1px solid #FFD54F44; }
+  .badge-zoai { background: #001a18; color: #80CBC4; border: 1px solid #00897B55; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .page-sub   { font-size: 12px; color: #666; margin-top: 2px; }
+
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    width: 420px; flex-shrink: 0; padding: 32px 28px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .preview-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; align-self: flex-start; }
+
+  /* ── Mobile PWA phone frame ── */
+  .act-phone {
+    width: 305px; border-radius: 38px; border: 8px solid #1a1a1a;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    overflow: hidden; display: flex; flex-direction: column;
+    height: 610px; flex-shrink: 0; background: #f0f2f5;
+  }
+
+  /* Status bar — white iOS style */
+  .act-sb {
+    background: #f5f5f5; padding: 8px 14px 4px;
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  }
+  .act-sb-t { font-size: 13px; font-weight: 600; color: #111; }
+  .w-sicons  { display: flex; align-items: center; gap: 5px; }
+  .w-bat {
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid #111; border-radius: 3.5px;
+    padding: 1px 4px; font-size: 9.5px; font-weight: 700; color: #111;
+    height: 15px; min-width: 26px; position: relative;
+  }
+  .w-bat::after {
+    content: ''; position: absolute; right: -4px; top: 50%;
+    transform: translateY(-50%);
+    width: 2px; height: 6px; background: #111; border-radius: 0 1px 1px 0;
+  }
+
+  /* Safari address bar */
+  .act-addr-bar {
+    background: #f5f5f5; padding: 4px 10px 6px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    flex-shrink: 0; border-bottom: 1px solid #e0e0e0;
+  }
+  .act-pill {
+    background: #e4e4e4; border-radius: 10px; padding: 4px 12px;
+    font-size: 10.5px; color: #333; display: flex; align-items: center; gap: 5px;
+    flex: 1; max-width: 200px;
+  }
+  .act-pill-url { color: #555; font-size: 10px; }
+
+  /* App inner header */
+  .act-inner-head {
+    background: #fff; padding: 9px 12px 8px;
+    display: flex; align-items: center; gap: 6px;
+    border-bottom: 1px solid #eee; flex-shrink: 0;
+  }
+  .act-back-lnk {
+    color: #007AFF; font-size: 12.5px; font-weight: 500;
+    display: flex; align-items: center; gap: 2px;
+  }
+  .act-inner-title {
+    font-size: 13.5px; font-weight: 700; color: #111;
+    flex: 1; text-align: center; padding-right: 24px;
+  }
+
+  /* SE info strip */
+  .act-se-strip {
+    background: #fff; padding: 5px 12px 6px;
+    border-bottom: 1px solid #eee;
+    display: flex; align-items: center; gap: 7px; flex-shrink: 0;
+  }
+  .act-se-ava {
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .act-se-name { font-size: 12px; font-weight: 700; color: #111; }
+  .act-se-sub  { font-size: 10px; color: #888; }
+  .act-se-badge {
+    margin-left: auto; background: #e7f8ef; border-radius: 6px;
+    padding: 2px 7px; font-size: 10px; font-weight: 700; color: #0a9157;
+  }
+
+  /* Timeline scroll body */
+  .act-body { flex: 1; overflow-y: auto; padding: 10px 10px 12px; }
+
+  .act-date-pill { text-align: center; margin-bottom: 10px; }
+  .act-date-pill span {
+    background: #fff; border: 1px solid #dde1e8; border-radius: 20px;
+    padding: 3px 12px; font-size: 10.5px; color: #555; font-weight: 600;
+  }
+
+  /* Timeline row */
+  .act-tl        { display: flex; gap: 8px; margin-bottom: 6px; }
+  .act-tl-left   { display: flex; flex-direction: column; align-items: center; width: 26px; flex-shrink: 0; }
+  .act-tl-icon   { width: 26px; height: 26px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .act-tl-line   { width: 2px; background: #dde1e8; flex: 1; min-height: 6px; margin: 2px 0; }
+  .act-tl-card   { background: #fff; border-radius: 9px; border: 1px solid #eaecf0; padding: 8px 10px; flex: 1; min-width: 0; margin-bottom: 0; }
+  .act-tl-time   { font-size: 10px; color: #8a8fa8; font-weight: 600; margin-bottom: 2px; }
+  .act-tl-bold   { font-size: 12px; font-weight: 700; color: #111; line-height: 1.3; }
+  .act-tl-sub    { font-size: 10.5px; color: #555; margin-top: 2px; line-height: 1.4; }
+  .act-tl-green  { color: #0a9157; font-size: 10.5px; margin-top: 3px; display: flex; align-items: center; gap: 3px; }
+  .act-tl-link   { color: #007AFF; font-size: 10.5px; font-weight: 600; }
+  .act-tl-warn   { color: #f4511e; font-size: 10.5px; font-weight: 700; }
+
+  /* Retailer grouping header */
+  .act-retailer-hd {
+    display: flex; align-items: center; gap: 7px;
+    background: #fff; border-radius: 9px; border: 1px solid #eaecf0;
+    padding: 7px 10px; margin-bottom: 5px;
+  }
+  .act-ava {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .act-rname  { font-size: 12px; font-weight: 700; color: #007AFF; line-height: 1.25; }
+  .act-rphone { font-size: 10px; color: #888; }
+
+  /* Competitor note photo thumbnail */
+  .act-note-thumb {
+    width: 100%; height: 48px; border-radius: 5px; overflow: hidden;
+    margin-bottom: 5px; background: #e0e0e0;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Safari bottom nav */
+  .act-navb {
+    background: #f7f7f7; border-top: 1px solid #e0e0e0;
+    padding: 6px 20px; display: flex; align-items: center;
+    justify-content: space-between; flex-shrink: 0;
+  }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 40px; overflow-y: auto; display: flex; flex-direction: column; gap: 26px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .5px; margin-bottom: 10px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+
+  .meta-grid { display: grid; grid-template-columns: 180px 1fr; gap: 8px 12px; }
+  .meta-key  { font-size: 12px; color: #666; }
+  .meta-val  { font-size: 12px; color: #ccc; }
+  .meta-val code {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 4px;
+    padding: 1px 6px; font-size: 11px; color: #4CAF50; font-family: monospace;
+  }
+  .tag { display: inline-block; border-radius: 10px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+  .tag-pwa  { background: #1a1a5c; color: #82b1ff; }
+  .tag-ops  { background: #1a1200; color: #FFD54F; }
+  .tag-zoai { background: #001a18; color: #80CBC4; }
+
+  .check-list  { display: flex; flex-direction: column; gap: 7px; }
+  .check-item  { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: #aaa; line-height: 1.4; }
+  .pass  { color: #4CAF50; flex-shrink: 0; }
+  .warn  { color: #FF8A65; flex-shrink: 0; }
+  .info  { color: #64B5F6; flex-shrink: 0; }
+
+  .css-block {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 11.5px; color: #aaa; line-height: 1.8;
+    font-family: 'SF Mono','Fira Code',monospace; white-space: pre; overflow-x: auto;
+  }
+  .css-class { color: #f06292; }
+  .css-prop  { color: #64B5F6; }
+  .css-val   { color: #a5d6a7; }
+  .css-cmt   { color: #444; }
+
+  .note-box {
+    border-radius: 6px; padding: 12px 14px; font-size: 12px; line-height: 1.6;
+  }
+  .note-box.blue  { background: #0d1b2a; border: 1px solid #1565C055; color: #90CAF9; }
+  .note-box.green { background: #001a0a; border: 1px solid #25D36633; color: #80CBC4; }
+
+  /* Anatomy diagram labels */
+  .anatomy-row {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11.5px; color: #aaa; margin-bottom: 6px;
+  }
+  .anatomy-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="page-badge badge-pwa">Mobile PWA</span>
+      <span class="page-badge badge-ops">Field Ops</span>
+      <span class="page-badge badge-zoai">ZoAi Auto-Log</span>
+    </div>
+    <div class="page-title" style="margin-top:6px;">Field Ops Activity Timeline</div>
+    <div class="page-sub">
+      Mobile PWA · Safari browser chrome · ZoAi auto-logs clock-in, check-ins, orders, notes
+      &nbsp;·&nbsp; <span style="color:#64B5F6;">tmpl_fieldops_activity_timeline.html</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Preview Pane ── -->
+  <div class="preview-pane">
+    <div class="preview-label">Rendered Preview — Field Activity Log</div>
+
+    <div class="act-phone">
+      <!-- Status bar -->
+      <div class="act-sb">
+        <span class="act-sb-t">11:16</span>
+        <div class="w-sicons">
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="8" width="3" height="4" rx=".5" fill="#111"/><rect x="4" y="5" width="3" height="7" rx=".5" fill="#111"/><rect x="8" y="2" width="3" height="10" rx=".5" fill="#111"/><rect x="12" y="0" width="3" height="12" rx=".5" fill="#111"/></svg>
+          <svg width="15" height="11" viewBox="0 0 24 18" fill="none"><path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111"/><path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+          <div class="w-bat">71</div>
+        </div>
+      </div>
+
+      <!-- Safari address bar -->
+      <div class="act-addr-bar">
+        <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M11 3H5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2V8" stroke="#888" stroke-width="1.4" stroke-linecap="round"/><path d="M15 2l1 1-6 6-2 .5.5-2 6-5.5z" stroke="#888" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="act-pill">
+          <svg width="9" height="11" viewBox="0 0 10 13" fill="none"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="#555" stroke-width="1.2"/><path d="M3 4V3a2 2 0 014 0v1" stroke="#555" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <span class="act-pill-url">fieldops.zotok.ai</span>
+        </div>
+        <svg width="16" height="14" viewBox="0 0 20 18" fill="none"><path d="M10 1v10M6 4l4-3 4 3" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8H2v9h16V8h-2" stroke="#888" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <!-- App inner header -->
+      <div class="act-inner-head">
+        <div class="act-back-lnk">
+          <svg width="7" height="11" viewBox="0 0 8 13" fill="none"><path d="M7 1L1 6.5L7 12" stroke="#007AFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </div>
+        <div class="act-inner-title">Field Activity</div>
+      </div>
+
+      <!-- SE info strip -->
+      <div class="act-se-strip">
+        <div class="act-se-ava" style="background:#E91E63;">RS</div>
+        <div>
+          <div class="act-se-name">Ravi Singh</div>
+          <div class="act-se-sub">Sales Executive · 08 Apr 2026</div>
+        </div>
+        <div class="act-se-badge">Active</div>
+      </div>
+
+      <!-- Timeline body -->
+      <div class="act-body">
+        <div class="act-date-pill"><span>08 Apr 2026</span></div>
+
+        <!-- Clock In -->
+        <div class="act-tl">
+          <div class="act-tl-left">
+            <div class="act-tl-icon" style="background:#e8f4f0;">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#0a9157" stroke-width="1.4"/><path d="M8 5v3.5l2 1.5" stroke="#0a9157" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="act-tl-line"></div>
+          </div>
+          <div class="act-tl-card">
+            <div class="act-tl-time">09:14 AM</div>
+            <div class="act-tl-bold">Clock In</div>
+            <div class="act-tl-sub">📍 Savera Office, Manish Nagar, Nagpur<br>Lat &amp; Lon: 21.1458, 79.0882</div>
+            <div class="act-tl-green">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#0a9157" stroke-width="1.2"/><path d="M3.5 6L5.5 8L8.5 4.5" stroke="#0a9157" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Attendance logged successfully.
+            </div>
+          </div>
+        </div>
+
+        <!-- Retailer visit group -->
+        <div class="act-tl">
+          <div class="act-tl-left">
+            <div class="act-tl-icon" style="background:#e3f2fd;">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="2" y="6" width="12" height="8" rx="1.5" stroke="#1565C0" stroke-width="1.3"/><path d="M5 6V4a3 3 0 016 0v2" stroke="#1565C0" stroke-width="1.3" stroke-linecap="round"/></svg>
+            </div>
+            <div class="act-tl-line"></div>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <!-- Retailer header card -->
+            <div class="act-retailer-hd">
+              <div class="act-ava" style="background:#9C27B0;">SP</div>
+              <div>
+                <div class="act-rname">Sharma Pipes</div>
+                <div class="act-rphone">+91 98123 45678 · Manish Nagar</div>
+              </div>
+            </div>
+            <!-- Check-in event -->
+            <div class="act-tl-card" style="margin-bottom:5px;">
+              <div class="act-tl-time">10:15 AM · Check In</div>
+              <div class="act-tl-sub">Sharma Pipes, Manish Nagar, Nagpur<br>Lat &amp; Lon: 21.1501, 79.0834</div>
+              <div class="act-tl-green">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#0a9157" stroke-width="1.2"/><path d="M3.5 6L5.5 8L8.5 4.5" stroke="#0a9157" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Location saved and added to customer details.
+              </div>
+            </div>
+            <!-- Order event -->
+            <div class="act-tl-card" style="margin-bottom:5px;">
+              <div class="act-tl-time">10:26 AM · Order Placed</div>
+              <div class="act-tl-sub"><span class="act-tl-link">#SVR-1042 ↗</span> · 3 SKUs · ₹7,850</div>
+            </div>
+            <!-- Competitor note event -->
+            <div class="act-tl-card" style="border-left:3px solid #f4511e;">
+              <div class="act-tl-time">11:15 AM · Competitor Note</div>
+              <div class="act-note-thumb" style="background:#d0e8ff;">
+                <!-- Placeholder image area -->
+                <svg width="40" height="32" viewBox="0 0 40 32" fill="none"><rect x="2" y="2" width="36" height="28" rx="3" fill="#e8f4ff" stroke="#90CAF9" stroke-width="1.2"/><circle cx="12" cy="12" r="4" fill="#90CAF9" opacity=".6"/><path d="M2 22l10-8 8 6 6-5 12 9" stroke="#64B5F6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="act-tl-sub">
+                <strong style="color:#111;">Competitor:</strong> Supreme Pipes<br>
+                <strong style="color:#111;">Product:</strong> PVC Pipe 2 inch<br>
+                <strong style="color:#111;">Remark:</strong> Found at Sharmaji's shop — similar product
+              </div>
+              <div class="act-tl-green" style="margin-top:4px;">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#0a9157" stroke-width="1.2"/><path d="M3.5 6L5.5 8L8.5 4.5" stroke="#0a9157" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Note saved to competitor intelligence.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /act-body -->
+
+      <!-- Safari bottom nav -->
+      <div class="act-navb">
+        <svg width="18" height="18" viewBox="0 0 22 22" fill="none"><path d="M14 4H5a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V8" stroke="#888" stroke-width="1.5" stroke-linecap="round"/><path d="M14 4l4 4M14 4v4h4" stroke="#888" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="18" height="18" viewBox="0 0 22 22" fill="none"><path d="M8 11H4a2 2 0 01-2-2V4a2 2 0 012-2h5l5 5v4a2 2 0 01-2 2z" stroke="#ccc" stroke-width="1.4"/><path d="M18 11v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg width="16" height="18" viewBox="0 0 18 20" fill="none"><path d="M9 1v12M5 4l4-3 4 3" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 9H1v10h16V9h-2" stroke="#888" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="20" height="18" viewBox="0 0 22 20" fill="none"><rect x="3" y="3" width="16" height="14" rx="3" stroke="#888" stroke-width="1.5"/><path d="M7 3V1M15 3V1M3 8h16" stroke="#888" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <svg width="18" height="5" viewBox="0 0 22 5" fill="none"><circle cx="2.5" cy="2.5" r="2" fill="#888"/><circle cx="11" cy="2.5" r="2" fill="#888"/><circle cx="19.5" cy="2.5" r="2" fill="#888"/></svg>
+      </div>
+    </div>
+  </div><!-- /preview-pane -->
+
+  <!-- ── Spec Pane ── -->
+  <div class="spec-pane">
+
+    <div>
+      <div class="spec-section-title">Component Summary</div>
+      <div class="meta-grid">
+        <div class="meta-key">Screen Type</div><div class="meta-val"><span class="tag tag-pwa">Mobile PWA</span> — opens in Safari browser chrome (not a WhatsApp message)</div>
+        <div class="meta-key">URL</div><div class="meta-val"><code>fieldops.zotok.ai/activity/{se_id}/{date}</code></div>
+        <div class="meta-key">App Domain</div><div class="meta-val">fieldops.zotok.ai</div>
+        <div class="meta-key">Browser chrome</div><div class="meta-val">White status bar + Safari address bar (URL pill + lock icon + share) + Safari bottom nav</div>
+        <div class="meta-key">App inner header</div><div class="meta-val">Blue "Back" link + centred "Field Activity" title</div>
+        <div class="meta-key">SE info strip</div><div class="meta-val">Avatar (initials) · Name · Role + Date · "Active" green badge</div>
+        <div class="meta-key">Timeline events</div><div class="meta-val">Clock In · Retailer Check-In · Order Placed · Competitor Note · (Clock Out)</div>
+        <div class="meta-key">Event grouping</div><div class="meta-val">All events for a retailer visit are nested under a <code>act-retailer-hd</code> header card</div>
+        <div class="meta-key">Auto-scroll</div><div class="meta-val">Use <code>requestAnimationFrame(() =&gt; { body.scrollTop = body.scrollHeight; })</code> in goTo()</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Timeline Event Types</div>
+      <div class="meta-grid">
+        <div class="meta-key">Clock In / Clock Out</div><div class="meta-val">Green clock icon bg (#e8f4f0) · Shows location address + GPS coords · Green "Attendance logged" confirm</div>
+        <div class="meta-key">Retailer Check-In</div><div class="meta-val">Blue shop bag icon bg (#e3f2fd) · Groups child events under <code>act-retailer-hd</code> · Shows retailer name (blue link) + phone + area</div>
+        <div class="meta-key">Order Placed</div><div class="meta-val">Child of retailer visit · Shows order ref as blue link (<code>act-tl-link</code>) + SKU count + value</div>
+        <div class="meta-key">Competitor Note</div><div class="meta-val">Child card with <code>border-left:3px solid #f4511e</code> (orange-red accent) · Photo thumbnail (<code>act-note-thumb</code>) + structured fields + green confirm</div>
+        <div class="meta-key">Photo thumbnail</div><div class="meta-val"><code>act-note-thumb</code>: 100% wide, 48px tall, <code>object-fit:cover; object-position:center 55%</code> for cropped images</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Color Tokens</div>
+      <div class="meta-grid">
+        <div class="meta-key">App background</div><div class="meta-val"><code>#f0f2f5</code> — light grey</div>
+        <div class="meta-key">Status bar / addr bar bg</div><div class="meta-val"><code>#f5f5f5</code></div>
+        <div class="meta-key">Card background</div><div class="meta-val"><code>#ffffff</code> with <code>border: 1px solid #eaecf0</code></div>
+        <div class="meta-key">Timeline connector</div><div class="meta-val"><code>#dde1e8</code> — 2px wide vertical line</div>
+        <div class="meta-key">Clock In icon bg</div><div class="meta-val"><code>#e8f4f0</code> / icon stroke <code>#0a9157</code></div>
+        <div class="meta-key">Retailer icon bg</div><div class="meta-val"><code>#e3f2fd</code> / icon stroke <code>#1565C0</code></div>
+        <div class="meta-key">Competitor note accent</div><div class="meta-val"><code>#f4511e</code> — left border on card</div>
+        <div class="meta-key">Back link / retailer name</div><div class="meta-val"><code>#007AFF</code> — iOS blue</div>
+        <div class="meta-key">Success confirm text</div><div class="meta-val"><code>#0a9157</code> — dark green</div>
+        <div class="meta-key">Active badge</div><div class="meta-val">bg <code>#e7f8ef</code> / text <code>#0a9157</code></div>
+        <div class="meta-key">Time / secondary text</div><div class="meta-val"><code>#8a8fa8</code></div>
+        <div class="meta-key">Safari nav bg</div><div class="meta-val"><code>#f7f7f7</code> border-top <code>#e0e0e0</code> / icons <code>#888</code></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">CSS Class Reference</div>
+      <div class="css-block"><span class="css-class">.act-phone</span>       <span class="css-cmt">/* 305px wide · 610px tall · border 8px #1a1a1a · bg #f0f2f5 */</span>
+<span class="css-class">.act-sb</span>          <span class="css-cmt">/* status bar — bg #f5f5f5 · white iOS style */</span>
+<span class="css-class">.act-addr-bar</span>     <span class="css-cmt">/* Safari URL bar row */</span>
+<span class="css-class">.act-pill</span>         <span class="css-cmt">/* rounded URL pill inside address bar */</span>
+<span class="css-class">.act-inner-head</span>   <span class="css-cmt">/* app title bar — Back link + centred title */</span>
+<span class="css-class">.act-se-strip</span>     <span class="css-cmt">/* SE identity row below app header */</span>
+<span class="css-class">.act-body</span>         <span class="css-cmt">/* scrollable timeline container · overflow-y:auto */</span>
+<span class="css-class">.act-date-pill</span>    <span class="css-cmt">/* centred date chip */</span>
+<span class="css-class">.act-tl</span>           <span class="css-cmt">/* timeline row — icon-left + card-right */</span>
+<span class="css-class">.act-tl-left</span>      <span class="css-cmt">/* icon column + connector line */</span>
+<span class="css-class">.act-tl-icon</span>      <span class="css-cmt">/* 26×26px rounded icon bg box */</span>
+<span class="css-class">.act-tl-line</span>      <span class="css-cmt">/* 2px vertical connector — #dde1e8 */</span>
+<span class="css-class">.act-tl-card</span>      <span class="css-cmt">/* white event card */</span>
+<span class="css-class">.act-tl-time</span>      <span class="css-cmt">/* HH:MM AM · Event Label — 10px #8a8fa8 */</span>
+<span class="css-class">.act-tl-bold</span>      <span class="css-cmt">/* event title — 12px bold */</span>
+<span class="css-class">.act-tl-sub</span>       <span class="css-cmt">/* detail text — 10.5px #555 */</span>
+<span class="css-class">.act-tl-green</span>     <span class="css-cmt">/* success confirm row — #0a9157 + checkmark SVG */</span>
+<span class="css-class">.act-tl-link</span>      <span class="css-cmt">/* blue clickable link inside card — #007AFF */</span>
+<span class="css-class">.act-retailer-hd</span>  <span class="css-cmt">/* retailer grouping header card */</span>
+<span class="css-class">.act-ava</span>          <span class="css-cmt">/* 28px circle avatar — initials */</span>
+<span class="css-class">.act-rname</span>        <span class="css-cmt">/* retailer name — blue link style */</span>
+<span class="css-class">.act-note-thumb</span>   <span class="css-cmt">/* 100% × 48px photo thumbnail */</span>
+<span class="css-class">.act-navb</span>         <span class="css-cmt">/* Safari bottom navigation bar */</span></div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Auto-Scroll Pattern</div>
+      <div class="note-box blue">
+        The timeline should default-scroll to the <strong>bottom</strong> so the latest events are visible without user interaction. Add this to the <code>goTo()</code> function for the step containing this screen:
+      </div>
+      <div class="css-block" style="margin-top:10px;"><span class="css-cmt">// In goTo() — after showing the step</span>
+<span class="css-val">if</span> (n === <span class="css-prop">N</span>) {
+  <span class="css-val">requestAnimationFrame</span>(() => {
+    <span class="css-val">const</span> body = document.<span class="css-val">querySelector</span>(<span class="css-cmt">'#step-N .act-body'</span>);
+    <span class="css-val">if</span> (body) body.scrollTop = body.scrollHeight;
+  });
+}</div>
+    </div>
+
+    <div>
+      <div class="spec-section-title">Compliance Checklist</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">✓</span> Not a WhatsApp template — no Meta approval required</div>
+        <div class="check-item"><span class="pass">✓</span> Opens in Safari browser chrome inside WhatsApp WebView or standalone</div>
+        <div class="check-item"><span class="pass">✓</span> Battery shown as number in bordered box (iOS style) — correct for WebView/PWA screens</div>
+        <div class="check-item"><span class="pass">✓</span> Status bar and top bar are white — correct for non-DM screens</div>
+        <div class="check-item"><span class="pass">✓</span> Back arrow is iOS blue (#007AFF) — correct for Safari browser chrome</div>
+        <div class="check-item"><span class="info">ℹ</span> Competitor note card uses border-left accent (#f4511e) — not a WhatsApp rule, just UI convention</div>
+        <div class="check-item"><span class="warn">⚠</span> If using a real photo in <code>act-note-thumb</code>, use <code>object-fit:cover; object-position:center 55%</code> to crop correctly</div>
+        <div class="check-item"><span class="warn">⚠</span> The <code>act-body</code> div must have a fixed height parent for overflow-y:auto to work — the phone frame's flex layout provides this</div>
+      </div>
+    </div>
+
+  </div><!-- /spec-pane -->
+
+</div><!-- /layout -->
+</body>
+</html>

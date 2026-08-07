@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Outstanding Payment Template</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-utility { background: #1565C0; color: #fff; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .page-sub { font-size: 12px; color: #666; margin-top: 2px; }
+
+  /* ── Layout ── */
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    width: 380px; flex-shrink: 0; padding: 40px 32px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .preview-label {
+    font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px;
+  }
+  .chat-mock {
+    width: 300px; background: #ECE5DD; border-radius: 12px; padding: 12px 10px 6px;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .wa-sender-name {
+    font-size: 13px; font-weight: 700; color: #00A884;
+    margin-bottom: 4px; padding-left: 2px;
+  }
+
+  /* ── WhatsApp Template Component ── */
+  .wa-tmpl {
+    background: #fff;
+    border-radius: 8px 0px 8px 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  }
+
+  /* Header: Image type — UPI QR code image sent dynamically per customer. */
+  .wa-hdr-img {
+    width: 100%; padding: 16px 0 10px;
+    background: #fff; border-bottom: 1px solid #e0e0e0;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .wa-hdr-img .qr-label {
+    font-size: 10px; color: #888; letter-spacing: .3px; text-align: center;
+  }
+
+  /* Body */
+  .wa-tmpl-body {
+    padding: 10px 12px 4px;
+    font-size: 13.5px; color: #111B21; line-height: 1.6;
+  }
+  .wa-tmpl-body b { font-weight: 700; }
+  .wa-tmpl-signoff {
+    font-size: 13.5px; color: #111B21;
+    padding: 6px 12px 0; line-height: 1.5;
+  }
+  .wa-tmpl-time {
+    font-size: 11px; color: #667781;
+    text-align: right; padding: 2px 12px 8px;
+  }
+
+  /* Buttons: CTA URL type */
+  .wa-tmpl-btns { border-top: 1px solid #f0f0f0; }
+  .wa-cta-btn {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; padding: 10px 12px; text-align: center;
+    font-size: 14px; font-weight: 500; color: #00A884; cursor: pointer;
+    border-bottom: 1px solid #f0f0f0; background: none;
+    border-left: none; border-right: none; border-top: none;
+  }
+  .wa-cta-btn:last-child { border-bottom: none; }
+  .wa-cta-btn:hover { background: #f9f9f9; }
+  .cta-icon { width: 15px; height: 15px; flex-shrink: 0; }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 40px; overflow-y: auto; }
+  .spec-section { margin-bottom: 28px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .6px; margin-bottom: 12px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  .meta-grid { display: grid; grid-template-columns: 150px 1fr; gap: 8px 12px; }
+  .meta-key { font-size: 12px; color: #666; }
+  .meta-val { font-size: 12px; color: #ccc; line-height: 1.5; }
+  .meta-val code {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 4px;
+    padding: 1px 6px; font-size: 11px; color: #4CAF50; font-family: monospace;
+  }
+  .tag {
+    display: inline-block; border-radius: 10px; padding: 2px 8px;
+    font-size: 11px; font-weight: 600;
+  }
+  .tag-utility { background: #1565C0; color: #fff; }
+  .tag-image   { background: #6A1B9A; color: #fff; }
+  .tag-cta     { background: #E65100; color: #fff; }
+  .tag-dynamic { background: #333; color: #aaa; border: 1px solid #555; }
+
+  .body-preview {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 13px; color: #ccc; line-height: 1.8;
+    white-space: pre-wrap; font-family: monospace;
+  }
+  .body-preview .var  { color: #4CAF50; font-weight: 700; }
+  .body-preview .bold { color: #fff; font-weight: 700; }
+
+  .btn-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; background: #0d0d1a; border: 1px solid #2a2a3e;
+    border-radius: 6px; margin-bottom: 6px;
+  }
+  .btn-label { font-size: 13px; color: #ccc; }
+  .btn-meta  { font-size: 11px; display: flex; gap: 8px; }
+  .btn-type  { color: #FF8A65; }
+  .btn-chars { color: #888; }
+
+  .check-list { display: flex; flex-direction: column; gap: 7px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12.5px; color: #aaa; line-height: 1.4;
+  }
+  .pass { color: #4CAF50; flex-shrink: 0; }
+  .info { color: #64B5F6; flex-shrink: 0; }
+
+  .callout {
+    background: #0d0d1a; border-left: 3px solid #64B5F6;
+    border-radius: 0 6px 6px 0; padding: 10px 14px;
+    font-size: 12px; color: #aaa; line-height: 1.6;
+  }
+
+  .usage-block {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 12px; color: #aaa; line-height: 1.7;
+    font-family: monospace; overflow-x: auto; white-space: pre;
+  }
+  .u-tag  { color: #f06292; }
+  .u-attr { color: #64B5F6; }
+  .u-val  { color: #a5d6a7; }
+  .u-cmt  { color: #444; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="page-badge badge-utility">Utility</span>
+  <div>
+    <div class="page-title">Outstanding Payment Template</div>
+    <div class="page-sub">tmpl_outstanding · WhatsApp Business Platform · Requires Meta Approval</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Preview ── -->
+  <div class="preview-pane">
+    <div class="preview-label">Rendered Preview</div>
+    <div class="chat-mock">
+      <div class="wa-sender-name">Zotok AI</div>
+      <div class="wa-tmpl">
+
+        <!-- HEADER: Image type — UPI QR code, generated per customer, sent dynamically via API -->
+        <div class="wa-hdr-img">
+          <svg width="110" height="110" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="80" height="80" fill="white"/>
+            <!-- Top-left finder -->
+            <rect x="4" y="4" width="22" height="22" rx="2" stroke="#111" stroke-width="2.5" fill="none"/>
+            <rect x="9" y="9" width="12" height="12" rx="1" fill="#111"/>
+            <!-- Top-right finder -->
+            <rect x="54" y="4" width="22" height="22" rx="2" stroke="#111" stroke-width="2.5" fill="none"/>
+            <rect x="59" y="9" width="12" height="12" rx="1" fill="#111"/>
+            <!-- Bottom-left finder -->
+            <rect x="4" y="54" width="22" height="22" rx="2" stroke="#111" stroke-width="2.5" fill="none"/>
+            <rect x="9" y="59" width="12" height="12" rx="1" fill="#111"/>
+            <!-- Data modules -->
+            <rect x="30" y="4"  width="5" height="5" fill="#111"/>
+            <rect x="38" y="4"  width="5" height="5" fill="#111"/>
+            <rect x="46" y="4"  width="5" height="5" fill="#111"/>
+            <rect x="30" y="12" width="5" height="5" fill="#111"/>
+            <rect x="46" y="12" width="5" height="5" fill="#111"/>
+            <rect x="38" y="20" width="5" height="5" fill="#111"/>
+            <rect x="4"  y="30" width="5" height="5" fill="#111"/>
+            <rect x="12" y="30" width="5" height="5" fill="#111"/>
+            <rect x="20" y="30" width="5" height="5" fill="#111"/>
+            <rect x="30" y="30" width="5" height="5" fill="#111"/>
+            <rect x="38" y="30" width="5" height="5" fill="#111"/>
+            <rect x="46" y="30" width="5" height="5" fill="#111"/>
+            <rect x="54" y="30" width="5" height="5" fill="#111"/>
+            <rect x="62" y="30" width="5" height="5" fill="#111"/>
+            <rect x="70" y="30" width="5" height="5" fill="#111"/>
+            <rect x="4"  y="38" width="5" height="5" fill="#111"/>
+            <rect x="20" y="38" width="5" height="5" fill="#111"/>
+            <rect x="38" y="38" width="5" height="5" fill="#111"/>
+            <rect x="54" y="38" width="5" height="5" fill="#111"/>
+            <rect x="70" y="38" width="5" height="5" fill="#111"/>
+            <rect x="12" y="46" width="5" height="5" fill="#111"/>
+            <rect x="30" y="46" width="5" height="5" fill="#111"/>
+            <rect x="46" y="46" width="5" height="5" fill="#111"/>
+            <rect x="62" y="46" width="5" height="5" fill="#111"/>
+            <rect x="30" y="54" width="5" height="5" fill="#111"/>
+            <rect x="46" y="54" width="5" height="5" fill="#111"/>
+            <rect x="62" y="54" width="5" height="5" fill="#111"/>
+            <rect x="70" y="54" width="5" height="5" fill="#111"/>
+            <rect x="30" y="62" width="5" height="5" fill="#111"/>
+            <rect x="38" y="62" width="5" height="5" fill="#111"/>
+            <rect x="54" y="62" width="5" height="5" fill="#111"/>
+            <rect x="70" y="62" width="5" height="5" fill="#111"/>
+            <rect x="30" y="70" width="5" height="5" fill="#111"/>
+            <rect x="46" y="70" width="5" height="5" fill="#111"/>
+            <rect x="62" y="70" width="5" height="5" fill="#111"/>
+          </svg>
+          <div class="qr-label">Scan to pay · UPI QR code</div>
+        </div>
+
+        <!-- BODY: plain text + *bold* values, no dividers, no tables -->
+        <div class="wa-tmpl-body">
+          Outstanding Details:<br><br>
+          Customer Name: <b>Aditya Ram Foods</b><br>
+          Total Outstanding: <b>CR ₹13,460.00</b><br><br>
+          You can conveniently make the payment by:<br>
+          Scanning the QR code above<br><br>
+          UPI Payment ID: <b>upiprimaryicic@ybl</b><br><br>
+          For any clarifications, please reach out to the support team.
+        </div>
+
+        <!-- SIGN-OFF -->
+        <div class="wa-tmpl-signoff">
+          Team,<br>Company Name
+        </div>
+        <div class="wa-tmpl-time">12:54 PM ✓✓</div>
+
+        <!-- BUTTONS: CTA URL type — may be present per ZoTok spec -->
+        <div class="wa-tmpl-btns">
+          <button class="wa-cta-btn">
+            <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="#00A884" stroke-width="2.5">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            Pay Now
+          </button>
+          <button class="wa-cta-btn">
+            <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="#00A884" stroke-width="2.5">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            Raise an Issue
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <div style="font-size:11px;color:#444;text-align:center;max-width:260px;line-height:1.5;margin-top:4px">
+      Header = UPI QR code image, generated per customer.<br>
+      Sent dynamically via API at message send time.
+    </div>
+  </div>
+
+  <!-- ── Spec ── -->
+  <div class="spec-pane">
+
+    <div class="spec-section">
+      <div class="spec-section-title">Template Metadata</div>
+      <div class="meta-grid">
+        <div class="meta-key">Category</div>
+        <div class="meta-val"><span class="tag tag-utility">Utility</span></div>
+        <div class="meta-key">Template Name</div>
+        <div class="meta-val"><code>outstanding_payment</code></div>
+        <div class="meta-key">Header Type</div>
+        <div class="meta-val">
+          <span class="tag tag-image">Image</span> &nbsp;<span class="tag tag-dynamic">Dynamic</span>
+          &nbsp;— QR code generated per customer and sent at message send time. Cannot add a second image or document.
+        </div>
+        <div class="meta-key">Button Type</div>
+        <div class="meta-val"><span class="tag tag-cta">CTA URL</span> &nbsp;— max 2 buttons, max 25 chars each</div>
+        <div class="meta-key">Variables</div>
+        <div class="meta-val">4 — Customer Name, Total Outstanding, UPI ID, Company Name</div>
+        <div class="meta-key">Footer</div>
+        <div class="meta-val">None in reference design</div>
+        <div class="meta-key">Trigger</div>
+        <div class="meta-val">Sent on payment due date or when outstanding balance exists</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Header — Important Note</div>
+      <div class="callout">
+        The header image is a <strong style="color:#fff">UPI QR code</strong> — unique per customer, generated at message send time via the API. The reference PNG shows a landscape placeholder; the correct header is always the QR code.<br><br>
+        At send time: <code style="color:#4CAF50;background:#111;padding:1px 5px;border-radius:3px">header.image.link = "https://qr.zotok.ai/{{customer_id}}.png"</code><br><br>
+        The body text "Scanning the QR code above" directly references this header image.
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Body Text (with variables)</div>
+      <div class="body-preview">Outstanding Details:
+
+Customer Name: <span class="bold">*<span class="var">{{1}}</span>*</span>
+Total Outstanding: <span class="bold">*<span class="var">{{2}}</span>*</span>
+
+You can conveniently make the payment by:
+Scanning the QR code above
+
+UPI Payment ID: <span class="bold">*<span class="var">{{3}}</span>*</span>
+
+For any clarifications, please reach out to the support team.
+
+Team,
+<span class="var">{{4}}</span></div>
+      <div style="font-size:11px;color:#555;margin-top:8px">
+        4 variables · Starts with plain text "Outstanding Details:" ✓ · No dividers · No tables · "Scanning the QR code above" references the image header
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Buttons — CTA URL</div>
+      <div class="btn-row">
+        <span class="btn-label">↗ Pay Now</span>
+        <span class="btn-meta"><span class="btn-type">CTA URL</span><span class="btn-chars">7 / 25 chars ✓</span></span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-label">↗ Raise an Issue</span>
+        <span class="btn-meta"><span class="btn-type">CTA URL</span><span class="btn-chars">14 / 25 chars ✓</span></span>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Meta Compliance Checklist</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">✓</span> Header is Image type only — one header type per template. No document combined with this.</div>
+        <div class="check-item"><span class="pass">✓</span> Header image is dynamic (QR code) — provided via API at send time, not hardcoded in template</div>
+        <div class="check-item"><span class="pass">✓</span> Body starts with plain text "Outstanding Details:" — not a variable</div>
+        <div class="check-item"><span class="pass">✓</span> Body uses *bold* for field values only — no inline color or HTML styling</div>
+        <div class="check-item"><span class="pass">✓</span> No HR lines, no tables, no HTML tags in body</div>
+        <div class="check-item"><span class="pass">✓</span> "Scanning the QR code above" correctly references the image header</div>
+        <div class="check-item"><span class="pass">✓</span> No two consecutive variables</div>
+        <div class="check-item"><span class="pass">✓</span> Buttons are single type (CTA URL), count = 2 ✓</div>
+        <div class="check-item"><span class="pass">✓</span> Button labels: 7 and 14 chars — both under 25 ✓</div>
+        <div class="check-item"><span class="pass">✓</span> No promotional content — qualifies as Utility</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Variable Map</div>
+      <div class="meta-grid">
+        <div class="meta-key"><code>{{1}}</code></div><div class="meta-val">Customer / Company name &nbsp;·&nbsp; e.g. Aditya Ram Foods</div>
+        <div class="meta-key"><code>{{2}}</code></div><div class="meta-val">Total outstanding amount &nbsp;·&nbsp; e.g. CR ₹13,460.00</div>
+        <div class="meta-key"><code>{{3}}</code></div><div class="meta-val">UPI Payment ID &nbsp;·&nbsp; e.g. upiprimaryicic@ybl</div>
+        <div class="meta-key"><code>{{4}}</code></div><div class="meta-val">Company / Brand name &nbsp;·&nbsp; e.g. Lucky Seeds</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">HTML Snippet — Copy Into Screen Generator</div>
+      <div class="usage-block"><span class="u-cmt">&lt;!-- Utility Template: Outstanding Payment                        --&gt;
+&lt;!-- Header: Image (dynamic QR code) | Body: plain text + bold | Buttons: CTA URL --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl"</span>&gt;
+
+  <span class="u-cmt">&lt;!-- Header: Image — QR code sent dynamically. Show landscape as placeholder. --&gt;</span>
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-hdr-img"</span>&gt;
+    <span class="u-cmt">&lt;!-- Landscape placeholder (CSS clouds + hills) --&gt;</span>
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"cloud"</span> <span class="u-attr">style</span>=<span class="u-val">"..."</span>&gt;&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"hill"</span> <span class="u-attr">style</span>=<span class="u-val">"..."</span>&gt;&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-body"</span>&gt;
+    Outstanding Details:&lt;<span class="u-tag">br</span>&gt;&lt;<span class="u-tag">br</span>&gt;
+    Customer Name: &lt;<span class="u-tag">b</span>&gt;{{1}}&lt;/<span class="u-tag">b</span>&gt;&lt;<span class="u-tag">br</span>&gt;
+    Total Outstanding: &lt;<span class="u-tag">b</span>&gt;{{2}}&lt;/<span class="u-tag">b</span>&gt;&lt;<span class="u-tag">br</span>&gt;&lt;<span class="u-tag">br</span>&gt;
+    You can conveniently make the payment by:&lt;<span class="u-tag">br</span>&gt;
+    Scanning the QR code above&lt;<span class="u-tag">br</span>&gt;&lt;<span class="u-tag">br</span>&gt;
+    UPI Payment ID: &lt;<span class="u-tag">b</span>&gt;{{3}}&lt;/<span class="u-tag">b</span>&gt;&lt;<span class="u-tag">br</span>&gt;&lt;<span class="u-tag">br</span>&gt;
+    For any clarifications, please reach out to the support team.
+  &lt;/<span class="u-tag">div</span>&gt;
+
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-signoff"</span>&gt;Team,&lt;<span class="u-tag">br</span>&gt;{{4}}&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-time"</span>&gt;12:54 PM&lt;/<span class="u-tag">div</span>&gt;
+
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-btns"</span>&gt;
+    &lt;<span class="u-tag">button</span> <span class="u-attr">class</span>=<span class="u-val">"wa-cta-btn"</span>&gt;↗ Pay Now&lt;/<span class="u-tag">button</span>&gt;
+    &lt;<span class="u-tag">button</span> <span class="u-attr">class</span>=<span class="u-val">"wa-cta-btn"</span>&gt;↗ Raise an Issue&lt;/<span class="u-tag">button</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+
+&lt;/<span class="u-tag">div</span>&gt;</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

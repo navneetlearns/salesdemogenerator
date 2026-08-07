@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Field Ops Clock-In via WhatsApp Group</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-wa      { background: #0a3a2a; color: #25D366; border: 1px solid #25D36644; }
+  .badge-group   { background: #1a1a5c; color: #82b1ff; border: 1px solid #1565C055; }
+  .badge-ops     { background: #1a1200; color: #FFD54F; border: 1px solid #FFD54F44; }
+  .badge-zoai    { background: #001a18; color: #80CBC4; border: 1px solid #00897B55; }
+  .page-title    { font-size: 18px; font-weight: 700; }
+  .page-sub      { font-size: 12px; color: #666; margin-top: 2px; }
+
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    width: 460px; flex-shrink: 0; padding: 32px 28px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .preview-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; align-self: flex-start; }
+  .preview-sub-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; margin-top: 28px; align-self: flex-start; }
+
+  /* ── Phone frame ── */
+  .phone-frame {
+    width: 310px; border-radius: 40px; border: 8px solid #1a1a1a;
+    box-shadow: 0 24px 64px rgba(0,0,0,.5);
+    overflow: hidden; display: flex; flex-direction: column; height: 620px;
+  }
+
+  /* ── White status bar ── */
+  .status-bar {
+    background: #fff; padding: 9px 16px 5px;
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  }
+  .status-time { font-size: 13px; font-weight: 600; color: #111; }
+  .status-icons { display: flex; align-items: center; gap: 5px; }
+  .battery-pct {
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid #111; border-radius: 3.5px;
+    padding: 1px 4px; font-size: 9.5px; font-weight: 700; color: #111;
+    height: 15px; min-width: 26px; position: relative;
+  }
+  .battery-pct::after {
+    content: ''; position: absolute; right: -4px; top: 50%;
+    transform: translateY(-50%);
+    width: 2px; height: 6px; background: #111; border-radius: 0 1px 1px 0;
+  }
+
+  /* ── Group top bar (white) ── */
+  .wa-topbar {
+    background: #fff; border-bottom: 1px solid #ebebeb;
+    padding: 6px 10px 8px; display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  }
+  .wa-back { display: flex; align-items: center; flex-shrink: 0; }
+  .group-avatar {
+    width: 36px; height: 36px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+    background: linear-gradient(135deg, #C8860A, #1B2A4A);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; color: #fff;
+  }
+  .wa-group-info { flex: 1; min-width: 0; }
+  .wa-group-name { font-size: 13.5px; font-weight: 600; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .wa-group-sub  { font-size: 10.5px; color: #667781; }
+  .wa-actions    { display: flex; align-items: center; gap: 13px; flex-shrink: 0; }
+
+  /* ── Chat area ── */
+  .chat-area {
+    flex: 1; overflow-y: auto; padding: 8px;
+    background-color: #ECE5DD;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.13'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    display: flex; flex-direction: column; gap: 4px;
+  }
+
+  /* ── Bubbles ── */
+  .msg-sender-wrap   { display: flex; flex-direction: column; align-items: flex-end; margin-bottom: 1px; }
+  .msg-receiver-wrap { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 1px; }
+  .sender-you-label  { font-size: 11.5px; font-weight: 700; margin-bottom: 2px; padding-right: 2px; color: #2E7D32; }
+
+  .msg-sender {
+    background: #DCF8C6; border-radius: 8px 8px 0 8px;
+    padding: 6px 9px 4px; max-width: 230px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1); position: relative;
+  }
+  .msg-sender::after {
+    content: ''; position: absolute; top: 0; right: -7px;
+    border-width: 0 0 8px 8px; border-style: solid;
+    border-color: transparent transparent transparent #DCF8C6;
+  }
+  .msg-receiver {
+    background: #fff; border-radius: 0 8px 8px 8px;
+    padding: 6px 9px 4px; max-width: 230px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1); position: relative;
+  }
+  .msg-receiver::before {
+    content: ''; position: absolute; top: 0; left: -7px;
+    border-width: 0 8px 8px 0; border-style: solid;
+    border-color: transparent #fff transparent transparent;
+  }
+  .sender-name { font-size: 11.5px; font-weight: 700; margin-bottom: 2px; }
+  .msg-body    { font-size: 13px; color: #111B21; line-height: 1.45; }
+  .msg-time    { font-size: 10px; color: #667781; text-align: right; display: block; margin-top: 2px; }
+  .msg-tick    { color: #53bdeb; }
+
+  .date-pill {
+    background: rgba(255,255,255,.8); border-radius: 8px;
+    padding: 2px 10px; font-size: 10px; color: #667781;
+    align-self: center; margin: 3px 0 5px;
+  }
+
+  /* Reply quote inside bubble */
+  .reply-quote {
+    border-left: 3px solid; border-radius: 4px;
+    background: rgba(0,0,0,.05); padding: 3px 7px; margin-bottom: 4px;
+  }
+  .rq-sender { font-size: 10.5px; font-weight: 700; margin-bottom: 1px; }
+  .rq-text   { font-size: 11px; color: #667781; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 195px; }
+
+  /* ── Input bar ── */
+  .input-bar {
+    background: #f0f0f0; padding: 6px 8px;
+    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  }
+  .input-field {
+    flex: 1; background: #fff; border-radius: 22px;
+    padding: 7px 14px; font-size: 13px; color: #8696a0;
+  }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 36px; overflow-y: auto; display: flex; flex-direction: column; gap: 26px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .5px; margin-bottom: 10px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  .spec-table { width: 100%; border-collapse: collapse; }
+  .spec-table th { font-size: 11px; font-weight: 600; color: #666; text-align: left; padding: 5px 8px; background: #12121f; border-bottom: 1px solid #2a2a3e; }
+  .spec-table td { font-size: 12px; padding: 7px 8px; border-bottom: 1px solid #1e1e30; color: #ccc; vertical-align: top; }
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table td:first-child { color: #888; width: 200px; }
+  .mono  { font-family: 'SF Mono','Fira Code',monospace; font-size: 11px; color: #64B5F6; }
+  .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 5px; vertical-align: middle; border: 1px solid rgba(255,255,255,.1); }
+
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
+  .check-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: #bbb; line-height: 1.4; }
+  .check-ok   { color: #66BB6A; flex-shrink: 0; }
+  .check-warn { color: #FFD54F; flex-shrink: 0; }
+  .check-err  { color: #EF5350; flex-shrink: 0; }
+  .check-info { color: #64B5F6; flex-shrink: 0; }
+
+  .note-box { border-radius: 6px; padding: 12px 14px; font-size: 12px; line-height: 1.6; }
+  .note-box.yellow { background: #2a2000; border: 1px solid #FFD54F33; color: #FFD54F; }
+  .note-box.blue   { background: #0d1b2a; border: 1px solid #1565C055; color: #90CAF9; }
+  .note-box.green  { background: #001a0a; border: 1px solid #25D36633; color: #80CBC4; }
+
+  pre.snippet {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 6px;
+    padding: 12px 14px; font-size: 11px; color: #90CAF9; line-height: 1.6;
+    overflow-x: auto; white-space: pre;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Page header ── -->
+<div class="page-header">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="page-badge badge-wa">WhatsApp Group</span>
+      <span class="page-badge badge-group">Session Message</span>
+      <span class="page-badge badge-ops">Field Ops</span>
+      <span class="page-badge badge-zoai">ZoAi Command</span>
+    </div>
+    <div class="page-title" style="margin-top:6px;">Field Ops Clock-In via WhatsApp Group</div>
+    <div class="page-sub">
+      Location share → reply with @zoai command → ZoAi confirmation · no templates · session messages only
+      &nbsp;·&nbsp; <span style="color:#64B5F6;">tmpl_clock_in.html</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ══════════════════════════════
+       PREVIEW PANE
+  ══════════════════════════════ -->
+  <div class="preview-pane">
+
+    <div class="preview-label">Screen A — Clock-In Command</div>
+
+    <!-- Phone A: Clock-in command -->
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="status-time">9:14</span>
+        <div class="status-icons">
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="8" width="3" height="4" rx=".5" fill="#111"/><rect x="4" y="5" width="3" height="7" rx=".5" fill="#111"/><rect x="8" y="2" width="3" height="10" rx=".5" fill="#111"/><rect x="12" y="0" width="3" height="12" rx=".5" fill="#111"/></svg>
+          <svg width="15" height="11" viewBox="0 0 24 18" fill="none"><path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111"/><path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+          <div class="battery-pct">86</div>
+        </div>
+      </div>
+      <div class="wa-topbar">
+        <div class="wa-back">
+          <svg width="9" height="15" viewBox="0 0 10 17" fill="none"><path d="M9 1L1 8.5L9 16" stroke="#007AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="group-avatar">SMN</div>
+        <div class="wa-group-info">
+          <div class="wa-group-name">Brand x Territory</div>
+          <div class="wa-group-sub">SE Name, ASM Name, ZoAi</div>
+        </div>
+        <div class="wa-actions">
+          <svg width="20" height="14" viewBox="0 0 24 17" fill="none"><rect x="1" y="3" width="14" height="11" rx="2" stroke="#333" stroke-width="1.6"/><path d="M15 7l6-4v11l-6-4V7z" stroke="#333" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <svg width="4" height="16" viewBox="0 0 4 18" fill="none"><circle cx="2" cy="2" r="1.5" fill="#333"/><circle cx="2" cy="9" r="1.5" fill="#333"/><circle cx="2" cy="16" r="1.5" fill="#333"/></svg>
+        </div>
+      </div>
+      <div class="chat-area">
+        <div class="date-pill">Today</div>
+
+        <!-- Step 1: Sales exec shares live location -->
+        <div class="msg-sender-wrap">
+          <div class="sender-you-label">You (SE Name)</div>
+          <div class="msg-sender" style="padding:5px 5px 4px;max-width:220px;">
+            <!-- Map thumbnail -->
+            <div style="border-radius:6px;overflow:hidden;margin-bottom:4px;">
+              <svg width="210" height="88" viewBox="0 0 210 88" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+                <rect width="210" height="88" fill="#d4e8d0"/>
+                <line x1="0" y1="44" x2="210" y2="44" stroke="#b8d4b4" stroke-width="7"/>
+                <line x1="105" y1="0" x2="105" y2="88" stroke="#b8d4b4" stroke-width="7"/>
+                <line x1="0" y1="22" x2="210" y2="22" stroke="#c5dcc2" stroke-width="2" opacity=".7"/>
+                <line x1="0" y1="66" x2="210" y2="66" stroke="#c5dcc2" stroke-width="2" opacity=".7"/>
+                <line x1="52" y1="0" x2="52" y2="88" stroke="#c5dcc2" stroke-width="2" opacity=".7"/>
+                <line x1="158" y1="0" x2="158" y2="88" stroke="#c5dcc2" stroke-width="2" opacity=".7"/>
+                <rect x="6"   y="4"  width="42" height="14" rx="2" fill="#bdd9b9" opacity=".8"/>
+                <rect x="58"  y="4"  width="43" height="14" rx="2" fill="#bdd9b9" opacity=".8"/>
+                <rect x="113" y="4"  width="41" height="14" rx="2" fill="#bdd9b9" opacity=".8"/>
+                <rect x="162" y="4"  width="41" height="14" rx="2" fill="#bdd9b9" opacity=".8"/>
+                <rect x="6"   y="50" width="42" height="28" rx="2" fill="#bdd9b9" opacity=".8"/>
+                <rect x="58"  y="50" width="43" height="14" rx="2" fill="#bdd9b9" opacity=".8"/>
+                <rect x="113" y="50" width="41" height="28" rx="2" fill="#bdd9b9" opacity=".8"/>
+                <rect x="162" y="50" width="41" height="14" rx="2" fill="#bdd9b9" opacity=".8"/>
+                <!-- Pin -->
+                <path d="M105 10c-6.6 0-12 5.4-12 12 0 9 12 22 12 22s12-13 12-22c0-6.6-5.4-12-12-12z" fill="#E53935"/>
+                <circle cx="105" cy="22" r="4.5" fill="#fff"/>
+              </svg>
+              <div style="padding:6px 9px 3px;background:#DCF8C6;">
+                <div style="font-size:12.5px;font-weight:600;color:#111B21;">📍 Location Name, City</div>
+                <div style="font-size:10.5px;color:#667781;margin-top:1px;">Area, State · Live Location</div>
+              </div>
+            </div>
+            <span class="msg-time" style="padding-right:2px;">9:14 AM <span class="msg-tick">✓✓</span></span>
+          </div>
+        </div>
+
+        <!-- Step 2: Sales exec replies to location with @zoai clock-in -->
+        <div class="msg-sender-wrap">
+          <div class="sender-you-label">You (SE Name)</div>
+          <div class="msg-sender">
+            <div class="reply-quote" style="border-color:#2E7D32;">
+              <div class="rq-sender" style="color:#2E7D32;">You (SE Name)</div>
+              <div class="rq-text">📍 Location Name, City</div>
+            </div>
+            <div class="msg-body">@zoai clock-in</div>
+            <span class="msg-time">9:14 AM <span class="msg-tick">✓✓</span></span>
+          </div>
+        </div>
+
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.6"/><path d="M8 12h8M12 8v8" stroke="#54656f" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 013 3v7a3 3 0 01-6 0V4a3 3 0 013-3z" stroke="#54656f" stroke-width="1.5"/><path d="M19 11a7 7 0 01-14 0M12 20v3M8 23h8" stroke="#54656f" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+
+    <div class="preview-sub-label">Screen B — Clock-In Confirmed</div>
+
+    <!-- Phone B: ZoAi confirmation -->
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="status-time">9:15</span>
+        <div class="status-icons">
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="8" width="3" height="4" rx=".5" fill="#111"/><rect x="4" y="5" width="3" height="7" rx=".5" fill="#111"/><rect x="8" y="2" width="3" height="10" rx=".5" fill="#111"/><rect x="12" y="0" width="3" height="12" rx=".5" fill="#111"/></svg>
+          <svg width="15" height="11" viewBox="0 0 24 18" fill="none"><path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111"/><path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+          <div class="battery-pct">85</div>
+        </div>
+      </div>
+      <div class="wa-topbar">
+        <div class="wa-back">
+          <svg width="9" height="15" viewBox="0 0 10 17" fill="none"><path d="M9 1L1 8.5L9 16" stroke="#007AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="group-avatar">SMN</div>
+        <div class="wa-group-info">
+          <div class="wa-group-name">Brand x Territory</div>
+          <div class="wa-group-sub">SE Name, ASM Name, ZoAi</div>
+        </div>
+        <div class="wa-actions">
+          <svg width="20" height="14" viewBox="0 0 24 17" fill="none"><rect x="1" y="3" width="14" height="11" rx="2" stroke="#333" stroke-width="1.6"/><path d="M15 7l6-4v11l-6-4V7z" stroke="#333" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <svg width="4" height="16" viewBox="0 0 4 18" fill="none"><circle cx="2" cy="2" r="1.5" fill="#333"/><circle cx="2" cy="9" r="1.5" fill="#333"/><circle cx="2" cy="16" r="1.5" fill="#333"/></svg>
+        </div>
+      </div>
+      <div class="chat-area">
+        <div class="date-pill">Today</div>
+
+        <!-- @zoai command (carry forward from Screen A) -->
+        <div class="msg-sender-wrap">
+          <div class="sender-you-label">You (SE Name)</div>
+          <div class="msg-sender">
+            <div class="reply-quote" style="border-color:#2E7D32;">
+              <div class="rq-sender" style="color:#2E7D32;">You (SE Name)</div>
+              <div class="rq-text">📍 Location Name, City</div>
+            </div>
+            <div class="msg-body">@zoai clock-in</div>
+            <span class="msg-time">9:14 AM <span class="msg-tick">✓✓</span></span>
+          </div>
+        </div>
+
+        <!-- ZoAi confirmation response -->
+        <div class="msg-receiver-wrap">
+          <div class="msg-receiver">
+            <div class="sender-name" style="color:#00897B;">ZoAi 🤖</div>
+            <div class="msg-body">
+              Clocked In ✅<br><br>
+              ⏰ <strong>Time:</strong> 9:14 AM<br>
+              📍 <strong>Location:</strong> Location Name, City<br>
+              📅 <strong>Date:</strong> DD Mon YYYY<br>
+              👤 <strong>Name:</strong> SE Name (SE)
+            </div>
+            <span class="msg-time">9:15 AM</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="input-bar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#54656f" stroke-width="1.6"/><path d="M8 12h8M12 8v8" stroke="#54656f" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <div class="input-field">Type a message</div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 013 3v7a3 3 0 01-6 0V4a3 3 0 013-3z" stroke="#54656f" stroke-width="1.5"/><path d="M19 11a7 7 0 01-14 0M12 20v3M8 23h8" stroke="#54656f" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+
+  </div><!-- /preview-pane -->
+
+
+  <!-- ══════════════════════════════
+       SPEC PANE
+  ══════════════════════════════ -->
+  <div class="spec-pane">
+
+    <!-- Message sequence -->
+    <div>
+      <div class="spec-section-title">Clock-In Sequence — Message Flow</div>
+      <table class="spec-table">
+        <thead><tr><th>#</th><th>Sender</th><th>Message Type</th><th>Content</th></tr></thead>
+        <tr>
+          <td>1</td>
+          <td>Sales Executive (You)</td>
+          <td>Location Share</td>
+          <td>Live location pin from current position — map thumbnail + location name + "Live Location" sub-label. Sent BEFORE the command.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Sales Executive (You)</td>
+          <td>Reply to location + text</td>
+          <td>Quotes message #1 (location), then sends <code>@zoai clock-in</code> as the body text. The reply links the location proof to the command.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>ZoAi 🤖</td>
+          <td>Confirmation text</td>
+          <td>"Clocked In ✅" followed by 4 detail lines: Time, Location, Date, Name (with role). Plain session text, no buttons.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Location message anatomy -->
+    <div>
+      <div class="spec-section-title">Location Share Message — Anatomy</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>Spec</th></tr></thead>
+        <tr><td>Bubble type</td><td>Sender bubble — <span class="mono">#DCF8C6</span> green, right-aligned. Reduced outer padding (5px) to let map fill naturally.</td></tr>
+        <tr><td>Map thumbnail</td><td>Inline SVG or static map image — ~210px wide × 88px tall. Green tones (<span class="mono">#d4e8d0</span>) for land, white/grey roads. Red teardrop pin centered on location.</td></tr>
+        <tr><td>Map pin</td><td>SVG teardrop path — fill <span class="mono">#E53935</span> red, white inner circle. Centered on the map.</td></tr>
+        <tr><td>Location label row</td><td>Below map, same <span class="mono">#DCF8C6</span> background. Two lines: name (12.5px bold <span class="mono">#111B21</span>) + sub-label (10.5px <span class="mono">#667781</span>).</td></tr>
+        <tr><td>Location name format</td><td>"📍 Place Name, City" — e.g. "📍 Savera Office, Nagpur"</td></tr>
+        <tr><td>Sub-label format</td><td>"Area / District, State · Live Location" — e.g. "Manish Nagar, Nagpur · Live Location"</td></tr>
+        <tr><td>Timestamp</td><td>Below label row, right-aligned, 10px <span class="mono">#667781</span> + blue ✓✓ tick. Padding-right 2px.</td></tr>
+      </table>
+    </div>
+
+    <!-- Reply-to anatomy -->
+    <div>
+      <div class="spec-section-title">Reply-to-Location Message — Anatomy</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>Spec</th></tr></thead>
+        <tr><td>Bubble type</td><td>Sender bubble — <span class="mono">#DCF8C6</span>, right-aligned. Same sender label "You (Name)" above.</td></tr>
+        <tr><td>Reply quote block</td><td>Inside the bubble, above message body. Left border 3px solid <span class="mono">#2E7D32</span> (self-reply color). Background <span class="mono">rgba(0,0,0,.05)</span>. Rounded 4px.</td></tr>
+        <tr><td>Quote sender line</td><td>"You (SE Name)" in <span class="mono">#2E7D32</span> green, 10.5px bold. Indicates self-reply.</td></tr>
+        <tr><td>Quote content line</td><td>"📍 Location Name, City" — 11px <span class="mono">#667781</span>, truncated with ellipsis if long.</td></tr>
+        <tr><td>Message body</td><td><span class="mono">@zoai clock-in</span> — plain text, 13px. Note hyphen: "clock-in" not "clock in".</td></tr>
+        <tr><td>Command format</td><td><code>@zoai clock-in</code> — always lowercase, always hyphenated. Do not use "clock in" (space) or "clockin".</td></tr>
+      </table>
+    </div>
+
+    <!-- ZoAi response anatomy -->
+    <div>
+      <div class="spec-section-title">ZoAi Confirmation Response — Anatomy</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>Spec</th></tr></thead>
+        <tr><td>Bubble type</td><td>Receiver bubble — <span class="mono">#FFFFFF</span> white, left-aligned. Left tail triangle.</td></tr>
+        <tr><td>Sender name</td><td>"ZoAi 🤖" — first line inside bubble, 11.5px bold, color <span class="mono">#00897B</span> teal.</td></tr>
+        <tr><td>First line</td><td>"Clocked In ✅" — confirmation headline. Bold implicit from being first.</td></tr>
+        <tr><td>Detail lines format</td><td>Emoji prefix + <strong>bold label</strong> + value. Use <code>&lt;strong&gt;</code> for label. One blank line after headline, then lines with <code>&lt;br&gt;</code>.</td></tr>
+        <tr><td>Detail fields</td><td>⏰ Time · 📍 Location · 📅 Date · 👤 Name (with role abbreviation)</td></tr>
+        <tr><td>Time format</td><td>H:MM AM/PM — e.g. "9:14 AM"</td></tr>
+        <tr><td>Date format</td><td>DD Mon YYYY — e.g. "08 Apr 2026"</td></tr>
+        <tr><td>Name format</td><td>"Full Name (Role abbreviation)" — e.g. "Ravi Singh (SE)"</td></tr>
+        <tr><td>Timestamp</td><td>1 minute after command time — e.g. command at 9:14, response at 9:15.</td></tr>
+        <tr><td>No buttons</td><td>ZoAi group responses are plain session text — no Quick Reply, no CTA buttons.</td></tr>
+      </table>
+    </div>
+
+    <!-- Color tokens -->
+    <div>
+      <div class="spec-section-title">Color Tokens</div>
+      <table class="spec-table">
+        <tr><td>Group top bar bg</td><td><span class="swatch" style="background:#fff;border:1px solid #555;"></span><span class="mono">#FFFFFF</span> white — dark icons/text</td></tr>
+        <tr><td>Back arrow</td><td><span class="mono">#007AFF</span> iOS blue</td></tr>
+        <tr><td>Sender bubble</td><td><span class="swatch" style="background:#DCF8C6;"></span><span class="mono">#DCF8C6</span></td></tr>
+        <tr><td>Receiver bubble</td><td><span class="swatch" style="background:#fff;border:1px solid #555;"></span><span class="mono">#FFFFFF</span></td></tr>
+        <tr><td>Self "You (Name)" label</td><td><span class="mono">#2E7D32</span> green</td></tr>
+        <tr><td>Reply quote border (self)</td><td><span class="mono">#2E7D32</span> green — 3px left border</td></tr>
+        <tr><td>ZoAi sender name</td><td><span class="mono">#00897B</span> teal</td></tr>
+        <tr><td>Double tick (read)</td><td><span class="mono">#53bdeb</span> blue</td></tr>
+        <tr><td>Timestamp text</td><td><span class="mono">#667781</span></td></tr>
+        <tr><td>Map land background</td><td><span class="swatch" style="background:#d4e8d0;"></span><span class="mono">#d4e8d0</span></td></tr>
+        <tr><td>Map roads</td><td><span class="swatch" style="background:#b8d4b4;"></span><span class="mono">#b8d4b4</span> (major) / <span class="mono">#c5dcc2</span> (minor)</td></tr>
+        <tr><td>Map pin</td><td><span class="swatch" style="background:#E53935;"></span><span class="mono">#E53935</span> red teardrop, white inner circle</td></tr>
+        <tr><td>Chat background</td><td><span class="swatch" style="background:#ECE5DD;"></span><span class="mono">#ECE5DD</span> doodle pattern</td></tr>
+      </table>
+    </div>
+
+    <!-- HTML snippets -->
+    <div>
+      <div class="spec-section-title">HTML Snippet — Location Share Bubble</div>
+<pre class="snippet">&lt;div class="mrw"&gt;
+  &lt;div class="you-lbl" style="color:#2E7D32;"&gt;You (Ravi Singh)&lt;/div&gt;
+  &lt;div class="ms" style="padding:5px 5px 4px;max-width:215px;"&gt;
+    &lt;div style="border-radius:6px;overflow:hidden;margin-bottom:4px;"&gt;
+      &lt;!-- Map SVG 210×88 --&gt;
+      &lt;svg width="210" height="88" ...&gt;...&lt;/svg&gt;
+      &lt;div style="padding:6px 9px 3px;background:#DCF8C6;"&gt;
+        &lt;div style="font-size:12.5px;font-weight:600;color:#111B21;"&gt;
+          📍 Savera Office, Nagpur
+        &lt;/div&gt;
+        &lt;div style="font-size:10.5px;color:#667781;margin-top:1px;"&gt;
+          Manish Nagar, Nagpur · Live Location
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;span class="mtime" style="padding-right:2px;"&gt;
+      9:14 AM &lt;span class="mtick"&gt;✓✓&lt;/span&gt;
+    &lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <div>
+      <div class="spec-section-title">HTML Snippet — @zoai Command (Reply-to-Location)</div>
+<pre class="snippet">&lt;div class="mrw"&gt;
+  &lt;div class="you-lbl" style="color:#2E7D32;"&gt;You (Ravi Singh)&lt;/div&gt;
+  &lt;div class="ms"&gt;
+    &lt;div class="rq" style="border-color:#2E7D32;"&gt;
+      &lt;div class="rq-snd" style="color:#2E7D32;"&gt;You (Ravi Singh)&lt;/div&gt;
+      &lt;div class="rq-txt"&gt;📍 Savera Office, Nagpur&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="mbody"&gt;@zoai clock-in&lt;/div&gt;
+    &lt;span class="mtime"&gt;9:14 AM &lt;span class="mtick"&gt;✓✓&lt;/span&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <div>
+      <div class="spec-section-title">HTML Snippet — ZoAi Confirmation</div>
+<pre class="snippet">&lt;div class="msw"&gt;
+  &lt;div class="mr"&gt;
+    &lt;div class="sname" style="color:#00897B;"&gt;ZoAi 🤖&lt;/div&gt;
+    &lt;div class="mbody"&gt;
+      Clocked In ✅&lt;br&gt;&lt;br&gt;
+      ⏰ &lt;strong&gt;Time:&lt;/strong&gt; 9:14 AM&lt;br&gt;
+      📍 &lt;strong&gt;Location:&lt;/strong&gt; Savera Office, Nagpur&lt;br&gt;
+      📅 &lt;strong&gt;Date:&lt;/strong&gt; 08 Apr 2026&lt;br&gt;
+      👤 &lt;strong&gt;Name:&lt;/strong&gt; Ravi Singh (SE)
+    &lt;/div&gt;
+    &lt;span class="mtime"&gt;9:15 AM&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <!-- Checklist -->
+    <div>
+      <div class="spec-section-title">Checklist</div>
+      <div class="checklist">
+        <div class="check-item"><span class="check-ok">✓</span> Location is shared FIRST as a standalone message before the command.</div>
+        <div class="check-item"><span class="check-ok">✓</span> @zoai command message QUOTES the location message (reply-to pattern).</div>
+        <div class="check-item"><span class="check-ok">✓</span> Command is <code>@zoai clock-in</code> — hyphenated, lowercase. Not "clock in" or "clockin".</div>
+        <div class="check-item"><span class="check-ok">✓</span> Reply quote border color is <span class="mono">#2E7D32</span> (self-reply green) — not ZoAi teal.</div>
+        <div class="check-item"><span class="check-ok">✓</span> ZoAi response sender name: "ZoAi 🤖" in <span class="mono">#00897B</span>, inside receiver bubble.</div>
+        <div class="check-item"><span class="check-ok">✓</span> ZoAi response has 4 detail lines: Time, Location, Date, Name.</div>
+        <div class="check-item"><span class="check-ok">✓</span> ZoAi response timestamp is +1 minute from command time.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Group top bar is WHITE — dark text, iOS blue back arrow, dark action icons.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Battery shown as number in box ("86") — iOS 16+ style for group screens.</div>
+        <div class="check-item"><span class="check-err">✗</span> Do NOT add buttons to the ZoAi confirmation — group messages are plain text only.</div>
+        <div class="check-item"><span class="check-err">✗</span> Do NOT use dark green <span class="mono">#075E54</span> top bar — that is DM only.</div>
+        <div class="check-item"><span class="check-warn">⚠</span> Both Screen A and Screen B carry forward the sender bubble from the previous state — Screen B repeats the @zoai command bubble for conversation continuity.</div>
+      </div>
+    </div>
+
+    <!-- ZoAi commands note -->
+    <div class="note-box green">
+      <strong>ZoAi Field Ops Command Reference:</strong><br>
+      All ZoAi commands follow the pattern <code>@zoai &lt;action&gt;</code> sent in the group.<br><br>
+      <code>@zoai clock-in</code> — Mark day start attendance (with location)<br>
+      <code>@zoai clock-out</code> — Mark day end attendance (with location)<br>
+      <code>@zoai check-in</code> — Check in at a retailer visit location<br>
+      <code>@zoai check-out</code> — Check out from retailer visit<br>
+      <code>@zoai order</code> — Start order capture flow<br>
+      <code>@zoai report</code> — Get day's activity summary<br><br>
+      Always use hyphens in command names. Always quote a relevant location or context message before sending the command.
+    </div>
+
+    <div class="note-box blue">
+      <strong>Why location-first, then command?</strong><br>
+      WhatsApp's native location share provides geo-verified proof of attendance — it captures GPS coordinates, address, and timestamp. By quoting the location in the @zoai command, ZoAi can extract and store both the time and verified location in one atomic action. This prevents manual entry and ensures audit-grade attendance records.
+    </div>
+
+  </div><!-- /spec-pane -->
+</div><!-- /layout -->
+
+</body>
+</html>

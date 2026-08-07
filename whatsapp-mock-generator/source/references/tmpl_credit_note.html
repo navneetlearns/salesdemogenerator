@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Credit Note Template</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-utility { background: #1565C0; color: #fff; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .page-sub { font-size: 12px; color: #666; margin-top: 2px; }
+
+  /* ── Layout ── */
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    width: 380px; flex-shrink: 0; padding: 40px 32px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .preview-label {
+    font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px;
+  }
+  .chat-mock {
+    width: 300px; background: #ECE5DD; border-radius: 12px; padding: 12px 10px 6px;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2a99a' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .wa-sender-name {
+    font-size: 13px; font-weight: 700; color: #00A884; margin-bottom: 4px; padding-left: 2px;
+  }
+
+  /* ── WhatsApp Template Component ── */
+  .wa-tmpl {
+    background: #fff;
+    border-radius: 8px 0px 8px 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  }
+
+  /* Header: Document type — attachment bar only.
+     Red PDF icon used for credit notes / return documents (not the standard pink). */
+  .wa-hdr-doc-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px 8px 10px; background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  /* Red PDF pill — used for credit notes and return documents */
+  .doc-icon-wrap-red {
+    width: 34px; height: 40px; background: #E53935; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .doc-icon-wrap-red .pdf-label {
+    font-size: 8px; font-weight: 700; color: #fff; letter-spacing: .3px;
+  }
+  .doc-meta { flex: 1; overflow: hidden; }
+  .doc-filename { font-size: 12.5px; font-weight: 600; color: #111B21; }
+  .doc-fileinfo { font-size: 11px; color: #667781; margin-top: 1px; }
+  .doc-download {
+    width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    color: #555;
+  }
+
+  /* Body */
+  .wa-tmpl-body {
+    padding: 10px 12px 6px;
+    font-size: 13.5px; color: #111B21; line-height: 1.55;
+  }
+  .wa-tmpl-body .block-title {
+    display: block; font-size: 13px; font-weight: 700; color: #111B21;
+    margin-bottom: 6px;
+  }
+  .wa-tmpl-body .field-line {
+    display: flex; align-items: baseline; gap: 5px;
+    font-size: 13.5px; color: #111B21; padding: 1px 0;
+  }
+  .wa-tmpl-body .field-icon { font-size: 14px; flex-shrink: 0; }
+  .wa-tmpl-body .field-val { font-weight: 700; }
+  .wa-tmpl-body .closing-line {
+    font-size: 13.5px; color: #111B21; margin-top: 6px;
+  }
+  .wa-tmpl-signoff {
+    font-size: 13.5px; color: #111B21; padding: 8px 12px 0; line-height: 1.5;
+  }
+  .wa-tmpl-time {
+    font-size: 11px; color: #667781;
+    text-align: right; padding: 2px 12px 8px;
+  }
+
+  /* Buttons */
+  .wa-tmpl-btns { border-top: 1px solid #f0f0f0; }
+  .wa-cta-btn {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; padding: 10px 12px; text-align: center;
+    font-size: 14px; font-weight: 500; color: #00A884; cursor: pointer;
+    border-bottom: 1px solid #f0f0f0; background: none;
+    border-left: none; border-right: none; border-top: none;
+  }
+  .wa-cta-btn:last-child { border-bottom: none; }
+  .wa-cta-btn:hover { background: #f9f9f9; }
+  .wa-qr-btn {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; padding: 10px 12px; text-align: center;
+    font-size: 14px; font-weight: 500; color: #00A884; cursor: pointer;
+    border-bottom: 1px solid #f0f0f0; background: none;
+    border-left: none; border-right: none; border-top: none;
+  }
+  .wa-qr-btn:last-child { border-bottom: none; }
+  .wa-qr-btn:hover { background: #f9f9f9; }
+  .cta-icon { width: 15px; height: 15px; flex-shrink: 0; }
+  .btn-demo-note {
+    font-size: 11px; color: #888; font-style: italic;
+    padding: 6px 10px 8px; text-align: center; line-height: 1.4;
+  }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 40px; overflow-y: auto; }
+  .spec-section { margin-bottom: 28px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .6px; margin-bottom: 12px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  .meta-grid { display: grid; grid-template-columns: 150px 1fr; gap: 8px 12px; }
+  .meta-key { font-size: 12px; color: #666; }
+  .meta-val { font-size: 12px; color: #ccc; }
+  .meta-val code {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 4px;
+    padding: 1px 6px; font-size: 11px; color: #4CAF50; font-family: monospace;
+  }
+  .tag {
+    display: inline-block; border-radius: 10px; padding: 2px 8px;
+    font-size: 11px; font-weight: 600;
+  }
+  .tag-utility  { background: #1565C0; color: #fff; }
+  .tag-doc      { background: #6A1B9A; color: #fff; }
+  .tag-cta      { background: #E65100; color: #fff; }
+  .tag-qr       { background: #2E7D32; color: #fff; }
+  .tag-mixed    { background: #455A64; color: #fff; }
+
+  .body-preview {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 13px; color: #ccc; line-height: 1.8;
+    white-space: pre-wrap; font-family: monospace;
+  }
+  .body-preview .var   { color: #4CAF50; font-weight: 700; }
+  .body-preview .bold  { color: #fff; font-weight: 700; }
+
+  .btn-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; background: #0d0d1a; border: 1px solid #2a2a3e;
+    border-radius: 6px; margin-bottom: 6px;
+  }
+  .btn-label { font-size: 13px; color: #ccc; }
+  .btn-meta  { font-size: 11px; display: flex; gap: 8px; }
+  .btn-type  { color: #FF8A65; }
+  .btn-chars { color: #888; }
+
+  .check-list { display: flex; flex-direction: column; gap: 7px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12.5px; color: #aaa; line-height: 1.4;
+  }
+  .pass { color: #4CAF50; flex-shrink: 0; }
+
+  .info-box {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 12px 16px; font-size: 12.5px; color: #aaa; line-height: 1.6;
+  }
+  .info-box strong { color: #fff; }
+  .info-box .red-dot {
+    display: inline-block; width: 10px; height: 10px; border-radius: 2px;
+    background: #E53935; margin-right: 5px; vertical-align: middle;
+  }
+  .info-box .pink-dot {
+    display: inline-block; width: 10px; height: 10px; border-radius: 2px;
+    background: #F06292; margin-right: 5px; vertical-align: middle;
+  }
+
+  .usage-block {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 12px; color: #aaa; line-height: 1.7;
+    font-family: monospace; overflow-x: auto; white-space: pre;
+  }
+  .u-tag  { color: #f06292; }
+  .u-attr { color: #64B5F6; }
+  .u-val  { color: #a5d6a7; }
+  .u-cmt  { color: #444; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="page-badge badge-utility">Utility</span>
+  <div>
+    <div class="page-title">Credit Note Template</div>
+    <div class="page-sub">tmpl_credit_note · WhatsApp Business Platform · Requires Meta Approval</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Preview ── -->
+  <div class="preview-pane">
+    <div class="preview-label">Rendered Preview</div>
+    <div class="chat-mock">
+      <div class="wa-sender-name">Zotok AI</div>
+      <div class="wa-tmpl">
+
+        <!-- HEADER: Document type — red PDF pill for credit/return docs.
+             One header type per template: cannot add an image when header is Document. -->
+        <div class="wa-hdr-doc-bar">
+          <div class="doc-icon-wrap-red">
+            <span class="pdf-label">PDF</span>
+          </div>
+          <div class="doc-meta">
+            <div class="doc-filename">CreditNote_OE-CN-2147.pdf</div>
+            <div class="doc-fileinfo">1 page &nbsp;·&nbsp; 0.9 MB &nbsp;·&nbsp; pdf</div>
+          </div>
+          <div class="doc-download">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- BODY: bold block title + intro + emoji fields + closing line + sign-off -->
+        <div class="wa-tmpl-body">
+          <span class="block-title">Credit Note Issued</span>
+          Dear Aditya Ram, a credit note has been issued against your account. Please find the details below.<br><br>
+          <div class="field-line">
+            <span class="field-icon">🗒</span>
+            <span>Credit Note No: <span class="field-val">OE-CN-2147</span></span>
+          </div>
+          <div class="field-line">
+            <span class="field-icon">🔗</span>
+            <span>Reference Invoice: <span class="field-val">OE-INV-7821</span></span>
+          </div>
+          <div class="field-line">
+            <span class="field-icon">💰</span>
+            <span>Credit Amount: <span class="field-val">₹7,840</span></span>
+          </div>
+          <div class="field-line">
+            <span class="field-icon">📝</span>
+            <span>Reason: Sales Return Adjustment</span>
+          </div>
+          <div class="field-line">
+            <span class="field-icon">📅</span>
+            <span>Date: <span class="field-val">26 April 2026</span></span>
+          </div>
+          <div class="closing-line">
+            The credited amount will be adjusted against your upcoming invoices.
+          </div>
+        </div>
+
+        <div class="wa-tmpl-signoff">
+          Team,<br>Orient Electric
+        </div>
+        <div class="wa-tmpl-time">11:15 AM ✓✓</div>
+
+        <!-- BUTTONS: demo shows mixed types to illustrate the interactive flow.
+             In production, choose ONE type: all CTA URL or all Quick Reply. -->
+        <div class="wa-tmpl-btns">
+          <button class="wa-cta-btn">
+            <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="#00A884" stroke-width="2.5">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            View Credit Note
+          </button>
+          <button class="wa-qr-btn">
+            <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="#00A884" stroke-width="2.5">
+              <polyline points="9 14 4 19 9 24" transform="scale(1 0.8) translate(0 3)"/>
+              <path d="M20 4h-7a4 4 0 00-4 4v3"/>
+            </svg>
+            Download Ledger
+          </button>
+        </div>
+        <div class="btn-demo-note">Demo shows mixed button types to illustrate the interactive flow. In production, choose ONE type: all CTA URL or all Quick Reply.</div>
+
+      </div>
+    </div>
+    <div style="font-size:11px;color:#444;text-align:center;max-width:260px;line-height:1.5;margin-top:4px">
+      Values shown are sample data.<br>Actual template uses <span style="color:#4CAF50;font-family:monospace">&#123;&#123;n&#125;&#125;</span> variables.
+    </div>
+  </div>
+
+  <!-- ── Spec ── -->
+  <div class="spec-pane">
+
+    <div class="spec-section">
+      <div class="spec-section-title">Template Metadata</div>
+      <div class="meta-grid">
+        <div class="meta-key">Category</div>
+        <div class="meta-val"><span class="tag tag-utility">Utility</span></div>
+        <div class="meta-key">Template Name</div>
+        <div class="meta-val"><code>credit_note</code></div>
+        <div class="meta-key">Header Type</div>
+        <div class="meta-val"><span class="tag tag-doc">Document</span> &nbsp;— Red PDF icon (use for credit/return docs; contrasts with pink icon used for invoices). One header type per template.</div>
+        <div class="meta-key">Attachment Bar</div>
+        <div class="meta-val">Red PDF pill · Filename · Page count · File size · File type · Download icon</div>
+        <div class="meta-key">Button Type</div>
+        <div class="meta-val"><span class="tag tag-mixed">CTA URL + Quick Reply</span> &nbsp;— Demo mix only. Production must pick one type: all CTA URL or all Quick Reply.</div>
+        <div class="meta-key">Variables</div>
+        <div class="meta-val">6 — Customer name, Credit Note No, Reference Invoice No, Credit Amount, Reason, Date</div>
+        <div class="meta-key">Footer</div>
+        <div class="meta-val">None visible in reference design</div>
+        <div class="meta-key">Trigger</div>
+        <div class="meta-val">SAP FI raises credit note via event webhook → ZoTok webhook → notification sent to dealer</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Body Text (with variables)</div>
+      <div class="body-preview"><span class="bold">*Credit Note Issued*</span>
+
+Dear <span class="var">{{1}}</span>, a credit note has been issued against your account. Please find the details below.
+
+<span class="bold">🗒 Credit Note No: *<span class="var">{{2}}</span>*</span>
+<span class="bold">🔗 Reference Invoice: *<span class="var">{{3}}</span>*</span>
+<span class="bold">💰 Credit Amount: *₹<span class="var">{{4}}</span>*</span>
+<span class="bold">📝 Reason: <span class="var">{{5}}</span></span>
+<span class="bold">📅 Date: *<span class="var">{{6}}</span>*</span>
+
+The credited amount will be adjusted against your upcoming invoices.
+
+Team,
+Orient Electric</div>
+      <div style="font-size:11px;color:#555;margin-top:8px">
+        6 variables · Starts with bold block title (not a variable) ✓ · Body intro begins with plain text then <code style="color:#4CAF50;background:#0d0d1a;padding:1px 4px;border-radius:3px">{{1}}</code> — variable not at very start ✓
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Buttons</div>
+      <div class="btn-row">
+        <span class="btn-label">↗ View Credit Note</span>
+        <span class="btn-meta"><span class="btn-type">CTA URL</span><span class="btn-chars">16 / 25 chars ✓</span></span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-label">↩ Download Ledger</span>
+        <span class="btn-meta"><span class="btn-type">Quick Reply</span><span class="btn-chars">15 / 25 chars ✓</span></span>
+      </div>
+      <div style="font-size:11px;color:#555;margin-top:8px">
+        Mixed types shown for demo illustration only. In a real approved template, choose ONE type: either both CTA URL, or both Quick Reply. Never mix in production.
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">⚠️ Red PDF Icon vs Standard Pink Icon</div>
+      <div class="info-box">
+        <p style="margin-bottom:8px">Use the correct document icon style based on document type:</p>
+        <p style="margin-bottom:5px"><span class="red-dot"></span><strong>Red pill icon</strong> (<code style="color:#E53935;background:#0d0d1a;padding:1px 4px;border-radius:3px">background:#E53935</code>) — for <strong>credit notes</strong> and <strong>return documents</strong>. Rendered as a solid red rounded rectangle with white "PDF" text (8px bold). Signals a financial reversal document visually.</p>
+        <p><span class="pink-dot"></span><strong>Standard pink/grey doc SVG icon</strong> (<code style="color:#F06292;background:#0d0d1a;padding:1px 4px;border-radius:3px">background:#F06292</code> with folded-corner SVG) — for <strong>invoices</strong> and <strong>dispatch notes</strong>. Never use the red icon for standard invoices.</p>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Meta Compliance Checklist</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">✓</span> Header is Document type — PDF attachment bar only (filename, page count, size, file type, download icon)</div>
+        <div class="check-item"><span class="pass">✓</span> No image added alongside Document header — header must be ONE type only</div>
+        <div class="check-item"><span class="pass">✓</span> Body starts with bold block title, then plain text intro — not a bare variable at position 1</div>
+        <div class="check-item"><span class="pass">✓</span> No HR lines, no tables, no HTML tags in body content</div>
+        <div class="check-item"><span class="pass">✓</span> No two consecutive variables anywhere in body</div>
+        <div class="check-item"><span class="pass">✓</span> Button labels: 16 chars and 15 chars — both under 25 ✓</div>
+        <div class="check-item"><span class="pass">✓</span> Utility category — transactional notification, not promotional</div>
+        <div class="check-item"><span class="pass">✓</span> Production template must use ONE button type only (CTA URL or Quick Reply, never both)</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">Variable Map</div>
+      <div class="meta-grid">
+        <div class="meta-key"><code>{{1}}</code></div><div class="meta-val">Customer / Dealer name &nbsp;·&nbsp; e.g. Aditya Ram</div>
+        <div class="meta-key"><code>{{2}}</code></div><div class="meta-val">Credit Note No &nbsp;·&nbsp; e.g. OE-CN-2147</div>
+        <div class="meta-key"><code>{{3}}</code></div><div class="meta-val">Reference Invoice No &nbsp;·&nbsp; e.g. OE-INV-7821</div>
+        <div class="meta-key"><code>{{4}}</code></div><div class="meta-val">Credit Amount &nbsp;·&nbsp; e.g. 7,840</div>
+        <div class="meta-key"><code>{{5}}</code></div><div class="meta-val">Reason &nbsp;·&nbsp; e.g. Sales Return Adjustment</div>
+        <div class="meta-key"><code>{{6}}</code></div><div class="meta-val">Date &nbsp;·&nbsp; e.g. 26 April 2026</div>
+      </div>
+    </div>
+
+    <div class="spec-section">
+      <div class="spec-section-title">HTML Snippet — Copy Into Screen Generator</div>
+      <div class="usage-block"><span class="u-cmt">&lt;!-- Utility Template: Credit Note                                        --&gt;
+&lt;!-- Header: Document (red PDF icon) | Body: bold title + fields | Btns: CTA URL --&gt;</span>
+&lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl"</span>&gt;
+
+  <span class="u-cmt">&lt;!-- Document header: red PDF pill for credit/return docs. NO image alongside. --&gt;</span>
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-hdr-doc-bar"</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"width:34px;height:40px;background:#E53935;border-radius:6px;
+           display:flex;align-items:center;justify-content:center;flex-shrink:0"</span>&gt;
+      &lt;<span class="u-tag">span</span> <span class="u-attr">style</span>=<span class="u-val">"font-size:8px;font-weight:700;color:#fff"</span>&gt;PDF&lt;/<span class="u-tag">span</span>&gt;
+    &lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"doc-meta"</span>&gt;
+      &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"doc-filename"</span>&gt;CreditNote_OE-CN-2147.pdf&lt;/<span class="u-tag">div</span>&gt;
+      &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"doc-fileinfo"</span>&gt;1 page · 0.9 MB · pdf&lt;/<span class="u-tag">div</span>&gt;
+    &lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"doc-download"</span>&gt;↓&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-body"</span>&gt;
+    &lt;<span class="u-tag">span</span> <span class="u-attr">style</span>=<span class="u-val">"display:block;font-size:13px;font-weight:700;margin-bottom:6px"</span>&gt;Credit Note Issued&lt;/<span class="u-tag">span</span>&gt;
+    Dear {{1}}, a credit note has been issued against your account.
+    Please find the details below.&lt;<span class="u-tag">br</span>&gt;&lt;<span class="u-tag">br</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"field-line"</span>&gt;🗒 Credit Note No: &lt;<span class="u-tag">span</span> <span class="u-attr">class</span>=<span class="u-val">"field-val"</span>&gt;{{2}}&lt;/<span class="u-tag">span</span>&gt;&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"field-line"</span>&gt;🔗 Reference Invoice: &lt;<span class="u-tag">span</span> <span class="u-attr">class</span>=<span class="u-val">"field-val"</span>&gt;{{3}}&lt;/<span class="u-tag">span</span>&gt;&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"field-line"</span>&gt;💰 Credit Amount: &lt;<span class="u-tag">span</span> <span class="u-attr">class</span>=<span class="u-val">"field-val"</span>&gt;₹{{4}}&lt;/<span class="u-tag">span</span>&gt;&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"field-line"</span>&gt;📝 Reason: {{5}}&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"field-line"</span>&gt;📅 Date: &lt;<span class="u-tag">span</span> <span class="u-attr">class</span>=<span class="u-val">"field-val"</span>&gt;{{6}}&lt;/<span class="u-tag">span</span>&gt;&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"margin-top:6px"</span>&gt;The credited amount will be adjusted against your upcoming invoices.&lt;/<span class="u-tag">div</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-signoff"</span>&gt;Team,&lt;<span class="u-tag">br</span>&gt;Orient Electric&lt;/<span class="u-tag">div</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-time"</span>&gt;11:15 AM&lt;/<span class="u-tag">div</span>&gt;
+
+  <span class="u-cmt">&lt;!-- PRODUCTION: choose ONE button type — CTA URL (shown) OR Quick Reply, not both --&gt;</span>
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"wa-tmpl-btns"</span>&gt;
+    &lt;<span class="u-tag">button</span> <span class="u-attr">class</span>=<span class="u-val">"wa-cta-btn"</span>&gt;↗ View Credit Note&lt;/<span class="u-tag">button</span>&gt;
+    &lt;<span class="u-tag">button</span> <span class="u-attr">class</span>=<span class="u-val">"wa-cta-btn"</span>&gt;↗ Download Ledger&lt;/<span class="u-tag">button</span>&gt;
+  &lt;/<span class="u-tag">div</span>&gt;
+
+&lt;/<span class="u-tag">div</span>&gt;</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

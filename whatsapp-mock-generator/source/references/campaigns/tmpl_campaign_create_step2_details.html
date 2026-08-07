@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Campaign Create: Step 2 Details</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;display:flex;min-height:100vh;}
+.preview-pane{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 24px;gap:16px;overflow-y:auto;}
+.spec-pane{width:360px;background:#fff;border-left:1px solid #e0e0e0;overflow-y:auto;flex-shrink:0;}
+.pane-head{padding:18px 20px 14px;border-bottom:1px solid #f0f0f0;}
+.pane-head h2{font-size:14px;font-weight:700;color:#111;}
+.pane-head p{font-size:11.5px;color:#888;margin-top:3px;}
+.spec-section{padding:14px 20px;border-bottom:1px solid #f5f5f5;}
+.spec-section h3{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.spec-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:12px;}
+.spec-row .lbl{color:#888;flex-shrink:0;width:140px;}
+.spec-row .val{color:#111;font-weight:500;text-align:right;word-break:break-all;}
+.spec-row .val.code{font-family:monospace;font-size:11px;background:#f5f5f5;padding:1px 5px;border-radius:3px;}
+.checklist{list-style:none;font-size:12px;display:flex;flex-direction:column;gap:5px;}
+.checklist li{padding:2px 0;color:#333;line-height:1.5;}
+.checklist li::before{content:'✓ ';color:#22C55E;font-weight:700;}
+.checklist li.warn::before{content:'⚠ ';color:#E65100;}
+.snippet{background:#1e1e1e;color:#d4d4d4;font-family:monospace;font-size:11px;padding:12px;border-radius:6px;overflow-x:auto;white-space:pre;line-height:1.55;margin-top:6px;}
+.preview-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;align-self:flex-start;}
+
+/* Portal shell */
+.portal-wrap{width:100%;max-width:960px;border-radius:10px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);}
+.browser-chrome{background:#e8e8e8;padding:8px 14px;display:flex;align-items:center;gap:10px;border:1px solid #d0d0d0;border-bottom:none;border-radius:10px 10px 0 0;}
+.tls{display:flex;gap:5px;}.tl{width:11px;height:11px;border-radius:50%;}
+.tl-r{background:#ff5f57;}.tl-a{background:#febc2e;}.tl-g{background:#28c840;}
+.url-bar{flex:1;background:#fff;border-radius:5px;padding:4px 12px;font-size:12px;color:#555;text-align:center;border:1px solid #ddd;}
+.portal-body{display:flex;height:760px;border:1px solid #d0d0d0;border-top:none;border-radius:0 0 10px 10px;overflow:hidden;}
+.nav-left{width:48px;background:#132c45;display:flex;flex-direction:column;align-items:center;padding:12px 0;flex-shrink:0;gap:4px;}
+.nav-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.nav-icon.active{background:rgba(255,255,255,.15);}
+.nav-spacer{flex:1;}
+.nav-avatar{width:28px;height:28px;border-radius:50%;background:#0058d9;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.nav-sub{width:68px;background:#fff;border-right:1px solid #eee;display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;}
+.nav-sub-top{flex:1;padding:6px 0;}
+.nav-sub-item{padding:8px 4px;text-align:center;font-size:9.5px;color:#595959;cursor:pointer;line-height:1.3;}
+.nav-sub-item.active{color:#32a7e8;font-weight:600;}
+.nav-sub-div{height:1px;background:#f0f0f0;margin:4px 10px;}
+.nav-sub-bottom{padding:8px 4px;text-align:center;border-top:1px solid #f0f0f0;}
+.powered-by{font-size:6px;color:#595959;display:block;margin-bottom:4px;}
+.zotok-logo{width:36px;height:12px;background:#ecf0f5;border-radius:3px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#0058d9;}
+.content-area{flex:1;background:#ecf0f5;display:flex;flex-direction:column;overflow:hidden;}
+.page-nav{background:#fff;border-bottom:1px solid #eee;padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.page-nav-left{display:flex;align-items:center;gap:12px;}
+.close-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#888;}
+.page-title{font-size:15px;font-weight:600;color:#262626;}
+.stepper{display:flex;align-items:center;gap:0;}
+.step{display:flex;align-items:center;gap:6px;}
+.step-circle{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.step-circle.done{background:#2abb7f;color:#fff;}
+.step-circle.active{background:#32a7e8;color:#fff;}
+.step-circle.future{background:#d9d9d9;color:#fff;}
+.step-label{font-size:11px;font-weight:500;}
+.step-label.done{color:#2abb7f;}
+.step-label.active{color:#32a7e8;}
+.step-label.future{color:#8c8c8c;}
+.step-line{width:24px;height:1px;background:#e0e0e0;margin:0 4px;}
+.btn-primary{background:#32a7e8;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;}
+
+/* Details layout: form-left + preview-right */
+.details-layout{flex:1;display:flex;overflow:hidden;}
+.form-col{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;}
+.preview-col{width:240px;background:#fff;border-left:1px solid #eee;overflow-y:auto;padding:14px;flex-shrink:0;}
+
+/* Form elements */
+.form-section{background:#fff;border-radius:10px;padding:16px;}
+.form-section-title{font-size:14px;font-weight:600;color:#262626;margin-bottom:4px;}
+.form-section-desc{font-size:12px;color:#8c8c8c;margin-bottom:12px;line-height:1.5;}
+.form-group{margin-bottom:12px;}
+.form-label{font-size:12px;font-weight:600;color:#262626;margin-bottom:5px;display:block;}
+.form-input{width:100%;border:1px solid #d9d9d9;border-radius:6px;padding:8px 10px;font-size:13px;color:#262626;background:#fff;outline:none;}
+.form-input::placeholder{color:#8c8c8c;}
+.form-hint{font-size:10.5px;color:#8c8c8c;margin-top:3px;}
+.char-count{text-align:right;font-size:10px;color:#8c8c8c;margin-top:2px;}
+
+/* Header type selector */
+.header-types{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.header-type{padding:6px 14px;border-radius:6px;border:1.5px solid #d9d9d9;font-size:12px;font-weight:500;cursor:pointer;color:#262626;}
+.header-type.active{border-color:#32a7e8;color:#32a7e8;background:#f0f8ff;}
+.upload-box{border:2px dashed #d9d9d9;border-radius:8px;padding:16px;text-align:center;background:#fafafa;}
+.upload-box-title{font-size:12px;font-weight:500;color:#1f1f1f;margin-bottom:4px;}
+.upload-box-hint{font-size:10px;color:#8c8c8c;}
+.upload-box-cta{font-size:11px;color:#595959;margin-top:6px;}
+.upload-box-cta span{color:#32a7e8;cursor:pointer;}
+
+/* Variable row */
+.var-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.var-tag{background:#e8f0fe;color:#0049b5;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;flex-shrink:0;}
+.var-select{flex:1;border:1px solid #d9d9d9;border-radius:6px;padding:7px 10px;font-size:12px;color:#262626;background:#fff;}
+.var-sample{flex:1;border:1px solid #d9d9d9;border-radius:6px;padding:7px 10px;font-size:12px;color:#8c8c8c;background:#fff;}
+
+/* Note bar */
+.note-bar{background:#fff8e1;border:1px solid #ffe58f;border-radius:6px;padding:8px 12px;font-size:11.5px;color:#454545;line-height:1.5;}
+
+/* Preview panel (right side) */
+.preview-panel-title{font-size:11px;font-weight:700;color:#8c8c8c;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.wa-preview-phone{background:#ece5dd;border-radius:8px;padding:10px;min-height:300px;}
+.wa-biz-header{background:#32a7e8;border-radius:6px 6px 0 0;color:#fff;font-size:11px;font-weight:700;padding:6px 10px;display:flex;align-items:center;gap:6px;}
+.wa-biz-logo{width:20px;height:20px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#32a7e8;}
+.wa-msg-card{background:#fff;border-radius:0 8px 8px 8px;overflow:hidden;max-width:90%;box-shadow:0 1px 2px rgba(0,0,0,.1);margin-top:8px;}
+.wa-msg-img{background:#d0d8dd;height:80px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#8a9da8;}
+.wa-msg-body{padding:8px 10px;}
+.wa-msg-name{color:#1e855a;font-size:11px;font-weight:700;}
+.wa-msg-hi{font-size:11px;color:#262626;margin-bottom:3px;}
+.wa-msg-var{color:#0049b5;font-weight:600;}
+.wa-msg-text{font-size:11px;color:#1f1f1f;line-height:1.4;margin-bottom:6px;}
+.wa-msg-footer{font-size:9.5px;color:#667781;margin-bottom:6px;}
+.wa-msg-btn{border-top:1px solid #f0f0f0;padding:5px 0;text-align:center;color:#00a884;font-size:10px;font-weight:500;}
+.wa-input-bar{background:#f0f0f0;border-radius:0 0 8px 8px;padding:6px 10px;font-size:10px;color:#8696a0;margin-top:8px;}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PREVIEW PANE ═══════════════════ -->
+<div class="preview-pane">
+  <div class="preview-label">Campaign Create — Step 2: Campaign Details</div>
+
+  <div class="portal-wrap">
+    <div class="browser-chrome">
+      <div class="tls"><div class="tl tl-r"></div><div class="tl tl-a"></div><div class="tl tl-g"></div></div>
+      <div class="url-bar">🔒 app.zotok.ai/campaigns/create/details</div>
+    </div>
+
+    <div class="portal-body">
+      <!-- Left nav -->
+      <div class="nav-left">
+        <div class="nav-icon active">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5" fill="#fff"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/></svg>
+        </div>
+        <div class="nav-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="rgba(255,255,255,.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-spacer"></div>
+        <div class="nav-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/></svg>
+        </div>
+        <div class="nav-avatar">Z</div>
+      </div>
+
+      <!-- Sub-nav -->
+      <div class="nav-sub">
+        <div class="nav-sub-top">
+          <div class="nav-sub-item">Threads</div>
+          <div class="nav-sub-item active">Campaigns</div>
+          <div class="nav-sub-div"></div>
+          <div class="nav-sub-item">AI Agent</div>
+          <div class="nav-sub-item">Customers</div>
+          <div class="nav-sub-item">Products</div>
+          <div class="nav-sub-item">Orders</div>
+          <div class="nav-sub-div"></div>
+          <div class="nav-sub-item">Invoices</div>
+          <div class="nav-sub-item">Payments</div>
+          <div class="nav-sub-item">Ledger</div>
+          <div class="nav-sub-div"></div>
+          <div class="nav-sub-item">Field Ops</div>
+          <div class="nav-sub-item">Schemes</div>
+          <div class="nav-sub-item">Price List</div>
+          <div class="nav-sub-item">Forms</div>
+        </div>
+        <div class="nav-sub-bottom">
+          <span class="powered-by">Powered By</span>
+          <div class="zotok-logo">ZoTok</div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="content-area">
+        <!-- Page nav -->
+        <div class="page-nav">
+          <div class="page-nav-left">
+            <div class="close-icon">✕</div>
+            <div class="page-title">Create Campaign</div>
+          </div>
+          <div class="stepper">
+            <div class="step"><div class="step-circle done">1</div><div class="step-label done">Template</div></div>
+            <div class="step-line"></div>
+            <div class="step"><div class="step-circle active">2</div><div class="step-label active">Details</div></div>
+            <div class="step-line"></div>
+            <div class="step"><div class="step-circle future">3</div><div class="step-label future">Products</div></div>
+            <div class="step-line"></div>
+            <div class="step"><div class="step-circle future">4</div><div class="step-label future">Audience</div></div>
+            <div class="step-line"></div>
+            <div class="step"><div class="step-circle future">5</div><div class="step-label future">Settings</div></div>
+          </div>
+          <button class="btn-primary">Next</button>
+        </div>
+
+        <!-- Two-column details layout -->
+        <div class="details-layout">
+          <!-- Left: form -->
+          <div class="form-col">
+            <div style="font-size:18px;font-weight:600;color:#000;">Campaign Details</div>
+
+            <!-- Campaign name -->
+            <div class="form-section">
+              <div class="form-section-title">Campaign Name</div>
+              <div class="form-section-desc">Name your campaign</div>
+              <div class="form-group">
+                <label class="form-label">Template Name*</label>
+                <input class="form-input" value="Summer Deals" placeholder="Enter name">
+                <div class="char-count">88/88</div>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div class="form-section">
+              <div class="form-section-title">Header</div>
+              <div class="form-section-desc">Add a title or choose which type of media you'll use for this header.</div>
+              <div class="header-types">
+                <div class="header-type active">Image</div>
+                <div class="header-type">Text</div>
+                <div class="header-type">Video</div>
+                <div class="header-type">Document</div>
+              </div>
+              <div class="upload-box">
+                <div class="upload-box-title">Upload File</div>
+                <div class="upload-box-cta"><span>Drop file here</span> or <span>Browse</span></div>
+                <div class="upload-box-hint">Accepted: PNG, JPEG · Max 5MB · Min 300×300px</div>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="form-section">
+              <div class="form-section-title">Body</div>
+              <div class="form-section-desc">Use the dropdown to select a variable or choose "Custom Message" to enter your own.</div>
+              <div class="form-section-title" style="font-size:12px;margin-bottom:8px;">Custom Variables</div>
+              <div class="var-row">
+                <div class="var-tag">{{1}}</div>
+                <select class="var-select"><option>Custom Message</option></select>
+                <input class="var-sample" placeholder="Ex: Arjun Kumar" value="Arjun Kumar">
+              </div>
+              <div class="var-row">
+                <div class="var-tag">{{2}}</div>
+                <select class="var-select"><option>Seller Firm Name</option></select>
+                <input class="var-sample" placeholder="Ex: Zotok" value="Zotok">
+              </div>
+              <div class="note-bar" style="margin-top:8px;">Note: Once you submit this template, it will be sent to Meta for verification. All variables must be mapped before submission.</div>
+            </div>
+          </div>
+
+          <!-- Right: live preview -->
+          <div class="preview-col">
+            <div class="preview-panel-title">Message Preview</div>
+            <div class="wa-preview-phone">
+              <div class="wa-biz-header">
+                <div class="wa-biz-logo">Z</div>
+                ZöTok
+              </div>
+              <div class="wa-msg-card">
+                <div class="wa-msg-img">📷 Image Header</div>
+                <div class="wa-msg-body">
+                  <div class="wa-msg-hi">Hey <span class="wa-msg-var">{{1}} Arjun Kumar</span></div>
+                  <div class="wa-msg-text">Exclusive deal just for you! 🎉<br>Enjoy 10% off on new products.<br>Offer valid till 31st March only.<br><br>Hurry Now! 🚀<br><br>Team,<br><span style="color:#1e855a;">Zotok</span></div>
+                  <div class="wa-msg-footer">Managed by ZoTok powered by Zono</div>
+                </div>
+                <div class="wa-msg-btn">↗ View Catalogue</div>
+                <div class="wa-msg-btn">↗ View Schemes</div>
+              </div>
+              <div class="wa-input-bar">Type message here…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════ SPEC PANE ═══════════════════ -->
+<div class="spec-pane">
+  <div class="pane-head">
+    <h2>Campaign Create — Step 2: Details</h2>
+    <p>Admin web UI · 1280×832+ · Form + live preview panel</p>
+  </div>
+
+  <div class="spec-section">
+    <h3>When to Use</h3>
+    <p style="font-size:12px;color:#555;line-height:1.6;">Show when the campaign manager is naming the campaign, selecting a header media type, and mapping body variables to CRM fields. The right panel updates in real-time as fields are filled.</p>
+  </div>
+
+  <div class="spec-section">
+    <h3>Stepper State</h3>
+    <div class="spec-row"><span class="lbl">Step 1 Template</span><span class="val" style="color:#2abb7f;">✓ Completed (green)</span></div>
+    <div class="spec-row"><span class="lbl">Step 2 Details</span><span class="val" style="color:#32a7e8;">● Active (blue)</span></div>
+    <div class="spec-row"><span class="lbl">Steps 3–5</span><span class="val" style="color:#8c8c8c;">○ Future (grey)</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Layout</h3>
+    <div class="spec-row"><span class="lbl">Left form col</span><span class="val">flex:1, scrollable</span></div>
+    <div class="spec-row"><span class="lbl">Right preview col</span><span class="val">240px, fixed</span></div>
+    <div class="spec-row"><span class="lbl">Form sections</span><span class="val">white cards, 10px radius</span></div>
+    <div class="spec-row"><span class="lbl">Section title</span><span class="val">14px, #262626, weight 600</span></div>
+    <div class="spec-row"><span class="lbl">Section desc</span><span class="val">12px, #8c8c8c</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Header Type Selector</h3>
+    <div class="spec-row"><span class="lbl">Options</span><span class="val">Image / Text / Video / Document</span></div>
+    <div class="spec-row"><span class="lbl">Active pill border</span><span class="val code">#32a7e8</span></div>
+    <div class="spec-row"><span class="lbl">Active text color</span><span class="val code">#32a7e8</span></div>
+    <div class="spec-row"><span class="lbl">Upload box style</span><span class="val">Dashed border, #d9d9d9</span></div>
+    <div class="spec-row"><span class="lbl">File limits</span><span class="val">PNG/JPEG, max 5MB</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Body Variables</h3>
+    <div class="spec-row"><span class="lbl">Variable tag bg</span><span class="val code">#e8f0fe</span></div>
+    <div class="spec-row"><span class="lbl">Variable tag text</span><span class="val code">#0049b5</span></div>
+    <div class="spec-row"><span class="lbl">Variable format</span><span class="val">{{1}}, {{2}}, etc.</span></div>
+    <div class="spec-row"><span class="lbl">CRM field dropdown</span><span class="val">Customer Contact Name, Seller Firm Name, etc.</span></div>
+    <div class="spec-row"><span class="lbl">Sample input</span><span class="val">Real-looking value shown in preview</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Live Preview Panel</h3>
+    <div class="spec-row"><span class="lbl">Position</span><span class="val">Right side, 240px fixed</span></div>
+    <div class="spec-row"><span class="lbl">Preview bg</span><span class="val code">#ece5dd (WA doodle)</span></div>
+    <div class="spec-row"><span class="lbl">Message card</span><span class="val">White, receiver bubble style</span></div>
+    <div class="spec-row"><span class="lbl">Variable in preview</span><span class="val code">color #0049b5</span></div>
+    <div class="spec-row"><span class="lbl">Footer text</span><span class="val">Managed by ZoTok powered by Zono</span></div>
+    <div class="spec-row"><span class="lbl">CTA buttons</span><span class="val code">color #00a884 (WA teal)</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Sample Message Body</h3>
+    <div class="snippet">Hey {{1}} Arjun Kumar
+Exclusive deal just for you! 🎉
+Enjoy 10% off on new products.
+Offer valid till 31st March only.
+
+Hurry Now! 🚀
+
+Team,
+Zotok</div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Compliance Notes</h3>
+    <ul class="checklist">
+      <li>Admin UI — Meta rules don't apply to this form screen</li>
+      <li>The live message preview on the right MUST follow Meta WhatsApp template rules</li>
+      <li>Variable tag color in preview: #0049b5 (blue)</li>
+      <li class="warn">Warn user: template will be sent to Meta for verification on submit</li>
+      <li class="warn">No dividers, tables, or HR elements in the live message preview</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Campaign Create: Step 1 Template Selection</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;display:flex;min-height:100vh;}
+
+/* ── Two-pane layout ── */
+.preview-pane{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 24px;gap:16px;overflow-y:auto;}
+.spec-pane{width:360px;background:#fff;border-left:1px solid #e0e0e0;overflow-y:auto;flex-shrink:0;}
+.pane-head{padding:18px 20px 14px;border-bottom:1px solid #f0f0f0;}
+.pane-head h2{font-size:14px;font-weight:700;color:#111;}
+.pane-head p{font-size:11.5px;color:#888;margin-top:3px;}
+.spec-section{padding:14px 20px;border-bottom:1px solid #f5f5f5;}
+.spec-section h3{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.spec-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:12px;}
+.spec-row .lbl{color:#888;flex-shrink:0;width:140px;}
+.spec-row .val{color:#111;font-weight:500;text-align:right;word-break:break-all;}
+.spec-row .val.code{font-family:monospace;font-size:11px;background:#f5f5f5;padding:1px 5px;border-radius:3px;}
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;}
+.tag-ok{background:#e8f5e9;color:#2E7D32;}
+.tag-note{background:#fff3e0;color:#E65100;}
+.checklist{list-style:none;font-size:12px;display:flex;flex-direction:column;gap:5px;}
+.checklist li{padding:2px 0;color:#333;line-height:1.5;}
+.checklist li::before{content:'✓ ';color:#22C55E;font-weight:700;}
+.checklist li.warn::before{content:'⚠ ';color:#E65100;}
+.snippet{background:#1e1e1e;color:#d4d4d4;font-family:monospace;font-size:11px;padding:12px;border-radius:6px;overflow-x:auto;white-space:pre;line-height:1.55;margin-top:6px;}
+.preview-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;align-self:flex-start;}
+
+/* ── Portal Shell ── */
+.portal-wrap{width:100%;max-width:960px;border-radius:10px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);}
+.browser-chrome{background:#e8e8e8;padding:8px 14px;display:flex;align-items:center;gap:10px;border:1px solid #d0d0d0;border-bottom:none;border-radius:10px 10px 0 0;}
+.tls{display:flex;gap:5px;}
+.tl{width:11px;height:11px;border-radius:50%;}
+.tl-r{background:#ff5f57;}.tl-a{background:#febc2e;}.tl-g{background:#28c840;}
+.url-bar{flex:1;background:#fff;border-radius:5px;padding:4px 12px;font-size:12px;color:#555;text-align:center;border:1px solid #ddd;}
+.portal-body{display:flex;height:700px;border:1px solid #d0d0d0;border-top:none;border-radius:0 0 10px 10px;overflow:hidden;}
+
+/* ── Left nav ── */
+.nav-left{width:48px;background:#132c45;display:flex;flex-direction:column;align-items:center;padding:12px 0;flex-shrink:0;gap:4px;}
+.nav-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s;}
+.nav-icon.active{background:rgba(255,255,255,.15);}
+.nav-spacer{flex:1;}
+.nav-avatar{width:28px;height:28px;border-radius:50%;background:#0058d9;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+
+/* ── Sub-nav ── */
+.nav-sub{width:68px;background:#fff;border-right:1px solid #eee;display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;}
+.nav-sub-top{flex:1;padding:6px 0;}
+.nav-sub-item{padding:8px 4px;text-align:center;font-size:9.5px;color:#595959;cursor:pointer;line-height:1.3;}
+.nav-sub-item.active{color:#32a7e8;font-weight:600;}
+.nav-sub-div{height:1px;background:#f0f0f0;margin:4px 10px;}
+.nav-sub-bottom{padding:8px 4px;text-align:center;border-top:1px solid #f0f0f0;}
+.powered-by{font-size:6px;color:#595959;display:block;margin-bottom:4px;}
+.zotok-logo{width:36px;height:12px;background:#ecf0f5;border-radius:3px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#0058d9;}
+
+/* ── Content area ── */
+.content-area{flex:1;background:#ecf0f5;display:flex;flex-direction:column;overflow:hidden;}
+
+/* ── Page nav / stepper ── */
+.page-nav{background:#fff;border-bottom:1px solid #eee;padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.page-nav-left{display:flex;align-items:center;gap:12px;}
+.close-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#888;}
+.page-title{font-size:15px;font-weight:600;color:#262626;}
+.stepper{display:flex;align-items:center;gap:0;}
+.step{display:flex;align-items:center;gap:6px;}
+.step-circle{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.step-circle.done{background:#2abb7f;color:#fff;}
+.step-circle.active{background:#32a7e8;color:#fff;}
+.step-circle.future{background:#d9d9d9;color:#fff;}
+.step-label{font-size:11px;font-weight:500;}
+.step-label.done{color:#2abb7f;}
+.step-label.active{color:#32a7e8;}
+.step-label.future{color:#8c8c8c;}
+.step-line{width:24px;height:1px;background:#e0e0e0;margin:0 4px;}
+.btn-primary{background:#32a7e8;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;}
+
+/* ── Content scroll area ── */
+.content-scroll{flex:1;overflow-y:auto;padding:20px;}
+
+/* ── Template library ── */
+.section-title{font-size:18px;font-weight:600;color:#000;margin-bottom:16px;}
+.filter-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.filter-chip{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid #d9d9d9;color:#000;background:#fff;}
+.filter-chip.active{background:#000;color:#fff;border-color:#000;}
+.lang-select{margin-left:auto;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #d9d9d9;border-radius:6px;padding:6px 12px;font-size:13px;color:#262626;cursor:pointer;}
+.templates-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.tmpl-card{background:#fff;border-radius:10px;border:2px solid transparent;overflow:hidden;cursor:pointer;transition:border-color .15s;}
+.tmpl-card.selected{border-color:#32a7e8;}
+.tmpl-card:hover{border-color:#b3d9f5;}
+.tmpl-card-header{background:#32a7e8;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;}
+.tmpl-card-badge{font-size:10px;font-weight:700;color:#fff;}
+.tmpl-type-tag{background:rgba(255,255,255,.25);color:#fff;font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;}
+.tmpl-preview{padding:10px;background:#ece5dd;min-height:120px;}
+.wa-bubble{background:#fff;border-radius:0 8px 8px 8px;padding:8px 10px;max-width:90%;font-size:11px;color:#111;box-shadow:0 1px 2px rgba(0,0,0,.1);}
+.wa-bubble .brand{color:#1e855a;font-weight:700;font-size:10px;margin-bottom:3px;}
+.wa-bubble .body{color:#333;line-height:1.4;margin-bottom:4px;}
+.wa-bubble .footer-text{color:#667781;font-size:9px;margin-bottom:6px;}
+.wa-btn{border-top:1px solid #e0e0e0;padding:5px 0 2px;text-align:center;color:#00a884;font-size:10px;font-weight:500;}
+.wa-img-placeholder{background:#d0d8dd;border-radius:6px 6px 0 0;height:56px;display:flex;align-items:center;justify-content:center;margin:-10px -10px 8px;color:#8a9da8;font-size:9px;}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PREVIEW PANE ═══════════════════ -->
+<div class="preview-pane">
+  <div class="preview-label">Campaign Create — Step 1: Template Selection</div>
+
+  <div class="portal-wrap">
+    <!-- Browser chrome -->
+    <div class="browser-chrome">
+      <div class="tls"><div class="tl tl-r"></div><div class="tl tl-a"></div><div class="tl tl-g"></div></div>
+      <div class="url-bar">🔒 app.zotok.ai/campaigns/create</div>
+    </div>
+
+    <div class="portal-body">
+      <!-- Left nav -->
+      <div class="nav-left">
+        <div class="nav-icon active">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5" fill="#fff"/><rect x="13" y="3" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/><rect x="3" y="13" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/><rect x="13" y="13" width="8" height="8" rx="1.5" fill="rgba(255,255,255,.4)"/></svg>
+        </div>
+        <div class="nav-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="rgba(255,255,255,.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="rgba(255,255,255,.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-spacer"></div>
+        <div class="nav-icon">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/></svg>
+        </div>
+        <div class="nav-avatar">Z</div>
+      </div>
+
+      <!-- Sub-nav -->
+      <div class="nav-sub">
+        <div class="nav-sub-top">
+          <div class="nav-sub-item">Threads</div>
+          <div class="nav-sub-item active">Campaigns</div>
+          <div class="nav-sub-div"></div>
+          <div class="nav-sub-item">AI Agent</div>
+          <div class="nav-sub-item">Customers</div>
+          <div class="nav-sub-item">Products</div>
+          <div class="nav-sub-item">Orders</div>
+          <div class="nav-sub-div"></div>
+          <div class="nav-sub-item">Invoices</div>
+          <div class="nav-sub-item">Payments</div>
+          <div class="nav-sub-item">Ledger</div>
+          <div class="nav-sub-div"></div>
+          <div class="nav-sub-item">Field Ops</div>
+          <div class="nav-sub-item">Schemes</div>
+          <div class="nav-sub-item">Price List</div>
+          <div class="nav-sub-item">Forms</div>
+        </div>
+        <div class="nav-sub-bottom">
+          <span class="powered-by">Powered By</span>
+          <div class="zotok-logo">ZoTok</div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="content-area">
+        <!-- Page nav -->
+        <div class="page-nav">
+          <div class="page-nav-left">
+            <div class="close-icon">✕</div>
+            <div class="page-title">Create Campaign</div>
+          </div>
+          <div class="stepper">
+            <div class="step">
+              <div class="step-circle active">1</div>
+              <div class="step-label active">Template</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-circle future">2</div>
+              <div class="step-label future">Details</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-circle future">3</div>
+              <div class="step-label future">Products</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-circle future">4</div>
+              <div class="step-label future">Audience</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-circle future">5</div>
+              <div class="step-label future">Settings</div>
+            </div>
+          </div>
+          <button class="btn-primary">
+            Next
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <!-- Content scroll -->
+        <div class="content-scroll">
+          <div class="section-title">Template Library</div>
+
+          <!-- Filter row -->
+          <div class="filter-row">
+            <div class="filter-chip active">All Templates</div>
+            <div class="filter-chip">One Frame</div>
+            <div class="filter-chip">Carousel</div>
+            <div class="filter-chip">Custom</div>
+            <div class="lang-select">
+              🌐 English
+              <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <!-- Template cards -->
+          <div class="templates-grid">
+
+            <!-- Card 1 — One Frame, selected -->
+            <div class="tmpl-card selected">
+              <div class="tmpl-card-header">
+                <span class="tmpl-card-badge">Default Template</span>
+                <span class="tmpl-type-tag">One Frame</span>
+              </div>
+              <div class="tmpl-preview">
+                <div class="wa-bubble">
+                  <div class="wa-img-placeholder">📷 Image Header</div>
+                  <div class="brand">🏠 Waghmare Foods</div>
+                  <div class="body">👇 Check out the amazing offers on the best-sellers 👇<br>🍫 Delicious {[2]}<br>🍲 Healthy {[3]}<br>🥫 Premium Groceries!<br>📦 Limited stock, so hurry!</div>
+                  <div class="footer-text">seller_name</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 — One Frame -->
+            <div class="tmpl-card">
+              <div class="tmpl-card-header" style="background:#1e855a;">
+                <span class="tmpl-card-badge">Default Template</span>
+                <span class="tmpl-type-tag">One Frame</span>
+              </div>
+              <div class="tmpl-preview">
+                <div class="wa-bubble">
+                  <div class="wa-img-placeholder">📷 Image Header</div>
+                  <div class="brand">🏠 Waghmare Foods</div>
+                  <div class="body">Hey {{1}}, Exclusive deal just for you! 🎉<br>Enjoy 10% off on new products.<br>Hurry Now! 🚀</div>
+                  <div class="footer-text">seller_name</div>
+                  <div class="wa-btn">View Catalogue</div>
+                  <div class="wa-btn">View Schemes</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 — Carousel -->
+            <div class="tmpl-card">
+              <div class="tmpl-card-header" style="background:#6c48c5;">
+                <span class="tmpl-card-badge">Default Template</span>
+                <span class="tmpl-type-tag">Carousel</span>
+              </div>
+              <div class="tmpl-preview" style="background:#ece5dd;">
+                <div class="wa-bubble">
+                  <div class="brand">seller_name</div>
+                  <div class="body">New product sale launched today with amazing prices</div>
+                  <div style="display:flex;gap:6px;margin-top:6px;">
+                    <div style="background:#d0d8dd;border-radius:5px;width:60px;height:50px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8a9da8;">IMG</div>
+                    <div style="background:#d0d8dd;border-radius:5px;width:60px;height:50px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8a9da8;">IMG</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4 — Custom -->
+            <div class="tmpl-card">
+              <div class="tmpl-card-header" style="background:#e8730a;">
+                <span class="tmpl-card-badge">Default Template</span>
+                <span class="tmpl-type-tag">Custom</span>
+              </div>
+              <div class="tmpl-preview">
+                <div class="wa-bubble">
+                  <div class="brand" style="color:#0049b5;">{{1}}_custom_message</div>
+                  <div class="body">New product sale launched today with amazing prices</div>
+                  <div class="footer-text">seller_name</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 5 — One Frame -->
+            <div class="tmpl-card">
+              <div class="tmpl-card-header" style="background:#1a73e8;">
+                <span class="tmpl-card-badge">Default Template</span>
+                <span class="tmpl-type-tag">One Frame</span>
+              </div>
+              <div class="tmpl-preview">
+                <div class="wa-bubble">
+                  <div class="wa-img-placeholder">📷 Image Header</div>
+                  <div class="brand" style="color:#0049b5;">{{1}}_custom_message</div>
+                  <div class="body">👇 Check out the amazing offers on the best-sellers 👇<br>🍫 Delicious {[2]}<br>📦 Limited stock, so hurry!</div>
+                  <div class="footer-text">seller_name</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 6 — Carousel -->
+            <div class="tmpl-card">
+              <div class="tmpl-card-header" style="background:#d81b60;">
+                <span class="tmpl-card-badge">Default Template</span>
+                <span class="tmpl-type-tag">Carousel</span>
+              </div>
+              <div class="tmpl-preview">
+                <div class="wa-bubble">
+                  <div class="brand">seller_name</div>
+                  <div class="body">New product sale launched today with amazing prices</div>
+                  <div style="display:flex;gap:6px;margin-top:6px;">
+                    <div style="background:#d0d8dd;border-radius:5px;width:60px;height:50px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8a9da8;">IMG</div>
+                    <div style="background:#d0d8dd;border-radius:5px;width:60px;height:50px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8a9da8;">IMG</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /templates-grid -->
+        </div><!-- /content-scroll -->
+      </div><!-- /content-area -->
+    </div><!-- /portal-body -->
+  </div><!-- /portal-wrap -->
+</div><!-- /preview-pane -->
+
+
+<!-- ═══════════════════ SPEC PANE ═══════════════════ -->
+<div class="spec-pane">
+  <div class="pane-head">
+    <h2>Campaign Create — Step 1: Template Selection</h2>
+    <p>Admin web UI · 1280×832 · First step of campaign wizard</p>
+  </div>
+
+  <div class="spec-section">
+    <h3>When to Use</h3>
+    <p style="font-size:12px;color:#555;line-height:1.6;">Show this screen when depicting how a brand manager or distributor admin starts creating a new WhatsApp campaign. This is the entry point of the 5-step Create Campaign wizard.</p>
+  </div>
+
+  <div class="spec-section">
+    <h3>Portal Shell Tokens</h3>
+    <div class="spec-row"><span class="lbl">App background</span><span class="val code">#ecf0f5</span></div>
+    <div class="spec-row"><span class="lbl">Left nav width</span><span class="val">48px</span></div>
+    <div class="spec-row"><span class="lbl">Left nav bg</span><span class="val code">#132c45</span></div>
+    <div class="spec-row"><span class="lbl">Sub-nav width</span><span class="val">68px</span></div>
+    <div class="spec-row"><span class="lbl">Sub-nav bg</span><span class="val code">#ffffff</span></div>
+    <div class="spec-row"><span class="lbl">Active nav item</span><span class="val code">#32a7e8</span></div>
+    <div class="spec-row"><span class="lbl">Inactive nav item</span><span class="val code">#595959</span></div>
+    <div class="spec-row"><span class="lbl">Nav item font-size</span><span class="val">9.5–10px</span></div>
+    <div class="spec-row"><span class="lbl">URL bar</span><span class="val code">app.zotok.ai</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Stepper States</h3>
+    <div class="spec-row"><span class="lbl">Completed step circle</span><span class="val code">#2abb7f (green)</span></div>
+    <div class="spec-row"><span class="lbl">Active step circle</span><span class="val code">#32a7e8 (blue)</span></div>
+    <div class="spec-row"><span class="lbl">Future step circle</span><span class="val code">#d9d9d9 (grey)</span></div>
+    <div class="spec-row"><span class="lbl">Step label sizes</span><span class="val">11px, weight 500</span></div>
+    <div class="spec-row"><span class="lbl">Steps</span><span class="val">Template → Details → Products → Audience → Settings</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Template Library Components</h3>
+    <div class="spec-row"><span class="lbl">Section title</span><span class="val">18px, #000, weight 600</span></div>
+    <div class="spec-row"><span class="lbl">Filter chips</span><span class="val">Pill shape, active = black fill</span></div>
+    <div class="spec-row"><span class="lbl">Language selector</span><span class="val">Right-aligned dropdown</span></div>
+    <div class="spec-row"><span class="lbl">Card grid</span><span class="val">3 columns, 12px gap</span></div>
+    <div class="spec-row"><span class="lbl">Selected card border</span><span class="val code">2px solid #32a7e8</span></div>
+    <div class="spec-row"><span class="lbl">Card header bg</span><span class="val">Brand/type color</span></div>
+    <div class="spec-row"><span class="lbl">Card preview bg</span><span class="val code">#ece5dd (WA doodle)</span></div>
+    <div class="spec-row"><span class="lbl">Template types</span><span class="val">One Frame / Carousel / Custom</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Template Card Types</h3>
+    <ul class="checklist">
+      <li><strong>One Frame</strong> — single WhatsApp message bubble preview (image header + body + footer + buttons)</li>
+      <li><strong>Carousel</strong> — body message + 2-card horizontal scroll with product image + name + price</li>
+      <li><strong>Custom</strong> — body with {{1}} variable placeholder for fully custom message</li>
+    </ul>
+  </div>
+
+  <div class="spec-section">
+    <h3>Page Nav Buttons</h3>
+    <div class="spec-row"><span class="lbl">Next button</span><span class="val code">bg #32a7e8, white text</span></div>
+    <div class="spec-row"><span class="lbl">Close icon</span><span class="val">✕, color #888, top-left</span></div>
+  </div>
+
+  <div class="spec-section">
+    <h3>HTML Snippet — Page Nav</h3>
+    <div class="snippet">&lt;div class="page-nav"&gt;
+  &lt;!-- Left: close + title --&gt;
+  &lt;div class="page-nav-left"&gt;
+    &lt;div class="close-icon"&gt;✕&lt;/div&gt;
+    &lt;div class="page-title"&gt;Create Campaign&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Center: stepper --&gt;
+  &lt;div class="stepper"&gt;
+    &lt;div class="step"&gt;
+      &lt;div class="step-circle active"&gt;1&lt;/div&gt;
+      &lt;div class="step-label active"&gt;Template&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="step-line"&gt;&lt;/div&gt;
+    ...
+  &lt;/div&gt;
+  &lt;!-- Right: Next --&gt;
+  &lt;button class="btn-primary"&gt;Next&lt;/button&gt;
+&lt;/div&gt;</div>
+  </div>
+
+  <div class="spec-section">
+    <h3>Compliance Notes</h3>
+    <ul class="checklist">
+      <li>This is an admin UI screen — Meta template rules do not apply here</li>
+      <li>Template previews inside cards should respect WA message component rules</li>
+      <li>Selected card highlighted with blue border, not color change</li>
+      <li class="warn">Do not show buttons in carousel card preview — only body + images</li>
+    </ul>
+  </div>
+</div><!-- /spec-pane -->
+
+</body>
+</html>

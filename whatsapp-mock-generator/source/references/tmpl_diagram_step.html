@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — Diagram / Architecture Step</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-diagram { background: #6A1B9A; color: #fff; }
+  .page-title { font-size: 18px; font-weight: 700; }
+  .page-sub { font-size: 12px; color: #666; margin-top: 2px; }
+
+  /* ── Layout ── */
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    width: 380px; flex-shrink: 0; padding: 40px 32px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .preview-label {
+    font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px;
+  }
+
+  /* ── Diagram step preview card ── */
+  .diagram-card {
+    background: #fff; border-radius: 16px;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.13);
+    max-width: 300px; width: 300px; padding: 20px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .screen-lbl-prev {
+    font-size: 10.5px; color: #888; text-transform: uppercase;
+    letter-spacing: .5px; text-align: center; font-weight: 600;
+  }
+  .screen-type-lbl-prev {
+    font-size: 10px; color: #aaa; text-align: center; margin-bottom: 8px;
+  }
+  .diagram-placeholder {
+    background: #f5f5f5; border-radius: 12px;
+    width: 100%; height: 180px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px;
+  }
+  .diagram-placeholder-text {
+    font-size: 12px; color: #aaa; text-align: center;
+  }
+  .screen-desc-prev {
+    background: #E8F4FD; border-radius: 12px;
+    padding: 10px 14px; font-size: 12px; color: #2a2a2a; line-height: 1.5;
+  }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 40px; overflow-y: auto; }
+  .spec-section { margin-bottom: 28px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .6px; margin-bottom: 12px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  .meta-grid { display: grid; grid-template-columns: 180px 1fr; gap: 8px 12px; }
+  .meta-key { font-size: 12px; color: #666; }
+  .meta-val { font-size: 12px; color: #ccc; }
+  .meta-val code {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 4px;
+    padding: 1px 6px; font-size: 11px; color: #4CAF50; font-family: monospace;
+  }
+  .tag {
+    display: inline-block; border-radius: 10px; padding: 2px 8px;
+    font-size: 11px; font-weight: 600;
+  }
+  .tag-diagram { background: #6A1B9A; color: #fff; }
+  .tag-no      { background: #37474F; color: #fff; }
+
+  .check-list { display: flex; flex-direction: column; gap: 7px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12.5px; color: #aaa; line-height: 1.4;
+  }
+  .pass { color: #4CAF50; flex-shrink: 0; }
+  .warn { color: #FF8A65; flex-shrink: 0; }
+
+  .code-block {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 12px; color: #ccc; line-height: 1.8;
+    white-space: pre; font-family: monospace; overflow-x: auto;
+  }
+  .kw   { color: #64B5F6; }
+  .prop { color: #f06292; }
+  .val  { color: #a5d6a7; }
+  .cmt  { color: #555; }
+  .num  { color: #FFB74D; }
+
+  .usage-block {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 8px;
+    padding: 14px 16px; font-size: 12px; color: #aaa; line-height: 1.7;
+    font-family: monospace; overflow-x: auto; white-space: pre;
+  }
+  .u-tag  { color: #f06292; }
+  .u-attr { color: #64B5F6; }
+  .u-val  { color: #a5d6a7; }
+  .u-cmt  { color: #555; }
+
+  .notice {
+    background: #1a0d2e; border: 1px solid #4A148C; border-radius: 8px;
+    padding: 12px 16px; font-size: 12px; color: #CE93D8; line-height: 1.6;
+    margin-top: 10px;
+  }
+  .notice strong { color: #E1BEE7; }
+
+  .ic { font-family: monospace; font-size: 11px; background: #0d0d1a;
+        border: 1px solid #2a2a3e; border-radius: 3px; padding: 1px 5px; color: #4CAF50; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="page-badge badge-diagram">Diagram</span>
+  <div>
+    <div class="page-title">Diagram / Architecture Step</div>
+    <div class="page-sub">tmpl_diagram_step &nbsp;·&nbsp; Journey Step — No Phone Frame &nbsp;·&nbsp; PNG or inline SVG</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Preview ── -->
+  <div class="preview-pane">
+    <div class="preview-label">Step Appearance in Journey File</div>
+
+    <div class="diagram-card">
+      <!-- screen-lbl sits above diagram box -->
+      <div class="screen-lbl-prev">ZoTok &times; SAP Integration Architecture</div>
+      <!-- screen-type-lbl sits below screen-lbl -->
+      <div class="screen-type-lbl-prev">Architecture Diagram — WhatsApp Order &rarr; SAP Billing Cycle</div>
+
+      <!-- Placeholder diagram area -->
+      <div class="diagram-placeholder">
+        <svg width="42" height="42" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8"  cy="24" r="5" stroke="#ccc" stroke-width="2"/>
+          <circle cx="40" cy="8"  r="5" stroke="#ccc" stroke-width="2"/>
+          <circle cx="40" cy="40" r="5" stroke="#ccc" stroke-width="2"/>
+          <circle cx="24" cy="24" r="5" stroke="#bbb" stroke-width="2"/>
+          <line x1="13" y1="24" x2="19" y2="24" stroke="#ccc" stroke-width="1.5"/>
+          <line x1="29" y1="22" x2="36" y2="11" stroke="#ccc" stroke-width="1.5"/>
+          <line x1="29" y1="26" x2="36" y2="37" stroke="#ccc" stroke-width="1.5"/>
+        </svg>
+        <div class="diagram-placeholder-text">PNG or inline SVG embedded here</div>
+      </div>
+
+      <!-- screen-desc below diagram -->
+      <div class="screen-desc-prev">
+        Diagram steps display at full width — no phone frame constraints.
+      </div>
+    </div>
+
+    <div style="font-size:11px;color:#444;text-align:center;max-width:260px;line-height:1.5;margin-top:4px">
+      In the actual journey file the diagram fills up to 900px.<br>This card shows structure at 300px for reference only.
+    </div>
+  </div>
+
+  <!-- ── Spec ── -->
+  <div class="spec-pane">
+
+    <!-- 1. When to Use -->
+    <div class="spec-section">
+      <div class="spec-section-title">When to Use</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">&#10003;</span> SAP / ERP integration architecture diagrams (WhatsApp &rarr; ERP &rarr; Billing)</div>
+        <div class="check-item"><span class="pass">&#10003;</span> Multi-system flow charts (ZoTok platform, distributor, retailer, bank)</div>
+        <div class="check-item"><span class="pass">&#10003;</span> Infographic comparisons — before / after, traditional vs ZoTok workflow</div>
+        <div class="check-item"><span class="pass">&#10003;</span> Any journey step where a visual diagram communicates better than phone mockups</div>
+        <div class="check-item"><span class="pass">&#10003;</span> Process maps, swimlane diagrams, timeline infographics</div>
+        <div class="check-item"><span class="warn">&#10007;</span> Do NOT use for steps that should show WhatsApp conversation screens — use <span class="ic">full</span>, <span class="ic">group</span>, or <span class="ic">webview</span> instead</div>
+      </div>
+    </div>
+
+    <!-- 2. Critical CSS Overrides -->
+    <div class="spec-section">
+      <div class="spec-section-title">Critical CSS Overrides</div>
+      <div class="code-block"><span class="cmt">/* By default, .step-section.active uses display:flex.
+   Diagram steps need display:block so .screen-wrap can expand
+   to full step width. Use the specific #step-N ID to avoid
+   affecting any other step in the file. */</span>
+
+<span class="cmt">/* Override 1 — display:block when active */</span>
+<span class="prop">#step-N</span>.<span class="kw">active</span> {
+  <span class="prop">display</span>: <span class="val">block</span>;
+}
+
+<span class="cmt">/* Override 2 — screen-wrap fills full width, centred, max 900px */</span>
+<span class="prop">#step-N</span> .<span class="kw">screen-wrap</span> {
+  <span class="prop">width</span>:      <span class="val">100%</span>;
+  <span class="prop">max-width</span>: <span class="num">900</span>px;
+  <span class="prop">margin</span>:    <span class="val">0 auto</span>;
+}
+
+<span class="cmt">/* Override 3 — screen-desc at full width (not default 375px) */</span>
+<span class="prop">#step-N</span> .<span class="kw">screen-desc</span> {
+  <span class="prop">width</span>: <span class="val">100%</span>;
+}</div>
+      <div class="notice">
+        <strong>Why these overrides are necessary:</strong> The default <span class="ic">.step-section.active { display:flex; }</span> rule centres phone frames side by side. Removing <span class="ic">display:flex</span> at the step level allows the inner <span class="ic">.screen-wrap</span> to stretch to the full content area width, giving the diagram room to breathe at up to 900px.
+      </div>
+    </div>
+
+    <!-- 3. Embedding Images -->
+    <div class="spec-section">
+      <div class="spec-section-title">Embedding Images</div>
+      <div class="check-list">
+        <div class="check-item"><span class="pass">&#10003;</span>
+          <div><strong style="color:#fff;">PNG (recommended)</strong> — base64 encoded, self-contained, no external request:<br>
+          <span class="ic">&lt;img src="data:image/png;base64,..." style="width:100%;height:auto;display:block;" /&gt;</span></div>
+        </div>
+        <div class="check-item"><span class="pass">&#10003;</span>
+          <div><strong style="color:#fff;">Inline SVG</strong> — vector quality, no size loss at any zoom:<br>
+          <span class="ic">&lt;svg width="100%" height="auto" viewBox="0 0 W H"&gt;...&lt;/svg&gt;</span><br>
+          <span style="color:#888;">Caution: SVGs over 1 MB slow page load and inflate file size significantly.</span></div>
+        </div>
+        <div class="check-item"><span class="warn">!</span>
+          <div><strong style="color:#FFB74D;">Converting SVG to PNG on macOS</strong> — use <span class="ic">sips</span>:<br>
+          <span class="ic">sips -s format png input.svg --out output.png</span><br>
+          The resulting PNG is usually 40–60% smaller than the embedded SVG string. Always prefer PNG for large diagrams.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. No scaleStepNDesktop Needed -->
+    <div class="spec-section">
+      <div class="spec-section-title">No scaleStepNDesktop Function Needed</div>
+      <div class="meta-grid">
+        <div class="meta-key">Phone step pattern</div>
+        <div class="meta-val">Uses <span class="ic">scaleStepN()</span> JS to compute phone frame scale on desktop resize — required when phones are side by side</div>
+        <div class="meta-key">Diagram step pattern</div>
+        <div class="meta-val"><span class="tag tag-no">Skip</span> &nbsp; Diagram steps use <span class="ic">display:block</span> + <span class="ic">max-width:900px</span> — no side-by-side phones, so no scale function is needed or wanted</div>
+        <div class="meta-key">What to do</div>
+        <div class="meta-val">Simply omit <span class="ic">scaleStepN</span> for diagram steps. The <span class="ic">max-width:900px</span> + responsive <span class="ic">img</span> handle all sizes.</div>
+      </div>
+    </div>
+
+    <!-- 5. screen-desc Width -->
+    <div class="spec-section">
+      <div class="spec-section-title">screen-desc Card for Diagram Steps</div>
+      <div class="meta-grid">
+        <div class="meta-key">Default width</div>
+        <div class="meta-val"><span class="ic">width:375px</span> — matches a single phone frame</div>
+        <div class="meta-key">Diagram step override</div>
+        <div class="meta-val"><span class="ic">width:100%</span> on <span class="ic">#step-N .screen-desc</span> — fills the full content area below the diagram</div>
+        <div class="meta-key">Recommended bg</div>
+        <div class="meta-val"><span class="ic">#E8F4FD</span> (light blue) — neutral, readable, pairs with most diagram colour palettes</div>
+        <div class="meta-key">Mobile overlay</div>
+        <div class="meta-val">The <span class="ic">desc-visible</span> fade-in still works — override <span class="ic">left:16px;right:16px</span> CSS remains correct</div>
+      </div>
+    </div>
+
+    <!-- 6. HTML Snippet -->
+    <div class="spec-section">
+      <div class="spec-section-title">HTML Snippet — Copy Into Journey File</div>
+      <div class="usage-block"><span class="u-cmt">&lt;!-- ─────────────────────────────────────────────────────────────── --&gt;
+&lt;!-- DIAGRAM STEP — replaces side-by-side phone layout entirely     --&gt;
+&lt;!-- Add CSS overrides in &lt;style&gt; block (see section 2 above)      --&gt;
+&lt;!-- ─────────────────────────────────────────────────────────────── --&gt;</span>
+
+&lt;<span class="u-tag">div</span> <span class="u-attr">id</span>=<span class="u-val">"step-N"</span> <span class="u-attr">class</span>=<span class="u-val">"step-section"</span>&gt;
+  &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"screen-wrap"</span>&gt;
+
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"screen-lbl"</span>&gt;ZoTok &amp;times; SAP Integration Architecture&lt;/<span class="u-tag">div</span>&gt;
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"screen-type-lbl"</span>&gt;Architecture Diagram — WhatsApp Order &amp;rarr; SAP Billing Cycle&lt;/<span class="u-tag">div</span>&gt;
+
+    <span class="u-cmt">&lt;!-- Diagram container — white card with drop shadow --&gt;</span>
+    &lt;<span class="u-tag">div</span> <span class="u-attr">style</span>=<span class="u-val">"width:100%;background:#fff;border-radius:16px;box-shadow:0 4px 28px rgba(0,0,0,0.13);overflow:hidden;"</span>&gt;
+
+      <span class="u-cmt">&lt;!-- Option A: PNG (recommended) --&gt;</span>
+      &lt;<span class="u-tag">img</span>
+        <span class="u-attr">src</span>=<span class="u-val">"data:image/png;base64,..."</span>
+        <span class="u-attr">style</span>=<span class="u-val">"width:100%;height:auto;display:block;"</span>
+        <span class="u-attr">alt</span>=<span class="u-val">"ZoTok SAP Integration Architecture"</span>
+      /&gt;
+
+      <span class="u-cmt">&lt;!-- Option B: Inline SVG (vector, use for smaller diagrams &lt;500KB) --&gt;
+      &lt;svg width="100%" height="auto" viewBox="0 0 1200 600"
+           xmlns="http://www.w3.org/2000/svg"&gt;
+        ...
+      &lt;/svg&gt;</span>
+
+    &lt;/<span class="u-tag">div</span>&gt;
+
+    <span class="u-cmt">&lt;!-- screen-desc — full width for diagram steps --&gt;</span>
+    &lt;<span class="u-tag">div</span> <span class="u-attr">class</span>=<span class="u-val">"screen-desc"</span> <span class="u-attr">style</span>=<span class="u-val">"background:#E8F4FD;width:100%;"</span>&gt;
+      &lt;<span class="u-tag">strong</span>&gt;ZoTok &amp;times; SAP Integration&lt;/<span class="u-tag">strong</span>&gt;&lt;<span class="u-tag">br</span>&gt;
+      WhatsApp orders placed by retailers flow into ZoTok, which pushes
+      structured data to SAP via REST API. SAP generates invoice &amp;rarr;
+      ZoTok sends it back to the retailer over WhatsApp automatically.
+    &lt;/<span class="u-tag">div</span>&gt;
+
+  &lt;/<span class="u-tag">div</span>&gt;
+&lt;/<span class="u-tag">div</span>&gt;
+
+<span class="u-cmt">&lt;!-- ── CSS overrides — add inside &lt;style&gt; in the &lt;head&gt; ── --&gt;
+&lt;style&gt;
+  #step-N.active        { display: block; }
+  #step-N .screen-wrap  { width: 100%; max-width: 900px; margin: 0 auto; }
+  #step-N .screen-desc  { width: 100%; }
+&lt;/style&gt;</span></div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

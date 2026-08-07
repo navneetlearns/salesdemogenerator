@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference — WhatsApp Group Creation Screen</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e; color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d0d1a; border-bottom: 1px solid #2a2a3e;
+    padding: 16px 32px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+    letter-spacing: .4px; text-transform: uppercase;
+  }
+  .badge-wa    { background: #0a3a2a; color: #25D366; border: 1px solid #25D36644; }
+  .badge-setup { background: #1a1a5c; color: #82b1ff; border: 1px solid #1565C055; }
+  .badge-admin { background: #2a1800; color: #FFB74D; border: 1px solid #FFB74D44; }
+  .page-title  { font-size: 18px; font-weight: 700; }
+  .page-sub    { font-size: 12px; color: #666; margin-top: 2px; }
+
+  .layout { display: flex; gap: 0; flex: 1; }
+
+  /* ── Preview pane ── */
+  .preview-pane {
+    width: 460px; flex-shrink: 0; padding: 32px 28px;
+    border-right: 1px solid #2a2a3e;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .preview-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; align-self: flex-start; }
+  .preview-sub-label {
+    font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px;
+    margin-top: 28px; align-self: flex-start;
+  }
+
+  /* ── Phone frame ── */
+  .phone-frame {
+    width: 310px; border-radius: 40px; border: 8px solid #1a1a1a;
+    box-shadow: 0 24px 64px rgba(0,0,0,.5);
+    overflow: hidden; display: flex; flex-direction: column;
+    height: 620px; background: #f5f5f5;
+  }
+
+  /* ── White status bar ── */
+  .status-bar {
+    background: #fff; padding: 9px 16px 5px;
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  }
+  .status-time { font-size: 13px; font-weight: 600; color: #111; }
+  .status-icons { display: flex; align-items: center; gap: 5px; }
+  .battery-pct {
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid #111; border-radius: 3.5px;
+    padding: 1px 4px; font-size: 9.5px; font-weight: 700; color: #111;
+    height: 15px; min-width: 26px; position: relative;
+  }
+  .battery-pct::after {
+    content: ''; position: absolute; right: -4px; top: 50%;
+    transform: translateY(-50%);
+    width: 2px; height: 6px; background: #111; border-radius: 0 1px 1px 0;
+  }
+
+  /* ── Setup top bar ── */
+  .setup-topbar {
+    background: #fff; border-bottom: 1px solid #ebebeb;
+    padding: 9px 14px; display: flex; align-items: center; flex-shrink: 0;
+  }
+  .tb-left  { font-size: 13px; color: #007AFF; font-weight: 400; min-width: 55px; }
+  .tb-title { flex: 1; text-align: center; font-size: 16px; font-weight: 600; color: #111; }
+  .tb-right { min-width: 55px; display: flex; justify-content: flex-end; }
+  .tb-confirm {
+    width: 30px; height: 30px; border-radius: 50%; background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── Setup body ── */
+  .setup-body { flex: 1; overflow-y: auto; }
+
+  .icon-zone {
+    background: #fff; padding: 22px 14px 16px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    margin-bottom: 8px;
+  }
+  .big-circle {
+    width: 78px; height: 78px; border-radius: 50%;
+    background: linear-gradient(135deg, #C8860A, #1B2A4A);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; position: relative;
+  }
+  .cam-badge {
+    position: absolute; bottom: 2px; right: 2px;
+    width: 22px; height: 22px; border-radius: 50%; background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  }
+  .icon-lbl { font-size: 12px; font-weight: 600; color: #1B2A4A; margin-top: 2px; }
+
+  .name-zone { background: #fff; padding: 12px 16px; margin-bottom: 8px; }
+  .name-head { font-size: 11px; color: #1B2A4A; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; margin-bottom: 8px; }
+  .name-row  { display: flex; align-items: center; gap: 8px; border-bottom: 2px solid #1B2A4A; padding-bottom: 8px; }
+  .name-text { font-size: 15px; color: #111; flex: 1; }
+  .cursor    { display: inline-block; width: 1.5px; height: 16px; background: #111; vertical-align: middle; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .name-count { font-size: 11px; color: #999; }
+  .name-hint  { font-size: 11px; color: #999; margin-top: 8px; line-height: 1.4; }
+
+  .enc-note {
+    background: #fff; margin: 8px; border-radius: 10px;
+    padding: 10px 12px; display: flex; align-items: flex-start; gap: 6px;
+  }
+  .enc-text { font-size: 11px; color: #667781; line-height: 1.4; }
+
+  /* ── Add Members variant ── */
+  .srch-wrap { background: #f5f5f5; padding: 8px 10px; border-bottom: 1px solid #eee; }
+  .srch-inner { background: #fff; border-radius: 8px; padding: 7px 12px; display: flex; align-items: center; gap: 6px; }
+  .srch-txt { font-size: 13px; color: #999; flex: 1; }
+
+  .chips-row { background: #fff; padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid #f0f0f0; }
+  .chip { display: flex; align-items: center; gap: 3px; border-radius: 20px; padding: 4px 10px; font-size: 11px; font-weight: 600; }
+  .chip-x { font-size: 12px; color: rgba(0,0,0,.4); margin-left: 1px; }
+
+  .sec-lbl { font-size: 11px; color: #667781; font-weight: 600; padding: 8px 14px 4px; background: #f5f5f5; text-transform: uppercase; letter-spacing: .3px; }
+  .contact-row { background: #fff; padding: 10px 14px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f8f8f8; }
+  .c-ava { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; }
+  .c-info { flex: 1; }
+  .c-name { font-size: 13px; font-weight: 600; color: #111; line-height: 1.3; }
+  .c-role { font-size: 11px; color: #888; }
+  .c-chk { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .c-chk.sel { background: #25D366; }
+  .c-chk.uns { border: 2px solid #ddd; }
+  .add-note { font-size: 11.5px; color: #667781; padding: 10px 14px; text-align: center; background: #f5f5f5; }
+
+  /* ── Spec pane ── */
+  .spec-pane { flex: 1; padding: 32px 36px; overflow-y: auto; display: flex; flex-direction: column; gap: 26px; }
+  .spec-section-title {
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: .5px; margin-bottom: 10px; padding-bottom: 6px;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  .spec-table { width: 100%; border-collapse: collapse; }
+  .spec-table th { font-size: 11px; font-weight: 600; color: #666; text-align: left; padding: 5px 8px; background: #12121f; border-bottom: 1px solid #2a2a3e; }
+  .spec-table td { font-size: 12px; padding: 7px 8px; border-bottom: 1px solid #1e1e30; color: #ccc; vertical-align: top; }
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table td:first-child { color: #888; width: 200px; }
+  .mono  { font-family: 'SF Mono','Fira Code',monospace; font-size: 11px; color: #64B5F6; }
+  .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 5px; vertical-align: middle; border: 1px solid rgba(255,255,255,.1); }
+
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
+  .check-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: #bbb; line-height: 1.4; }
+  .check-ok   { color: #66BB6A; flex-shrink: 0; }
+  .check-warn { color: #FFD54F; flex-shrink: 0; }
+  .check-err  { color: #EF5350; flex-shrink: 0; }
+  .check-info { color: #64B5F6; flex-shrink: 0; }
+
+  .note-box { border-radius: 6px; padding: 12px 14px; font-size: 12px; line-height: 1.6; }
+  .note-box.yellow { background: #2a2000; border: 1px solid #FFD54F33; color: #FFD54F; }
+  .note-box.blue   { background: #0d1b2a; border: 1px solid #1565C055; color: #90CAF9; }
+
+  pre.snippet {
+    background: #0d0d1a; border: 1px solid #2a2a3e; border-radius: 6px;
+    padding: 12px 14px; font-size: 11px; color: #90CAF9; line-height: 1.6;
+    overflow-x: auto; white-space: pre;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Page header ── -->
+<div class="page-header">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="page-badge badge-wa">WhatsApp</span>
+      <span class="page-badge badge-setup">Setup Screen</span>
+      <span class="page-badge badge-admin">Admin / Manager Action</span>
+    </div>
+    <div class="page-title" style="margin-top:6px;">WhatsApp Group Creation Screen</div>
+    <div class="page-sub">
+      New Group entry · Add Participants picker · white top bar · no chat area
+      &nbsp;·&nbsp; <span style="color:#64B5F6;">tmpl_group_creation.html</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ══════════════════════════════
+       PREVIEW PANE
+  ══════════════════════════════ -->
+  <div class="preview-pane">
+    <div class="preview-label">Screen A — New Group (Name Entry)</div>
+
+    <!-- Phone A: New Group -->
+    <div class="phone-frame">
+      <!-- Status bar -->
+      <div class="status-bar">
+        <span class="status-time">9:12</span>
+        <div class="status-icons">
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="8" width="3" height="4" rx=".5" fill="#111"/><rect x="4" y="5" width="3" height="7" rx=".5" fill="#111"/><rect x="8" y="2" width="3" height="10" rx=".5" fill="#111"/><rect x="12" y="0" width="3" height="12" rx=".5" fill="#111"/></svg>
+          <svg width="15" height="11" viewBox="0 0 24 18" fill="none"><path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111"/><path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+          <div class="battery-pct">89</div>
+        </div>
+      </div>
+      <!-- Top bar -->
+      <div class="setup-topbar">
+        <span class="tb-left">Cancel</span>
+        <span class="tb-title">New Group</span>
+        <span class="tb-right">
+          <div class="tb-confirm">
+            <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><path d="M1 5.5L5 9.5L13 1.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </span>
+      </div>
+      <div class="setup-body">
+        <!-- Group icon zone -->
+        <div class="icon-zone">
+          <div class="big-circle">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><circle cx="17" cy="13" r="6" fill="rgba(255,255,255,.8)"/><path d="M5 29c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="rgba(255,255,255,.8)" stroke-width="2.5" stroke-linecap="round"/></svg>
+            <div class="cam-badge">
+              <svg width="12" height="10" viewBox="0 0 14 12" fill="none"><rect x="1" y="3" width="12" height="8" rx="2" stroke="#555" stroke-width="1.4"/><circle cx="7" cy="7" r="2.2" stroke="#555" stroke-width="1.3"/><path d="M5 3L6 1h2l1 2" stroke="#555" stroke-width="1.3" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+          <div class="icon-lbl">Add group icon</div>
+        </div>
+        <!-- Group name input -->
+        <div class="name-zone">
+          <div class="name-head">Group Name</div>
+          <div class="name-row">
+            <span class="name-text">Brand x Territory Name<span class="cursor"></span></span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#f0f0f0"/><text x="12" y="16" text-anchor="middle" font-size="13" fill="#999">😊</text></svg>
+            <span class="name-count" style="margin-left:4px;">21/25</span>
+          </div>
+          <div class="name-hint">Provide a group subject and optional group icon. This name will be visible to all participants.</div>
+        </div>
+        <!-- Encryption notice -->
+        <div class="enc-note">
+          <svg width="14" height="16" viewBox="0 0 14 16" fill="none" style="flex-shrink:0;margin-top:1px;"><rect x="2" y="7" width="10" height="8" rx="2" stroke="#25D366" stroke-width="1.4"/><path d="M4 7V5a3 3 0 016 0v2" stroke="#25D366" stroke-width="1.4"/></svg>
+          <span class="enc-text">Messages and calls are end-to-end encrypted. No one outside this group can read or listen to them.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview-sub-label">Screen B — Add Participants</div>
+
+    <!-- Phone B: Add Members -->
+    <div class="phone-frame">
+      <div class="status-bar">
+        <span class="status-time">9:13</span>
+        <div class="status-icons">
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="8" width="3" height="4" rx=".5" fill="#111"/><rect x="4" y="5" width="3" height="7" rx=".5" fill="#111"/><rect x="8" y="2" width="3" height="10" rx=".5" fill="#111"/><rect x="12" y="0" width="3" height="12" rx=".5" fill="#111"/></svg>
+          <svg width="15" height="11" viewBox="0 0 24 18" fill="none"><path d="M12 14a2 2 0 110 4 2 2 0 010-4z" fill="#111"/><path d="M5.6 9.4a9 9 0 0112.8 0" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M2 5.8A14 14 0 0122 5.8" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+          <div class="battery-pct">89</div>
+        </div>
+      </div>
+      <div class="setup-topbar">
+        <span class="tb-left" style="display:flex;align-items:center;gap:3px;">
+          <svg width="8" height="14" viewBox="0 0 10 17" fill="none"><path d="M9 1L1 8.5L9 16" stroke="#007AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </span>
+        <span class="tb-title">Add Participants</span>
+        <span class="tb-right">
+          <div class="tb-confirm">
+            <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><path d="M1 5.5L5 9.5L13 1.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </span>
+      </div>
+      <div class="setup-body">
+        <div class="srch-wrap">
+          <div class="srch-inner">
+            <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="5.5" stroke="#999" stroke-width="1.6"/><path d="M12 12l3.5 3.5" stroke="#999" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <span class="srch-txt">Search or type a name</span>
+          </div>
+        </div>
+        <div class="chips-row">
+          <div class="chip" style="background:#e3f2fd;color:#1565C0;">Member A <span class="chip-x">×</span></div>
+          <div class="chip" style="background:#f3e5f5;color:#6A1B9A;">Member B <span class="chip-x">×</span></div>
+          <div class="chip" style="background:#e0f2f1;color:#00695C;">ZoAi Agent <span class="chip-x">×</span></div>
+        </div>
+        <div class="sec-lbl">Recently Chatted</div>
+        <div class="contact-row">
+          <div class="c-ava" style="background:#00897B;">Z</div>
+          <div class="c-info"><div class="c-name">ZoAi Agent</div><div class="c-role">ZoTok Bot · Field Automation</div></div>
+          <div class="c-chk sel"><svg width="12" height="10" viewBox="0 0 14 11" fill="none"><path d="M1 5.5L5 9.5L13 1.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="contact-row">
+          <div class="c-ava" style="background:#E91E63;">RS</div>
+          <div class="c-info"><div class="c-name">Member A</div><div class="c-role">Sales Executive</div></div>
+          <div class="c-chk sel"><svg width="12" height="10" viewBox="0 0 14 11" fill="none"><path d="M1 5.5L5 9.5L13 1.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="contact-row">
+          <div class="c-ava" style="background:#9C27B0;">DS</div>
+          <div class="c-info"><div class="c-name">Member B</div><div class="c-role">Area Sales Manager</div></div>
+          <div class="c-chk sel"><svg width="12" height="10" viewBox="0 0 14 11" fill="none"><path d="M1 5.5L5 9.5L13 1.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="contact-row">
+          <div class="c-ava" style="background:#1565C0;">KP</div>
+          <div class="c-info"><div class="c-name">Member C</div><div class="c-role">Sales Executive</div></div>
+          <div class="c-chk uns"></div>
+        </div>
+        <div class="add-note">3 participants selected</div>
+      </div>
+    </div>
+
+  </div><!-- /preview-pane -->
+
+
+  <!-- ══════════════════════════════
+       SPEC PANE
+  ══════════════════════════════ -->
+  <div class="spec-pane">
+
+    <!-- Screen flow -->
+    <div>
+      <div class="spec-section-title">Group Creation Flow — 3 Screens</div>
+      <table class="spec-table">
+        <thead><tr><th>Step</th><th>Screen</th><th>Admin Action</th></tr></thead>
+        <tr>
+          <td>1 · New Group</td>
+          <td>Setup — Name Entry</td>
+          <td>Tap "+ New Group" from WhatsApp chats list. Enter group name (max 25 chars). Optionally add a group icon via camera/gallery. Tap ✓ to proceed.</td>
+        </tr>
+        <tr>
+          <td>2 · Add Participants</td>
+          <td>Setup — Contact Picker</td>
+          <td>Search contacts. Tap to select members — selected contacts appear as chips at the top. Always include ZoAi Agent. Tap ✓ to create.</td>
+        </tr>
+        <tr>
+          <td>3 · Group Created</td>
+          <td>Group Chat</td>
+          <td>System message: "You created group '…'". System message: "You added [names]". ZoAi sends welcome message automatically.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- New Group screen anatomy -->
+    <div>
+      <div class="spec-section-title">Screen A — New Group Anatomy</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>Spec</th></tr></thead>
+        <tr><td>Top bar background</td><td><span class="swatch" style="background:#fff;border:1px solid #555;"></span><span class="mono">#FFFFFF</span> white — same rule as Group Chat screens</td></tr>
+        <tr><td>Left action</td><td>"Cancel" — <span class="mono">#007AFF</span> iOS blue, 13px regular weight</td></tr>
+        <tr><td>Title</td><td>"New Group" — 16px semi-bold, dark <span class="mono">#111</span>, centered</td></tr>
+        <tr><td>Right action</td><td>Green circle ✓ button — <span class="mono">#25D366</span> — confirms and advances to Add Participants</td></tr>
+        <tr><td>Group icon circle</td><td>78px circle, brand gradient; camera badge (22px white circle) at bottom-right; tapping opens camera/gallery</td></tr>
+        <tr><td>Group name field</td><td>15px text; underline: 2px solid brand color; emoji picker icon on right; char count "NN/25" on far right</td></tr>
+        <tr><td>Group name limit</td><td><strong>Max 25 characters</strong></td></tr>
+        <tr><td>Hint text</td><td>11px <span class="mono">#999</span> below field</td></tr>
+        <tr><td>Encryption notice</td><td>Green lock icon + text — 11px <span class="mono">#667781</span>; shown in a white rounded card below the name zone</td></tr>
+        <tr><td>Body background</td><td><span class="mono">#f5f5f5</span> light grey — not the chat doodle background</td></tr>
+      </table>
+    </div>
+
+    <!-- Add Participants screen anatomy -->
+    <div>
+      <div class="spec-section-title">Screen B — Add Participants Anatomy</div>
+      <table class="spec-table">
+        <thead><tr><th>Element</th><th>Spec</th></tr></thead>
+        <tr><td>Top bar</td><td>Same white setup top bar — title "Add Participants", ← Back (iOS blue), ✓ confirm</td></tr>
+        <tr><td>Search bar</td><td>Rounded white inner box on grey bg — "Search or type a name" placeholder, search icon left</td></tr>
+        <tr><td>Selected chips</td><td>Colored pill per member (brand color + name + × dismiss); white row; wraps to next line if needed</td></tr>
+        <tr><td>Contact list</td><td>Section label "RECENTLY CHATTED" in grey header; each row: 40px avatar circle + name + role + check circle</td></tr>
+        <tr><td>Avatar initials</td><td>2-letter initials on colored circle — use member color palette (matching group chat colors)</td></tr>
+        <tr><td>Selected state</td><td><span class="mono">#25D366</span> green filled circle with white ✓ checkmark</td></tr>
+        <tr><td>Unselected state</td><td>2px border <span class="mono">#ddd</span> empty circle</td></tr>
+        <tr><td>ZoAi Agent</td><td>Always include — avatar <span class="mono">#00897B</span> teal with "Z"; role label "ZoTok Bot · Field Automation"</td></tr>
+        <tr><td>Count footer</td><td>"N participants selected" — 11.5px grey, centered, on grey bg</td></tr>
+      </table>
+    </div>
+
+    <!-- Group naming convention -->
+    <div>
+      <div class="spec-section-title">Group Naming Convention (Field Ops)</div>
+      <table class="spec-table">
+        <thead><tr><th>Pattern</th><th>Example</th><th>Chars</th></tr></thead>
+        <tr><td>Brand x Territory</td><td>Savera x Manish Nagar</td><td>21 / 25 ✓</td></tr>
+        <tr><td>Brand x Area</td><td>Savera x Nagpur South</td><td>22 / 25 ✓</td></tr>
+        <tr><td>Brand x SE Name</td><td>Savera x Ravi Singh</td><td>20 / 25 ✓</td></tr>
+      </table>
+      <div style="font-size:11px;color:#555;margin-top:8px;">
+        Keep names under 25 chars. Use "Brand x Territory" for field ops groups, "Brand x Retailer" for retailer hub groups.
+      </div>
+    </div>
+
+    <!-- Color tokens -->
+    <div>
+      <div class="spec-section-title">Color Tokens</div>
+      <table class="spec-table">
+        <tr><td>Top bar background</td><td><span class="swatch" style="background:#fff;border:1px solid #555;"></span><span class="mono">#FFFFFF</span></td></tr>
+        <tr><td>Top bar border</td><td><span class="mono">#EBEBEB</span> 1px solid</td></tr>
+        <tr><td>Cancel / Back link</td><td><span class="mono">#007AFF</span> iOS blue</td></tr>
+        <tr><td>Confirm button</td><td><span class="mono">#25D366</span> WhatsApp green circle</td></tr>
+        <tr><td>Name field underline (active)</td><td>2px solid brand color</td></tr>
+        <tr><td>Body background</td><td><span class="swatch" style="background:#f5f5f5;border:1px solid #555;"></span><span class="mono">#f5f5f5</span></td></tr>
+        <tr><td>Section cards background</td><td><span class="swatch" style="background:#fff;border:1px solid #555;"></span><span class="mono">#FFFFFF</span></td></tr>
+        <tr><td>Selected chip background</td><td>Light tint of member color (e.g. <span class="mono">#e3f2fd</span> for blue)</td></tr>
+        <tr><td>ZoAi avatar</td><td><span class="swatch" style="background:#00897B;"></span><span class="mono">#00897B</span> teal</td></tr>
+        <tr><td>Encryption icon</td><td><span class="mono">#25D366</span></td></tr>
+        <tr><td>Encryption text</td><td><span class="mono">#667781</span> 11px</td></tr>
+        <tr><td>Battery (iOS 16+ style)</td><td>Number in bordered box — same as Group Chat status bar</td></tr>
+      </table>
+    </div>
+
+    <!-- HTML snippets -->
+    <div>
+      <div class="spec-section-title">HTML Snippet — New Group Top Bar</div>
+<pre class="snippet">&lt;!-- White status bar --&gt;
+&lt;div class="w-statusbar"&gt;
+  &lt;span class="w-stime"&gt;9:12&lt;/span&gt;
+  &lt;div class="w-sicons"&gt;
+    &lt;!-- signal, wifi SVGs --&gt;
+    &lt;div class="w-bat"&gt;89&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Setup top bar --&gt;
+&lt;div class="s-topbar"&gt;
+  &lt;span class="s-tb-l"&gt;Cancel&lt;/span&gt;
+  &lt;span class="s-tb-t"&gt;New Group&lt;/span&gt;
+  &lt;span class="s-tb-r"&gt;
+    &lt;div class="s-confirm"&gt;&lt;!-- ✓ SVG --&gt;&lt;/div&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <div>
+      <div class="spec-section-title">HTML Snippet — Group Name Input</div>
+<pre class="snippet">&lt;div class="s-name-zone"&gt;
+  &lt;div class="s-nlbl"&gt;Group Name&lt;/div&gt;
+  &lt;div class="s-nrow"&gt;
+    &lt;span class="s-ntext"&gt;
+      Brand x Territory&lt;span class="s-cursor"&gt;&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;span class="s-ncount"&gt;17/25&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="s-nhint"&gt;Provide a group subject...&lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <div>
+      <div class="spec-section-title">HTML Snippet — Contact Row (Add Members)</div>
+<pre class="snippet">&lt;!-- Selected contact --&gt;
+&lt;div class="s-con"&gt;
+  &lt;div class="s-cava" style="background:#00897B;"&gt;Z&lt;/div&gt;
+  &lt;div class="s-cinfo"&gt;
+    &lt;div class="s-cname"&gt;ZoAi Agent&lt;/div&gt;
+    &lt;div class="s-crole"&gt;ZoTok Bot · Field Automation&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="s-cchk sel"&gt;&lt;!-- ✓ SVG --&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Unselected contact --&gt;
+&lt;div class="s-con"&gt;
+  &lt;div class="s-cava" style="background:#1565C0;"&gt;KP&lt;/div&gt;
+  &lt;div class="s-cinfo"&gt;
+    &lt;div class="s-cname"&gt;Kishor Patel&lt;/div&gt;
+    &lt;div class="s-crole"&gt;Sales Executive&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="s-cchk uns"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <!-- Checklist -->
+    <div>
+      <div class="spec-section-title">Checklist</div>
+      <div class="checklist">
+        <div class="check-item"><span class="check-ok">✓</span> Setup screens use WHITE status bar and WHITE top bar — same rule as Group Chat.</div>
+        <div class="check-item"><span class="check-ok">✓</span> "Cancel" and "Back" links use iOS blue <span class="mono">#007AFF</span>.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Confirm button is a green circle with white ✓ — not a text button.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Group name field has brand-color underline (2px) in active state.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Group name max 25 characters — show counter "NN/25".</div>
+        <div class="check-item"><span class="check-ok">✓</span> ZoAi Agent must always be added as a participant — first in the list.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Avatar initials are 2 letters from the contact name, on colored circle.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Selected contacts shown as colored chips in the chips row.</div>
+        <div class="check-item"><span class="check-ok">✓</span> Body background is <span class="mono">#f5f5f5</span> — NOT the WhatsApp doodle background (that's chat-only).</div>
+        <div class="check-item"><span class="check-err">✗</span> Do NOT show the chat area, input bar, or message bubbles on setup screens.</div>
+        <div class="check-item"><span class="check-err">✗</span> Do NOT use the dark green <span class="mono">#075E54</span> top bar — that is DM screens only.</div>
+        <div class="check-item"><span class="check-warn">⚠</span> After group creation, immediately show a Group Chat screen (white top bar) with system messages and ZoAi welcome.</div>
+      </div>
+    </div>
+
+    <!-- ZoAi welcome note -->
+    <div class="note-box blue">
+      <strong>ZoAi Auto-Welcome Message:</strong><br>
+      When the group is created and ZoAi Agent is added as a participant, ZoAi automatically sends a welcome message in the group. This message should:<br>
+      — Use plain session text (no template, no buttons)<br>
+      — Greet the team and describe the group's purpose<br>
+      — List the key commands available (e.g. <code>@zoai clock-in</code>, <code>@zoai check-in</code>)<br>
+      — Sender name shown as "ZoAi 🤖" in teal (<span class="mono">#00897B</span>) inside the bubble
+    </div>
+
+  </div><!-- /spec-pane -->
+</div><!-- /layout -->
+
+</body>
+</html>
