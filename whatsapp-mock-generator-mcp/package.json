@@ -1,0 +1,43 @@
+{
+  "name": "journey-builder-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for building ZoTok WhatsApp mock demo journeys — scaffold, brand-swap, verify, serve",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "journey-builder-mcp": "src/index.js"
+  },
+  "files": [
+    "src/",
+    "scripts/",
+    "base-journey/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node src/index.js",
+    "start:http": "node src/index.js --http"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "whatsapp",
+    "demo",
+    "journey",
+    "zotok",
+    "mock-generator"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/navneetlearns/salesdemogenerator.git",
+    "directory": "whatsapp-mock-generator-mcp"
+  },
+  "author": "navneetlearns",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
