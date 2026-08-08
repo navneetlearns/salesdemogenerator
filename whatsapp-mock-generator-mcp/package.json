@@ -9,8 +9,6 @@
   },
   "files": [
     "src/",
-    "scripts/",
-    "base-journey/",
     "README.md",
     "LICENSE"
   ],

@@ -33,9 +33,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname  = dirname(__filename);
 const PACKAGE_ROOT = join(__dirname, '..');
 
-const BASE_DIR     = join(PACKAGE_ROOT, 'base-journey');
-const BRAND_SWAP   = join(PACKAGE_ROOT, 'scripts', 'brand_swap.py');
-const VERIFY       = join(PACKAGE_ROOT, 'scripts', 'verify_journey.py');
+// Shared assets live in sibling repo — no duplication
+const SKILL_ROOT   = join(PACKAGE_ROOT, '..', 'whatsapp-mock-generator', 'skill');
+const BASE_DIR     = join(SKILL_ROOT, 'base-journey');
+const BRAND_SWAP   = join(SKILL_ROOT, 'scripts', 'brand_swap.py');
+const VERIFY       = join(SKILL_ROOT, 'scripts', 'verify_journey.py');
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
