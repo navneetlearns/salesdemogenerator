@@ -1,6 +1,31 @@
 # Architecture
 
-This project generates static demo HTML from structured data and shared Handlebars templates.
+This project has two systems: a static Handlebars demo generator and an MCP server for AI-assisted journey building.
+
+## MCP Server (`whatsapp-mock-generator-mcp/`)
+
+An MCP (Model Context Protocol) server that exposes 5 tools for building WhatsApp mock demo journeys:
+
+- `scaffold_project` — create project directory + brand identity docs
+- `build_journey` — clone base journey → brand-swap via Python scripts → HTML skeleton
+- `verify_journey` — structure + charset + Playwright render + Meta compliance checks
+- `serve_journey` — serve the journey on a local port for browser preview
+- `list_bases` — show available base journey templates
+
+Transports: StdioServerTransport (CLI) and StreamableHTTPServerTransport (OpenCode Desktop via `--http` flag).
+
+Shared assets (base-journey templates, brand_swap.py, verify_journey.py) live in `whatsapp-mock-generator/skill/` — the MCP server references them via `SKILL_ROOT`, no duplication.
+
+Config for OpenCode Desktop (`opencode.jsonc`):
+```json
+{ "mcp": { "journey-builder": { "type": "remote", "url": "http://localhost:7891/mcp", "enabled": true } } }
+```
+
+See `whatsapp-mock-generator-mcp/README.md` for full setup instructions.
+
+## Handlebars Demo Generator
+
+This system generates static demo HTML from structured data and shared Handlebars templates.
 
 ## Runtime Shape
 

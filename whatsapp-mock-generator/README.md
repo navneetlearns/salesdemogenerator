@@ -19,6 +19,11 @@ verified journey (clone → brand-swap → content → gate → ship).
   10 steps) — the recommended clone base
 - `chatgpt-kit/` — paste-ready instructions for ChatGPT / any chat LLM
 
+> **MCP integration:** The `whatsapp-mock-generator-mcp/` sibling directory is an
+> MCP server that wraps these scripts as tools for OpenCode Desktop. It reads
+> `skill/scripts/` and `skill/base-journey/` directly — no files are duplicated.
+> See `whatsapp-mock-generator-mcp/README.md` for setup.
+
 ## `source/` — whatsapp-mock-generator rules + templates (reference)
 
 Copied from the upstream project (see attribution). The AI instructions

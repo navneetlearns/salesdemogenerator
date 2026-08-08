@@ -1,6 +1,14 @@
 # Demo Generator
 
-Static HTML demo generator using vanilla Handlebars.
+Static HTML demo generator using vanilla Handlebars, plus an MCP server for AI-assisted journey building.
+
+## Components
+
+| Directory | What |
+|---|---|
+| `whatsapp-mock-generator/` | Skill + source for building WhatsApp mock journeys (brand-swap, verify, templates) |
+| `whatsapp-mock-generator-mcp/` | MCP server — exposes journey tools to OpenCode Desktop via Model Context Protocol |
+| `data/`, `templates/`, `assets/` | Handlebars demo generator (static HTML from structured data) |
 
 ## Flow
 
