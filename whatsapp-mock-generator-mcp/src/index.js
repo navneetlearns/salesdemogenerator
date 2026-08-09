@@ -153,7 +153,15 @@ function scanProjects() {
       if (j.length) found.push({ id: registerPreview(d), name: projectBrand(d), path: d, journeys: j, source: 'template' });
     }
   }
-  return found;
+  // user directive (2026-08-09): certain brands are NOT part of the template
+  // library even though they exist on disk (Rakesh/Haldirams, Sakku Group,
+  // demo-generator/HindustanRMC) — list_bases must not list them
+  const EXCLUDED_BRANDS = ['haldiram', 'sakku', 'hindustanrmc'];
+  const isExcludedBrand = (p) => {
+    const n = basename(p).toLowerCase().replace(/[\s_]/g, '');
+    return EXCLUDED_BRANDS.some((x) => n.includes(x));
+  };
+  return found.filter((p) => !isExcludedBrand(p.path));
 }
 
 function runPy(script, args = [], timeoutSec = 60) {
@@ -278,10 +286,10 @@ const tools = {
    * Step content is an array of { step, screenType, perspective, messages, caption }.
    */
   build_journey: {
-    description: 'Clone base journey + brand-swap + write step content',
+    description: 'Build a NEW journey by cloning an EXISTING project (sourceProject + sourceJourney from list_bases) and brand-swapping it. ALWAYS pass sourceProject and sourceJourney — building without a source produces a generic placeholder, never do that. Use sourceProject="base" only when no existing project matches.',
     inputSchema: {
       type: 'object',
-      required: ['brandName', 'slug', 'journeyName'],
+      required: ['brandName', 'slug', 'journeyName', 'sourceProject'],
       properties: {
         brandName:       { type: 'string' },
         slug:            { type: 'string' },
@@ -291,8 +299,8 @@ const tools = {
         logoBase64:      { type: 'string', description: 'Base64 PNG for logo embed (optional)' },
         avatarInitials:  { type: 'string' },
         journeyLabel: { type: 'string', description: 'Label shown on journey page (e.g. "Rate Contract")' },
-        sourceProject: { type: 'string', description: 'Project id or absolute path from list_bases to clone from instead of the canonical base (optional)' },
-        sourceJourney: { type: 'string', description: 'Journey name within sourceProject, e.g. order_to_cash (optional; defaults to the project\'s first journey)' },
+        sourceProject: { type: 'string', description: 'REQUIRED. Project id from list_bases (e.g. v_n_fogg, banas_diary). The new journey is cloned from this existing project. Use "base" only when no existing project matches.' },
+        sourceJourney: { type: 'string', description: 'REQUIRED (unless sourceProject="base"). Journey name within sourceProject, e.g. vini_order_to_cash. Pick from the project\'s journeys in list_bases.' },
         steps: {
           type: 'array',
           description: 'Array of step objects — see SKILL.md intake spec',
@@ -316,6 +324,14 @@ const tools = {
       logoBase64, avatarInitials, journeyLabel, steps, projectDir,
       sourceProject, sourceJourney,
     }) => {
+      if (!sourceProject) {
+        return { content: [{ type: 'text', text: 'ERROR: build_journey requires sourceProject. Run list_bases, pick an existing project id, and pass it with sourceProject + sourceJourney. Building without a source produces a generic placeholder — never do that. (Explicit escape hatch: sourceProject="base" only when no existing project matches.)' }], isError: true };
+      }
+      if (sourceProject !== 'base' && !sourceJourney) {
+        const src = scanProjects().find(p => p.id === sourceProject || resolve(p.path) === resolve(sourceProject) || p.path === sourceProject);
+        const journeys = src ? src.journeys.join(', ') : '(run list_bases to see available projects)';
+        return { content: [{ type: 'text', text: `ERROR: sourceJourney is required when building from an existing project. Journeys available in ${sourceProject}: ${journeys}` }], isError: true };
+      }
       const outDir  = resolve(projectDir || join(process.env.WORKSPACE_DIR || workspaceDir, slug));
       const projDir = join(outDir, 'projects', slug);
       const indexPath = join(projDir, 'index.html');
@@ -403,29 +419,35 @@ const tools = {
       writeFileSync(indexPath, indexHtml, 'utf-8');
 
       const previewId = registerPreview(projDir);
+      const previewObj = {
+        localUrl: `http://localhost:${PORT}/preview/${previewId}/`,
+        publicUrl: PUBLIC_BASE_URL ? `${PUBLIC_BASE_URL}/preview/${previewId}/` : null,
+      };
+      const usedProject = sourceProject === 'base' ? 'base (canonical)' : sourceProject;
+      const usedJourney = srcJourneyName || '(contract)';
 
       return {
         content: [{
           type: 'text',
-          text: JSON.stringify({
-            status: 'built',
-            files: {
-              index:    indexPath,
-              journey:  journeyPath,
-              manifest: manifestPath,
-            },
-            preview: {
-              localUrl: `http://localhost:${PORT}/preview/${previewId}/`,
-              publicUrl: PUBLIC_BASE_URL ? `${PUBLIC_BASE_URL}/preview/${previewId}/` : null,
-            },
-            brandSwapReport: wet.stdout,
-            nextSteps: [
-              '1. Review the cloned HTML in ' + journeyPath,
-              '2. Rewrite step content using the mock-journey-builder skill (Phase 4)',
-              '3. Run verify_journey to check structure + compliance',
-              '4. Open the preview URL to view in browser',
-            ],
-          }, null, 2),
+          text:
+            `PREVIEW: ${previewObj.publicUrl || previewObj.localUrl}\n` +
+            `SOURCE: ${usedProject} / ${usedJourney}\n\n` +
+            JSON.stringify({
+              status: 'built',
+              source: { project: usedProject, journey: usedJourney },
+              files: {
+                index:    indexPath,
+                journey:  journeyPath,
+                manifest: manifestPath,
+              },
+              preview: previewObj,
+              brandSwapReport: wet.stdout,
+              nextSteps: [
+                '1. Open the PREVIEW URL above to verify the journey in a browser',
+                '2. Run verify_journey to check structure + compliance',
+                '3. If content needs editing, rebuild with a sourceProject + sourceJourney (or edit the HTML directly)',
+              ],
+            }, null, 2),
         }],
       };
     },
@@ -530,7 +552,7 @@ const tools = {
         content: [{
           type: 'text',
           text: JSON.stringify({
-            note: 'Ask the user which project (id) and which journey they want, then build_journey with sourceProject + sourceJourney.',
+            note: 'ALWAYS build from an EXISTING project: ask the user which project (id) and which journey they want, then call build_journey with sourceProject + sourceJourney. NEVER build without a source — it produces a generic placeholder. sourceProject="base" is only for when no existing project matches.',
             default: existsSync(BASE_DIR) ? BASE_DIR : null,
             available: projects,
           }, null, 2),
@@ -544,7 +566,7 @@ const tools = {
 
 function createMcpServer() {
   const server = new Server(
-    { name: 'journey-builder-mcp', version: '1.1.0' },
+    { name: 'journey-builder-mcp', version: '1.2.0' },
     { capabilities: { tools: {} } }
   );
 
