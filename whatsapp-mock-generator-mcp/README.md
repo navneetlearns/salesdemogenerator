@@ -7,10 +7,10 @@ MCP server for building ZoTok WhatsApp mock demo journeys. Gives OpenCode (or an
 | Tool | What it does |
 |---|---|
 | `scaffold_project` | Create project directory + brand identity docs |
-| `build_journey` | Clone base journey → brand-swap → HTML skeleton |
+| `build_journey` | Clone a journey from the template library (or canonical base) → brand-swap → HTML skeleton |
 | `verify_journey` | Structure + charset + Playwright render + Meta compliance checks |
-| `serve_journey` | Serve the journey on a local port for browser preview |
-| `list_bases` | Show available base journey templates |
+| `serve_journey` | Return local + public preview URLs for a project (no auth needed to view) |
+| `list_bases` | List ALL projects in the template library (workspace + template roots + base), each with its journeys |
 
 ## Prerequisites
 
@@ -150,7 +150,28 @@ OpenCode will call the MCP tools to scaffold the project, brand-swap the base jo
 | Variable | What |
 |---|---|
 | `WORKSPACE_DIR` | Override output directory (same as `--workspace`) |
-| `JOURNEY_BUILDER_TOKEN` | If set, HTTP mode requires `Authorization: Bearer <token>` (except OPTIONS + /health). Leave unset for open local dev. |
+| `JOURNEY_BUILDER_TOKEN` | If set, HTTP mode requires `Authorization: Bearer <token>` (except OPTIONS, /health, /preview). Leave unset for open local dev. |
+| `JOURNEY_BUILDER_PUBLIC_URL` | Public base URL (e.g. a Tailscale funnel). serve_journey returns a public preview URL when set. |
+| `JOURNEY_TEMPLATE_ROOTS` | Comma-separated dirs to scan into the template library (projects with journey_*.html). |
+
+### Template library & the ask-flow
+
+`list_bases` returns every project the server knows: the canonical base, all
+scaffolded projects in the workspace, and every project under `JOURNEY_TEMPLATE_ROOTS`.
+Each entry lists its journeys (`order_to_cash`, `contract`, ...).
+
+Build flow (what the agent should do):
+1. `list_bases` → ask the user **which project** they want as the reference
+2. Ask **which journey** within it
+3. Ask for the **steps** (or let them type them out)
+4. `build_journey` with `sourceProject` + `sourceJourney` + `steps`
+
+### Preview
+
+`serve_journey` returns preview URLs that need **no auth** — safe for browser/webview
+preview. `localUrl` works on the host; `publicUrl` works anywhere while the
+Tailscale funnel is up. Preview serves only registered projects
+(`/preview/<project-id>/`), path traversal is rejected.
 
 ---
 

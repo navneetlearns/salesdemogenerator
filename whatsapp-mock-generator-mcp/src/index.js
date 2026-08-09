@@ -20,9 +20,9 @@ import {
   ToolSchema,
 } from '@modelcontextprotocol/sdk/types.js';
 
-import { execSync, spawn } from 'child_process';
-import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from 'fs';
-import { join, resolve, basename, dirname } from 'path';
+import { execSync } from 'child_process';
+import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, readdirSync, statSync } from 'fs';
+import { join, resolve, basename, dirname, extname, sep } from 'path';
 import { fileURLToPath } from 'url';
 import { createServer } from 'http';
 import { randomUUID } from 'crypto';
@@ -41,6 +41,121 @@ const VERIFY       = join(SKILL_ROOT, 'scripts', 'verify_journey.py');
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
+// ── preview registry + static file serving ────────────────────────────────────
+// serve_journey + list_bases register projects here; /preview/<id>/ serves them
+// with NO auth (browsers/webviews can't send Authorization headers). Only
+// registered project dirs are reachable; path traversal is rejected.
+const previewRoots = new Map(); // id -> absolute project dir
+const previewIdOf  = new Map(); // absolute project dir -> id
+
+function registerPreview(projectDir, preferredId) {
+  const abs = resolve(projectDir);
+  const existing = previewIdOf.get(abs);
+  if (existing) return existing;
+  const baseId = preferredId || slugify(basename(abs)) || 'project';
+  let id = baseId, n = 2;
+  while (previewRoots.has(id)) id = `${baseId}_${n++}`;
+  previewRoots.set(id, abs);
+  previewIdOf.set(abs, id);
+  return id;
+}
+
+const MIME = {
+  '.html': 'text/html; charset=utf-8',
+  '.css':  'text/css; charset=utf-8',
+  '.js':   'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.png':  'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
+  '.svg':  'image/svg+xml', '.webp': 'image/webp', '.ico': 'image/x-icon',
+  '.md':   'text/plain; charset=utf-8', '.txt': 'text/plain; charset=utf-8',
+};
+
+function servePreviewFile(req, res) {
+  const urlPath = decodeURIComponent((req.url || '').split('?')[0]);
+  const m = urlPath.match(/^\/preview\/([^/]+)(\/.*)?$/);
+  if (!m) { res.writeHead(400, { 'Content-Type': 'text/plain' }); res.end('Bad preview path'); return; }
+  const root = previewRoots.get(m[1]);
+  if (!root) { res.writeHead(404, { 'Content-Type': 'text/plain' }); res.end('Preview project not found'); return; }
+  const rel = (m[2] || '/').replace(/^\/+/, '');
+  const target = resolve(root, rel);
+  if (target !== root && !target.startsWith(root + sep)) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' }); res.end('Forbidden'); return;
+  }
+  let finalPath = target;
+  try {
+    if (existsSync(finalPath) && statSync(finalPath).isDirectory()) finalPath = join(finalPath, 'index.html');
+  } catch { res.writeHead(404, { 'Content-Type': 'text/plain' }); res.end('Not found'); return; }
+  if (!existsSync(finalPath)) { res.writeHead(404, { 'Content-Type': 'text/plain' }); res.end('Not found'); return; }
+  const ext = extname(finalPath).toLowerCase();
+  res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
+  res.end(readFileSync(finalPath));
+}
+
+// ── project / template discovery ──────────────────────────────────────────────
+function projectBrand(projDir) {
+  const idFile = join(projDir, 'BRAND_IDENTITY.md');
+  if (existsSync(idFile)) {
+    const m = readFileSync(idFile, 'utf-8').match(/Brand Name:\s*(.+)/);
+    if (m) return m[1].trim();
+  }
+  return basename(projDir);
+}
+
+function journeysIn(dir) {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter(f => f.startsWith('journey_') && f.endsWith('.html'))
+    .map(f => f.slice('journey_'.length, -'.html'.length))
+    .sort();
+}
+
+function scanProjects() {
+  const found = [];
+  const seen = new Set();
+
+  // canonical base (whatsapp-mock-generator/skill/base-journey)
+  if (existsSync(BASE_DIR)) {
+    registerPreview(BASE_DIR, 'base');
+    found.push({ id: 'base', name: 'Base journey (canonical)', path: BASE_DIR, journeys: journeysIn(BASE_DIR), source: 'base' });
+    seen.add(resolve(BASE_DIR));
+  }
+
+  // workspace scaffolded projects: <workspace>/<slug>/projects/<slug>/
+  if (existsSync(workspaceDir)) {
+    for (const slug of readdirSync(workspaceDir)) {
+      const proj = join(workspaceDir, slug, 'projects', slug);
+      if (!existsSync(proj) || !seen.add(resolve(proj))) continue;
+      const j = journeysIn(proj);
+      if (j.length) found.push({ id: registerPreview(proj), name: projectBrand(proj), path: proj, journeys: j, source: 'workspace' });
+    }
+  }
+
+  // template roots (JOURNEY_TEMPLATE_ROOTS): the root itself, its direct
+  // subdirs, and <sub>/projects/<brand> dirs (HindustanRMC-style nesting)
+  for (const root of TEMPLATE_ROOTS) {
+    if (!existsSync(root)) continue;
+    const dirs = [root];
+    for (const sub of readdirSync(root)) {
+      const p = join(root, sub);
+      if (!statSync(p).isDirectory()) continue;
+      if (sub === 'projects') {
+        // root/projects/<brand>/ pattern (HindustanRMC-style)
+        for (const b of readdirSync(p)) dirs.push(join(p, b));
+      } else {
+        dirs.push(p);
+        const pp = join(p, 'projects');
+        if (existsSync(pp)) for (const b of readdirSync(pp)) dirs.push(join(pp, b));
+      }
+    }
+    for (const d of dirs) {
+      if (!seen.add(resolve(d))) continue;
+      const j = journeysIn(d);
+      if (j.length) found.push({ id: registerPreview(d), name: projectBrand(d), path: d, journeys: j, source: 'template' });
+    }
+  }
+  return found;
+}
+
 function runPy(script, args = [], timeoutSec = 60) {
   const cmd = ['python3', script, ...args];
   try {
@@ -53,16 +168,6 @@ function runPy(script, args = [], timeoutSec = 60) {
   } catch (e) {
     return { ok: false, stdout: e.stdout || '', stderr: e.stderr || e.message };
   }
-}
-
-function servePort(projectDir, port) {
-  const srv = spawn('python3', ['-m', 'http.server', String(port)], {
-    cwd: projectDir,
-    detached: true,
-    stdio: 'ignore',
-  });
-  srv.unref();
-  return `http://localhost:${port}`;
 }
 
 function slugify(name) {
@@ -185,7 +290,9 @@ const tools = {
         accentColor:     { type: 'string' },
         logoBase64:      { type: 'string', description: 'Base64 PNG for logo embed (optional)' },
         avatarInitials:  { type: 'string' },
-        journeyLabel:    { type: 'string', description: 'Label shown on journey page (e.g. "Rate Contract")' },
+        journeyLabel: { type: 'string', description: 'Label shown on journey page (e.g. "Rate Contract")' },
+        sourceProject: { type: 'string', description: 'Project id or absolute path from list_bases to clone from instead of the canonical base (optional)' },
+        sourceJourney: { type: 'string', description: 'Journey name within sourceProject, e.g. order_to_cash (optional; defaults to the project\'s first journey)' },
         steps: {
           type: 'array',
           description: 'Array of step objects — see SKILL.md intake spec',
@@ -207,6 +314,7 @@ const tools = {
     handler: async ({
       brandName, slug, journeyName, brandColor, accentColor,
       logoBase64, avatarInitials, journeyLabel, steps, projectDir,
+      sourceProject, sourceJourney,
     }) => {
       const outDir  = resolve(projectDir || join(process.env.WORKSPACE_DIR || workspaceDir, slug));
       const projDir = join(outDir, 'projects', slug);
@@ -215,12 +323,30 @@ const tools = {
       const assetsDir = join(projDir, 'assets', 'brand');
       mkdirSync(assetsDir, { recursive: true });
 
-      // 1. clone base
-      if (!existsSync(BASE_DIR)) {
-        return { content: [{ type: 'text', text: `ERROR: base-journey not found at ${BASE_DIR}` }], isError: true };
+      // 1. resolve template source: an existing project (from list_bases) or the canonical base
+      let srcDir = BASE_DIR;
+      let srcJourneyName = sourceJourney;
+      if (sourceProject) {
+        const abs = resolve(sourceProject);
+        const found = scanProjects().find(p => p.id === sourceProject || resolve(p.path) === abs || p.path === abs);
+        if (!found) {
+          return { content: [{ type: 'text', text: `ERROR: source project not found: ${sourceProject}. Run list_bases to see available projects.` }], isError: true };
+        }
+        srcDir = found.path;
+        if (!srcJourneyName) srcJourneyName = found.journeys[0];
       }
-      cpSync(join(BASE_DIR, 'index.html'), indexPath);
-      cpSync(join(BASE_DIR, 'journey_contract.html'), journeyPath);
+      if (!existsSync(srcDir)) {
+        return { content: [{ type: 'text', text: `ERROR: template source not found at ${srcDir}` }], isError: true };
+      }
+      const srcJourneyFile = srcJourneyName
+        ? join(srcDir, `journey_${srcJourneyName}.html`)
+        : (existsSync(join(srcDir, 'journey_contract.html')) ? join(srcDir, 'journey_contract.html') : null);
+      if (!srcJourneyFile || !existsSync(srcJourneyFile)) {
+        return { content: [{ type: 'text', text: `ERROR: no journey file found in ${srcDir}${srcJourneyName ? ` (journey_${srcJourneyName}.html)` : ''}. Run list_bases.` }], isError: true };
+      }
+      const srcIndex = join(srcDir, 'index.html');
+      if (existsSync(srcIndex)) cpSync(srcIndex, indexPath);
+      cpSync(srcJourneyFile, journeyPath);
 
       // 2. build brand manifest
       const manifest = {
@@ -350,60 +476,53 @@ const tools = {
     },
   },
 
-  /** Serve a journey project dir on a local HTTP port for browser preview */
+  /** Serve a journey project dir for browser preview (via /preview route, no auth needed) */
   serve_journey: {
-    description: 'Serve a journey project directory for browser preview',
+    description: 'Serve a journey project directory for browser preview. Returns local + public preview URLs (no auth required to view).',
     inputSchema: {
       type: 'object',
       required: ['projectPath'],
       properties: {
         projectPath: { type: 'string', description: 'Absolute path to the project directory' },
-        port:        { type: 'number', description: 'HTTP port (default: 7890)' },
       },
     },
-    handler: async ({ projectPath, port = 7890 }) => {
+    handler: async ({ projectPath }) => {
       const absDir = resolve(projectPath);
       if (!existsSync(absDir)) {
         return { content: [{ type: 'text', text: `ERROR: directory not found: ${absDir}` }], isError: true };
       }
 
-      const url = servePort(absDir, port);
+      const id = registerPreview(absDir);
+      const rel = `/preview/${id}/`;
 
       return {
         content: [{
           type: 'text',
           text: JSON.stringify({
             status: 'serving',
-            url,
+            localUrl: `http://localhost:${PORT}${rel}`,
+            publicUrl: PUBLIC_BASE_URL ? `${PUBLIC_BASE_URL}${rel}` : null,
             projectDir: absDir,
-            note: 'Open the URL in your browser to preview. Ctrl+C the terminal to stop.',
+            note: 'Preview requires NO auth — open it in any browser/webview. The public URL works while the Tailscale funnel is up.',
           }, null, 2),
         }],
       };
     },
   },
 
-  /** List available base journey templates */
+  /** List available base journey templates / projects in the library */
   list_bases: {
-    description: 'List available base journey templates',
+    description: 'List all projects in the template library (workspace + template roots + canonical base), each with its journeys',
     inputSchema: { type: 'object', properties: {} },
     handler: async () => {
-      const bases = [
-        {
-          id: 'hindustan_rmc',
-          name: 'Hindustan RMC — Rate Contract',
-          path: BASE_DIR,
-          description: '10-step, buyer DM + ops group converging on one ERP voucher',
-          steps: 10,
-        },
-      ];
-      const baseExists = existsSync(BASE_DIR);
+      const projects = scanProjects();
       return {
         content: [{
           type: 'text',
           text: JSON.stringify({
-            default: baseExists ? BASE_DIR : null,
-            available: bases,
+            note: 'Ask the user which project (id) and which journey they want, then build_journey with sourceProject + sourceJourney.',
+            default: existsSync(BASE_DIR) ? BASE_DIR : null,
+            available: projects,
           }, null, 2),
         }],
       };
@@ -453,6 +572,8 @@ const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 7891;
 const workspaceArg = args.find(a => a.startsWith('--workspace='));
 const workspaceDir = workspaceArg ? workspaceArg.split('=').slice(1).join('=') : process.cwd();
 const AUTH_TOKEN = process.env.JOURNEY_BUILDER_TOKEN || '';
+const PUBLIC_BASE_URL = process.env.JOURNEY_BUILDER_PUBLIC_URL || '';
+const TEMPLATE_ROOTS = (process.env.JOURNEY_TEMPLATE_ROOTS || '').split(',').map(s => s.trim()).filter(Boolean);
 
 if (httpMode) {
   // HTTP mode — for OpenCode Desktop / remote MCP clients
@@ -468,6 +589,13 @@ if (httpMode) {
     if (req.method === 'OPTIONS') {
       res.writeHead(204);
       res.end();
+      return;
+    }
+
+    // Preview route — static journey files, NO auth (browser/webview previews
+    // cannot send Authorization headers). Serves only registered projects.
+    if (req.method === 'GET' && req.url.startsWith('/preview/')) {
+      servePreviewFile(req, res);
       return;
     }
 
@@ -535,8 +663,11 @@ if (httpMode) {
   httpServer.listen(PORT, '0.0.0.0', () => {
     console.error(`journey-builder-mcp HTTP server on http://localhost:${PORT}/mcp`);
     console.error(`Health: http://localhost:${PORT}/health`);
+    console.error(`Preview: http://localhost:${PORT}/preview/<project>/ (no auth)`);
     console.error(`Tools: ${Object.keys(tools).join(', ')}`);
     console.error(`Auth: ${AUTH_TOKEN ? 'bearer-token ON' : 'OFF (local only)'}`);
+    if (PUBLIC_BASE_URL) console.error(`Public base: ${PUBLIC_BASE_URL}`);
+    if (TEMPLATE_ROOTS.length) console.error(`Template roots: ${TEMPLATE_ROOTS.join(', ')}`);
   });
 
 } else {
