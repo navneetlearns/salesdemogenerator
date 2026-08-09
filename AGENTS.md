@@ -18,7 +18,13 @@ When using the journey-builder MCP tools (in OpenCode or any MCP client):
 5. After each build, report the preview URL from the response (`preview.publicUrl`,
    or `preview.localUrl` if public is null). Open it to verify before telling the
    user the journey is done.
-6. Do NOT invent step counts, titles, or details — report what the build response
+6. After each build, ALSO run `verify_journey` with:
+   - `journeyPath` — the built journey file (from the build response)
+   - `expectedSteps` — the step count of the built journey (from the build response;
+     required — without it the B2 step-count check expects 1 and fails valid journeys)
+   - `screenshotsDir` — a directory for the step-NN.png visual pass
+   Report the check results and the screenshot location.
+7. Do NOT invent step counts, titles, or details — report what the build response
    and the actual files contain.
-7. If the user names a brand (e.g. "Vini Fogg", "Banas Diary"), find the matching
+8. If the user names a brand (e.g. "Vini Fogg", "Banas Diary"), find the matching
    project in list_bases and build from it.

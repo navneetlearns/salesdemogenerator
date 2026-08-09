@@ -455,7 +455,7 @@ const tools = {
 
   /** Run verify_journey.py on a journey HTML file */
   verify_journey: {
-    description: 'Verify a journey HTML: structure, charset, render, compliance',
+    description: 'Verify a journey HTML: structure, charset, render, compliance + step screenshots. Pass expectedSteps (the journey\'s step count) and per-step probes; screenshotsDir saves step-NN.png for the human visual pass.',
     inputSchema: {
       type: 'object',
       required: ['journeyPath'],
@@ -463,10 +463,10 @@ const tools = {
         journeyPath: { type: 'string', description: 'Absolute path to journey_*.html' },
         probes: {
           type: 'object',
-          description: 'JSON object of { "stepN": ["text probe", ...] }',
+          description: 'JSON object of { "stepN": ["text probe", ...] } — content check per step',
         },
-        expectedSteps: { type: 'number', description: 'Expected step count (auto-detected if omitted)' },
-        screenshotsDir: { type: 'string', description: 'Directory for step screenshots (optional)' },
+        expectedSteps: { type: 'number', description: 'Expected step count — REQUIRED for the B2 step-count check. NOT auto-detected from the page: if omitted and no probes are given, the check expects 1 and fails valid multi-step journeys.' },
+        screenshotsDir: { type: 'string', description: 'Directory for step screenshots — the human visual pass (optional)' },
       },
     },
     handler: async ({ journeyPath, probes, expectedSteps, screenshotsDir }) => {
