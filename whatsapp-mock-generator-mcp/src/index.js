@@ -39,6 +39,11 @@ const BASE_DIR     = join(SKILL_ROOT, 'base-journey');
 const BRAND_SWAP   = join(SKILL_ROOT, 'scripts', 'brand_swap.py');
 const VERIFY       = join(SKILL_ROOT, 'scripts', 'verify_journey.py');
 
+// Industry content profiles — single source of truth with the demo-generator
+// (repo-root data/industries/*.json). Shapes the new company's content:
+// recipient label, units, currency, product categories.
+const INDUSTRY_DIR = join(PACKAGE_ROOT, '..', 'data', 'industries');
+
 // ── helpers ──────────────────────────────────────────────────────────────────
 
 // ── preview registry + static file serving ────────────────────────────────────
@@ -184,6 +189,22 @@ function slugify(name) {
 
 // ── tool handlers ─────────────────────────────────────────────────────────────
 
+function downloadAsset(url, destPath, label) {
+  return fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(20000) })
+    .then(async (res) => {
+      if (!res.ok) return { ok: false, error: `${label}: HTTP ${res.status}` };
+      const buf = Buffer.from(await res.arrayBuffer());
+      writeFileSync(destPath, buf);
+      return { ok: true, bytes: buf.length, path: destPath };
+    })
+    .catch((e) => ({ ok: false, error: `${label}: ${e.message}` }));
+}
+
+function safeExt(name, fallback) {
+  const m = /\.([a-z0-9]{1,5})$/i.exec(name.split('?')[0].split('#')[0]);
+  return m ? `.${m[1].toLowerCase()}` : fallback;
+}
+
 const tools = {
 
   /** Create project dir + brand-identity.md + journey-analysis.md from brand pack */
@@ -301,6 +322,11 @@ const tools = {
         journeyLabel: { type: 'string', description: 'Label shown on journey page (e.g. "Rate Contract")' },
         sourceProject: { type: 'string', description: 'REQUIRED. Project id from list_bases (e.g. v_n_fogg, banas_diary). The new journey is cloned from this existing project. Use "base" only when no existing project matches.' },
         sourceJourney: { type: 'string', description: 'REQUIRED (unless sourceProject="base"). Journey name within sourceProject, e.g. vini_order_to_cash. Pick from the project\'s journeys in list_bases.' },
+        industry: { type: 'string', description: 'Industry id from list_industries (e.g. building_materials, footwear, general). Content profile for the NEW company: recipient label, units, currency, product categories. Defaults to general.' },
+        website: { type: 'string', description: 'New company\'s website URL — stored in the brand manifest for content/CTAs.' },
+        logoUrl: { type: 'string', description: 'URL of the NEW company logo — downloaded, saved once in assets/brand/, embedded via the .ava-logo rule. Alternative to logoBase64.' },
+        productImages: { type: 'array', items: { type: 'string' }, description: 'URLs of NEW company product images (1-3) — downloaded to assets/products/ for use in step content.' },
+        tagline: { type: 'string', description: 'Positioning/tagline for the new company (optional)' },
         steps: {
           type: 'array',
           description: 'Array of step objects — see SKILL.md intake spec',
@@ -322,7 +348,8 @@ const tools = {
     handler: async ({
       brandName, slug, journeyName, brandColor, accentColor,
       logoBase64, avatarInitials, journeyLabel, steps, projectDir,
-      sourceProject, sourceJourney,
+      sourceProject, sourceJourney, industry, website, logoUrl,
+      productImages, tagline,
     }) => {
       if (!sourceProject) {
         return { content: [{ type: 'text', text: 'ERROR: build_journey requires sourceProject. Run list_bases, pick an existing project id, and pass it with sourceProject + sourceJourney. Building without a source produces a generic placeholder — never do that. (Explicit escape hatch: sourceProject="base" only when no existing project matches.)' }], isError: true };
@@ -338,6 +365,49 @@ const tools = {
       const journeyPath = join(projDir, `journey_${journeyName}.html`);
       const assetsDir = join(projDir, 'assets', 'brand');
       mkdirSync(assetsDir, { recursive: true });
+
+      // NEW COMPANY brand pack: industry profile + logo + product images + website
+      const industryId = industry || 'general';
+      let industryProfile = null;
+      const industryFile = join(INDUSTRY_DIR, `${industryId}.json`);
+      if (existsSync(industryFile)) {
+        try { industryProfile = JSON.parse(readFileSync(industryFile, 'utf-8')); } catch { industryProfile = null; }
+      }
+      if (!industryProfile) {
+        industryProfile = {
+          id: industryId, label: industryId,
+          partnerLabel: 'Partner', unit: 'unit', unitPlural: 'units',
+          currency: 'INR', currencySymbol: '₹', categoryTabs: ['All'],
+        };
+      }
+
+      let logoFile = null;
+      let logoSource = null;
+      if (logoUrl) {
+        const dest = join(assetsDir, `logo${safeExt(logoUrl, '.png')}`);
+        const dl = await downloadAsset(logoUrl, dest, 'logo');
+        if (!dl.ok) return { content: [{ type: 'text', text: `ERROR: logo download failed — ${dl.error}. Pass a valid logoUrl (or logoBase64).` }], isError: true };
+        logoFile = dest; logoSource = logoUrl;
+      } else if (logoBase64) {
+        try {
+          logoFile = join(assetsDir, 'logo.png');
+          writeFileSync(logoFile, Buffer.from(logoBase64, 'base64'));
+          logoSource = 'base64';
+        } catch { logoFile = null; }
+      }
+
+      const savedProducts = [];
+      if (Array.isArray(productImages) && productImages.length) {
+        const productDir = join(projDir, 'assets', 'products');
+        mkdirSync(productDir, { recursive: true });
+        for (let i = 0; i < productImages.length; i++) {
+          const url = productImages[i];
+          const dest = join(productDir, `${slug}-${String(i + 1).padStart(2, '0')}${safeExt(url, '.jpg')}`);
+          const dl = await downloadAsset(url, dest, `product image ${i + 1}`);
+          if (dl.ok) savedProducts.push({ index: i + 1, path: dest, bytes: dl.bytes });
+          else savedProducts.push({ index: i + 1, url, error: dl.error });
+        }
+      }
 
       // 1. resolve template source: an existing project (from list_bases) or the canonical base
       let srcDir = BASE_DIR;
@@ -378,27 +448,39 @@ const tools = {
         journeyLabel: journeyLabel || journeyName,
         indexBrandName: brandName,
         indexCardTitle: journeyLabel || journeyName,
+        website:     website || null,
+        tagline:     tagline || null,
+        industry: {
+          id: industryProfile.id,
+          label: industryProfile.label,
+          partnerLabel: industryProfile.partnerLabel,
+          unit: industryProfile.unit,
+          unitPlural: industryProfile.unitPlural,
+          currency: industryProfile.currency,
+          currencySymbol: industryProfile.currencySymbol,
+          categoryTabs: industryProfile.categoryTabs || ['All'],
+        },
+        products: savedProducts,
+        logo: logoFile ? { file: basename(logoFile), source: logoSource } : null,
       };
 
       const manifestPath = join(assetsDir, 'brand.json');
       writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 
-      // 3. brand swap (dry-run first)
-      const dry = runPy(BRAND_SWAP, [
+      // 3. brand swap (dry-run first) — logo embedded via --logo when provided
+      const swapArgs = (dry) => [
         '--manifest', manifestPath,
         '--journey', journeyPath,
         '--index', indexPath,
-        '--dry-run',
-      ]);
+        ...(logoFile ? ['--logo', logoFile] : []),
+        ...(dry ? ['--dry-run'] : []),
+      ];
+      const dry = runPy(BRAND_SWAP, swapArgs(true));
       if (!dry.ok && !dry.stdout.includes('UNCHANGED')) {
         return { content: [{ type: 'text', text: `brand_swap dry-run failed:\n${dry.stderr}` }], isError: true };
       }
 
-      const wet = runPy(BRAND_SWAP, [
-        '--manifest', manifestPath,
-        '--journey', journeyPath,
-        '--index', indexPath,
-      ]);
+      const wet = runPy(BRAND_SWAP, swapArgs(false));
       if (!wet.ok) {
         return { content: [{ type: 'text', text: `brand_swap failed:\n${wet.stderr}` }], isError: true };
       }
@@ -431,10 +513,19 @@ const tools = {
           type: 'text',
           text:
             `PREVIEW: ${previewObj.publicUrl || previewObj.localUrl}\n` +
-            `SOURCE: ${usedProject} / ${usedJourney}\n\n` +
+            `SOURCE: ${usedProject} / ${usedJourney}\n` +
+            `INDUSTRY: ${industryProfile.label}\n` +
+            `ASSETS: ${logoFile ? 'logo ✓' : 'logo —'} | products ${savedProducts.filter((p) => p.path).length}/${Array.isArray(productImages) ? productImages.length : 0} | website ${website ? '✓' : '—'}\n\n` +
             JSON.stringify({
               status: 'built',
               source: { project: usedProject, journey: usedJourney },
+              brandPack: {
+                industry: industryProfile.label,
+                website,
+                tagline: tagline || null,
+                logo: logoFile ? { file: basename(logoFile), source: logoSource } : null,
+                products: savedProducts,
+              },
               files: {
                 index:    indexPath,
                 journey:  journeyPath,
@@ -552,9 +643,35 @@ const tools = {
         content: [{
           type: 'text',
           text: JSON.stringify({
-            note: 'ALWAYS build from an EXISTING project: ask the user which project (id) and which journey they want, then call build_journey with sourceProject + sourceJourney. NEVER build without a source — it produces a generic placeholder. sourceProject="base" is only for when no existing project matches.',
+            note: 'ALWAYS build from an EXISTING project: ask the user which project (id) and which journey they want, then ask for the NEW company\'s brand pack (industry via list_industries, logo file/URL, product images, website link), then call build_journey with sourceProject + sourceJourney + industry/website/logoUrl/productImages. NEVER build without a source — it produces a generic placeholder. sourceProject="base" is only for when no existing project matches.',
             default: existsSync(BASE_DIR) ? BASE_DIR : null,
             available: projects,
+          }, null, 2),
+        }],
+      };
+    },
+  },
+
+  list_industries: {
+    description: 'List industry categories (content profiles) for the NEW company being built — recipient label, units, currency, product categories. Ask the user which industry the new company belongs to, then pass its id to build_journey as industry.',
+    inputSchema: { type: 'object', properties: {} },
+    handler: async () => {
+      const industries = [];
+      if (existsSync(INDUSTRY_DIR)) {
+        for (const f of readdirSync(INDUSTRY_DIR).filter((f) => f.endsWith('.json'))) {
+          try { industries.push(JSON.parse(readFileSync(join(INDUSTRY_DIR, f), 'utf-8'))); } catch { /* skip malformed */ }
+        }
+      }
+      industries.sort((a, b) =>
+        (a.id === 'general' ? 1 : 0) - (b.id === 'general' ? 1 : 0) ||
+        a.label.localeCompare(b.label)
+      );
+      return {
+        content: [{
+          type: 'text',
+          text: JSON.stringify({
+            note: 'Ask the user which industry the NEW company belongs to, then pass its id to build_journey as industry.',
+            industries,
           }, null, 2),
         }],
       };
@@ -566,7 +683,7 @@ const tools = {
 
 function createMcpServer() {
   const server = new Server(
-    { name: 'journey-builder-mcp', version: '1.2.0' },
+    { name: 'journey-builder-mcp', version: '1.3.0' },
     { capabilities: { tools: {} } }
   );
 

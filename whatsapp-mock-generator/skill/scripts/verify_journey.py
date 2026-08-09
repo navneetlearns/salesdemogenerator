@@ -14,6 +14,8 @@ Checks (ALL must pass; exit 0 only when everything does):
   D. Compliance: source greps — no <hr>, no 4+ divider runs (━━/────/====), no
                  consecutive template variables {{1}}{{2}}, no '&amp;nbsp;' leaks
   E. Screens   : screenshot per step into --shots for the human visual pass
+  F. Brand pack: when assets/brand/brand.json sits next to the journey — manifest
+                 parses, website + industry set, logo file exists, product images ok
 
 Exit codes: 0 = gate passed, 1 = a check failed (named in stderr), 2 = usage error.
 """
@@ -43,6 +45,33 @@ def check_compliance(path: Path) -> list:
     return out
 
 
+def check_brand_assets(path: Path):
+    """Brand-pack checks for MCP-built journeys. Returns (results, present):
+    present=False means no manifest next to the journey (not a built project)."""
+    manifest_path = path.parent / "assets" / "brand" / "brand.json"
+    if not manifest_path.exists():
+        return [], False
+    try:
+        m = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except Exception:
+        return [("F1 brand manifest parses", False)], True
+    out = [("F1 brand manifest parses", True)]
+    out.append(("F2 website in manifest", bool(m.get("website"))))
+    ind = m.get("industry") or {}
+    out.append(("F3 industry profile set", bool(ind.get("id"))))
+    logo = m.get("logo") or {}
+    if logo.get("file"):
+        out.append(("F4 logo file exists", (manifest_path.parent / logo["file"]).exists()))
+    else:
+        out.append(("F4 logo file exists", True))
+    prods = m.get("products") or []
+    if prods:
+        out.append(("F5 product images downloaded", not any(p.get("error") for p in prods)))
+    else:
+        out.append(("F5 product images downloaded", True))
+    return out, True
+
+
 def run(html: str, probes: dict, expected_steps: int, shots: str | None) -> int:
     from playwright.async_api import async_playwright
     import asyncio
@@ -52,6 +81,9 @@ def run(html: str, probes: dict, expected_steps: int, shots: str | None) -> int:
         print(f"FATAL: {html} not found", file=sys.stderr)
         return 2
     results = check_structure(path) + check_compliance(path)
+    asset_checks, has_manifest = check_brand_assets(path)
+    if has_manifest:
+        results += asset_checks
 
     async def render_checks():
         errs = []

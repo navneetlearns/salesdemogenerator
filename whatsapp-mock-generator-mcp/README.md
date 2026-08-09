@@ -10,7 +10,8 @@ The flow is always:
 
 1. Pick an **existing project** (`list_bases`) — e.g. Banas_Diary, V[N] Fogg, Orient, Adani Wilmar
 2. Pick a **journey inside it** — e.g. `order_to_cash`, `vini_retailer_activation`
-3. Build the new journey **from that existing journey** (`build_journey` with `sourceProject` + `sourceJourney`) — the reference provides the steps and brand identity, the output is a ready-to-preview, brand-swapped copy.
+3. Collect the **new company's brand pack** — industry (`list_industries`), logo (file/URL), product images, website link
+4. Build the new journey **from that existing journey** (`build_journey` with `sourceProject` + `sourceJourney` + `industry`/`website`/`logoUrl`/`productImages`) — the reference provides structure and steps; the brand pack gives the new company its own logo, products, and content, and the output is a ready-to-preview, brand-swapped copy.
 
 **The one rule: never build "fresh" from the canonical base when an existing project matches.** Building without `sourceProject` produces generic placeholder journeys (identical copies with only brand colors swapped), not the client's journey — a failed demo. The existing project is the source of truth; the base is a last-resort fallback only.
 
@@ -21,10 +22,11 @@ Sales reps don't need to know any internals — they just ask OpenCode for a jou
 | Tool | What it does |
 |---|---|
 | `scaffold_project` | Create project directory + brand identity docs |
-| `build_journey` | Clone a journey from the template library (or canonical base) → brand-swap → HTML skeleton |
-| `verify_journey` | Structure + charset + Playwright render + Meta compliance checks |
+| `build_journey` | Clone a journey from an EXISTING project (sourceProject + sourceJourney) + the new company's brand pack (industry, website, logo, product images) → brand-swap → HTML skeleton |
+| `verify_journey` | Structure + charset + Playwright render + Meta compliance + brand-asset checks |
 | `serve_journey` | Return local + public preview URLs for a project (no auth needed to view) |
 | `list_bases` | List ALL projects in the template library (workspace + template roots + base), each with its journeys |
+| `list_industries` | List industry content profiles (recipient label, units, currency, product categories) — pick one for the new company before building |
 
 ## Prerequisites
 
@@ -185,8 +187,11 @@ canonical base (contract), and workspace projects.
 Build flow (MANDATORY — this is the product):
 1. `list_bases` → ask the user **which existing project** they want as the reference
 2. Ask **which journey** within it
-3. Ask for the **steps** (or let them type them out)
-4. `build_journey` with `sourceProject` + `sourceJourney` + `steps`
+3. Ask for the **new company's brand pack**: industry (`list_industries`), logo
+   (file or URL), product images (1-3), website link, optional tagline
+4. Ask for the **steps** (or let them type them out)
+5. `build_journey` with `sourceProject` + `sourceJourney` + `steps`
+   + `industry` + `website` + `logoUrl`/`logoBase64` + `productImages`
 
 > ⚠️ Never build without `sourceProject`. Omitting it falls back to the canonical
 > base and produces generic placeholders — every "journey" built that way is an
