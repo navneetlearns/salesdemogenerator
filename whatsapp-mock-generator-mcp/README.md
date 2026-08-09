@@ -226,6 +226,30 @@ The server runs as a systemd USER service (auto-start, restart-safe):
 
 ---
 
+## Changelog
+
+**2026-08-09 — v1.3.0 (brand-pack intake for NEW companies)**
+- `list_industries` tool: industry content profiles (recipient label, units, currency,
+  product categories) from `../data/industries/` — same source of truth as the demo-generator
+- `build_journey` accepts the new company's brand pack: `industry`, `website`,
+  `logoUrl` (or `logoBase64`), `productImages`, `tagline` — logo downloaded and
+  embedded via brand_swap `--logo` (`.ava-logo` rule), product images saved to
+  `assets/products/`, manifest extended with the industry profile
+- Response leads with `INDUSTRY` + `ASSETS` lines and a `brandPack` echo
+- `verify_journey` adds F1-F5 brand-asset checks (manifest, website, industry, logo, products)
+- Ask-flow now collects the brand pack before building (AGENTS.md, skill, this README)
+
+**2026-08-09 — v1.2.0 (hard enforcement of the build-from-existing-project flow)**
+- `build_journey` REQUIRES `sourceProject` (+ `sourceJourney` when building from an
+  existing project) — omitting it returns a clear error instead of silently building
+  a generic placeholder; `sourceProject="base"` is the explicit from-scratch escape hatch
+- `list_bases` excludes Haldirams/SakkuGroup/HindustanRMC per user directive
+- Response leads with `PREVIEW` + `SOURCE` lines so agents report the preview URL and source
+- Agent rules file (`AGENTS.md` — repo root + `~/.config/opencode/AGENTS.md` on the sales
+  machine) mandates the ask-flow, brand pack, and post-build `verify_journey`
+
+---
+
 ## How it works
 
 ```

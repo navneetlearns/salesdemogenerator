@@ -4,13 +4,14 @@ This project has two systems: a static Handlebars demo generator and an MCP serv
 
 ## MCP Server (`whatsapp-mock-generator-mcp/`)
 
-An MCP (Model Context Protocol) server that exposes 5 tools for building WhatsApp mock demo journeys:
+An MCP (Model Context Protocol) server that exposes 6 tools for building WhatsApp mock demo journeys:
 
 - `scaffold_project` — create project directory + brand identity docs
-- `build_journey` — clone a journey from the template library (or canonical base) via `sourceProject`/`sourceJourney` → brand-swap via Python scripts → HTML skeleton; returns preview URLs immediately
-- `verify_journey` — structure + charset + Playwright render + Meta compliance checks
+- `build_journey` — REQUIRES `sourceProject` + `sourceJourney` (clone from an EXISTING project; `"base"` is the explicit from-scratch escape hatch — omitting the source is a hard error) + the new company's brand pack (`industry`, `website`, `logoUrl`/`logoBase64`, `productImages`, `tagline`) → brand-swap (logo embedded via the `.ava-logo` rule, product images → `assets/products/`) → HTML skeleton; returns preview URLs + INDUSTRY/ASSETS summary immediately
+- `verify_journey` — structure + charset + Playwright render + Meta compliance + brand-asset checks (F1-F5: manifest parses, website, industry, logo file, product images); pass `expectedSteps` (NOT auto-detected — without it the check expects 1)
 - `serve_journey` — register a project for browser preview; returns `localUrl` + `publicUrl` (`/preview/<project-id>/`, NO auth — webview/browser friendly)
-- `list_bases` — list the FULL template library (workspace + template roots + canonical base), each project with its journeys
+- `list_bases` — list the FULL template library (workspace + template roots + canonical base), each project with its journeys (Haldirams/SakkuGroup/HindustanRMC excluded per user directive)
+- `list_industries` — industry content profiles (recipient label, units, currency, categoryTabs) from `../data/industries/` — same source of truth as the demo-generator
 
 Transports: StdioServerTransport (CLI) and StreamableHTTPServerTransport (OpenCode Desktop via `--http` flag).
 
@@ -22,9 +23,12 @@ Template library: `list_bases` scans (1) the canonical base in
 `whatsapp-mock-generator/skill/base-journey`, (2) scaffolded projects in the workspace
 (`<workspace>/<slug>/projects/<slug>/`), (3) every project under `JOURNEY_TEMPLATE_ROOTS`
 (currently the whatsapp-mock-generator projects dir — 21 template projects / 76 journeys,
-plus base + workspace). Journey discovery handles both `journey_<flow>.html` and
-brand-prefixed files (`awl_*`, `vini_*`, `jk_cement_*`). The ask-flow: pick project →
-pick journey → collect steps → `build_journey`.
+plus base + workspace; Haldirams/SakkuGroup/HindustanRMC excluded per user directive
+2026-08-09 even though they exist on disk). Journey discovery handles both
+`journey_<flow>.html` and brand-prefixed files (`awl_*`, `vini_*`, `jk_cement_*`).
+The ask-flow: pick project (structure only) → pick journey → collect the NEW company's
+brand pack (industry via `list_industries`, logo, product images, website link) →
+collect steps → `build_journey` with sourceProject + sourceJourney + the brand pack.
 
 Shared assets (base-journey templates, brand_swap.py, verify_journey.py) live in `whatsapp-mock-generator/skill/` — the MCP server references them via `SKILL_ROOT`, no duplication.
 
