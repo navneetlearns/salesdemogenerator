@@ -157,21 +157,49 @@ OpenCode will call the MCP tools to scaffold the project, brand-swap the base jo
 ### Template library & the ask-flow
 
 `list_bases` returns every project the server knows: the canonical base, all
-scaffolded projects in the workspace, and every project under `JOURNEY_TEMPLATE_ROOTS`.
-Each entry lists its journeys (`order_to_cash`, `contract`, ...).
+scaffolded projects in the workspace, and every project under `JOURNEY_TEMPLATE_ROOTS`
+(currently the whatsapp-mock-generator projects dir only). Each entry:
+`{id, name, path, journeys[], source}`. Journey names support both the
+`journey_<flow>` convention and brand-prefixed files (`awl_*`, `vini_*`,
+`jk_cement_*`).
+
+Current inventory (2026-08): 23 projects / 78 journeys — 21 template projects from
+the whatsapp-mock-generator dir (Banas_Diary 10, Orient 10, Haldirams 9, BlueOcean 6,
+sundar_masala 5, Recykal 3, Adani Wilmar 7, V[N] Fogg 7, jkcement 6, …), the
+canonical base (contract), and workspace projects.
 
 Build flow (what the agent should do):
 1. `list_bases` → ask the user **which project** they want as the reference
 2. Ask **which journey** within it
 3. Ask for the **steps** (or let them type them out)
 4. `build_journey` with `sourceProject` + `sourceJourney` + `steps`
+   (omitting `sourceProject` falls back to the canonical base)
 
 ### Preview
 
-`serve_journey` returns preview URLs that need **no auth** — safe for browser/webview
-preview. `localUrl` works on the host; `publicUrl` works anywhere while the
-Tailscale funnel is up. Preview serves only registered projects
+`build_journey` and `serve_journey` return preview URLs that need **no auth** —
+safe for browser/webview preview (browsers can't send Authorization headers).
+`localUrl` (`http://localhost:7891/preview/<project-id>/`) works on the host;
+`publicUrl` works anywhere while the Tailscale funnel is up. The built project is
+registered automatically, so the preview URL works immediately after a build —
+no separate `serve_journey` call needed. Preview serves only registered projects
 (`/preview/<project-id>/`), path traversal is rejected.
+
+---
+
+## Current deployment (this machine)
+
+The server runs as a systemd USER service (auto-start, restart-safe):
+
+| Thing | Value |
+|---|---|
+| Service | `systemctl --user status journey-builder-mcp` (enabled, linger on) |
+| Env file | `~/.config/journey-builder-mcp.env` (chmod 600) |
+| Workspace | `~/AgentWork/journey-output` (output of scaffold/build) |
+| Local endpoint | `http://localhost:7891/mcp` — token-gated |
+| Public endpoint | `https://laptop-ksfr7jf4.tail45ff54.ts.net/mcp` — Tailscale funnel, reachable only while this machine is on |
+| Template roots | `~/AgentWork/Sellerhub/whatsapp-mock-generator-main/whatsapp-mock-generator-main/projects` (Linux copy — never the F: NTFS copy) |
+| Restart after env change | `systemctl --user restart journey-builder-mcp` |
 
 ---
 

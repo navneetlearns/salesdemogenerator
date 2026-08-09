@@ -7,19 +7,39 @@ This project has two systems: a static Handlebars demo generator and an MCP serv
 An MCP (Model Context Protocol) server that exposes 5 tools for building WhatsApp mock demo journeys:
 
 - `scaffold_project` — create project directory + brand identity docs
-- `build_journey` — clone base journey → brand-swap via Python scripts → HTML skeleton
+- `build_journey` — clone a journey from the template library (or canonical base) via `sourceProject`/`sourceJourney` → brand-swap via Python scripts → HTML skeleton; returns preview URLs immediately
 - `verify_journey` — structure + charset + Playwright render + Meta compliance checks
-- `serve_journey` — serve the journey on a local port for browser preview
-- `list_bases` — show available base journey templates
+- `serve_journey` — register a project for browser preview; returns `localUrl` + `publicUrl` (`/preview/<project-id>/`, NO auth — webview/browser friendly)
+- `list_bases` — list the FULL template library (workspace + template roots + canonical base), each project with its journeys
 
 Transports: StdioServerTransport (CLI) and StreamableHTTPServerTransport (OpenCode Desktop via `--http` flag).
 
+Auth: HTTP mode is bearer-token gated when `JOURNEY_BUILDER_TOKEN` is set (401 without
+`Authorization: Bearer <token>`); `/health`, OPTIONS preflight, and `/preview/*` stay open
+(browsers cannot send Authorization headers). Local dev without the env var runs open.
+
+Template library: `list_bases` scans (1) the canonical base in
+`whatsapp-mock-generator/skill/base-journey`, (2) scaffolded projects in the workspace
+(`<workspace>/<slug>/projects/<slug>/`), (3) every project under `JOURNEY_TEMPLATE_ROOTS`
+(currently the whatsapp-mock-generator projects dir — 21 template projects / 76 journeys,
+plus base + workspace). Journey discovery handles both `journey_<flow>.html` and
+brand-prefixed files (`awl_*`, `vini_*`, `jk_cement_*`). The ask-flow: pick project →
+pick journey → collect steps → `build_journey`.
+
 Shared assets (base-journey templates, brand_swap.py, verify_journey.py) live in `whatsapp-mock-generator/skill/` — the MCP server references them via `SKILL_ROOT`, no duplication.
 
-Config for OpenCode Desktop (`opencode.jsonc`):
+Config for OpenCode Desktop (`opencode.jsonc`) — note the Authorization header (server is token-gated):
 ```json
-{ "mcp": { "journey-builder": { "type": "remote", "url": "http://localhost:7891/mcp", "enabled": true } } }
+{ "mcp": { "journey-builder": { "type": "remote", "url": "http://localhost:7891/mcp",
+  "headers": { "Authorization": "Bearer <JOURNEY_BUILDER_TOKEN>" }, "enabled": true } } }
 ```
+
+Deployment (this machine): runs as a systemd user unit `journey-builder-mcp`
+(auto-start, restart-safe; linger on). Env: `~/.config/journey-builder-mcp.env`
+(chmod 600) — `JOURNEY_BUILDER_TOKEN`, `JOURNEY_BUILDER_PUBLIC_URL` (Tailscale funnel
+base → public preview URLs), `JOURNEY_TEMPLATE_ROOTS`. Workspace:
+`~/AgentWork/journey-output`. Public endpoint: `https://laptop-ksfr7jf4.tail45ff54.ts.net/mcp`
+(reachable while this machine is on).
 
 See `whatsapp-mock-generator-mcp/README.md` for full setup instructions.
 

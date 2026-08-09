@@ -14,8 +14,29 @@
 - [x] Task 1 (auth) — committed af6e5d5, pushed. Matrix verified: 401/401/200/200/204.
 - [x] Task 2 (systemd service) — active, restart-survives. NOTE: ExecStart uses nvm node path `/home/sumit/.nvm/versions/node/v20.20.2/bin/node` (not /usr/bin/node).
 - [x] Task 4 (README sharing section) — committed with this plan.
-- [~] Task 3 (Tailscale) — BLOCKED on interactive steps: `sudo` needs a password. Remaining: install, `sudo tailscale up` (browser login), `sudo tailscale funnel 7891`, record URL, public-URL verification.
-- [ ] Task 5 (final public-URL verification + OpenCode Desktop check)
+- [x] Task 3 (Tailscale) — DONE. URL: https://laptop-ksfr7jf4.tail45ff54.ts.net/ (user ran install/up/funnel; needs machine ON to be reachable).
+- [x] Task 5 — DONE. Public-URL auth matrix verified: health 200 / no-token 401 / wrong-token 401 / correct-token 200; tools/list via funnel returns all 5 tools. OpenCode config now has BOTH localhost + public entries (`journey-builder` + `journey-builder-public`). End-to-end scaffold verified through localhost service earlier.
+
+**Follow-up work (2026-08-09, completed, commits b52491c + 8a1eb22):**
+- Template library: `list_bases` now returns the FULL library — canonical base +
+  workspace projects + every project under `JOURNEY_TEMPLATE_ROOTS` (per user
+  decision: ONLY the whatsapp-mock-generator projects dir). 23 projects / 78 journeys
+  (Banas_Diary 10, Orient 10, Haldirams 9, BlueOcean 6, sundar_masala 5, Recykal 3,
+  Adani Wilmar 7, V[N] Fogg 7, jkcement 6, + 13 single-journey projects + base).
+  Journey discovery handles brand-prefixed files (`awl_*`, `vini_*`, `jk_cement_*`)
+  and prefixed index files (`awl_index.html`).
+- Ask-flow: agent runs `list_bases` → asks user project → journey → steps → builds
+  with `sourceProject` + `sourceJourney` + `steps` (omitting sourceProject falls
+  back to the canonical base).
+- Preview gap FIXED: `serve_journey` no longer spawns `python3 -m http.server`;
+  the MCP server itself serves `GET /preview/<id>/` — NO auth (browsers/webviews
+  can't send Authorization headers — this was the "missing bearer token" failure),
+  traversal-guarded, works locally AND via the existing funnel. `build_journey`
+  auto-registers the built project and returns preview localUrl + publicUrl
+  immediately.
+- Env additions: `JOURNEY_BUILDER_PUBLIC_URL`, `JOURNEY_TEMPLATE_ROOTS`.
+- Remaining: Tailscale funnel re-verify (public URL was connection-refused at last
+  check — machine slept/rebooted; re-run `sudo tailscale funnel 7891`).
 
 **Decision gate — pick ONE track before starting:**
 - Track A (default, free, ~15 min): host on THIS machine via Tailscale Funnel. Downside: URL only reachable while this machine is on.
