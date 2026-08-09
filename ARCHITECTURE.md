@@ -7,8 +7,8 @@ This project has two systems: a static Handlebars demo generator and an MCP serv
 An MCP (Model Context Protocol) server that exposes 6 tools for building WhatsApp mock demo journeys:
 
 - `scaffold_project` — create project directory + brand identity docs
-- `build_journey` — REQUIRES `sourceProject` + `sourceJourney` (clone from an EXISTING project; `"base"` is the explicit from-scratch escape hatch — omitting the source is a hard error) + the new company's brand pack (`industry`, `website`, `logoUrl`/`logoBase64`, `productImages`, `tagline`) → brand-swap (logo embedded via the `.ava-logo` rule, product images → `assets/products/`) → HTML skeleton; returns preview URLs + INDUSTRY/ASSETS summary immediately
-- `verify_journey` — structure + charset + Playwright render + Meta compliance + brand-asset checks (F1-F5: manifest parses, website, industry, logo file, product images); pass `expectedSteps` (NOT auto-detected — without it the check expects 1)
+- `build_journey` — REQUIRES `sourceProject` + `sourceJourney` (clone from an EXISTING project; `"base"` is the explicit from-scratch escape hatch — omitting the source is a hard error) + the new company's brand pack (`industry`, `website`, `logoUrl`/`logoBase64`, `productImages`, `tagline`) → brand-swap (logo embedded via the `.ava-logo` rule, product images → `assets/products/`) → HTML skeleton; returns preview URLs + INDUSTRY/ASSETS summary immediately. Source `assets/` + logo files are copied and `<img>` logo refs repaired (new logo → `assets/brand/<logo>`, else the copied source logo) so clones never have broken images
+- `verify_journey` — structure + charset + Playwright render + Meta compliance + brand-asset checks (F1-F5: manifest parses, website, industry, logo file, product images); pass `expectedSteps` (NOT auto-detected — without it the check expects 1); D1 whitelists `hr.wa-list-btn-hr`
 - `serve_journey` — register a project for browser preview; returns `localUrl` + `publicUrl` (`/preview/<project-id>/`, NO auth — webview/browser friendly)
 - `list_bases` — list the FULL template library (workspace + template roots + canonical base), each project with its journeys (Haldirams/SakkuGroup/HindustanRMC excluded per user directive)
 - `list_industries` — industry content profiles (recipient label, units, currency, categoryTabs) from `../data/industries/` — same source of truth as the demo-generator
@@ -31,6 +31,11 @@ brand pack (industry via `list_industries`, logo, product images, website link) 
 collect steps → `build_journey` with sourceProject + sourceJourney + the brand pack.
 
 Shared assets (base-journey templates, brand_swap.py, verify_journey.py) live in `whatsapp-mock-generator/skill/` — the MCP server references them via `SKILL_ROOT`, no duplication.
+
+Observability: every tool call is logged (`[mcp] <tool> ok|ERR <ms> <args>`) to the
+service journal (`journalctl --user -u journey-builder-mcp`); the OpenCode session DB
+holds full transcripts, dumpable with `whatsapp-mock-generator-mcp/scripts/session_dump.py`
+(which tools an agent called, with args and outputs).
 
 Config for OpenCode Desktop (`opencode.jsonc`) — note the Authorization header (server is token-gated):
 ```json

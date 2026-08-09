@@ -228,6 +228,16 @@ The server runs as a systemd USER service (auto-start, restart-safe):
 
 ## Changelog
 
+**2026-08-09 — v1.3.1 (build reliability fixes)**
+- `build_journey` copies the source project's `assets/` + root-level logo files and
+  repairs `<img>` logo references — new logo provided → refs point at
+  `assets/brand/<new-logo>`; no logo → refs point at the copied source logo. Kills
+  the `ERR_FILE_NOT_FOUND` broken-image class (was ~20 refs per build).
+- `verify_journey` D1 whitelists `hr.wa-list-btn-hr` (legit UI element in source templates)
+- Server logs every tool call (`[mcp] <tool> ok|ERR <ms> <args>` → service journal)
+- `scripts/session_dump.py` — dump OpenCode session transcripts to see exactly what
+  an agent did with the MCP (tool calls, args, outputs)
+
 **2026-08-09 — v1.3.0 (brand-pack intake for NEW companies)**
 - `list_industries` tool: industry content profiles (recipient label, units, currency,
   product categories) from `../data/industries/` — same source of truth as the demo-generator
