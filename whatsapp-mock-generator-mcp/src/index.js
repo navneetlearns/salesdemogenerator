@@ -104,8 +104,8 @@ function projectBrand(projDir) {
 function journeysIn(dir) {
   if (!existsSync(dir)) return [];
   return readdirSync(dir)
-    .filter(f => f.startsWith('journey_') && f.endsWith('.html'))
-    .map(f => f.slice('journey_'.length, -'.html'.length))
+    .filter(f => f.endsWith('.html') && !/^index\.html$/i.test(f) && !/_index\.html$/i.test(f))
+    .map(f => f.replace(/^journey_/, '').replace(/\.html$/, ''))
     .sort();
 }
 
@@ -339,13 +339,17 @@ const tools = {
         return { content: [{ type: 'text', text: `ERROR: template source not found at ${srcDir}` }], isError: true };
       }
       const srcJourneyFile = srcJourneyName
-        ? join(srcDir, `journey_${srcJourneyName}.html`)
+        ? [join(srcDir, `journey_${srcJourneyName}.html`), join(srcDir, `${srcJourneyName}.html`)].find(f => existsSync(f))
         : (existsSync(join(srcDir, 'journey_contract.html')) ? join(srcDir, 'journey_contract.html') : null);
       if (!srcJourneyFile || !existsSync(srcJourneyFile)) {
         return { content: [{ type: 'text', text: `ERROR: no journey file found in ${srcDir}${srcJourneyName ? ` (journey_${srcJourneyName}.html)` : ''}. Run list_bases.` }], isError: true };
       }
-      const srcIndex = join(srcDir, 'index.html');
-      if (existsSync(srcIndex)) cpSync(srcIndex, indexPath);
+      // copy the project's index page (index.html, or brand-prefixed variant like awl_index.html)
+      const srcIndex = [join(srcDir, 'index.html'), ...readdirSync(srcDir)
+        .filter(f => /index\.html$/i.test(f) && !/^index\.html$/i.test(f))
+        .map(f => join(srcDir, f))]
+        .find(f => existsSync(f));
+      if (srcIndex) cpSync(srcIndex, indexPath);
       cpSync(srcJourneyFile, journeyPath);
 
       // 2. build brand manifest
@@ -398,6 +402,8 @@ const tools = {
       writeFileSync(journeyPath, journeyHtml, 'utf-8');
       writeFileSync(indexPath, indexHtml, 'utf-8');
 
+      const previewId = registerPreview(projDir);
+
       return {
         content: [{
           type: 'text',
@@ -408,12 +414,16 @@ const tools = {
               journey:  journeyPath,
               manifest: manifestPath,
             },
+            preview: {
+              localUrl: `http://localhost:${PORT}/preview/${previewId}/`,
+              publicUrl: PUBLIC_BASE_URL ? `${PUBLIC_BASE_URL}/preview/${previewId}/` : null,
+            },
             brandSwapReport: wet.stdout,
             nextSteps: [
               '1. Review the cloned HTML in ' + journeyPath,
               '2. Rewrite step content using the mock-journey-builder skill (Phase 4)',
               '3. Run verify_journey to check structure + compliance',
-              '4. Run serve_journey to preview in browser',
+              '4. Open the preview URL to view in browser',
             ],
           }, null, 2),
         }],
