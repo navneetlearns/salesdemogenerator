@@ -14,7 +14,8 @@
   ],
   "scripts": {
     "start": "node src/index.js",
-    "start:http": "node src/index.js --http"
+    "start:http": "node src/index.js --http",
+    "build": "node --check src/index.js"
   },
   "keywords": [
     "mcp",
