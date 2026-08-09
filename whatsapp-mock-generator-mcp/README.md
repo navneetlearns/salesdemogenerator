@@ -85,6 +85,47 @@ You should see the 5 journey-builder tools listed. If not, see [Troubleshooting]
 
 ---
 
+## Shared remote URL (for teammates)
+
+Instead of running the server yourself, you can point OpenCode at a hosted instance. Only the host needs the repo + server running; everyone else just adds a remote config with an auth token.
+
+### 1. Add the remote server to your OpenCode config
+
+```jsonc
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "journey-builder": {
+      "type": "remote",
+      "url": "https://<host>/mcp",
+      "headers": { "Authorization": "Bearer <SHARED_TOKEN>" },
+      "enabled": true
+    }
+  }
+}
+```
+
+Replace `<host>` with the hosted URL (e.g. `https://<machine>.<tailnet>.ts.net` for a Tailscale Funnel) and `<SHARED_TOKEN>` with the token the host gives you.
+
+### 2. Smoke-test with curl (no OpenCode needed)
+
+```bash
+curl -s -X POST https://<host>/mcp \
+  -H "Authorization: Bearer <SHARED_TOKEN>" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"probe","version":"1.0"}}}'
+# Expected: a JSON result with "serverInfo" — not an "Unauthorized" error
+```
+
+### 3. Restart OpenCode Desktop and use the tools as usual
+
+Config is not hot-reloaded — close and reopen the app after editing `opencode.jsonc`.
+
+> **Security notes (for hosts):** auth is a shared bearer token — distribute it privately (password manager), rotate it by changing `JOURNEY_BUILDER_TOKEN` on the host and restarting the server. The `/health` endpoint stays public; `/mcp` requires the token.
+
+---
+
 ## Usage
 
 Once connected, just ask OpenCode to build a journey:
@@ -109,6 +150,7 @@ OpenCode will call the MCP tools to scaffold the project, brand-swap the base jo
 | Variable | What |
 |---|---|
 | `WORKSPACE_DIR` | Override output directory (same as `--workspace`) |
+| `JOURNEY_BUILDER_TOKEN` | If set, HTTP mode requires `Authorization: Bearer <token>` (except OPTIONS + /health). Leave unset for open local dev. |
 
 ---
 
