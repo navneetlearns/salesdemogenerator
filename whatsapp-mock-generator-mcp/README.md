@@ -2,6 +2,20 @@
 
 MCP server for building ZoTok WhatsApp mock demo journeys. Gives OpenCode (or any MCP client) 5 tools to scaffold, brand-swap, verify, and serve WhatsApp demo journeys mid-conversation.
 
+## Project goal
+
+This MCP exists so the **sales team can create a new WhatsApp demo journey from an EXISTING project, seamlessly** — no coding, no file juggling, no server knowledge.
+
+The flow is always:
+
+1. Pick an **existing project** (`list_bases`) — e.g. Banas_Diary, V[N] Fogg, Orient, Adani Wilmar
+2. Pick a **journey inside it** — e.g. `order_to_cash`, `vini_retailer_activation`
+3. Build the new journey **from that existing journey** (`build_journey` with `sourceProject` + `sourceJourney`) — the reference provides the steps and brand identity, the output is a ready-to-preview, brand-swapped copy.
+
+**The one rule: never build "fresh" from the canonical base when an existing project matches.** Building without `sourceProject` produces generic placeholder journeys (identical copies with only brand colors swapped), not the client's journey — a failed demo. The existing project is the source of truth; the base is a last-resort fallback only.
+
+Sales reps don't need to know any internals — they just ask OpenCode for a journey like an existing one, and the agent drives the tools.
+
 ## What you get
 
 | Tool | What it does |
@@ -168,12 +182,16 @@ the whatsapp-mock-generator dir (Banas_Diary 10, Orient 10, Haldirams 9, BlueOce
 sundar_masala 5, Recykal 3, Adani Wilmar 7, V[N] Fogg 7, jkcement 6, …), the
 canonical base (contract), and workspace projects.
 
-Build flow (what the agent should do):
-1. `list_bases` → ask the user **which project** they want as the reference
+Build flow (MANDATORY — this is the product):
+1. `list_bases` → ask the user **which existing project** they want as the reference
 2. Ask **which journey** within it
 3. Ask for the **steps** (or let them type them out)
 4. `build_journey` with `sourceProject` + `sourceJourney` + `steps`
-   (omitting `sourceProject` falls back to the canonical base)
+
+> ⚠️ Never build without `sourceProject`. Omitting it falls back to the canonical
+> base and produces generic placeholders — every "journey" built that way is an
+> identical copy with only the brand colors swapped. If an existing project matches
+> the client, it MUST be the source. The base is a last-resort fallback only.
 
 ### Preview
 
