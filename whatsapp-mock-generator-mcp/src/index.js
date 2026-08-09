@@ -452,6 +452,7 @@ const portArg = args.find(a => a.startsWith('--port='));
 const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 7891;
 const workspaceArg = args.find(a => a.startsWith('--workspace='));
 const workspaceDir = workspaceArg ? workspaceArg.split('=').slice(1).join('=') : process.cwd();
+const AUTH_TOKEN = process.env.JOURNEY_BUILDER_TOKEN || '';
 
 if (httpMode) {
   // HTTP mode — for OpenCode Desktop / remote MCP clients
@@ -461,7 +462,7 @@ if (httpMode) {
     // CORS headers for cross-origin requests
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Mcp-Session-Id');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Mcp-Session-Id, Authorization');
     res.setHeader('Access-Control-Expose-Headers', 'Mcp-Session-Id');
 
     if (req.method === 'OPTIONS') {
@@ -474,6 +475,15 @@ if (httpMode) {
     if (req.method === 'GET' && req.url === '/health') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ status: 'ok', tools: Object.keys(tools) }));
+      return;
+    }
+
+    // Bearer-token auth — enforced ONLY when JOURNEY_BUILDER_TOKEN is set.
+    // Local dev stays open; public deployments set the env var.
+    // OPTIONS preflight + /health stay unauthenticated.
+    if (AUTH_TOKEN && req.headers.authorization !== `Bearer ${AUTH_TOKEN}`) {
+      res.writeHead(401, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Unauthorized', hint: 'Authorization: Bearer <JOURNEY_BUILDER_TOKEN>' }));
       return;
     }
 
@@ -526,6 +536,7 @@ if (httpMode) {
     console.error(`journey-builder-mcp HTTP server on http://localhost:${PORT}/mcp`);
     console.error(`Health: http://localhost:${PORT}/health`);
     console.error(`Tools: ${Object.keys(tools).join(', ')}`);
+    console.error(`Auth: ${AUTH_TOKEN ? 'bearer-token ON' : 'OFF (local only)'}`);
   });
 
 } else {
