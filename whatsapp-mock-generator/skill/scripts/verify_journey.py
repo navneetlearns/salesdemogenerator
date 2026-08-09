@@ -36,7 +36,7 @@ def check_compliance(path: Path) -> list:
     data = path.read_text(encoding="utf-8")
     body = re.sub(r"<script.*?</script>", " ", data, flags=re.S)
     out = [
-        ("D1 no <hr> tags", "<hr" not in body),
+        ("D1 no <hr> tags (wa-list-btn-hr allowed)", not re.search(r"<hr(?![^>]*\bwa-list-btn-hr\b)", body, flags=re.I)),
         ("D2 no divider runs (4+)", not re.search(r"[━─=]{4,}|-{4,}", body)),
         ("D3 no consecutive variables {{1}}{{2}}", "{{1}}{{2}}" not in body),
         ("D4 no double-escaped entities (&amp;nbsp;)", "&amp;nbsp;" not in body and "&amp;amp;" not in body),

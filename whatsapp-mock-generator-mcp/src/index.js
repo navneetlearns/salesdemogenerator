@@ -205,6 +205,15 @@ function safeExt(name, fallback) {
   return m ? `.${m[1].toLowerCase()}` : fallback;
 }
 
+function safeArgs(args = {}) {
+  const a = { ...args };
+  if (a.logoBase64) a.logoBase64 = `<base64 ${Math.round((a.logoBase64.length * 3) / 4)}B>`;
+  if (a.productImages) a.productImages = `[${a.productImages.length} urls]`;
+  if (a.steps) a.steps = `${a.steps.length} steps`;
+  const s = JSON.stringify(a);
+  return s.length > 300 ? `${s.slice(0, 300)}…` : s;
+}
+
 const tools = {
 
   /** Create project dir + brand-identity.md + journey-analysis.md from brand pack */
@@ -437,6 +446,38 @@ const tools = {
         .find(f => existsSync(f));
       if (srcIndex) cpSync(srcIndex, indexPath);
       cpSync(srcJourneyFile, journeyPath);
+
+      // copy the source project's assets + root-level logo files so the cloned
+      // HTML's <img src="..."> refs resolve (they were ERR_FILE_NOT_FOUND before)
+      const srcAssets = join(srcDir, 'assets');
+      if (existsSync(srcAssets)) {
+        mkdirSync(join(projDir, 'assets'), { recursive: true });
+        cpSync(srcAssets, join(projDir, 'assets'), { recursive: true });
+      }
+      mkdirSync(assetsDir, { recursive: true });
+      for (const f of readdirSync(srcDir)) {
+        if (/logo.*\.(png|jpe?g|webp|gif)$/i.test(f) && statSync(join(srcDir, f)).isFile()) {
+          cpSync(join(srcDir, f), join(assetsDir, f));
+        }
+      }
+
+      // logo reference repair: cloned HTML references the SOURCE logo by name.
+      // New logo provided -> point every *logo* <img> ref at the new file.
+      // No new logo -> prefix refs with assets/brand/ so the copied source logo
+      // resolves (avoids broken-image leaks).
+      if (logoFile || readdirSync(srcDir).some((f) => /logo.*\.(png|jpe?g|webp|gif)$/i.test(f))) {
+        const target = logoFile ? `assets/brand/${basename(logoFile)}` : null;
+        const fixRefs = (file) => {
+          let html = readFileSync(file, 'utf-8');
+          html = html.replace(
+            /src="(?!(?:https?:|data:))([^"]*?logo[^"]*\.(?:png|jpe?g|webp|gif))"/gi,
+            (m, name) => `src="${target || `assets/brand/${name.split('/').pop()}`}"`
+          );
+          writeFileSync(file, html, 'utf-8');
+        };
+        fixRefs(journeyPath);
+        fixRefs(indexPath);
+      }
 
       // 2. build brand manifest
       const manifest = {
@@ -683,7 +724,7 @@ const tools = {
 
 function createMcpServer() {
   const server = new Server(
-    { name: 'journey-builder-mcp', version: '1.3.0' },
+    { name: 'journey-builder-mcp', version: '1.3.1' },
     { capabilities: { tools: {} } }
   );
 
@@ -701,10 +742,14 @@ function createMcpServer() {
     if (!tool) {
       return { content: [{ type: 'text', text: `Unknown tool: ${name}` }], isError: true };
     }
+    const t0 = Date.now();
     try {
       const result = await tool.handler(args || {});
+      const ms = Date.now() - t0;
+      console.log(`[mcp] ${name} ${result && result.isError ? 'ERR' : 'ok'} ${ms}ms ${safeArgs(args)}`);
       return result;
     } catch (err) {
+      console.error(`[mcp] ${name} THREW after ${Date.now() - t0}ms: ${err.message}`);
       return { content: [{ type: 'text', text: `Exception: ${err.message}\n${err.stack}` }], isError: true };
     }
   });
