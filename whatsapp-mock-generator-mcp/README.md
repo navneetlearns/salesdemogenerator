@@ -22,8 +22,10 @@ Sales reps don't need to know any internals — they just ask OpenCode for a jou
 | Tool | What it does |
 |---|---|
 | `scaffold_project` | Create project directory + brand identity docs |
-| `build_journey` | Clone a journey from an EXISTING project (sourceProject + sourceJourney) + the new company's brand pack (industry, website, logo, product images) → brand-swap → HTML skeleton |
-| `verify_journey` | Structure + charset + Playwright render + Meta compliance + brand-asset checks |
+| `build_journey` | Clone a journey from an EXISTING project (sourceProject + sourceJourney) + the new company's brand pack (industry, website, logo via URL/path/base64, product images via URL/path) → brand-swap → HTML skeleton + `.journey-meta.json` |
+| `stage_for_edit` | Content adaptation step 1: copy the build to a Windows-accessible staging dir (when `EDIT_STAGING_DIR` is set) and return the editable path + the content checklist |
+| `finalize_journey` | Content adaptation step 2: sync edits back and AUTO-verify (expectedSteps + source-leak guard) — the mandatory gate before showing a journey |
+| `verify_journey` | Structure + charset + Playwright render + Meta compliance + brand-asset checks + F6 source-leak guard (probes hardened, expectedSteps auto-filled) |
 | `serve_journey` | Return local + public preview URLs for a project (no auth needed to view) |
 | `list_bases` | List ALL projects in the template library (workspace + template roots + base), each with its journeys |
 | `list_industries` | List industry content profiles (recipient label, units, currency, product categories) — pick one for the new company before building |
@@ -169,6 +171,7 @@ OpenCode will call the MCP tools to scaffold the project, brand-swap the base jo
 | `JOURNEY_BUILDER_TOKEN` | If set, HTTP mode requires `Authorization: Bearer <token>` (except OPTIONS, /health, /preview). Leave unset for open local dev. |
 | `JOURNEY_BUILDER_PUBLIC_URL` | Public base URL (e.g. a Tailscale funnel). serve_journey returns a public preview URL when set. |
 | `JOURNEY_TEMPLATE_ROOTS` | Comma-separated dirs to scan into the template library (projects with journey_*.html). |
+| `EDIT_STAGING_DIR` | Windows-visible staging root for `stage_for_edit` (e.g. `/mnt/f/Sellerhub/edit-staging`). Unset = in-place editing (correct for native Linux/Mac or remote clients). Windows drive letters in asset paths are auto-translated via `/proc/mounts` — no hardcoded mounts. |
 
 ### Template library & the ask-flow
 
