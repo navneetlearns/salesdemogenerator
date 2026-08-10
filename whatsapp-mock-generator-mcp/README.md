@@ -107,7 +107,21 @@ You should see the 5 journey-builder tools listed. If not, see [Troubleshooting]
 
 Instead of running the server yourself, you can point OpenCode at a hosted instance. Only the host needs the repo + server running; everyone else just adds a remote config with an auth token.
 
-### 1. Add the remote server to your OpenCode config
+> **Availability caveat:** the hosted instance in this repo's current deployment runs
+> on the host's laptop via a Tailscale Funnel. It works while that machine is on;
+> it goes down when the laptop sleeps/reboots (the host re-establishes the funnel
+> with `sudo tailscale funnel --bg 7891`). For a always-on team rollout, host the
+> server on a cloud VM (see the journey-builder-mcp skill's `cloud-hosting-recipe.md`).
+
+### 1. Install the agent rules (one-time, REQUIRED)
+
+The agent needs the ask-flow + content-adaptation rules to use the tools correctly.
+Save the content of the repo-root `AGENTS.md` to your OpenCode global rules file:
+
+- Windows: `C:\Users\<you>\.config\opencode\AGENTS.md`
+- Linux/macOS: `~/.config/opencode/AGENTS.md`
+
+### 2. Add the remote server to your OpenCode config
 
 ```jsonc
 {
@@ -125,7 +139,7 @@ Instead of running the server yourself, you can point OpenCode at a hosted insta
 
 Replace `<host>` with the hosted URL (e.g. `https://<machine>.<tailnet>.ts.net` for a Tailscale Funnel) and `<SHARED_TOKEN>` with the token the host gives you.
 
-### 2. Smoke-test with curl (no OpenCode needed)
+### 3. Smoke-test with curl (no OpenCode needed)
 
 ```bash
 curl -s -X POST https://<host>/mcp \
@@ -136,9 +150,24 @@ curl -s -X POST https://<host>/mcp \
 # Expected: a JSON result with "serverInfo" — not an "Unauthorized" error
 ```
 
-### 3. Restart OpenCode Desktop and use the tools as usual
+### 4. Restart OpenCode Desktop and use the tools as usual
 
 Config is not hot-reloaded — close and reopen the app after editing `opencode.jsonc`.
+Type `/mcp` — `journey-builder` should show connected with its 8 tools.
+
+### Teammate notes (v1.5.0)
+
+- The full template library (23 projects / 75 journeys) is served from the host —
+  you do NOT need to clone the source projects. Run `list_bases` and pick any project.
+- Content adaptation: after `build_journey`, the agent runs `stage_for_edit` →
+  rewrites content → `finalize_journey` (auto-verify + source-leak guard).
+  - On Windows + WSL: if the agent's file tools can't reach WSL paths, `stage_for_edit`
+    returns a Windows path when the host has `EDIT_STAGING_DIR` set (it does on this
+    deployment) — the staging copy is on the host, so editing works through the path
+    returned. If anything is unreachable, edit in-place is the fallback; the leak
+    guard still protects the build.
+- Your brand assets: pass them as URLs, local paths (`D:\Sales\Acme\logo.png`), or
+  attach them in the prompt — the build tool accepts all three.
 
 > **Security notes (for hosts):** auth is a shared bearer token — distribute it privately (password manager), rotate it by changing `JOURNEY_BUILDER_TOKEN` on the host and restarting the server. The `/health` endpoint stays public; `/mcp` requires the token.
 
