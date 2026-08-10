@@ -228,6 +228,30 @@ The server runs as a systemd USER service (auto-start, restart-safe):
 
 ## Changelog
 
+**2026-08-10 — v1.5.0 (content-adaptation workflow + asset intake by location)**
+- `build_journey` accepts LOCAL asset paths — `logoPath` + `productImagePaths`
+  (Windows `D:\Sales\Acme\logo.png` or WSL paths) — the "user selects the stored
+  assets location" intake. Windows drive letters are auto-translated via
+  `/proc/mounts` discovery (adapts to ANY WSL machine; no hardcoded mounts).
+- NEW `stage_for_edit` — copies a built project to a Windows-accessible staging
+  dir (`EDIT_STAGING_DIR`, env-gated: unset = edit in place) and returns the
+  editable Windows path + the full content-adaptation checklist. Kills the
+  WSL/Windows file-tool path gap the OpenCode agent had to improvise around.
+- NEW `finalize_journey` — syncs staged edits back (byte-verified), then
+  AUTO-runs verify with expectedSteps + source-leak guard from
+  `.journey-meta.json` (written at build: source display brand extracted from the
+  source HTML, e.g. "Banas Dairy", + source logo filenames). Returns verify
+  summary + preview URLs. The Banas-class leak can never ship.
+- `verify_journey` — probes hardened (accepts objects, valid JSON, and lenient
+  single-quoted literals with a clear error) + new `forbid` arg merged with the
+  auto leak guard; expectedSteps auto-filled from `.journey-meta.json`.
+- BUGFIX (root cause of the 2026-08-09 session's verify failures): `runPy` now
+  uses `spawnSync` (no shell) — `execSync`+join shell-split any arg containing
+  spaces (`--probes {"1": ["Meditech Surgical Supplies"]}`), breaking
+  `json.loads` with a JSONDecodeError.
+- `verify_journey.py` (shared script) gains `--forbid '["str", ...]'` — F6 leak
+  guard checks, flag-gated (manual pipeline unaffected when omitted).
+
 **2026-08-09 — v1.3.1 (build reliability fixes)**
 - `build_journey` copies the source project's `assets/` + root-level logo files and
   repairs `<img>` logo references — new logo provided → refs point at

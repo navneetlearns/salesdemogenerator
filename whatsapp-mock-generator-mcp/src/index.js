@@ -20,7 +20,7 @@ import {
   ToolSchema,
 } from '@modelcontextprotocol/sdk/types.js';
 
-import { execSync } from 'child_process';
+import { execSync, spawnSync } from 'child_process';
 import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, readdirSync, statSync } from 'fs';
 import { join, resolve, basename, dirname, extname, sep } from 'path';
 import { fileURLToPath } from 'url';
@@ -169,17 +169,20 @@ function scanProjects() {
   return found.filter((p) => !isExcludedBrand(p.path));
 }
 
+// spawnSync (NO shell) — execSync+join mangles any arg containing spaces:
+// `--forbid ["Banas Dairy"]` gets shell-split, json.loads then explodes. This
+// was the root cause of the meditech session's verify_journey failures.
 function runPy(script, args = [], timeoutSec = 60) {
-  const cmd = ['python3', script, ...args];
   try {
-    const out = execSync(cmd.join(' '), {
+    const out = spawnSync('python3', [script, ...args], {
       encoding: 'utf-8',
       timeout: timeoutSec * 1000,
       cwd: process.env.WORKSPACE_DIR || workspaceDir,
     });
-    return { ok: true, stdout: out, stderr: '' };
+    const ok = out.status === 0;
+    return { ok, stdout: out.stdout || '', stderr: out.stderr || '' };
   } catch (e) {
-    return { ok: false, stdout: e.stdout || '', stderr: e.stderr || e.message };
+    return { ok: false, stdout: '', stderr: e.message };
   }
 }
 
@@ -209,10 +212,73 @@ function safeArgs(args = {}) {
   const a = { ...args };
   if (a.logoBase64) a.logoBase64 = `<base64 ${Math.round((a.logoBase64.length * 3) / 4)}B>`;
   if (a.productImages) a.productImages = `[${a.productImages.length} urls]`;
+  if (a.productImagePaths) a.productImagePaths = `[${a.productImagePaths.length} paths]`;
   if (a.steps) a.steps = `${a.steps.length} steps`;
   const s = JSON.stringify(a);
   return s.length > 300 ? `${s.slice(0, 300)}…` : s;
 }
+
+// ── path portability: Windows <-> WSL translation, auto-discovered ──────────
+// No hardcoded drive letters. The F: -> /mnt/f mapping comes from /proc/mounts
+// (drvfs entries), so this adapts to ANY WSL machine. Non-WSL hosts (native
+// Linux / Mac) get POSIX paths passed through untouched.
+let WINDOWS_MOUNTS = {}; // drive letter (lowercase) -> mount point
+try {
+  const mounts = readFileSync('/proc/mounts', 'utf-8').split('\n');
+  for (const line of mounts) {
+    const m = /^([A-Za-z]):\s+(\S+)\s+drvfs\s/.exec(line);
+    if (m) WINDOWS_MOUNTS[m[1].toLowerCase()] = m[2];
+  }
+} catch { /* not WSL — POSIX only */ }
+
+function toServerPath(p) {
+  if (!p) return p;
+  const norm = p.replace(/\\/g, '/');
+  // Windows drive path: F:\foo\bar -> /mnt/f/foo/bar
+  let m = /^([A-Za-z]):\/(.*)$/.exec(norm);
+  if (m) {
+    const drive = m[1].toLowerCase();
+    const root = WINDOWS_MOUNTS[drive] || `/mnt/${drive}`;
+    return m[2] ? `${root}/${m[2]}` : root;
+  }
+  // WSL UNC from Windows: \\wsl$\Ubuntu\home\... -> /home/...
+  m = /^\/\/wsl(?:\$|\.localhost)\/[^/]+(\/.*)$/i.exec(norm);
+  if (m) return m[1];
+  // already POSIX
+  return norm;
+}
+
+function toWindowsPath(p) {
+  const m = /^\/mnt\/([a-z])\/(.*)$/.exec(p);
+  if (m) return `${m[1].toUpperCase()}:\\${m[2].replace(/\//g, '\\')}`;
+  return p; // POSIX (native Linux/Mac) — client file tools handle it directly
+}
+
+function existsAsPath(p) {
+  try { return existsSync(toServerPath(p)); } catch { return false; }
+}
+
+// Staging root for the content-adaptation workflow. ENV-GATED: unset on other
+// machines = no staging (clients whose file tools reach the workspace edit in
+// place). Set here in the systemd env file to a Windows-visible location.
+const STAGING_DIR = process.env.EDIT_STAGING_DIR || '';
+
+const CONTENT_CHECKLIST = [
+  'CONTENT ADAPTATION — rewrite EVERY content-bearing text for the NEW company:',
+  ' 1. Every message (.msg-body) in every phone frame — real conversations for this',
+  '    industry (products, prices, refs, GST, terms). Keep sender/receiver as-is.',
+  ' 2. Every .screen-desc (why-caption under each screen) — one-line insight.',
+  ' 3. Every .screen-lbl — new screen names for this flow.',
+  ' 4. Sidebar .step-lbl entries + the const steps array titles/descs.',
+  ' 5. .wa-contact-name (topbar) — the NEW brand name.',
+  ' 6. Numbers, refs, timestamps — realistic, clock continuity (09:12 -> 09:16),',
+  '    date pills between chapters, refs like ORD-2026-1042.',
+  ' 7. Keep the shell: section count, phone frames, layout, screen types.',
+  ' 8. ZERO references to the source company (name, logo file) anywhere.',
+  ' 9. Save as UTF-8 WITHOUT BOM (PowerShell Set-Content adds a BOM — breaks the',
+  '    A1 doctype-at-byte-0 check). Use UTF8NoBOM or write from an editor.',
+  '10. When done: call finalize_journey to sync back + auto-verify (leak guard on).',
+].join('\n');
 
 const tools = {
 
@@ -333,8 +399,10 @@ const tools = {
         sourceJourney: { type: 'string', description: 'REQUIRED (unless sourceProject="base"). Journey name within sourceProject, e.g. vini_order_to_cash. Pick from the project\'s journeys in list_bases.' },
         industry: { type: 'string', description: 'Industry id from list_industries (e.g. building_materials, footwear, general). Content profile for the NEW company: recipient label, units, currency, product categories. Defaults to general.' },
         website: { type: 'string', description: 'New company\'s website URL — stored in the brand manifest for content/CTAs.' },
-        logoUrl: { type: 'string', description: 'URL of the NEW company logo — downloaded, saved once in assets/brand/, embedded via the .ava-logo rule. Alternative to logoBase64.' },
+        logoUrl: { type: 'string', description: 'URL of the NEW company logo — downloaded, saved once in assets/brand/, embedded via the .ava-logo rule. Alternative to logoPath/logoBase64.' },
+        logoPath: { type: 'string', description: 'LOCAL path to the NEW company logo (Windows e.g. D:\\Sales\\Acme\\logo.png or WSL /path) — read from disk, saved to assets/brand/. This is the "user selects the stored asset location" intake. Alternative to logoUrl/logoBase64.' },
         productImages: { type: 'array', items: { type: 'string' }, description: 'URLs of NEW company product images (1-3) — downloaded to assets/products/ for use in step content.' },
+        productImagePaths: { type: 'array', items: { type: 'string' }, description: 'LOCAL paths of NEW company product images (Windows or WSL paths) — read from disk, copied to assets/products/. The "user selects the stored assets folder" intake.' },
         tagline: { type: 'string', description: 'Positioning/tagline for the new company (optional)' },
         steps: {
           type: 'array',
@@ -357,8 +425,8 @@ const tools = {
     handler: async ({
       brandName, slug, journeyName, brandColor, accentColor,
       logoBase64, avatarInitials, journeyLabel, steps, projectDir,
-      sourceProject, sourceJourney, industry, website, logoUrl,
-      productImages, tagline,
+      sourceProject, sourceJourney, industry, website, logoUrl, logoPath,
+      productImages, productImagePaths, tagline,
     }) => {
       if (!sourceProject) {
         return { content: [{ type: 'text', text: 'ERROR: build_journey requires sourceProject. Run list_bases, pick an existing project id, and pass it with sourceProject + sourceJourney. Building without a source produces a generic placeholder — never do that. (Explicit escape hatch: sourceProject="base" only when no existing project matches.)' }], isError: true };
@@ -395,8 +463,17 @@ const tools = {
       if (logoUrl) {
         const dest = join(assetsDir, `logo${safeExt(logoUrl, '.png')}`);
         const dl = await downloadAsset(logoUrl, dest, 'logo');
-        if (!dl.ok) return { content: [{ type: 'text', text: `ERROR: logo download failed — ${dl.error}. Pass a valid logoUrl (or logoBase64).` }], isError: true };
+        if (!dl.ok) return { content: [{ type: 'text', text: `ERROR: logo download failed — ${dl.error}. Pass a valid logoUrl (or logoPath / logoBase64).` }], isError: true };
         logoFile = dest; logoSource = logoUrl;
+      } else if (logoPath) {
+        const src = toServerPath(logoPath);
+        if (!existsSync(src)) {
+          return { content: [{ type: 'text', text: `ERROR: logo file not found at ${src} (from ${logoPath}). Give a Windows path (D:\\...), a WSL path (/...), a URL, or base64.` }], isError: true };
+        }
+        const dest = join(assetsDir, `logo${safeExt(src, '.png')}`);
+        mkdirSync(assetsDir, { recursive: true });
+        cpSync(src, dest);
+        logoFile = dest; logoSource = logoPath;
       } else if (logoBase64) {
         try {
           logoFile = join(assetsDir, 'logo.png');
@@ -406,15 +483,31 @@ const tools = {
       }
 
       const savedProducts = [];
+      const productDir = join(projDir, 'assets', 'products');
+      let prodSeq = 0;
+      const saveProduct = (dest, srcLabel, extra) => {
+        savedProducts.push({ index: ++prodSeq, path: dest, ...extra, source: srcLabel });
+      };
       if (Array.isArray(productImages) && productImages.length) {
-        const productDir = join(projDir, 'assets', 'products');
         mkdirSync(productDir, { recursive: true });
-        for (let i = 0; i < productImages.length; i++) {
-          const url = productImages[i];
-          const dest = join(productDir, `${slug}-${String(i + 1).padStart(2, '0')}${safeExt(url, '.jpg')}`);
-          const dl = await downloadAsset(url, dest, `product image ${i + 1}`);
-          if (dl.ok) savedProducts.push({ index: i + 1, path: dest, bytes: dl.bytes });
-          else savedProducts.push({ index: i + 1, url, error: dl.error });
+        for (const url of productImages) {
+          const dest = join(productDir, `${slug}-${String(prodSeq + 1).padStart(2, '0')}${safeExt(url, '.jpg')}`);
+          const dl = await downloadAsset(url, dest, `product image ${prodSeq + 1}`);
+          if (dl.ok) saveProduct(dest, `url:${url.slice(0, 80)}`, { bytes: dl.bytes });
+          else savedProducts.push({ index: ++prodSeq, url, error: dl.error, source: 'url' });
+        }
+      }
+      if (Array.isArray(productImagePaths) && productImagePaths.length) {
+        mkdirSync(productDir, { recursive: true });
+        for (const p of productImagePaths) {
+          const src = toServerPath(p);
+          if (!existsSync(src)) {
+            savedProducts.push({ index: ++prodSeq, path: p, error: `not found (server path: ${src})`, source: 'path' });
+            continue;
+          }
+          const dest = join(productDir, `${slug}-${String(prodSeq + 1).padStart(2, '0')}${safeExt(src, '.jpg')}`);
+          cpSync(src, dest);
+          saveProduct(dest, `path:${p}`, { bytes: statSync(src).size });
         }
       }
 
@@ -541,6 +634,33 @@ const tools = {
       writeFileSync(journeyPath, journeyHtml, 'utf-8');
       writeFileSync(indexPath, indexHtml, 'utf-8');
 
+      // content-adaptation metadata — consumed by verify_journey (auto leak
+      // guard: forbid source display brand + logo names) and finalize_journey
+      // (expectedSteps). Written once at build time.
+      const stepCount = (readFileSync(journeyPath, 'utf-8').match(/class="step-section/g) || []).length;
+      const srcLogoFiles = readdirSync(srcDir)
+        .filter((f) => /logo.*\.(png|jpe?g|webp|gif)$/i.test(f) && statSync(join(srcDir, f)).isFile());
+      // the source's actual display brand (e.g. "Banas Dairy" — the folder name
+      // "Banas_Diary" would NOT catch the text in the HTML). Used as the leak
+      // guard token.
+      const srcHtml = readFileSync(srcJourneyFile, 'utf-8');
+      const contactM = srcHtml.match(/class="wa-contact-name">\s*([^<]+)</);
+      const brandM = srcHtml.match(/class="brand-name">\s*([^<]+)</);
+      const titleM = srcHtml.match(/<title>([^<]+)</);
+      const sourceDisplayName = (contactM && contactM[1].trim())
+        || (brandM && brandM[1].trim())
+        || (titleM && titleM[1].trim().replace(/\s*[|–—-].*$/, '').trim())
+        || projectBrand(srcDir);
+      writeFileSync(join(projDir, '.journey-meta.json'), JSON.stringify({
+        sourceProject,
+        sourceJourney: srcJourneyName,
+        sourceName: projectBrand(srcDir),
+        sourceDisplayName,
+        sourceLogoFiles: srcLogoFiles,
+        expectedSteps: stepCount || null,
+        builtAt: new Date().toISOString(),
+      }, null, 2));
+
       const previewId = registerPreview(projDir);
       const previewObj = {
         localUrl: `http://localhost:${PORT}/preview/${previewId}/`,
@@ -556,7 +676,7 @@ const tools = {
             `PREVIEW: ${previewObj.publicUrl || previewObj.localUrl}\n` +
             `SOURCE: ${usedProject} / ${usedJourney}\n` +
             `INDUSTRY: ${industryProfile.label}\n` +
-            `ASSETS: ${logoFile ? 'logo ✓' : 'logo —'} | products ${savedProducts.filter((p) => p.path).length}/${Array.isArray(productImages) ? productImages.length : 0} | website ${website ? '✓' : '—'}\n\n` +
+            `ASSETS: ${logoFile ? 'logo ✓' : 'logo —'} | products ${savedProducts.filter((p) => p.path).length}/${(Array.isArray(productImages) ? productImages.length : 0) + (Array.isArray(productImagePaths) ? productImagePaths.length : 0)} | website ${website ? '✓' : '—'}\n\n` +
             JSON.stringify({
               status: 'built',
               source: { project: usedProject, journey: usedJourney },
@@ -575,9 +695,10 @@ const tools = {
               preview: previewObj,
               brandSwapReport: wet.stdout,
               nextSteps: [
-                '1. Open the PREVIEW URL above to verify the journey in a browser',
-                '2. Run verify_journey to check structure + compliance',
-                '3. If content needs editing, rebuild with a sourceProject + sourceJourney (or edit the HTML directly)',
+                '1. Open the PREVIEW URL above to verify the shell in a browser',
+                '2. Run stage_for_edit — returns a Windows-accessible path + the content-adaptation checklist',
+                '3. Rewrite ALL content for the new company in the staged files (per the checklist), then call finalize_journey',
+                '4. finalize_journey syncs back + auto-runs verify_journey with the source-leak guard and expected steps',
               ],
             }, null, 2),
         }],
@@ -597,19 +718,57 @@ const tools = {
           type: 'object',
           description: 'JSON object of { "stepN": ["text probe", ...] } — content check per step',
         },
-        expectedSteps: { type: 'number', description: 'Expected step count — REQUIRED for the B2 step-count check. NOT auto-detected from the page: if omitted and no probes are given, the check expects 1 and fails valid multi-step journeys.' },
+        expectedSteps: { type: 'number', description: 'Expected step count — REQUIRED for the B2 step-count check. Auto-filled from .journey-meta.json when built by build_journey. NOT auto-detected from the page: if omitted and no probes are given, the check expects 1 and fails valid multi-step journeys.' },
         screenshotsDir: { type: 'string', description: 'Directory for step screenshots — the human visual pass (optional)' },
+        forbid: { type: 'array', items: { type: 'string' }, description: 'Extra strings that must NOT appear in the journey (merged with the automatic source-brand + source-logo leak guard from .journey-meta.json)' },
       },
     },
-    handler: async ({ journeyPath, probes, expectedSteps, screenshotsDir }) => {
+    handler: async ({ journeyPath, probes, expectedSteps, screenshotsDir, forbid }) => {
       if (!existsSync(journeyPath)) {
         return { content: [{ type: 'text', text: `ERROR: file not found: ${journeyPath}` }], isError: true };
       }
 
+      // probes hardening — agents often pass JS-style single-quoted literals
+      // (invalid JSON). Accept: objects, valid JSON strings, and single-quoted
+      // literals (lenient quote swap as a last resort).
+      let probesObj = null;
+      if (probes != null) {
+        if (typeof probes === 'object' && !Array.isArray(probes)) {
+          probesObj = probes;
+        } else if (typeof probes === 'string') {
+          try {
+            probesObj = JSON.parse(probes);
+          } catch {
+            try {
+              probesObj = JSON.parse(probes.replace(/'/g, '"'));
+            } catch {
+              return { content: [{ type: 'text', text: `ERROR: probes must be a JSON object like {"1": ["text probe"]} (or an object argument). Got: ${String(probes).slice(0, 160)}` }], isError: true };
+            }
+          }
+        }
+      }
+
+      // auto source-leak guard: .journey-meta.json (written by build_journey)
+      // carries the source brand name + logo filenames -> forbid list. Also
+      // fills expectedSteps when the agent doesn't pass it.
+      const metaPath = join(dirname(journeyPath), '.journey-meta.json');
+      const forbidList = Array.isArray(forbid) ? [...forbid] : [];
+      if (existsSync(metaPath)) {
+        try {
+          const meta = JSON.parse(readFileSync(metaPath, 'utf-8'));
+          if (meta.sourceDisplayName) forbidList.push(meta.sourceDisplayName);
+          else if (meta.sourceName) forbidList.push(meta.sourceName);
+          if (Array.isArray(meta.sourceLogoFiles)) forbidList.push(...meta.sourceLogoFiles);
+          if (!expectedSteps && meta.expectedSteps) expectedSteps = meta.expectedSteps;
+        } catch { /* ignore malformed meta */ }
+      }
+      const forbidUnique = [...new Set(forbidList.filter((s) => typeof s === 'string' && s))];
+
       const args = ['verify_journey.py', journeyPath];
-      if (probes)           args.push('--probes', JSON.stringify(probes));
+      if (probesObj)        args.push('--probes', JSON.stringify(probesObj));
       if (expectedSteps)    args.push('--expected-steps', String(expectedSteps));
       if (screenshotsDir)   args.push('--shots', screenshotsDir);
+      if (forbidUnique.length) args.push('--forbid', JSON.stringify(forbidUnique));
 
       const result = runPy(VERIFY, args.slice(1), 120);
       const stdout  = result.stdout;
@@ -634,6 +793,149 @@ const tools = {
             '',
             screenshotsDir ? `📸 Screenshots: \`${screenshotsDir}/\`` : '',
           ].filter(Boolean).join('\n'),
+        }],
+        isError: !isOk,
+      };
+    },
+  },
+
+  /** Copy a built project to a Windows-accessible staging dir for content editing */
+  stage_for_edit: {
+    description: 'Content-adaptation step 1/2: copy the built project to a Windows-accessible staging dir (when EDIT_STAGING_DIR is set) and return the editable path + the full content checklist. Edit the staged files with your file tools, then call finalize_journey. No staging dir configured = edit in place (client file tools reach the workspace).',
+    inputSchema: {
+      type: 'object',
+      required: ['projectPath'],
+      properties: {
+        projectPath: { type: 'string', description: 'Absolute path to the project directory (from build_journey response)' },
+        stagingDir: { type: 'string', description: 'Override the staging root (default: EDIT_STAGING_DIR env)' },
+      },
+    },
+    handler: async ({ projectPath, stagingDir }) => {
+      const projDir = resolve(projectPath);
+      if (!existsSync(projDir)) {
+        return { content: [{ type: 'text', text: `ERROR: project dir not found: ${projDir}` }], isError: true };
+      }
+      const root = stagingDir ? toServerPath(stagingDir) : (STAGING_DIR ? toServerPath(STAGING_DIR) : '');
+      if (!root) {
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify({
+              staging: 'in-place',
+              note: 'No staging dir configured (EDIT_STAGING_DIR unset) — your file tools can reach this path directly. Edit in place, then call finalize_journey.',
+              projectPath: projDir,
+              checklist: CONTENT_CHECKLIST,
+            }, null, 2),
+          }],
+        };
+      }
+      try {
+        mkdirSync(root, { recursive: true });
+        const dest = join(root, basename(projDir));
+        if (existsSync(dest)) execSync(`rm -rf ${JSON.stringify(dest)}`);
+        cpSync(projDir, dest, { recursive: true });
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify({
+              staging: 'copied',
+              note: 'Edit the files under windowsPath with your file tools (Windows side). Do NOT rename files. Save UTF-8 WITHOUT BOM (PowerShell Set-Content adds one — breaks the A1 doctype check). When done, call finalize_journey with the SAME projectPath.',
+              projectPath: projDir,
+              windowsPath: toWindowsPath(dest),
+              wslPath: dest,
+              checklist: CONTENT_CHECKLIST,
+            }, null, 2),
+          }],
+        };
+      } catch (e) {
+        return { content: [{ type: 'text', text: `ERROR: staging failed: ${e.message}` }], isError: true };
+      }
+    },
+  },
+
+  /** Sync staged edits back + auto-verify with the leak guard */
+  finalize_journey: {
+    description: 'Content-adaptation step 2/2: copy edited files back from the staging dir (if used), then AUTO-run verify_journey with expectedSteps + source-brand/source-logo leak guard (from .journey-meta.json). Returns sync report, verify summary, and preview URLs. This is the mandatory gate before showing the journey to the user.',
+    inputSchema: {
+      type: 'object',
+      required: ['projectPath'],
+      properties: {
+        projectPath: { type: 'string', description: 'Absolute path to the project directory (same as passed to stage_for_edit)' },
+        stagingDir: { type: 'string', description: 'Override the staging root (must match stage_for_edit)' },
+        screenshotsDir: { type: 'string', description: 'Optional: directory for the visual-pass screenshots' },
+      },
+    },
+    handler: async ({ projectPath, stagingDir, screenshotsDir }) => {
+      const projDir = resolve(projectPath);
+      if (!existsSync(projDir)) {
+        return { content: [{ type: 'text', text: `ERROR: project dir not found: ${projDir}` }], isError: true };
+      }
+      const root = stagingDir ? toServerPath(stagingDir) : (STAGING_DIR ? toServerPath(STAGING_DIR) : '');
+      const stagedDir = root ? join(root, basename(projDir)) : null;
+      let synced = false;
+      let syncNote = 'in-place (no staging dir in use)';
+      if (stagedDir && existsSync(stagedDir)) {
+        try {
+          cpSync(stagedDir, projDir, { recursive: true });
+          synced = true;
+          const jf = readdirSync(projDir).find((f) => /^journey_.*\.html$/.test(f));
+          if (jf) {
+            const diff = execSync(`diff -q ${JSON.stringify(join(stagedDir, jf))} ${JSON.stringify(join(projDir, jf))}`).toString();
+            syncNote = `staged files copied back ✓ (${diff.includes('differ') ? 'WARNING: journey file differs from staged copy' : 'byte-identical ✓'})`;
+          } else {
+            syncNote = 'staged files copied back ✓ (no journey_*.html found in project)';
+          }
+        } catch (e) {
+          syncNote = `sync error: ${e.message}`;
+        }
+      }
+
+      // auto-verify with expectedSteps + leak guard from build metadata
+      const metaPath = join(projDir, '.journey-meta.json');
+      let exp = null;
+      const forbid = [];
+      if (existsSync(metaPath)) {
+        try {
+          const meta = JSON.parse(readFileSync(metaPath, 'utf-8'));
+          exp = meta.expectedSteps || null;
+          if (meta.sourceDisplayName) forbid.push(meta.sourceDisplayName);
+          else if (meta.sourceName) forbid.push(meta.sourceName);
+          if (Array.isArray(meta.sourceLogoFiles)) forbid.push(...meta.sourceLogoFiles);
+        } catch { /* ignore malformed meta */ }
+      }
+      const journeyFile = readdirSync(projDir)
+        .filter((f) => /^journey_.*\.html$/.test(f))
+        .map((f) => join(projDir, f))
+        .find((f) => existsSync(f));
+      if (!journeyFile) {
+        return { content: [{ type: 'text', text: `ERROR: no journey_*.html found in ${projDir}` }], isError: true };
+      }
+
+      const args = ['verify_journey.py', journeyFile];
+      if (exp) args.push('--expected-steps', String(exp));
+      if (forbid.length) args.push('--forbid', JSON.stringify(forbid));
+      if (screenshotsDir) args.push('--shots', screenshotsDir);
+      const result = runPy(VERIFY, args.slice(1), 180);
+      const stdout = result.stdout;
+      const stderr = result.stderr;
+      const lines = stdout.split('\n').filter(Boolean);
+      const passed = lines.filter((l) => l.includes('[PASS]')).length;
+      const failed = lines.filter((l) => l.includes('[FAIL]')).length;
+      const isOk = result.ok && failed === 0;
+
+      const id = registerPreview(projDir);
+      const rel = `/preview/${id}/`;
+      return {
+        content: [{
+          type: 'text',
+          text:
+            `SYNC: ${syncNote}\n` +
+            `VERIFY: ${isOk ? '✅ PASS' : '❌ FAIL'} — ${passed} passed, ${failed} failed\n` +
+            `PREVIEW: ${PUBLIC_BASE_URL ? `${PUBLIC_BASE_URL}${rel}` : `http://localhost:${PORT}${rel}`}\n\n` +
+            '```\n' + stdout + '\n```' +
+            (stderr ? `\n**Stderr:**\n\`\`\`\n${stderr}\n\`\`\`` : '') +
+            (screenshotsDir ? `\n📸 Screenshots: \`${screenshotsDir}/\`` : '') +
+            (failed ? '\n\nDo NOT present this journey as done — fix the failures (usually leaked source content or structure) and re-run finalize_journey.' : ''),
         }],
         isError: !isOk,
       };
@@ -684,7 +986,7 @@ const tools = {
         content: [{
           type: 'text',
           text: JSON.stringify({
-            note: 'ALWAYS build from an EXISTING project: ask the user which project (id) and which journey they want, then ask for the NEW company\'s brand pack (industry via list_industries, logo file/URL, product images, website link), then call build_journey with sourceProject + sourceJourney + industry/website/logoUrl/productImages. NEVER build without a source — it produces a generic placeholder. sourceProject="base" is only for when no existing project matches.',
+            note: 'ALWAYS build from an EXISTING project: ask the user which project (id) and which journey they want, then ask for the NEW company\'s brand pack (industry via list_industries; logo + product images as URL, LOCAL FILE PATH like D:\\Sales\\Acme\\logo.png — the user picks the stored location — or base64; website link), then call build_journey with sourceProject + sourceJourney + industry/website/logoUrl|logoPath/productImages|productImagePaths. After the build, run stage_for_edit -> rewrite content in the staged files -> finalize_journey (auto-verify with leak guard). NEVER build without a source — it produces a generic placeholder. sourceProject="base" is only for when no existing project matches.',
             default: existsSync(BASE_DIR) ? BASE_DIR : null,
             available: projects,
           }, null, 2),
@@ -724,7 +1026,7 @@ const tools = {
 
 function createMcpServer() {
   const server = new Server(
-    { name: 'journey-builder-mcp', version: '1.3.1' },
+    { name: 'journey-builder-mcp', version: '1.5.0' },
     { capabilities: { tools: {} } }
   );
 
@@ -862,6 +1164,7 @@ if (httpMode) {
     console.error(`Auth: ${AUTH_TOKEN ? 'bearer-token ON' : 'OFF (local only)'}`);
     if (PUBLIC_BASE_URL) console.error(`Public base: ${PUBLIC_BASE_URL}`);
     if (TEMPLATE_ROOTS.length) console.error(`Template roots: ${TEMPLATE_ROOTS.join(', ')}`);
+    if (STAGING_DIR) console.error(`Edit staging: ${STAGING_DIR}`);
   });
 
 } else {

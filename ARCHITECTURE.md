@@ -4,11 +4,13 @@ This project has two systems: a static Handlebars demo generator and an MCP serv
 
 ## MCP Server (`whatsapp-mock-generator-mcp/`)
 
-An MCP (Model Context Protocol) server that exposes 6 tools for building WhatsApp mock demo journeys:
+An MCP (Model Context Protocol) server that exposes 8 tools for building WhatsApp mock demo journeys:
 
 - `scaffold_project` — create project directory + brand identity docs
-- `build_journey` — REQUIRES `sourceProject` + `sourceJourney` (clone from an EXISTING project; `"base"` is the explicit from-scratch escape hatch — omitting the source is a hard error) + the new company's brand pack (`industry`, `website`, `logoUrl`/`logoBase64`, `productImages`, `tagline`) → brand-swap (logo embedded via the `.ava-logo` rule, product images → `assets/products/`) → HTML skeleton; returns preview URLs + INDUSTRY/ASSETS summary immediately. Source `assets/` + logo files are copied and `<img>` logo refs repaired (new logo → `assets/brand/<logo>`, else the copied source logo) so clones never have broken images
-- `verify_journey` — structure + charset + Playwright render + Meta compliance + brand-asset checks (F1-F5: manifest parses, website, industry, logo file, product images); pass `expectedSteps` (NOT auto-detected — without it the check expects 1); D1 whitelists `hr.wa-list-btn-hr`
+- `build_journey` — REQUIRES `sourceProject` + `sourceJourney` (clone from an EXISTING project; `"base"` is the explicit from-scratch escape hatch — omitting the source is a hard error) + the new company's brand pack (`industry`, `website`, `logoUrl`/`logoPath`/`logoBase64`, `productImages`/`productImagePaths`, `tagline`) → brand-swap (logo embedded via the `.ava-logo` rule, product images → `assets/products/`) → HTML skeleton; returns preview URLs + INDUSTRY/ASSETS summary immediately. Source `assets/` + logo files are copied and `<img>` logo refs repaired so clones never have broken images. Writes `.journey-meta.json` (source display brand, source logo filenames, expected step count) for the auto leak guard. Local asset paths accept Windows (`D:\...`) or WSL form — drive letters auto-translated via `/proc/mounts`, portable to any machine
+- `verify_journey` — structure + charset + Playwright render + Meta compliance + brand-asset checks (F1-F5) + F6 source-leak guard (forbid list auto-built from `.journey-meta.json`: source display brand + logo filenames; extra strings via `forbid` arg); `expectedSteps` auto-filled from the meta file; probes accept objects/JSON/lenient single-quoted literals
+- `stage_for_edit` — content-adaptation step 1: copy the built project to a Windows-accessible staging dir (`EDIT_STAGING_DIR`; unset = in-place, e.g. native Linux/Mac clients) and return the editable path + the content checklist
+- `finalize_journey` — content-adaptation step 2: sync staged edits back (byte-verified), AUTO-run verify with expectedSteps + leak guard, return verify summary + preview URLs. The mandatory gate before showing a journey
 - `serve_journey` — register a project for browser preview; returns `localUrl` + `publicUrl` (`/preview/<project-id>/`, NO auth — webview/browser friendly)
 - `list_bases` — list the FULL template library (workspace + template roots + canonical base), each project with its journeys (Haldirams/SakkuGroup/HindustanRMC excluded per user directive)
 - `list_industries` — industry content profiles (recipient label, units, currency, categoryTabs) from `../data/industries/` — same source of truth as the demo-generator
@@ -27,8 +29,14 @@ plus base + workspace; Haldirams/SakkuGroup/HindustanRMC excluded per user direc
 2026-08-09 even though they exist on disk). Journey discovery handles both
 `journey_<flow>.html` and brand-prefixed files (`awl_*`, `vini_*`, `jk_cement_*`).
 The ask-flow: pick project (structure only) → pick journey → collect the NEW company's
-brand pack (industry via `list_industries`, logo, product images, website link) →
-collect steps → `build_journey` with sourceProject + sourceJourney + the brand pack.
+brand pack (industry via `list_industries`, logo + product images — URL, LOCAL FILE
+PATH like `D:\Sales\Acme\logo.png` (user picks the stored location), or base64 —
+website link) → `build_journey` → `stage_for_edit` (Windows-accessible copy +
+content checklist) → agent rewrites ALL content for the new company in the staged
+files → `finalize_journey` (sync back + auto-verify with the leak guard). The
+content adaptation is agent-authored (validated 2026-08-10 — a single OpenCode
+session rewrote an entire journey with zero source leaks); the server owns the
+mechanics and the gate.
 
 Shared assets (base-journey templates, brand_swap.py, verify_journey.py) live in `whatsapp-mock-generator/skill/` — the MCP server references them via `SKILL_ROOT`, no duplication.
 

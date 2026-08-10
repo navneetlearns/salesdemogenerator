@@ -16,6 +16,8 @@ Checks (ALL must pass; exit 0 only when everything does):
   E. Screens   : screenshot per step into --shots for the human visual pass
   F. Brand pack: when assets/brand/brand.json sits next to the journey — manifest
                  parses, website + industry set, logo file exists, product images ok
+  G. Leak guard: --forbid '["str", ...]' — each string must NOT appear in the file
+                 (source-brand residue check; case-insensitive). Optional.
 
 Exit codes: 0 = gate passed, 1 = a check failed (named in stderr), 2 = usage error.
 """
@@ -72,7 +74,18 @@ def check_brand_assets(path: Path):
     return out, True
 
 
-def run(html: str, probes: dict, expected_steps: int, shots: str | None) -> int:
+def check_forbidden(path: Path, forbid: list) -> list:
+    """Leak guard: any forbidden string present in the file = FAIL."""
+    data = path.read_text(encoding="utf-8").lower()
+    out = []
+    for s in forbid:
+        if not s:
+            continue
+        out.append((f"F6 no source-brand residue: {s!r}", s.lower() not in data))
+    return out
+
+
+def run(html: str, probes: dict, expected_steps: int, shots: str | None, forbid: list | None = None) -> int:
     from playwright.async_api import async_playwright
     import asyncio
 
@@ -80,7 +93,7 @@ def run(html: str, probes: dict, expected_steps: int, shots: str | None) -> int:
     if not path.exists():
         print(f"FATAL: {html} not found", file=sys.stderr)
         return 2
-    results = check_structure(path) + check_compliance(path)
+    results = check_structure(path) + check_compliance(path) + (check_forbidden(path, forbid) if forbid else [])
     asset_checks, has_manifest = check_brand_assets(path)
     if has_manifest:
         results += asset_checks
@@ -154,7 +167,9 @@ if __name__ == "__main__":
     ap.add_argument("--probes", default="{}", help='JSON: {"stepN": ["text", ...]}')
     ap.add_argument("--expected-steps", type=int, default=None)
     ap.add_argument("--shots", default=None)
+    ap.add_argument("--forbid", default="[]", help='JSON array of strings that must NOT appear (source-brand leak guard)')
     a = ap.parse_args()
     probes = json.loads(a.probes)
+    forbid = json.loads(a.forbid)
     exp = a.expected_steps or max([int(s) for s in probes] + [1])
-    sys.exit(run(a.html, probes, exp, a.shots))
+    sys.exit(run(a.html, probes, exp, a.shots, forbid))
