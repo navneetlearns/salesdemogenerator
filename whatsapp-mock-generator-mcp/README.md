@@ -107,21 +107,39 @@ You should see the 5 journey-builder tools listed. If not, see [Troubleshooting]
 
 Instead of running the server yourself, you can point OpenCode at a hosted instance. Only the host needs the repo + server running; everyone else just adds a remote config with an auth token.
 
-> **Availability caveat:** the hosted instance in this repo's current deployment runs
-> on the host's laptop via a Tailscale Funnel. It works while that machine is on;
-> it goes down when the laptop sleeps/reboots (the host re-establishes the funnel
-> with `sudo tailscale funnel --bg 7891`). For a always-on team rollout, host the
-> server on a cloud VM (see the journey-builder-mcp skill's `cloud-hosting-recipe.md`).
+> **Hosted instance (deployed 2026-08-13):** the primary hosted endpoint is now an
+> always-on AWS Lightsail VM — `https://100.31.120.181.sslip.io/mcp` (Caddy +
+> Let's Encrypt TLS in front; port 7891 is closed to the internet, all traffic
+> goes through HTTPS). The laptop Tailscale funnel
+> (`https://laptop-ksfr7jf4.tail45ff54.ts.net/mcp`) is kept as a fallback and
+> only works while the laptop is on. Full deployment record + ops runbook:
+> `docs/mcp-status-note.md`.
 
-### 1. Install the agent rules (one-time, REQUIRED)
+### Quick start (recommended — ONE command)
+
+On the teammate's Windows machine, run the setup script (fetch it from the repo or
+have the host send it — it lives at `whatsapp-mock-generator-mcp/scripts/setup-opencode.ps1`):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File setup-opencode.ps1 -Token <SHARED_TOKEN>
+```
+
+The script does everything: creates the OpenCode config dir, downloads the agent
+rules (`AGENTS.md`) automatically, and adds the `journey-builder` remote entry
+pointing at the hosted instance. Then just restart OpenCode Desktop.
+
+### 1. Install the agent rules (one-time, REQUIRED — manual fallback)
 
 The agent needs the ask-flow + content-adaptation rules to use the tools correctly.
-Save the content of the repo-root `AGENTS.md` to your OpenCode global rules file:
+The server ALSO advertises these rules via the MCP `instructions` field (added
+2026-08-13) — spec-compliant clients surface them to the agent automatically, so
+this file is belt-and-suspenders. Save the content of the repo-root `AGENTS.md`
+to your OpenCode global rules file:
 
 - Windows: `C:\Users\<you>\.config\opencode\AGENTS.md`
 - Linux/macOS: `~/.config/opencode/AGENTS.md`
 
-### 2. Add the remote server to your OpenCode config
+### 2. Add the remote server to your OpenCode config (manual fallback)
 
 ```jsonc
 {
@@ -137,7 +155,9 @@ Save the content of the repo-root `AGENTS.md` to your OpenCode global rules file
 }
 ```
 
-Replace `<host>` with the hosted URL (e.g. `https://<machine>.<tailnet>.ts.net` for a Tailscale Funnel) and `<SHARED_TOKEN>` with the token the host gives you.
+Replace `<host>` with the hosted URL (e.g. `https://100.31.120.181.sslip.io` for the
+AWS deployment, or `https://<machine>.<tailnet>.ts.net` for the laptop funnel fallback)
+and `<SHARED_TOKEN>` with the token the host gives you.
 
 ### 3. Smoke-test with curl (no OpenCode needed)
 
@@ -157,8 +177,10 @@ Type `/mcp` — `journey-builder` should show connected with its 8 tools.
 
 ### Teammate notes (v1.5.0)
 
-- The full template library (23 projects / 75 journeys) is served from the host —
-  you do NOT need to clone the source projects. Run `list_bases` and pick any project.
+- The full template library is served from the host — you do NOT need to clone the
+  source projects. Run `list_bases` and pick any project. (AWS deployment serves
+  the sellerhub template root: 19 projects / 65 journeys + the canonical base;
+  the laptop adds its workspace builds on top.)
 - Content adaptation: after `build_journey`, the agent runs `stage_for_edit` →
   rewrites content → `finalize_journey` (auto-verify + source-leak guard).
   - On Windows + WSL: if the agent's file tools can't reach WSL paths, `stage_for_edit`
@@ -235,7 +257,9 @@ Build flow (MANDATORY — this is the product):
 `build_journey` and `serve_journey` return preview URLs that need **no auth** —
 safe for browser/webview preview (browsers can't send Authorization headers).
 `localUrl` (`http://localhost:7891/preview/<project-id>/`) works on the host;
-`publicUrl` works anywhere while the Tailscale funnel is up. The built project is
+`publicUrl` works anywhere — on the AWS deployment it is
+`https://100.31.120.181.sslip.io/preview/<project-id>/` and is up 24/7; on the
+laptop-funnel fallback it works only while the laptop is on. The built project is
 registered automatically, so the preview URL works immediately after a build —
 no separate `serve_journey` call needed. Preview serves only registered projects
 (`/preview/<project-id>/`), path traversal is rejected.

@@ -1025,9 +1025,22 @@ const tools = {
 // ── MCP server ───────────────────────────────────────────────────────────────
 
 function createMcpServer() {
+  // `instructions` is surfaced to spec-compliant MCP clients (Claude Code/Desktop
+  // and others) so the ask-flow rules reach the agent WITHOUT a manual AGENTS.md
+  // install. Added 2026-08-13 — mirrors repo-root AGENTS.md.
   const server = new Server(
     { name: 'journey-builder-mcp', version: '1.5.0' },
-    { capabilities: { tools: {} } }
+    {
+      capabilities: { tools: {} },
+      instructions:
+        'journey-builder-mcp builds WhatsApp demo journeys for NEW companies from EXISTING projects. Follow this flow in every build session:\n' +
+        '1. ALWAYS call list_bases first — pick the EXISTING project to use as reference (structure + steps only), then ask the user which journey within it.\n' +
+        '2. Before building, collect the NEW company\'s brand pack: call list_industries and pick the industry; ask for the logo (URL, attached file, or base64 — for remote clients prefer URL/base64 over local paths), 1-3 product images, the website link, and optionally a tagline.\n' +
+        '3. Call build_journey with sourceProject + sourceJourney + industry + website + logoUrl|logoPath|logoBase64 + productImages|productImagePaths. NEVER build without a sourceProject — it produces a generic placeholder. sourceProject="base" is only for when no existing project matches.\n' +
+        '4. After the build, run the content-adaptation workflow: stage_for_edit (returns the editable path + content checklist) → rewrite EVERY content-bearing text for the new company in the staged files (messages, captions, screen labels, sidebar, const steps, topbar name, numbers/timestamps; keep the shell; ZERO source-company references; UTF-8 without BOM) → finalize_journey (syncs back and AUTO-verifies with the source-leak guard). finalize must PASS before showing the journey.\n' +
+        '5. Report the preview URL from the build response (preview.publicUrl first) and open it to verify before telling the user the journey is done.\n' +
+        '6. Do not invent step counts, titles, or details — report what the build response and the actual files contain.'
+    }
   );
 
   server.setRequestHandler(ListToolsRequestSchema, () => ({
